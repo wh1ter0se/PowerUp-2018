@@ -1,5 +1,5 @@
 # PowerUp-2018
-The FRC 2017 programming repository for team 3695
+The FRC 2018 programming repository for team 3695, Foximus Prime
 
 ### Goals
  - [ ] A Pretty Darn Cool Robot
