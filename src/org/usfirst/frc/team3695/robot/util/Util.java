@@ -3,9 +3,7 @@ package org.usfirst.frc.team3695.robot.util;
 import edu.wpi.first.wpilibj.Preferences;
 
 
-/**
- *	if our code is colonial America, this class is Rhode Island
- */
+/** if our code is colonial America, this class is Rhode Island */
 public class Util {
 	
 	/**
