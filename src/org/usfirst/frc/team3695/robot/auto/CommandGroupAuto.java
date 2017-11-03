@@ -5,7 +5,7 @@ import org.usfirst.frc.team3695.robot.enumeration.Autonomous;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-
+// sequence of commands for autonomous mode
 public class CommandGroupAuto extends CommandGroup {
 		
 	public CommandGroupAuto(Autonomous auto) {
