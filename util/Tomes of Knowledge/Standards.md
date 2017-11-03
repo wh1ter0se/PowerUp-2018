@@ -1,14 +1,14 @@
 # Naming Standards
 * camelCase
- - Methods
- - Variables
+ 	- Methods
+ 	- Variables
 * BumpyCase
- - Classes
+ 	- Classes
 * CAPS_LOCK
- - Static Variables
- - Enumeration Values
+	- Static Variables
+ 	- Enumeration Values
 * lowercase
- - Folder Names
+ 	- Folder Names
 	
 # Recurring Structure
 ```
