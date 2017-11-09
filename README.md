@@ -10,3 +10,4 @@ The FRC 2018 programming repository for team 3695, Foximus Prime
 ### Contributors
  * R Colton Kreischer
  * Grant Eads
+ * Brogan Clements
