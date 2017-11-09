@@ -12,4 +12,6 @@ The FRC 2018 programming repository for team 3695, Foximus Prime
  * Grant Eads
  * Brogan Clements
  * Max Edman
+ 
+### Mentors
  * Matt Price
