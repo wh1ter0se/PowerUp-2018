@@ -2,7 +2,12 @@
 The FRC 2018 programming repository for team 3695, Foximus Prime
 
 ### Goals
- - [ ] A Pretty Darn Cool Robot
+ - [ ] Get everybody's usernames on this readme
+ - [ ] Host 3-4 workshops for incoming programmers before bot season
+ - [ ] Get a whiteboard in the robot room
+ - [ ] Make the website all nice and pretty
+ - [ ] Figure out camera code
+ 
 
 ### Important Links
  - [Eclipse Setup](https://wpilib.screenstepslive.com/s/4485/m/13809/l/599681-installing-eclipse-c-java)
