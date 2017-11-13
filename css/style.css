@@ -196,13 +196,13 @@ a:hover, a:active, a:focus {
 -----------------------------------------*/
 
 .navbar-default {
-    background: url('../images/red_gradient.jpg') no-repeat;
+    background-color: #ffffff;
     margin: 0 !important;
     padding: 18px 0;
 }
 
 .navbar-default .navbar-brand {
-  color: #555;
+  color: #000;
   font-family: 'Merriweather', serif;
   font-weight: bold;
   text-transform: uppercase;
@@ -211,7 +211,7 @@ a:hover, a:active, a:focus {
 }
 
 .navbar-default .navbar-nav li a {
-    color: #777;
+    color: #000;
     font-size: 16px;
     letter-spacing: 1px;
     -webkit-transition: all 0.4s ease-in-out;
@@ -266,7 +266,7 @@ a:hover, a:active, a:focus {
 #home {
     background-size: cover;
     background-position: center center;
-    color: #ffffff;
+    color: #fff4ea;
     display: -webkit-box;
     display: -webkit-flex;
      display: -ms-flexbox;
@@ -313,10 +313,10 @@ a:hover, a:active, a:focus {
 }
 
 #home .btn {
-  background: #ffffff;
-  border: 2px solid #ffffff;
+  background: #fff4ea;
+  border: 2px solid #fff4ea;
   border-radius: 100px;
-  color: #444;
+  color: #000;
   font-family: 'Merriweather', serif;
   font-size: 10px;
   font-weight: bold;
@@ -329,8 +329,8 @@ a:hover, a:active, a:focus {
 
 #home .btn:hover {
   background: transparent;
-  border-color: #ffffff;
-  color: #ffffff;
+  border-color: #fff4ea;
+  color: #fff4ea;
 }
 
 
