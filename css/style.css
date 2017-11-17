@@ -51,6 +51,20 @@ a {
   -o-transition: all 0.2s ease-in-out 0s;
   transition: all 0.2s ease-in-out 0s; }
 
+#bfshadow {
+ opacity: .01;
+ transition: opacity 1s ease-in-out;
+ -moz-transition: opacity 1s ease-in-out;
+ -webkit-transition: opacity 1s ease-in-out;
+ }
+
+#bfshadow:hover {
+ opacity: 1;
+ transition: opacity .55s ease-in-out;
+ -moz-transition: opacity .55s ease-in-out;
+ -webkit-transition: opacity .55s ease-in-out;
+ }
+
 .mt-100 {
   margin-top: 100px; }
 
