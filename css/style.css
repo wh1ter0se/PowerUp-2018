@@ -58,7 +58,7 @@ a {
  -webkit-transition: opacity 1s ease-in-out;
  }
 
-#bfshadow:hover {
+#bfshadow a:hover {
  opacity: 1;
  transition: opacity .55s ease-in-out;
  -moz-transition: opacity .55s ease-in-out;
