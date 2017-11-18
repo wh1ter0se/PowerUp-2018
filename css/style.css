@@ -58,6 +58,23 @@ a {
  -webkit-transition: opacity .25s ease-in-out;
  }
 
+.videobcg { 
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: -1000;
+  overflow: hidden;
+  -webkit-filter: blur(25px);
+  -moz-filter: blur(25px);
+  -o-filter: blur(25px);
+  -ms-filter: blur(25px);
+  filter: blur(25px);
+}
+
 .bfshadow {
  opacity: .01;
  transition: opacity .5s ease-in-out;
