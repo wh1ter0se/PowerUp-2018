@@ -3,7 +3,7 @@
 The FRC 2018 programming repository for team 3695, Foximus Prime
 
 ### Goals
- - [ ] Get everybody's usernames on this readme
+ - [x] Get everybody's usernames on this readme
  - [ ] Host 3-4 workshops for incoming programmers before bot season
     - [ ] 1
     - [ ] 2
