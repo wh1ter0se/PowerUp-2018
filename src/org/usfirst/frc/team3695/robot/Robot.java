@@ -11,7 +11,7 @@ import org.usfirst.frc.team3695.robot.auto.CommandGroupAuto;
 import org.usfirst.frc.team3695.robot.enumeration.Autonomous;
 import org.usfirst.frc.team3695.robot.subsystems.SubsystemDrive;
 
-/** the magic place where everything happens */
+/** the magic place where everything happens (where the sequence of events is controlled, top of the hierarchy) */
 public class Robot extends IterativeRobot {
 
 	// choosers
