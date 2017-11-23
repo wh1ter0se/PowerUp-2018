@@ -1,3 +1,4 @@
+![logo](https://github.com/wh1ter0se/PowerUp-2018/blob/master/banner.png?raw=true)
 # PowerUp-2018
 The FRC 2018 programming repository for team 3695, Foximus Prime
 
