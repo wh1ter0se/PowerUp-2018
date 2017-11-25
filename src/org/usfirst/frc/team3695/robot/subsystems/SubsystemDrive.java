@@ -8,11 +8,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 /** VROOM VROOM */
 public class SubsystemDrive extends Subsystem {
 	
-	/** diameter of the wheel in inches */
+	/// diameter of the wheel in inches
 	public static final double WHEEL_DIAM_INCHES = 8.1;
 
 	
-	/** error variables */
+	/// error variables
 	public static final long START_READ_ERROR_DELAY = 500;
 	public static final int TARGET = 300;
 	

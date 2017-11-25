@@ -39,9 +39,9 @@
 * Use tabs to offset, not spaces
 * Add documentation for your static variables and methods
 	* put /** javadoc */ descriptions above each method and class
-	* use // single line comments above variables that need to be documented
-	* use // single line comments to comment out single lines of code
-	* use // single line comments for, well, single line comments (notes and stuff)
+	* use /// single line comments above variables or small code chunks that need to be documented
+	* use //  single line comments to comment out single lines of code
+	* use //  single line comments for, well, single line comments (notes and stuff)
 	* use /\*\* multi-line comments \*\*/ to comment out blocks of code
 	* use /\*\* multi-line comments \*\*/ for datatables (mainly for Constants use)
 
