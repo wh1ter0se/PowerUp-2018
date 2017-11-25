@@ -14,63 +14,75 @@ import org.usfirst.frc.team3695.robot.subsystems.SubsystemDrive;
 /** the magic place where everything happens (where the sequence of events is controlled, top of the hierarchy) */
 public class Robot extends IterativeRobot {
 
-	// choosers
+	/// choosers
 		SendableChooser<Autonomous> autoChooser = new SendableChooser<>();
 		// add choosers as needed, these put drop down options in the smart dash
 		
 		
-	// subsystems
+	/// subsystems
 		public static final SubsystemDrive SUB_DRIVE = new SubsystemDrive();
+		public static OI oi;
 		// add subsystems as needed
 
 		
-	// autonomous
+	/// autonomous
 		private CommandGroupAuto auto;
 		
 		
 	/** runs when robot is turned on */
 	public void robotInit() {
-		new OI();
-		// autoChooser initialization
-		autoChooser.addDefault(Autonomous.NOTHING.toString(), Autonomous.NOTHING);
-		for(int i = 1; i < Autonomous.values().length; i++) {
-			autoChooser.addObject(Autonomous.values()[i].toString(), Autonomous.values()[i]); }
-		SmartDashboard.putData("Auto Mode", autoChooser); }
+		OI.ye();
+		
+		
+		
+		/// autoChooser initialization
+				autoChooser.addDefault(Autonomous.NOTHING.toString(), Autonomous.NOTHING);
+				for(int i = 1; i < Autonomous.values().length; i++) {
+					autoChooser.addObject(Autonomous.values()[i].toString(), Autonomous.values()[i]); }
+				SmartDashboard.putData("Auto Mode", autoChooser); 
+	}
 
 	
 	/** runs when robot gets disabled */
 	public void disabledInit() { }
 
 	
-	/** like autonomous periodic, but for disabled mode */
+	/** runs at 50hz when bot is disabled */
 	public void disabledPeriodic() {
-		Scheduler.getInstance().run(); }
+		Scheduler.getInstance().run(); 
+	}
 
 	
 	/** runs when autonomous start */
 	public void autonomousInit() {
 		if(autoChooser.getSelected() != null) {
 			auto = new CommandGroupAuto(autoChooser.getSelected());
-			auto.start(); } }
+			auto.start(); 
+		} 
+	}
 
 	
-	/** repetitive loop that runs at 50hz from autonomousInit to teleopInit */
+	/** runs at 50hz when in autonomous */
 	public void autonomousPeriodic() {
-		Scheduler.getInstance().run(); }
+		Scheduler.getInstance().run(); 
+	}
 
 	
 	/** runs when teleop starts*/
 	public void teleopInit() {
 		if (auto != null)
-			auto.cancel(); }
+			auto.cancel(); 
+	}
 
 	
-	/** like autonomous periodic, but for teleop mode */
+	/** runs at ~50hz when in teleop mode */
 	public void teleopPeriodic() {
-		Scheduler.getInstance().run(); }
+		Scheduler.getInstance().run(); 
+	}
 
 	
-	/** like autonomous periodic, but for test mode*/
+	/** runs at ~50hz when in test mode */
 	public void testPeriodic() {
-		LiveWindow.run(); }
+		LiveWindow.run(); 
+	}
 }
