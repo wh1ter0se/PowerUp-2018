@@ -2,7 +2,7 @@
 * camelCase
  	- Methods
  	- Variables
-* BumpyCase
+* BumpyCase/PascalCase
  	- Classes
 * CAPS_LOCK
 	- Static Variables
@@ -38,21 +38,23 @@
 # Code Formalities
 * Use tabs to offset, not spaces
 * Add documentation for your static variables and methods
-	* put /** javadoc */ descriptions above each method and class
-	* use /// single line comments above variables or small code chunks that need to be documented
-	* use //  single line comments to comment out single lines of code
-	* use //  single line comments for, well, single line comments (notes and stuff)
-	* use /\*\* multi-line comments \*\*/ to comment out blocks of code
-	* use /\*\* multi-line comments \*\*/ for datatables (mainly for Constants use)
+	* put **/\*\* javadoc \*/** descriptions above each method and class
+	* use **/// single line comments** (three slashes) above variables or small code chunks that need to be documented
+	* use **// single line comments** to comment out single lines of code
+	* use **// single line comments** for, well, single line comments (notes and stuff)
+	* use **/\*\* multi-line comments \*\*/** to comment out blocks of code
+	* use **/\*\* multi-line comments \*\*/** for datatables (mainly for Constants use)
 
 # Github Formalities
-* Commit often, push/pull seldom
-* Always pull new code to your fork before pulling code on your fork to Master
+* ONLY PUSH TO YOUR OWN FORK, ALWAYS USE A PULL REQUEST TO APPLY CHANGES TO THE MASTER FORK
+* Always pull to the develop branch (admin handles master branch)
+* **Commit often, pull seldom**
+* Always pull new code **from the master fork to your fork** before pulling code on **your fork to the master fork**
 * Commit messages should be *Initial cased* and end with a period
 	* EX: Added this thing.
 	* EX: Destroyed everything.
 	* EX: Changed this. Blame Kurt.   (second sentences are acceptable if they explain something necessary, but are not preferred)
-* Push/pull messages should be *Initial cased* and end with a period
+* Pull messages should be *Initial cased* and end with a period
 	* Push/pull messages can have multiple sentences since they have multiple commits
 	* EX: Broke literally everything.
 	* EX: Fixed autonomous? (question marks are okay if you aren't sure about it yet)
