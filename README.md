@@ -1,8 +1,15 @@
+![logo](https://github.com/wh1ter0se/PowerUp-2018/blob/master/banner.png?raw=true)
+[![Join the chat at https://gitter.im/3695-Progarm-Team/general](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/3695-Progarm-Team/general)
+[![Waffle.io - Columns and their card count](https://badge.waffle.io/wh1ter0se/PowerUp-2018.svg?columns=all)](https://waffle.io/wh1ter0se/PowerUp-2018)
+[![Code Climate](https://codeclimate.com/github/wh1ter0se/PowerUp-2018.svg)](https://codeclimate.com/github/wh1ter0se/PowerUp-2018)
+[![Build Status](https://scrutinizer-ci.com/g/wh1ter0se/PowerUp-2018/badges/build.png?b=master)](https://scrutinizer-ci.com/g/wh1ter0se/PowerUp-2018/build-status/master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/wh1ter0se/PowerUp-2018/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/wh1ter0se/PowerUp-2018/?branch=master)
+
 # PowerUp-2018
 The FRC 2018 programming repository for team 3695, Foximus Prime
 
 ### Goals
- - [ ] Get everybody's usernames on this readme
+ - [x] Get everybody's usernames on this readme
  - [ ] Host 3-4 workshops for incoming programmers before bot season
     - [ ] 1
     - [ ] 2
@@ -16,6 +23,7 @@ The FRC 2018 programming repository for team 3695, Foximus Prime
 ### Important Links
  - [Eclipse Setup](https://wpilib.screenstepslive.com/s/4485/m/13809/l/599681-installing-eclipse-c-java)
  - [PowerUp-3695 Website](http://3695.rckreischer.me//)
+ 
 ### Contributors
  * **Colton Kreischer** - [*wh1ter0se*](https://github.com/wh1ter0se)
  * Brogan Clements - [*brogan20*](https://github.com/brogan20)
