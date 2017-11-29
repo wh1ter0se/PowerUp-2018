@@ -7,5 +7,10 @@
 	<classpathentry kind="lib" path="wpilib17/java/current/lib/NetworkTables.jar"/>
 	<classpathentry kind="lib" path="wpilib17/java/current/lib/opencv.jar"/>
 	<classpathentry kind="lib" path="wpilib17/java/current/lib/WPILib.jar"/>
+	<classpathentry kind="var" path="wpilib" sourcepath="wpilib.sources"/>
+	<classpathentry kind="var" path="networktables" sourcepath="networktables.sources"/>
+	<classpathentry kind="var" path="opencv" sourcepath="opencv.sources"/>
+	<classpathentry kind="var" path="cscore" sourcepath="cscore.sources"/>
+	<classpathentry kind="var" path="USERLIBS_DIR/CTRLib.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
