@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3695.robot.commands;
 
+import org.usfirst.frc.team3695.robot.OI;
 import org.usfirst.frc.team3695.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -11,10 +12,13 @@ public class ManualCommandDrive extends Command {
         requires(Robot.SUB_DRIVE);
     }
 
-    protected void initialize() {}
+    protected void initialize() {
+    	Robot.SUB_DRIVE.OFFSET = 0;
+    	Robot.SUB_DRIVE.METADIRECTION = 0;
+    }
 
     protected void execute() {
-    	// SUB_DRIVE.whicheverDriveTypeCommandYouBuilt
+    	Robot.SUB_DRIVE.driftDrive(OI.DRIVER);
     }
 
     protected boolean isFinished() {
