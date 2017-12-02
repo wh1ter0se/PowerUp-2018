@@ -13,21 +13,14 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 /** VROOM VROOM */
 public class SubsystemDrive extends Subsystem {
 	
-	/// diameter of the wheel in inches
-	public static final double WHEEL_DIAM_INCHES = 8.1;
-
-	
-	/// error variables
-	public static final long START_READ_ERROR_DELAY = 500;
-	public static final int TARGET = 300;
-	
-	
 	/// drift variables
-	public static int    OFFSET,        // the degrees
-	                     METADIRECTION; // on button down, this resets to 0; the angle relative to that initial angle (changes on physical rotation)
-	                     				// pretty much the cumulative angle since button down, minus offset
-	public static double ROT_SPEED,     // the speed of rotation (min 0, max 10.00)
-						 ROT_RADIUS;    // turn radius in inches
+	public static int     OFFSET,        // the degrees the bot is tilted inward
+	                      METADIRECTION; // on button down, this resets to 0; the angle relative to that initial angle (changes on physical rotation)
+	                     			 	 // pretty much the cumulative angle since button down, minus offset
+	public static double  ROT_SPEED,     // the speed of rotation (min 0, max 10.00)
+						  ROT_RADIUS;    // turn radius in inches
+	public static boolean IN_DRIFT,		 // if the bot is currently in a drift
+						  DRIFT_IS_CW;   // if the drift is turning right
 	
 	// instantiate the CANTalons here
 		// EX: private CANTalon left1;
@@ -40,33 +33,22 @@ public class SubsystemDrive extends Subsystem {
     
     /** converts RPM to inches per second */
     public static final double rpm2ips(double rpm) {
-    	return rpm / 60.0 * WHEEL_DIAM_INCHES * Math.PI; }
+    	return rpm / 60.0 * Constants.WHEEL_DIAMETER * Math.PI; }
     
     
     /** converts an inches per second number to RPM */
     public static final double ips2rpm(double ips) {
-    	return ips * 60.0 / WHEEL_DIAM_INCHES / Math.PI; }
+    	return ips * 60.0 / Constants.WHEEL_DIAMETER / Math.PI; }
     
     
     /** converts rotations to distance traveled in inches */
     public static final double rot2in(double rot) {
-    	return rot * WHEEL_DIAM_INCHES * Math.PI; }
+    	return rot * Constants.WHEEL_DIAMETER * Math.PI; }
     
     
     /** converts distance traveled in inches to rotations */
     public static final double in2rot(double in) {
-    	return in / WHEEL_DIAM_INCHES / Math.PI; }
-    
-    
-    /** applies left motor invert from constants */
-    public static final double leftify(double left) {
-		return left * (Constants.LEFT_MOTOR_INVERT ? -1.0 : 1.0); }
-
-    
-    /** applies right motor invert from constants */
-	public static final double rightify(double right) {
-		return right * (Constants.RIGHT_MOTOR_INVERT ? -1.0 : 1.0); }
-
+    	return in / Constants.WHEEL_DIAMETER / Math.PI; }
 	
 	/** gives birth to the CANTalons */
     public SubsystemDrive(){
@@ -82,14 +64,38 @@ public class SubsystemDrive extends Subsystem {
     		//			  left2.set(left1.getDeviceID());
     }
     
+    /** configures the voltage of each CANTalon */
+    private void voltage(CANTalon talon) {
+    	talon.configNominalOutputVoltage(0f, 0f);
+    	talon.configPeakOutputVoltage(12.0f, -12.0f);
+    	talon.EnableCurrentLimit(true);
+    	talon.setCurrentLimit(30);
+    }
+    
+    
+    
+    
+    
+    
+    /// EVERYTHING BELOW IS DRIFT_DRIVE SHELL CODE
+    
+    
+    
     public void driftDrive(Joystick joy) {
-    	// TODO oops, wrote this only for turning left. fix that.
-    	// TODO for compatibility, add a boolean IN_DRIFT
+    	double joyVal = Xbox.LEFT_X(joy);
+    	if (!IN_DRIFT) {
+    		IN_DRIFT = true;
+    		if (joyVal > 0) { DRIFT_IS_CW = true; }
+    	}
+    	if (DRIFT_IS_CW) {
+    		joyVal = -1 * joyVal;
+    	}
+
     	Drift status;
-    		 if (Xbox.LEFT_X(joy) < (Constants.DRIFT_DEADZONE * -1)) { status = Drift.DONUT; }
-    	else if (Xbox.LEFT_X(joy) < (Constants.DRIFT_DEADZONE))      { status = Drift.DEAD; }
-    	else if (Xbox.LEFT_X(joy) < (Constants.DRIFT_TURNOVER))      { status = Drift.POWERSLIDE; }
-    	else														 { status = Drift.TURNOVER; }
+    		 if (joyVal < (Constants.DRIFT_DEADZONE * -1)) { status = Drift.DONUT; }
+    	else if (joyVal < (Constants.DRIFT_DEADZONE))      { status = Drift.DEAD; }
+    	else if (joyVal < (Constants.DRIFT_TURNOVER))      { status = Drift.POWERSLIDE; }
+    	else		 									   { status = Drift.TURNOVER; }
     	
     	ROT_SPEED = (Xbox.LT(joy) + Xbox.LT(joy)) * 10d;
     	
@@ -98,17 +104,17 @@ public class SubsystemDrive extends Subsystem {
 				 			ROT_RADIUS = (Xbox.LEFT_X(joy)) + Constants.DRIFT_DEADZONE; // put stick on a 0-0.9 scale
 				 				ROT_RADIUS  = 1 - ROT_RADIUS; // flip it to a .1-1 scale, outermost being .1 and innermost being 1
 				 				ROT_RADIUS *= Constants.MAX_DRIFT_RADIUS; // apply the .1-1 scale to the max radius
-			 				OFFSET = (int) (Constants.MAX_DRIFT_OFFSET * Math.abs(Xbox.LEFT_X(joy))); /// GOOD FOR EITHER DIRECTION; sets offset for max on tight radius
+			 				OFFSET = (int) (Constants.MAX_DRIFT_OFFSET * Math.abs(Xbox.LEFT_X(joy))); /// sets offset for max on tight radius
 				 			driveMecanumRot(ROT_RADIUS, ROT_SPEED, OFFSET);
 				 			break;
 			 case DEAD:
-				 			// this will just continue the last known radius and speed
+				 			// this will just continue the last known radius, offset, and speed
 				 			break;
 			 case POWERSLIDE:
-				 			strafeWithOffset(ROT_SPEED, OFFSET);
+				 			driveAngle(ROT_SPEED, 90 - OFFSET);
 				 			break;
-			 case TURNOVER:
-				 			
+			 case TURNOVER:			
+				 			DRIFT_IS_CW = !DRIFT_IS_CW;
 				 			break;
 		 }
     }
@@ -123,19 +129,51 @@ public class SubsystemDrive extends Subsystem {
      *  	(negative offset is pointed out, positive is pointed in)
      * */
     private void driveMecanumRot(double radius, double speed, int offset) {
+    	CANTalon FL = null, BL = null, FR = null, BR = null; // remove when CANTalons are instantiated
+    	
+    	double leftRotPower, rightRotPower;
+    	if (radius < 0) {
+    		rightRotPower = 1;
+    		leftRotPower  = calculateInnerRotPower(radius, Constants.DISTANCE_BETWEEN_WHEELS); }
+    	else {
+    		rightRotPower = calculateInnerRotPower(radius, Constants.DISTANCE_BETWEEN_WHEELS);
+    		leftRotPower  = 1; }
+
+    	FL.set((
+    			Math.toRadians(
+    			Math.cos(90 - (double) offset)
+    			* speed) 
+    			+ leftRotPower) 
+    			/ 2);
+    	FR.set((
+    			Math.toRadians(
+				Math.sin(90 - (double) offset) 
+				* speed) 
+				+ rightRotPower) 
+				/ 2);
+    	BL.set(Math.toRadians(Math.sin(90 - (double) offset)) * speed);
+    	BR.set(Math.toRadians(Math.cos(90 - (double) offset)) * speed);
+    }
+    
+    /** 
+     * strafes/moves at an angle 
+     * speed should be -1.00 to 1.00
+     * offset must be -90 to 90 degrees
+     * */
+    private void driveAngle(double speed, int angle) { // right = 0, up = 90, left = 180, down = 270 
+    	CANTalon FL = null, BL = null, FR = null, BR = null; // remove when CANTalons are instantiated
+    	
+    	FL.set(Math.toRadians(Math.cos(angle)) * speed);
+    	FR.set(Math.toRadians(Math.sin(angle)) * speed);
+    	BL.set(Math.toRadians(Math.sin(angle)) * speed);
+    	BR.set(Math.toRadians(Math.cos(angle)) * speed);
     	
     }
     
-    /** move sideways at an angle */
-    private void strafeWithOffset(double speed, int offset) {
-    	
+    /** calculates inner power in roation, outer being max */
+    private double calculateInnerRotPower(double radius, double botWidth) {
+    	return radius / (radius + botWidth);
     }
-    /** configures the voltage of each CANTalon */
-    private void voltage(CANTalon talon) {
-    	talon.configNominalOutputVoltage(0f, 0f);
-    	talon.configPeakOutputVoltage(12.0f, -12.0f);
-    	talon.EnableCurrentLimit(true);
-    	talon.setCurrentLimit(30);
-    }
+
 }
 
