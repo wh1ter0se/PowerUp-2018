@@ -80,25 +80,21 @@ public class SubsystemDrive extends Subsystem {
     /// EVERYTHING BELOW IS DRIFT_DRIVE SHELL CODE
     
     
-    
+    /** method called by ManualCommandDrive
+     * 
+     * @param joy
+     */
     public void driftDrive(Joystick joy) {
     	double joyVal = Xbox.LEFT_X(joy);
-    	if (!IN_DRIFT) {
+    	if (!IN_DRIFT) { // initiate drift if it hasn't been initiated already
     		IN_DRIFT = true;
     		if (joyVal > 0) { DRIFT_IS_CW = true; }
     	}
-    	if (DRIFT_IS_CW) {
-    		joyVal = -1 * joyVal;
-    	}
+    	if (DRIFT_IS_CW) { joyVal = -1 * joyVal; } // align joyVal to the write negative and positive values
 
-    	Drift status;
-    		 if (joyVal < (Constants.DRIFT_DEADZONE * -1)) { status = Drift.DONUT; }
-    	else if (joyVal < (Constants.DRIFT_DEADZONE))      { status = Drift.DEAD; }
-    	else if (joyVal < (Constants.DRIFT_TURNOVER))      { status = Drift.POWERSLIDE; }
-    	else		 									   { status = Drift.TURNOVER; }
     	
     	ROT_SPEED = (Xbox.LT(joy) + Xbox.LT(joy)) * 10d;
-    	
+    	Drift status = updateDriftStatus(joyVal);
 		 switch(status) {
 			 case DONUT:
 				 			ROT_RADIUS = (Xbox.LEFT_X(joy)) + Constants.DRIFT_DEADZONE; // put stick on a 0-0.9 scale
@@ -119,6 +115,16 @@ public class SubsystemDrive extends Subsystem {
 		 }
     }
     
+    /** moved from inside driftDrive; sets up the status switch in driftDrive */
+    private Drift updateDriftStatus(double joy) {
+    	Drift status;
+			 if (joy < (Constants.DRIFT_DEADZONE * -1)) { status = Drift.DONUT; }
+		else if (joy < (Constants.DRIFT_DEADZONE))      { status = Drift.DEAD; }
+		else if (joy < (Constants.DRIFT_TURNOVER))      { status = Drift.POWERSLIDE; }
+		else		 									{ status = Drift.TURNOVER; }
+		return status;
+    }
+    
     
     /**
      *  drives in an arc, partially strafing
@@ -132,27 +138,28 @@ public class SubsystemDrive extends Subsystem {
     	CANTalon FL = null, BL = null, FR = null, BR = null; // remove when CANTalons are instantiated
     	
     	double leftRotPower, rightRotPower;
-    	if (radius < 0) {
+    	if (radius < 0) { // if turning left, give more power to right side
     		rightRotPower = 1;
     		leftRotPower  = calculateInnerRotPower(radius, Constants.DISTANCE_BETWEEN_WHEELS); }
-    	else {
+    	else { // if turning right, give more power to left side
     		rightRotPower = calculateInnerRotPower(radius, Constants.DISTANCE_BETWEEN_WHEELS);
     		leftRotPower  = 1; }
 
-    	FL.set((
-    			Math.toRadians(
-    			Math.cos(90 - (double) offset)
-    			* speed) 
-    			+ leftRotPower) 
-    			/ 2);
-    	FR.set((
-    			Math.toRadians(
-				Math.sin(90 - (double) offset) 
-				* speed) 
-				+ rightRotPower) 
-				/ 2);
-    	BL.set(Math.toRadians(Math.sin(90 - (double) offset)) * speed);
-    	BR.set(Math.toRadians(Math.cos(90 - (double) offset)) * speed);
+    	/// standard mecanum code (but the front wheels are averaged with the values for rotation)
+	    	FL.set(( 
+	    			Math.toRadians(
+	    			Math.cos(90 - (double) offset)
+	    			* speed) 
+	    			+ leftRotPower) 
+	    			/ 2);
+	    	FR.set((
+	    			Math.toRadians(
+					Math.sin(90 - (double) offset) 
+					* speed) 
+					+ rightRotPower) 
+					/ 2);
+	    	BL.set(Math.toRadians(Math.sin(90 - (double) offset)) * speed);
+	    	BR.set(Math.toRadians(Math.cos(90 - (double) offset)) * speed);
     }
     
     /** 
@@ -163,10 +170,11 @@ public class SubsystemDrive extends Subsystem {
     private void driveAngle(double speed, int angle) { // right = 0, up = 90, left = 180, down = 270 
     	CANTalon FL = null, BL = null, FR = null, BR = null; // remove when CANTalons are instantiated
     	
-    	FL.set(Math.toRadians(Math.cos(angle)) * speed);
-    	FR.set(Math.toRadians(Math.sin(angle)) * speed);
-    	BL.set(Math.toRadians(Math.sin(angle)) * speed);
-    	BR.set(Math.toRadians(Math.cos(angle)) * speed);
+    	/// standard mecanum strafing code
+			FL.set(Math.toRadians(Math.cos(angle)) * speed);
+			FR.set(Math.toRadians(Math.sin(angle)) * speed);
+			BL.set(Math.toRadians(Math.sin(angle)) * speed);
+			BR.set(Math.toRadians(Math.cos(angle)) * speed);
     	
     }
     
