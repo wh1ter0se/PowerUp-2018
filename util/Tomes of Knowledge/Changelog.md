@@ -13,3 +13,5 @@ Versioning system: [3695's Year of Robotics].[Major state].[Minor state].[Revisi
 	* Created skeleton code for mecanum driftDrive
 * **8.0.3.1**
 	* Simplified driftDrive code for readability
+* **8.0.3.2**
+	* Added changelog
