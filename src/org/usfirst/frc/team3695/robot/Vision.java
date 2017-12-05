@@ -30,7 +30,7 @@ public class Vision extends IterativeRobot {
             cameraLeft = CameraServer.getInstance().startAutomaticCapture("Left", 0);
             cameraRight = CameraServer.getInstance().startAutomaticCapture("Right", 1);
 
-            //Dummy sinks to keep camera connections open
+            //Dummy sinks to keep camera connections open.
             CvSink cvsinkLeft = new CvSink("leftSink");
             cvsinkLeft.setSource(cameraLeft);
             cvsinkLeft.setEnabled(true);
@@ -38,8 +38,8 @@ public class Vision extends IterativeRobot {
             cvsinkRight.setSource(cameraRight);
             cvsinkRight.setEnabled(true);
 
-            //Matrices to store each image from the cameras
-            //Labeled left and right respectively
+            //Matrices to store each image from the cameras.
+            //Labeled left and right respectively.
             Mat leftSource = new Mat();
             Mat rightSource = new Mat();
 
