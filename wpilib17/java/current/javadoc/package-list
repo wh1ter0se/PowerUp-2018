@@ -1,0 +1,17 @@
+edu.wpi.cscore
+edu.wpi.first.wpilibj
+edu.wpi.first.wpilibj.buttons
+edu.wpi.first.wpilibj.can
+edu.wpi.first.wpilibj.command
+edu.wpi.first.wpilibj.communication
+edu.wpi.first.wpilibj.filters
+edu.wpi.first.wpilibj.hal
+edu.wpi.first.wpilibj.interfaces
+edu.wpi.first.wpilibj.internal
+edu.wpi.first.wpilibj.livewindow
+edu.wpi.first.wpilibj.networktables
+edu.wpi.first.wpilibj.networktables2.type
+edu.wpi.first.wpilibj.smartdashboard
+edu.wpi.first.wpilibj.tables
+edu.wpi.first.wpilibj.util
+edu.wpi.first.wpilibj.vision
