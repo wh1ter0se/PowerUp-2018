@@ -2,27 +2,44 @@ package org.usfirst.frc.team3695.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 
-// import edu.wpi.first.wpilibj.buttons.Button;
-
-// import org.usfirst.frc.team3695.robot.commands.ExampleCommand;
-
-/**
- * This class is the glue that binds the controls on the physical operator
- * interface to the commands and command groups that allow control of the robot.
- */
+/** the output/input setup */
 public class OI {
 	
 	public static final Joystick DRIVER = new Joystick(0);
 	public static final Joystick OPERATOR = new Joystick(1);
-	public OI(){
-		
-		// divide code for each specific function into blocks
-		// put a /** [method description] */  and a return/enter above each block
 	
+	
+	/** 
+	 * assigns what every SmartDash and controller button does
+	 * 
+	 * ye() gets called at teleop enable, assigning button values to controller input
+	 * still in ye(), below controller value assigns, place each SmartDash button
+	 * */
+	public static void ye() { // see footer for name explanation
+		
 	}
 }
+/************************
+ * [Colton and AJ discussing why OI was instantiated but never used in 2017's Robot.java]
+ * 		(it's because all of the setup was in the constructor, not a method)
+ * 
+ * AJ    : Yeah, so in that case just turn the constructor into a static method.
+ * Colton: what if I just moved the OI constructor code to a new static method in OI, then call that method
+ * AJ    : And then call that
+ * Colton: okay we are on the same page
+ * AJ    : ye
+ * Colton: I'll call it ye 
+ * AJ    : -_-
+ * Colton: I'm doing it
+ * 
+ * TL;DR: AJ doesn't type fast enough and accidentally said it shall be named ye... AND SO IT SHALL
+ ***********************/
 
-// WPILIB comments
+
+
+
+
+/// WPILIB comments
 		////CREATING BUTTONS
 		// One type of button is a joystick button which is any button on a
 		//// joystick.

@@ -5,18 +5,19 @@ import org.usfirst.frc.team3695.robot.enumeration.Autonomous;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-// sequence of commands for autonomous mode
+/** the sequence of commands for autonomous */
 public class CommandGroupAuto extends CommandGroup {
 		
 	public CommandGroupAuto(Autonomous auto) {
-		// make sure everything is in the right state/position here
-		// EX: making sure flap is closed
+		// make sure everything is in the right state/position up here
+		// EX: making sure flap is closed before auto starts
 		
-		switch(auto) {
+		switch (auto) {
 		case NOTHING:
 			break;
 		// add case for each auto option, put command sequence in each
 
 		}
+		
 	}
 }
