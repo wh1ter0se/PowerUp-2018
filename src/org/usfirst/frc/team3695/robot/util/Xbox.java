@@ -2,7 +2,8 @@ package org.usfirst.frc.team3695.robot.util;
 
 import edu.wpi.first.wpilibj.Joystick;
 
-// THIS CLASS ASSUMES WE STICK TO XBOX CONTROLLERS, REMOVE IF [???] RESULTED IN A CONTROLLER SWITCH
+/** all of the stuff you need to implement X360 controllers */
+	// THIS CLASS ASSUMES WE STICK TO XBOX CONTROLLERS, REMOVE IF [???] RESULTED IN A CONTROLLER SWITCH
 public class Xbox {
 	
 	public static final double DEADZONE = 0.25;
@@ -19,7 +20,7 @@ public class Xbox {
 			LSTICK = 9,
 			RSTICK = 10;
 
-	private static double deadzone(double rawAxis) {
+	private static double deadzone(double rawAxis) { // deadzone value is in constants
 		boolean positive = rawAxis > 0.0;
 		rawAxis *= (positive ? 1.0 : -1.0); //flip if needed
 		rawAxis -= DEADZONE; //clip dead zone

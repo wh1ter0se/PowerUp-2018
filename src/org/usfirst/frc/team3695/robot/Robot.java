@@ -2,115 +2,87 @@
 package org.usfirst.frc.team3695.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import org.usfirst.frc.team3695.robot.commands.ExampleCommand;
-import org.usfirst.frc.team3695.robot.subsystems.ExampleSubsystem;
+import org.usfirst.frc.team3695.robot.auto.CommandGroupAuto;
+import org.usfirst.frc.team3695.robot.enumeration.Autonomous;
+import org.usfirst.frc.team3695.robot.subsystems.SubsystemDrive;
 
-/**
- * The VM is configured to automatically run this class, and to call the
- * functions corresponding to each mode, as described in the IterativeRobot
- * documentation. If you change the name of this class or the package after
- * creating this project, you must also update the manifest file in the resource
- * directory.
- */
+/** the magic place where everything happens (where the sequence of events is controlled, top of the hierarchy) */
 public class Robot extends IterativeRobot {
 
-	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
-	public static OI oi;
+	/// choosers
+		SendableChooser<Autonomous> autoChooser = new SendableChooser<>();
+		// add choosers as needed, these put drop down options in the smart dash
+		
+		
+	/// subsystems
+		public static final SubsystemDrive SUB_DRIVE = new SubsystemDrive();
+		public static OI oi;
+		// add subsystems as needed
 
-	Command autonomousCommand;
-	SendableChooser<Command> chooser = new SendableChooser<>();
-
-	/**
-	 * This function is run when the robot is first started up and should be
-	 * used for any initialization code.
-	 */
-	@Override
+		
+	/// autonomous
+		private CommandGroupAuto auto;
+		
+		
+	/** runs when robot is turned on */
 	public void robotInit() {
-		oi = new OI();
-		chooser.addDefault("Default Auto", new ExampleCommand());
-		// chooser.addObject("My Auto", new MyAutoCommand());
-		SmartDashboard.putData("Auto mode", chooser);
+		OI.ye();
+		
+		
+		
+		/// autoChooser initialization
+				autoChooser.addDefault(Autonomous.NOTHING.toString(), Autonomous.NOTHING);
+				for(int i = 1; i < Autonomous.values().length; i++) {
+					autoChooser.addObject(Autonomous.values()[i].toString(), Autonomous.values()[i]); }
+				SmartDashboard.putData("Auto Mode", autoChooser); 
 	}
 
-	/**
-	 * This function is called once each time the robot enters Disabled mode.
-	 * You can use it to reset any subsystem information you want to clear when
-	 * the robot is disabled.
-	 */
-	@Override
-	public void disabledInit() {
+	
+	/** runs when robot gets disabled */
+	public void disabledInit() { }
 
-	}
-
-	@Override
+	
+	/** runs at 50hz when bot is disabled */
 	public void disabledPeriodic() {
-		Scheduler.getInstance().run();
+		Scheduler.getInstance().run(); 
 	}
 
-	/**
-	 * This autonomous (along with the chooser code above) shows how to select
-	 * between different autonomous modes using the dashboard. The sendable
-	 * chooser code works with the Java SmartDashboard. If you prefer the
-	 * LabVIEW Dashboard, remove all of the chooser code and uncomment the
-	 * getString code to get the auto name from the text box below the Gyro
-	 *
-	 * You can add additional auto modes by adding additional commands to the
-	 * chooser code above (like the commented example) or additional comparisons
-	 * to the switch structure below with additional strings & commands.
-	 */
-	@Override
+	
+	/** runs when autonomous start */
 	public void autonomousInit() {
-		autonomousCommand = chooser.getSelected();
-
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector",
-		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-		 * = new MyAutoCommand(); break; case "Default Auto": default:
-		 * autonomousCommand = new ExampleCommand(); break; }
-		 */
-
-		// schedule the autonomous command (example)
-		if (autonomousCommand != null)
-			autonomousCommand.start();
+		if(autoChooser.getSelected() != null) {
+			auto = new CommandGroupAuto(autoChooser.getSelected());
+			auto.start(); 
+		} 
 	}
 
-	/**
-	 * This function is called periodically during autonomous
-	 */
-	@Override
+	
+	/** runs at 50hz when in autonomous */
 	public void autonomousPeriodic() {
-		Scheduler.getInstance().run();
+		Scheduler.getInstance().run(); 
 	}
 
-	@Override
+	
+	/** runs when teleop starts*/
 	public void teleopInit() {
-		// This makes sure that the autonomous stops running when
-		// teleop starts running. If you want the autonomous to
-		// continue until interrupted by another command, remove
-		// this line or comment it out.
-		if (autonomousCommand != null)
-			autonomousCommand.cancel();
+		if (auto != null)
+			auto.cancel(); 
 	}
 
-	/**
-	 * This function is called periodically during operator control
-	 */
-	@Override
+	
+	/** runs at ~50hz when in teleop mode */
 	public void teleopPeriodic() {
-		Scheduler.getInstance().run();
+		Scheduler.getInstance().run(); 
 	}
 
-	/**
-	 * This function is called periodically during test mode
-	 */
-	@Override
+	
+	/** runs at ~50hz when in test mode */
 	public void testPeriodic() {
-		LiveWindow.run();
+		LiveWindow.run(); 
 	}
 }
