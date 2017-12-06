@@ -19,5 +19,9 @@ public class Constants {
 		/// BOT SPECS
 			DISTANCE_BETWEEN_WHEELS = 20, // inches between wheels; used for turn calculations 
 			WHEEL_DIAMETER = 8.1; // wheel diameter in inches
-			
+
+	public static final int
+		/// CAMERA SPECS
+			HEIGHT = 1080,
+			WIDTH = 1920;
 }
