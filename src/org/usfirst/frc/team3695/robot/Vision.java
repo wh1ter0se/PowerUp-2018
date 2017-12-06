@@ -59,6 +59,7 @@ public class Vision extends IterativeRobot {
         Mat concat = new Mat();
 
         ///Puts the combined video on the SmartDashboard (I think)
+        ///The width is multiplied by 2 as the dimensions of the stream will have a width two times that of a single webcam
         CvSource outputStream = CameraServer.getInstance().putVideo("Concat", 2*Constants.WIDTH, Constants.HEIGHT);
 
         while (!Thread.interrupted()) {
