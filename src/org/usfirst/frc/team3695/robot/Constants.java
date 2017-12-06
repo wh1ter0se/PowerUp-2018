@@ -22,6 +22,6 @@ public class Constants {
 
 	public static final int
 		/// CAMERA SPECS
-			HEIGHT = 1080,
-			WIDTH = 1920;
+			CAM_HEIGHT = 1080,
+			CAM_WIDTH = 1920;
 }
