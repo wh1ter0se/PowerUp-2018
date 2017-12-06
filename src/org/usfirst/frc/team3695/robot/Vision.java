@@ -22,7 +22,7 @@ public class Vision extends IterativeRobot {
     private UsbCamera cameraRight;
 
     void startCameraStream(){
-        //Places the vision in a separate thread from everything else as recommended by FIRST
+        //Places the vision in a separate thread from everything else as recommended by FIRST.
         new Thread(this::concatStreamStart).start();
     }
 
