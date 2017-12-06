@@ -22,6 +22,7 @@ public class Robot extends IterativeRobot {
 	/// subsystems
 		public static final SubsystemDrive SUB_DRIVE = new SubsystemDrive();
 		public static OI oi;
+		public static final Vision vision = new Vision();
 		// add subsystems as needed
 
 		
@@ -31,9 +32,8 @@ public class Robot extends IterativeRobot {
 		
 	/** runs when robot is turned on */
 	public void robotInit() {
+		vision.startCameraStream();
 		OI.ye();
-		
-		
 		
 		/// autoChooser initialization
 				autoChooser.addDefault(Autonomous.NOTHING.toString(), Autonomous.NOTHING);
