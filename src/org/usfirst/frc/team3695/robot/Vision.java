@@ -17,7 +17,7 @@ import java.util.ArrayList;
  */
 public class Vision extends IterativeRobot {
 
-    ///Two cameras for double FOV
+    /// Two cameras for double FOV
     private UsbCamera cameraLeft;
     private UsbCamera cameraRight;
 
@@ -25,8 +25,8 @@ public class Vision extends IterativeRobot {
      * Initialization of class
      */
     public void robotInit() {
-        //Places the vision in a separate thread from everything else as recommended by FIRST
-        //It should never be accessed by other code, so protection isn't necessary.
+        // Places the vision in a separate thread from everything else as recommended by FIRST
+        // It should never be accessed by other code, so protection isn't necessary.
         new Thread(this::startCamerasStream).start();
     }
 
@@ -38,7 +38,7 @@ public class Vision extends IterativeRobot {
         cameraLeft = CameraServer.getInstance().startAutomaticCapture("Left", 0);
         cameraRight = CameraServer.getInstance().startAutomaticCapture("Right", 1);
 
-        ///Dummy sinks to keep camera connections open.
+        /// Dummy sinks to keep camera connections open.
         CvSink cvsinkLeft = new CvSink("leftSink");
         cvsinkLeft.setSource(cameraLeft);
         cvsinkLeft.setEnabled(true);
@@ -46,27 +46,27 @@ public class Vision extends IterativeRobot {
         cvsinkRight.setSource(cameraRight);
         cvsinkRight.setEnabled(true);
 
-        ///Matrices to store each image from the cameras.
+        /// Matrices to store each image from the cameras.
         Mat leftSource = new Mat();
         Mat rightSource = new Mat();
 
-        ///The ArrayList of left and right sources is needed for the hconcat method used to combine the streams
+        /// The ArrayList of left and right sources is needed for the hconcat method used to combine the streams
         ArrayList<Mat> sources = new ArrayList<>();
         sources.add(leftSource);
         sources.add(rightSource);
 
-        ///Concatenation of both matrices
+        /// Concatenation of both matrices
         Mat concat = new Mat();
 
-        ///Puts the combined video on the SmartDashboard (I think)
-        ///The width is multiplied by 2 as the dimensions of the stream will have a width two times that of a single webcam
+        /// Puts the combined video on the SmartDashboard (I think)
+        /// The width is multiplied by 2 as the dimensions of the stream will have a width two times that of a single webcam
         CvSource outputStream = CameraServer.getInstance().putVideo("Concat", 2*Constants.CAM_WIDTH, Constants.CAM_HEIGHT);
 
         while (!Thread.interrupted()) {
-            ///Provide each mat with the current frame
+            /// Provide each mat with the current frame
             cvsinkLeft.grabFrame(leftSource);
             cvsinkRight.grabFrame(rightSource);
-            ///Combine the frames into a single mat in the Output and stream the image.
+            /// Combine the frames into a single mat in the Output and stream the image.
             Core.hconcat(sources, concat);
             outputStream.putFrame(concat);
         }
