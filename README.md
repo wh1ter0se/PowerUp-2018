@@ -34,6 +34,7 @@ The FRC 2018 programming repository for team 3695, Foximus Prime
  * Lily Jennings - [*lilyjennings*](https://github.com/lilyjennings)
  * Dylan Hampton - [*Dylan-Hampton*](https://github.com/Dylan-Hampton)
  * Grant Eads - [*Grant-Eads*](https://github.com/Grant-Eads)
+ * Tyler Middendorf - [*Tyler-Middendorf*](https://github.com/Tyler-Middendorf)
  
 ### Mentors
  * **Matt Price** - [*sowaky*](https://github.com/SoWaky)
