@@ -33,6 +33,7 @@ The FRC 2018 programming repository for team 3695, Foximus Prime
  * Max Edman - [*striker30z*](https://github.com/striker30z)
  * Lily Jennings - [*lilyjennings*](https://github.com/lilyjennings)
  * Dylan Hampton - [*Dylan-Hampton*](https://github.com/Dylan-Hampton)
- 
+ * Grant Eads - [*Grant-Eads*](https://github.com/Grant-Eads)
+ * Nathan Turner - [*Nathan-2018*](https://gitHub.com/Nathan-2018)
 ### Mentors
  * **Matt Price** - [*sowaky*](https://github.com/SoWaky)
