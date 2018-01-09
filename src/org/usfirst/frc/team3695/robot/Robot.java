@@ -15,12 +15,12 @@ import org.usfirst.frc.team3695.robot.subsystems.SubsystemDrive;
 public class Robot extends IterativeRobot {
 
 	/// choosers
-		SendableChooser<Autonomous> autoChooser = new SendableChooser<>();
+		SendableChooser<Autonomous> autoChooser;
 		// add choosers as needed, these put drop down options in the smart dash
 		
 		
 	/// subsystems
-		public static final SubsystemDrive SUB_DRIVE = new SubsystemDrive();
+		public static SubsystemDrive SUB_DRIVE;
 		public static OI oi;
 		// add subsystems as needed
 
@@ -29,17 +29,22 @@ public class Robot extends IterativeRobot {
 		private CommandGroupAuto auto;
 		
 		
+		
+		
 	/** runs when robot is turned on */
 	public void robotInit() {
-		OI.ye();
+		/// instantiate operator interface
+			OI.ye();
+			
+		/// instantiate subsystems
+			SUB_DRIVE = new SubsystemDrive();
 		
-		
-		
-		/// autoChooser initialization
-				autoChooser.addDefault(Autonomous.NOTHING.toString(), Autonomous.NOTHING);
-				for(int i = 1; i < Autonomous.values().length; i++) {
-					autoChooser.addObject(Autonomous.values()[i].toString(), Autonomous.values()[i]); }
-				SmartDashboard.putData("Auto Mode", autoChooser); 
+		/// instantiate autonomous chooser
+			autoChooser = new SendableChooser<>();
+			autoChooser.addDefault(Autonomous.NOTHING.toString(), Autonomous.NOTHING); // set default to nothing
+			for(int i = 1; i < Autonomous.values().length; i++) { 
+				autoChooser.addObject(Autonomous.values()[i].toString(), Autonomous.values()[i]); } // add each autonomous enum value to chooser
+			SmartDashboard.putData("Auto Mode", autoChooser); //display the chooser on the dash
 	}
 
 	
