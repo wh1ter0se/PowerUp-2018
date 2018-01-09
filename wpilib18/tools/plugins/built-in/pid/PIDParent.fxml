@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import dashfx.lib.controls.*?>
+<?import dashfx.controls.*?>
+
+<DataGridPane dataMode="Nested" xmlns:fx="http://javafx.com/fxml">
+	<ui hgap="6.0" prefHeight="-1.0" vgap="6.0" style="/*Intentionally blank*/">
+		<children>
+			<Label text="P:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+			<Label text="I:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+			<Label text="D:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+			<Label text="FF:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+			<Label text="Set:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+			<Placeholder fx:id="disabled" controlPath="RedGreen" propList="name: disabled" GridPane.columnIndex="1" GridPane.columnSpan="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
+			<Placeholder fx:id="d" controlPath="Number Box" propList="name: d" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+			<Placeholder fx:id="i" controlPath="Number Box" propList="name: i" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+			<Placeholder fx:id="p" controlPath="Number Box" propList="name: p" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+			<Placeholder fx:id="ff" controlPath="Number Box" propList="name: f" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+			<Placeholder fx:id="set" controlPath="Number Box" propList="name: setpoint" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+		</children>
+		<columnConstraints>
+			<ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="-1.0" />
+			<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+		</columnConstraints>
+		<rowConstraints>
+			<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+			<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+			<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+			<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+			<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+			<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+		</rowConstraints>
+	</ui>
+</DataGridPane>
