@@ -23,5 +23,7 @@ public class Constants {
 	public static final int
 		/// CAMERA SPECS
 			CAM_HEIGHT = 1080,
-			CAM_WIDTH = 1920;
+			CAM_WIDTH = 1920,
+		/// I2C CONSTANTS
+			I2C_DEVICE_ADDRESS = 168;
 }
