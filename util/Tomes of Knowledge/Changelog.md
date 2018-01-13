@@ -15,3 +15,10 @@ Versioning system: [3695's Year of Robotics].[Major state].[Minor state].[Revisi
 	* Simplified driftDrive code for readability
 * **8.0.3.2**
 	* Added changelog
+* **8.0.4**
+	* Added double-FOV shell code
+	* Added Grant to readme
+* **8.0.4.1**
+	* Added Nate to readme
+* **8.0.4.2**
+	* Added Middendorf to readme

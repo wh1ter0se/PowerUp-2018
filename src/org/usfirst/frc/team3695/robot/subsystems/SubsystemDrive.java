@@ -66,8 +66,8 @@ public class SubsystemDrive extends Subsystem {
     
     /** configures the voltage of each CANTalon */
     private void voltage(CANTalon talon) {
-    	talon.configNominalOutputVoltage(0f, 0f);
-    	talon.configPeakOutputVoltage(12.0f, -12.0f);
+    	// talon.configNominalOutputVoltage(0f, 0f);
+    	// talon.configPeakOutputVoltage(12.0f, -12.0f);
     	talon.EnableCurrentLimit(true);
     	talon.setCurrentLimit(30);
     }
