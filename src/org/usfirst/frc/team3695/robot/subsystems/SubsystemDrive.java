@@ -12,17 +12,12 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 /** VROOM VROOM */
 public class SubsystemDrive extends Subsystem {
 	
-	/// drift variables
-	public static int     OFFSET,        // the degrees the bot is tilted inward
-	                      METADIRECTION; // on button down, this resets to 0; the angle relative to that initial angle (changes on physical rotation)
-	                     			 	 // pretty much the cumulative angle since button down, minus offset
-	public static double  ROT_SPEED,     // the speed of rotation (min 0, max 10.00)
-						  ROT_RADIUS;    // turn radius in inches
-	public static boolean IN_DRIFT,		 // if the bot is currently in a drift
-						  DRIFT_IS_CW;   // if the drift is turning right
 	
-	// instantiate the CANTalons here
-		// EX: private CANTalon left1;
+	
+	private CANTalon left1;
+	private CANTalon left2;
+    private CANTalon right1;
+    private CANTalon right2;
 
 	
 	/** runs at robot boot */

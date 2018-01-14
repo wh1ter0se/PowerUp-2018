@@ -13,9 +13,6 @@ public class ManualCommandDrive extends Command {
     }
 
     protected void initialize() {
-    	Robot.SUB_DRIVE.OFFSET = 0;
-    	Robot.SUB_DRIVE.METADIRECTION = 0;
-    	Robot.SUB_DRIVE.IN_DRIFT = false;
     }
 
     protected void execute() {

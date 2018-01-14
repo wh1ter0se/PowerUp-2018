@@ -21,7 +21,15 @@ public static final double
 
 
 ======== this stuff goes in SubsystemDrive ========
-
+/// drift variables
+	public static int     OFFSET,        // the degrees the bot is tilted inward
+	                      METADIRECTION; // on button down, this resets to 0; the angle relative to that initial angle (changes on physical rotation)
+	                     			 	 // pretty much the cumulative angle since button down, minus offset
+	public static double  ROT_SPEED,     // the speed of rotation (min 0, max 10.00)
+						  ROT_RADIUS;    // turn radius in inches
+	public static boolean IN_DRIFT,		 // if the bot is currently in a drift
+						  DRIFT_IS_CW;   // if the drift is turning right
+						  
 ublic void driftDrive(Joystick joy) {
     	double joyVal = Xbox.LEFT_X(joy);
     	if (!IN_DRIFT) { // initiate drift if it hasn't been initiated already

@@ -13,6 +13,11 @@ public class Constants {
 			WHEEL_DIAMETER = 8.1; // wheel diameter in inches
 
 	public static final int
+		/// MOTOR VALUES
+			RIGHT_MASTER = 0,
+				RIGHT_SLAVE = 0,
+			LEFT_MASTER = 0,
+				LEFT_SLAVE = 0,
 		/// CAMERA SPECS
 			CAM_HEIGHT = 1080,
 			CAM_WIDTH = 1920;
