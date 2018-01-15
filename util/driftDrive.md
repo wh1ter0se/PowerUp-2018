@@ -30,7 +30,7 @@ public static final double
 	public static boolean IN_DRIFT,		 // if the bot is currently in a drift
 						  DRIFT_IS_CW;   // if the drift is turning right
 						  
-ublic void driftDrive(Joystick joy) {
+public void driftDrive(Joystick joy) {
     	double joyVal = Xbox.LEFT_X(joy);
     	if (!IN_DRIFT) { // initiate drift if it hasn't been initiated already
     		IN_DRIFT = true;
