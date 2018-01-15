@@ -5,6 +5,7 @@ import org.usfirst.frc.team3695.robot.commands.ManualCommandDrive;
 import org.usfirst.frc.team3695.robot.util.Xbox;
 
 import com.ctre.CANTalon;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -14,10 +15,10 @@ public class SubsystemDrive extends Subsystem {
 	
 	
 	
-	private CANTalon left1;
-	private CANTalon left2;
-    private CANTalon right1;
-    private CANTalon right2;
+	private TalonSRX left1;
+	private TalonSRX left2;
+    private TalonSRX right1;
+    private TalonSRX right2;
 
 	
 	/** runs at robot boot */
@@ -63,11 +64,11 @@ public class SubsystemDrive extends Subsystem {
     }
     
     /** configures the voltage of each CANTalon */
-    private void voltage(CANTalon talon) {
+    private void voltage(TalonSRX talon) {
     	// talon.configNominalOutputVoltage(0f, 0f);
     	// talon.configPeakOutputVoltage(12.0f, -12.0f);
-    	talon.EnableCurrentLimit(true);
-    	talon.setCurrentLimit(30);
+    	talon.enableCurrentLimit(true);
+    	//talon.setCurrentLimit(30);
     }
     
     
