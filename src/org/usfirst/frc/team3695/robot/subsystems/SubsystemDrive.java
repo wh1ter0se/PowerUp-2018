@@ -47,8 +47,13 @@ public class SubsystemDrive extends Subsystem {
 	
 	/** gives birth to the CANTalons */
     public SubsystemDrive(){
-    	// assign initial values to CANTalons
-    		// EX: left1 = new CANTalon(Constants.LEFT_MOTOR);
+    	//Master Talons
+	    	left1 = new TalonSRX(Constants.LEFT_MASTER);
+	    	right1 = new TalonSRX(Constants.RIGHT_MASTER);
+    	
+    	//Slave Talons
+	    	left2 = new TalonSRX(Constants.LEFT_SLAVE);
+	    	right2 = new TalonSRX(Constants.RIGHT_SLAVE);
     	// call voltage for each instantiated CANTalon
     		// EX: voltage(left1);
     	// train each CANTalon
