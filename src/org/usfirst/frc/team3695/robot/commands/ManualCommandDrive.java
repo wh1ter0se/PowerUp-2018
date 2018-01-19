@@ -16,7 +16,7 @@ public class ManualCommandDrive extends Command {
     }
 
     protected void execute() {
-    	Robot.SUB_DRIVE.driveSmoothTank(OI.DRIVER);
+    	Robot.SUB_DRIVE.driveTank(OI.DRIVER);
     }
 
     protected boolean isFinished() {
