@@ -67,13 +67,13 @@ public class SubsystemDrive extends Subsystem {
     
     public void driveTank(Joystick joy) {
     	double adder = Xbox.RT(joy) - Xbox.LT(joy);
-    	double left_applied = Xbox.LEFT_X(joy) * (adder / Math.abs(adder));
-    	double left = adder + (left_applied / 1.333333);
-    	double right = adder - (left_applied / 1.333333);
+    	//double left_applied = Xbox.LEFT_X(joy) * (adder / Math.abs(adder));
+    	double left = adder + (Xbox.LEFT_X(joy) / 1.333333);
+    	double right = adder - (Xbox.LEFT_X(joy) / 1.333333);
     	
     	//Quick Truncate
     	left = (left > 1.0 ? 1.0 : (left < -1.0 ? -1.0 : left));
-    	right = (right > 1.0 ? 1.0 : (right < -1.0 ? -1.0 : right));
+    	right = -1 * (right > 1.0 ? 1.0 : (right < -1.0 ? -1.0 : right));
     	    	
     	left1.set(ControlMode.PercentOutput, left);
     		left2.set(ControlMode.PercentOutput, left);
@@ -87,7 +87,7 @@ public class SubsystemDrive extends Subsystem {
     	// talon.configNominalOutputVoltage(0f, 0f);
     	// talon.configPeakOutputVoltage(12.0f, -12.0f);
     	// talon.enableCurrentLimit(true);
-    	//talon.setCurrentLimit(30);
+    	// talon.configContinuousCurrentLimit(30, 3000);
     }
     
     
