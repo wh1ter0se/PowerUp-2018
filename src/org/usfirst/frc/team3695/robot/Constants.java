@@ -15,9 +15,9 @@ public class Constants {
 	public static final int
 		/// MOTOR VALUES
 			RIGHT_MASTER = 0,
-				RIGHT_SLAVE = 0,
-			LEFT_MASTER = 0,
-				LEFT_SLAVE = 0,
+				RIGHT_SLAVE = 1,
+			LEFT_MASTER = 2,
+				LEFT_SLAVE = 3,
 		/// CAMERA SPECS
 			CAM_HEIGHT = 1080,
 			CAM_WIDTH = 1920;

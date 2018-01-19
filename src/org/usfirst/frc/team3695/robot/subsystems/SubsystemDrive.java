@@ -5,6 +5,7 @@ import org.usfirst.frc.team3695.robot.commands.ManualCommandDrive;
 import org.usfirst.frc.team3695.robot.util.Xbox;
 
 import com.ctre.CANTalon;
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -64,7 +65,20 @@ public class SubsystemDrive extends Subsystem {
     		//			  left2.set(left1.getDeviceID());
     }
     
-    public void driveSmoothTank(Joystick joy) {
+    public void driveTank(Joystick joy) {
+    	double adder = Xbox.RT(joy) - Xbox.LT(joy);
+    	double left_applied = Xbox.LEFT_X(joy) * (adder / Math.abs(adder));
+    	double left = adder + (left_applied / 1.333333);
+    	double right = adder - (left_applied / 1.333333);
+    	
+    	//Quick Truncate
+    	left = (left > 1.0 ? 1.0 : (left < -1.0 ? -1.0 : left));
+    	right = (right > 1.0 ? 1.0 : (right < -1.0 ? -1.0 : right));
+    	    	
+    	left1.set(ControlMode.PercentOutput, left);
+    		left2.set(ControlMode.PercentOutput, left);
+    	right1.set(ControlMode.PercentOutput, right);
+    		right2.set(ControlMode.PercentOutput, right);
     	
     }
     
@@ -72,7 +86,7 @@ public class SubsystemDrive extends Subsystem {
     private void voltage(TalonSRX talon) {
     	// talon.configNominalOutputVoltage(0f, 0f);
     	// talon.configPeakOutputVoltage(12.0f, -12.0f);
-    	talon.enableCurrentLimit(true);
+    	// talon.enableCurrentLimit(true);
     	//talon.setCurrentLimit(30);
     }
     
