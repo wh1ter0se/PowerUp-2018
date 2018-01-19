@@ -8,19 +8,16 @@ public class Constants {
 	/**  motor inverts */
 	
 	public static final double
-		/// DRIFT VALUES
-			DRIFT_DEADZONE   = .1,
-			DRIFT_TURNOVER   = .6,
-			MAX_DRIFT_RADIUS = 120, // this is in inches
-									// min will be 1/10th of this
-			MAX_DRIFT_OFFSET = 80,  // max angle to turn into drift
-	
-			
 		/// BOT SPECS
 			DISTANCE_BETWEEN_WHEELS = 20, // inches between wheels; used for turn calculations 
 			WHEEL_DIAMETER = 8.1; // wheel diameter in inches
 
 	public static final int
+		/// MOTOR VALUES
+			RIGHT_MASTER = 0,
+				RIGHT_SLAVE = 1,
+			LEFT_MASTER = 2,
+				LEFT_SLAVE = 3,
 		/// CAMERA SPECS
 			CAM_HEIGHT = 1080,
 			CAM_WIDTH = 1920;
