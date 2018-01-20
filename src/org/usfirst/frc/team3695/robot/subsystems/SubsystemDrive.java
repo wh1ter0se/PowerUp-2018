@@ -15,11 +15,10 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class SubsystemDrive extends Subsystem {
 	
 	
-	
 	private TalonSRX left1;
 	private TalonSRX left2;
-    private TalonSRX right1;
-    private TalonSRX right2;
+	private TalonSRX right1;
+	private TalonSRX right2;
 
 	
 	/** runs at robot boot */
@@ -58,21 +57,14 @@ public class SubsystemDrive extends Subsystem {
 	
 	/** gives birth to the CANTalons */
     public SubsystemDrive(){
-    	//Master Talons
+    	// masters
 	    	left1 = new TalonSRX(Constants.LEFT_MASTER);
 	    	right1 = new TalonSRX(Constants.RIGHT_MASTER);
     	
-    	//Slave Talons
+    	// slaves
 	    	left2 = new TalonSRX(Constants.LEFT_SLAVE);
 	    	right2 = new TalonSRX(Constants.RIGHT_SLAVE);
-    	// call voltage for each instantiated CANTalon
-    		// EX: voltage(left1);
-    	// train each CANTalon
-    		// master EX: left1.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Relative);
-    		//			  left1.setEncPosition(0);
-    		//			  left1.reverseSensor(false);
-    		// slave EX:  left2.changeControlMode(CANTalon.TalonControlMode.Follower);
-    		//			  left2.set(left1.getDeviceID());
+	    	
     }
     
     /** simple rocket league drive code; independent rotation and acceleration */
@@ -104,6 +96,9 @@ public class SubsystemDrive extends Subsystem {
     	} else if (Xbox.LEFT_X(joy) > 0) {
     		left = acceleration;
     		right = acceleration * ((2 * (1 - Math.abs(Xbox.LEFT_X(joy)))) - 1); 
+    	} else {
+    		left = acceleration;
+    		right = acceleration;
     	}
     	
 	    left1.set(ControlMode.PercentOutput, leftify(left));

@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team3695.robot.auto.CommandGroupAuto;
 import org.usfirst.frc.team3695.robot.enumeration.Autonomous;
 import org.usfirst.frc.team3695.robot.subsystems.SubsystemDrive;
+import org.usfirst.frc.team3695.robot.subsystems.SubsystemManipulator;
 
 /** the magic place where everything happens (where the sequence of events is controlled, top of the hierarchy) */
 public class Robot extends IterativeRobot {
@@ -21,6 +22,7 @@ public class Robot extends IterativeRobot {
 		
 	/// subsystems
 		public static SubsystemDrive SUB_DRIVE;
+		public static SubsystemManipulator SUB_MANIPULATOR;
 		public static OI oi;
 		// add subsystems as needed
 
@@ -33,11 +35,13 @@ public class Robot extends IterativeRobot {
 		
 	/** runs when robot is turned on */
 	public void robotInit() {
-		/// instantiate operator interface
-			OI.ye();
+		
 			
 		/// instantiate subsystems
 			SUB_DRIVE = new SubsystemDrive();
+			SUB_MANIPULATOR = new SubsystemManipulator();
+		/// instantiate operator interface
+			OI.ye();
 		
 		/// instantiate autonomous chooser
 			autoChooser = new SendableChooser<>();
