@@ -3,7 +3,6 @@ package org.usfirst.frc.team3695.robot.util;
 import edu.wpi.first.wpilibj.Joystick;
 
 /** all of the stuff you need to implement X360 controllers */
-	// THIS CLASS ASSUMES WE STICK TO XBOX CONTROLLERS, REMOVE IF [???] RESULTED IN A CONTROLLER SWITCH
 public class Xbox {
 	
 	public static final double DEADZONE = 0.25;
