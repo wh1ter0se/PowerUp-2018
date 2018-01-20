@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3695.robot;
 
-import org.usfirst.frc.team3695.robot.commands.ButtonCommandSpin;
+import org.usfirst.frc.team3695.robot.commands.ButtonCommandEat;
+import org.usfirst.frc.team3695.robot.commands.ButtonCommandSpit;
 import org.usfirst.frc.team3695.robot.enumeration.Direction;
 import org.usfirst.frc.team3695.robot.util.Xbox;
 
@@ -22,9 +23,9 @@ public class OI {
 	 * */
 	public static void ye() { // see footer for name explanation
 		Button spinIn = new JoystickButton(DRIVER, Xbox.LB);
-			spinIn.whileHeld(new ButtonCommandSpin(Direction.BACKWARD));
+			spinIn.whileHeld(new ButtonCommandEat());
 		Button spinOut = new JoystickButton(DRIVER, Xbox.RB);
-			spinOut.whileHeld(new ButtonCommandSpin(Direction.FORWARD));
+			spinOut.whileHeld(new ButtonCommandSpit());
 	}
 }
 /************************

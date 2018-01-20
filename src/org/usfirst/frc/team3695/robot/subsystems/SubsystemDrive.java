@@ -65,6 +65,8 @@ public class SubsystemDrive extends Subsystem {
 	    	left2 = new TalonSRX(Constants.LEFT_SLAVE);
 	    	right2 = new TalonSRX(Constants.RIGHT_SLAVE);
 	    	
+	    
+	    	
     }
     
     /** simple rocket league drive code; independent rotation and acceleration */
@@ -85,7 +87,7 @@ public class SubsystemDrive extends Subsystem {
     }
     
     /** drive code where rotation is dependent on acceleration */
-    public void driveForza(Joystick joy) {
+    public void driveForza(Joystick joy, double ramp) {
     	double left = 0, 
     		   right = 0;
     	double acceleration = Xbox.RT(joy) - Xbox.LT(joy);
@@ -100,6 +102,12 @@ public class SubsystemDrive extends Subsystem {
     		left = acceleration;
     		right = acceleration;
     	}
+    	
+    	/// ramps
+	    	left1.configOpenloopRamp(ramp, 0);
+	    		left2.configOpenloopRamp(ramp, 0);
+	    	right1.configOpenloopRamp(ramp, 0);
+	    		right2.configOpenloopRamp(ramp, 0);
     	
 	    left1.set(ControlMode.PercentOutput, leftify(left));
 			left2.set(ControlMode.PercentOutput, leftify(left));

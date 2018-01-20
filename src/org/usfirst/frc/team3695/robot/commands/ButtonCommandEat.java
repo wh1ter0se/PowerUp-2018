@@ -10,17 +10,16 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  * Commands the gear flaps
  */
-public class ButtonCommandSpin extends Command {
+public class ButtonCommandEat extends Command {
 	
 	Direction direction;
 	
-    public ButtonCommandSpin(Direction direction) {
-    	this.direction = direction;
+    public ButtonCommandEat() {
         requires(Robot.SUB_MANIPULATOR);
     }
 
     protected void initialize() {
-    	Robot.SUB_MANIPULATOR.startSpinning(direction, Util.getAndSetDouble("Spinning Speed", Constants.SPINNY_SPEED));
+    	Robot.SUB_MANIPULATOR.eat(Util.getAndSetDouble("Spinning Speed", Constants.SPINNY_SPEED));
     }
 
     protected void execute() {}
@@ -30,7 +29,7 @@ public class ButtonCommandSpin extends Command {
     }
 
     protected void end() {
-    	
+    	Robot.SUB_MANIPULATOR.stopSpinning();
     }
 
     protected void interrupted() {

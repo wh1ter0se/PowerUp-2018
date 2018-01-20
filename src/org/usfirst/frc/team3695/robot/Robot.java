@@ -11,6 +11,7 @@ import org.usfirst.frc.team3695.robot.auto.CommandGroupAuto;
 import org.usfirst.frc.team3695.robot.enumeration.Autonomous;
 import org.usfirst.frc.team3695.robot.subsystems.SubsystemDrive;
 import org.usfirst.frc.team3695.robot.subsystems.SubsystemManipulator;
+import org.usfirst.frc.team3695.robot.subsystems.SubsystemMast;
 
 /** the magic place where everything happens (where the sequence of events is controlled, top of the hierarchy) */
 public class Robot extends IterativeRobot {
@@ -23,10 +24,11 @@ public class Robot extends IterativeRobot {
 	/// subsystems
 		public static SubsystemDrive SUB_DRIVE;
 		public static SubsystemManipulator SUB_MANIPULATOR;
+		public static SubsystemMast SUB_MAST;
 		public static OI oi;
 		
 	public static Vision vision;
-	public static I2C i2c;
+	// public static I2C i2c;
 
 		
 	/// autonomous
@@ -55,7 +57,7 @@ public class Robot extends IterativeRobot {
 			SmartDashboard.putData("Auto Mode", autoChooser); //display the chooser on the dash
 
 		/// instantiate cameras
-			vision.startCameraThread();
+			// vision.startCameraThread();
 	}
 
 	

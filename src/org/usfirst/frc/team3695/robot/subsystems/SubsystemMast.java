@@ -3,6 +3,7 @@ package org.usfirst.frc.team3695.robot.subsystems;
 import org.usfirst.frc.team3695.robot.Constants;
 import org.usfirst.frc.team3695.robot.commands.ButtonCommandSpit;
 import org.usfirst.frc.team3695.robot.commands.ManualCommandDrive;
+import org.usfirst.frc.team3695.robot.commands.ManualCommandGrow;
 import org.usfirst.frc.team3695.robot.enumeration.Direction;
 import org.usfirst.frc.team3695.robot.util.Util;
 import org.usfirst.frc.team3695.robot.util.Xbox;
@@ -14,40 +15,39 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-/** VROOM VROOM */
-public class SubsystemManipulator extends Subsystem {
+/** the big, metal pole */
+public class SubsystemMast extends Subsystem {
 	
 	
-	private TalonSRX armLeft;
-	private TalonSRX armRight;
+	private TalonSRX pinionMast;
+	private TalonSRX screwMast;
 
 	
 	/** runs at robot boot */
-    public void initDefaultCommand() {}
+    public void initDefaultCommand() {
+    	setDefaultCommand(new ManualCommandGrow()); }
 	
 	/** gives birth to the CANTalons */
-    public SubsystemManipulator(){
-    	armLeft = new TalonSRX(Constants.LEFT_ARM);
-    	armRight = new TalonSRX(Constants.LEFT_ARM);
+    public SubsystemMast(){
+    	pinionMast = new TalonSRX(Constants.PINION_MOTOR);
+    	screwMast = new TalonSRX(Constants.SCREW_MOTOR);
     }
     
-    /** eat the power cube */
-    public void eat(double speed) {
-    	speed *= -1;
-    	armLeft.set(ControlMode.PercentOutput, speed);
-    	armRight.set(ControlMode.PercentOutput, speed);
-    }
+    /** apply screw motor invert */
+   	public static final double screwify(double right) {
+   		return right * (Constants.SCREW_MOTOR_INVERT ? -1.0 : 1.0);
+   	}
+   	
+   	/** apply pinion motor invert */
+   	public static final double pinionate(double right) {
+   		return right * (Constants.PINION_MOTOR_INVERT ? -1.0 : 1.0);
+   	}
     
-    /** spit out the power cube */
-    public void spit(double speed) {
-    	armLeft.set(ControlMode.PercentOutput, speed);
-    	armRight.set(ControlMode.PercentOutput, speed);
-    }
-    
-    /** STOP SPINNING ME RIGHT ROUND, BABY RIGHT ROUND */
-    public void stopSpinning() {
-    	armLeft.set(ControlMode.PercentOutput, 0);
-    	armRight.set(ControlMode.PercentOutput, 0);
+   	/** raise the mast at RT-LR trigger speed */
+    public void moveBySpeed(Joystick joy) {
+    	double speed = Xbox.RT(joy) - Xbox.LT(joy);
+    	pinionMast.set(ControlMode.PercentOutput, pinionate(speed));
+    	screwMast.set(ControlMode.PercentOutput, screwify(speed));
     }
 
     /** configures the voltage of each CANTalon */
