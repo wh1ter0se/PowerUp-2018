@@ -17,21 +17,15 @@ public class Robot extends IterativeRobot {
 	/// choosers
 		SendableChooser<Autonomous> autoChooser;
 		// add choosers as needed, these put drop down options in the smart dash
-		
-		
+
 	/// subsystems
 		public static SubsystemDrive SUB_DRIVE;
 		public static OI oi;
 		public static Vision vision;
-		public static I2C i2c;
 		// add subsystems as needed
 
-		
 	/// autonomous
 		private CommandGroupAuto auto;
-		
-		
-		
 		
 	/** runs when robot is turned on */
 	public void robotInit() {
@@ -41,8 +35,7 @@ public class Robot extends IterativeRobot {
 		/// instantiate subsystems
 			SUB_DRIVE = new SubsystemDrive();
 			vision = new Vision();
-			i2c = new I2C(I2C.Port.kOnboard, Constants.I2C_DEVICE_ADDRESS);
-		
+
 		/// instantiate autonomous chooser
 			autoChooser = new SendableChooser<>();
 			autoChooser.addDefault(Autonomous.NOTHING.toString(), Autonomous.NOTHING); // set default to nothing
@@ -53,7 +46,6 @@ public class Robot extends IterativeRobot {
 		/// instantiate cameras
 			vision.startCameraThread();
 	}
-
 	
 	/** runs when robot gets disabled */
 	public void disabledInit() { }
