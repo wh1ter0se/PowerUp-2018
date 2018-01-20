@@ -65,9 +65,9 @@ public class SubsystemDrive extends Subsystem {
     		//			  left2.set(left1.getDeviceID());
     }
     
-    public void driveTank(Joystick joy) {
+    /** simple drive code; independent rotation and acceleration */
+    public void driveRLTank(Joystick joy) {
     	double adder = Xbox.RT(joy) - Xbox.LT(joy);
-    	//double left_applied = Xbox.LEFT_X(joy) * (adder / Math.abs(adder));
     	double left = adder + (Xbox.LEFT_X(joy) / 1.333333);
     	double right = adder - (Xbox.LEFT_X(joy) / 1.333333);
     	
@@ -80,6 +80,27 @@ public class SubsystemDrive extends Subsystem {
     	right1.set(ControlMode.PercentOutput, right);
     		right2.set(ControlMode.PercentOutput, right);
     	
+    }
+    
+    /** drive code where rotation is dependent on acceleration */
+    public void driveForza(Joystick joy) {
+    	double left = 0, 
+    		   right = 0;
+    	double acceleration = Xbox.RT(joy) - Xbox.LT(joy);
+    	double direction = Xbox.LEFT_X(joy);
+    	
+    	if (direction < 0) {
+    		right = acceleration;
+    		left = acceleration * ((2 * (1 - Math.abs(direction))) - 1); 
+    	} else if (direction > 0) {
+    		left = acceleration;
+    		right = acceleration * ((2 * (1 - Math.abs(direction))) - 1); 
+    	}
+    	
+	    left1.set(ControlMode.PercentOutput, left);
+			left2.set(ControlMode.PercentOutput, left);
+		right1.set(ControlMode.PercentOutput, right);
+			right2.set(ControlMode.PercentOutput, right);
     }
     
     /** configures the voltage of each CANTalon */

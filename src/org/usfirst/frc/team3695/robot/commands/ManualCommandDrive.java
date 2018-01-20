@@ -16,7 +16,7 @@ public class ManualCommandDrive extends Command {
     }
 
     protected void execute() {
-    	Robot.SUB_DRIVE.driveTank(OI.DRIVER);
+    	Robot.SUB_DRIVE.driveForza(OI.DRIVER);
     }
 
     protected boolean isFinished() {
