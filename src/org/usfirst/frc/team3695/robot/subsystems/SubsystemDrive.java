@@ -45,6 +45,16 @@ public class SubsystemDrive extends Subsystem {
     /** converts distance traveled in inches to rotations */
     public static final double in2rot(double in) {
     	return in / Constants.WHEEL_DIAMETER / Math.PI; }
+    
+    /** apply left motor invert */
+    public static final double leftify(double left) {
+		return left * (Constants.LEFT_MOTOR_INVERT ? -1.0 : 1.0);
+	}
+
+    /** apply right motor invert */
+	public static final double rightify(double right) {
+		return right * (Constants.RIGHT_MOTOR_INVERT ? -1.0 : 1.0);
+	}
 	
 	/** gives birth to the CANTalons */
     public SubsystemDrive(){
@@ -65,7 +75,7 @@ public class SubsystemDrive extends Subsystem {
     		//			  left2.set(left1.getDeviceID());
     }
     
-    /** simple drive code; independent rotation and acceleration */
+    /** simple rocket league drive code; independent rotation and acceleration */
     public void driveRLTank(Joystick joy) {
     	double adder = Xbox.RT(joy) - Xbox.LT(joy);
     	double left = adder + (Xbox.LEFT_X(joy) / 1.333333);
@@ -73,12 +83,12 @@ public class SubsystemDrive extends Subsystem {
     	
     	//Quick Truncate
     	left = (left > 1.0 ? 1.0 : (left < -1.0 ? -1.0 : left));
-    	right = -1 * (right > 1.0 ? 1.0 : (right < -1.0 ? -1.0 : right));
+    	right = (right > 1.0 ? 1.0 : (right < -1.0 ? -1.0 : right));
     	    	
-    	left1.set(ControlMode.PercentOutput, left);
-    		left2.set(ControlMode.PercentOutput, left);
-    	right1.set(ControlMode.PercentOutput, right);
-    		right2.set(ControlMode.PercentOutput, right);
+    	left1.set(ControlMode.PercentOutput, leftify(left));
+    		left2.set(ControlMode.PercentOutput, leftify(left));
+    	right1.set(ControlMode.PercentOutput, rightify(right));
+    		right2.set(ControlMode.PercentOutput, rightify(right));
     	
     }
     
@@ -87,20 +97,19 @@ public class SubsystemDrive extends Subsystem {
     	double left = 0, 
     		   right = 0;
     	double acceleration = Xbox.RT(joy) - Xbox.LT(joy);
-    	double direction = Xbox.LEFT_X(joy);
     	
-    	if (direction < 0) {
+    	if (Xbox.LEFT_X(joy) < 0) {
     		right = acceleration;
-    		left = acceleration * ((2 * (1 - Math.abs(direction))) - 1); 
-    	} else if (direction > 0) {
+    		left = acceleration * ((2 * (1 - Math.abs(Xbox.LEFT_X(joy)))) - 1); 
+    	} else if (Xbox.LEFT_X(joy) > 0) {
     		left = acceleration;
-    		right = acceleration * ((2 * (1 - Math.abs(direction))) - 1); 
+    		right = acceleration * ((2 * (1 - Math.abs(Xbox.LEFT_X(joy)))) - 1); 
     	}
     	
-	    left1.set(ControlMode.PercentOutput, left);
-			left2.set(ControlMode.PercentOutput, left);
-		right1.set(ControlMode.PercentOutput, right);
-			right2.set(ControlMode.PercentOutput, right);
+	    left1.set(ControlMode.PercentOutput, leftify(left));
+			left2.set(ControlMode.PercentOutput, leftify(left));
+		right1.set(ControlMode.PercentOutput, rightify(right));
+			right2.set(ControlMode.PercentOutput, rightify(right));
     }
     
     /** configures the voltage of each CANTalon */

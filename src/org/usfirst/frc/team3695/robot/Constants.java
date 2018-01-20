@@ -21,4 +21,7 @@ public class Constants {
 		/// CAMERA SPECS
 			CAM_HEIGHT = 1080,
 			CAM_WIDTH = 1920;
+
+	public static final boolean LEFT_MOTOR_INVERT  = false,
+								RIGHT_MOTOR_INVERT = true;
 }
