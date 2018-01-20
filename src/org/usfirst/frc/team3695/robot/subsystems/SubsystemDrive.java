@@ -63,10 +63,7 @@ public class SubsystemDrive extends Subsystem {
     	
     	// slaves
 	    	left2 = new TalonSRX(Constants.LEFT_SLAVE);
-	    	right2 = new TalonSRX(Constants.RIGHT_SLAVE);
-	    	
-	    
-	    	
+	    	right2 = new TalonSRX(Constants.RIGHT_SLAVE); 	
     }
     
     /** simple rocket league drive code; independent rotation and acceleration */

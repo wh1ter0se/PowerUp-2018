@@ -28,7 +28,7 @@ public class Robot extends IterativeRobot {
 		public static OI oi;
 		
 	public static Vision vision;
-	// public static I2C i2c;
+	public static I2C i2c;
 
 		
 	/// autonomous
@@ -45,7 +45,7 @@ public class Robot extends IterativeRobot {
 			SUB_DRIVE = new SubsystemDrive();
 			SUB_MANIPULATOR = new SubsystemManipulator();
 			vision = new Vision();
-			// i2c = new I2C(I2C.Port.kOnboard, Constants.I2C_DEVICE_ADDRESS);
+			i2c = new I2C(I2C.Port.kOnboard, Constants.I2C_DEVICE_ADDRESS);
 		/// instantiate operator interface
 			OI.ye();
 		

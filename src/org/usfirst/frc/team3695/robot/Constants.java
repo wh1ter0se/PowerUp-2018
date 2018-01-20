@@ -30,7 +30,9 @@ public class Constants {
 	public static final int
 		/// CAMERA SPECS
 			CAM_HEIGHT = 1080,
-			CAM_WIDTH = 1920;
+			CAM_WIDTH = 1920,
+		/// I2C
+			I2C_DEVICE_ADDRESS = 0;
 
 	public static final boolean 
 			LEFT_MOTOR_INVERT  = false,
