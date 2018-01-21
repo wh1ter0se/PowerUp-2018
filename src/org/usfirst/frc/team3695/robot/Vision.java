@@ -25,6 +25,7 @@ public class Vision extends IterativeRobot {
     void startCameraThread(){
         //Places the vision in a separate thread from everything else as recommended by FIRST.
         new Thread(this::concatCameraStream).start();
+
     }
 
     /**
@@ -32,7 +33,7 @@ public class Vision extends IterativeRobot {
      * to an output stream titled Concat.
      * This method should only be used for starting the camera stream.
      */
-    private void concatCameraStream() {
+        private void concatCameraStream() {
         cameraLeft = CameraServer.getInstance().startAutomaticCapture("Left", 0);
         cameraRight = CameraServer.getInstance().startAutomaticCapture("Right", 1);
 
