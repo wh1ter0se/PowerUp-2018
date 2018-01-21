@@ -1,5 +1,7 @@
+
 package org.usfirst.frc.team3695.robot;
 
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -9,6 +11,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team3695.robot.auto.CommandGroupAuto;
 import org.usfirst.frc.team3695.robot.enumeration.Autonomous;
 import org.usfirst.frc.team3695.robot.subsystems.SubsystemDrive;
+import org.usfirst.frc.team3695.robot.subsystems.SubsystemManipulator;
+import org.usfirst.frc.team3695.robot.subsystems.SubsystemMast;
 
 /** the magic place where everything happens (where the sequence of events is controlled, top of the hierarchy) */
 public class Robot extends IterativeRobot {
@@ -20,8 +24,12 @@ public class Robot extends IterativeRobot {
 		
 	/// subsystems
 		public static SubsystemDrive SUB_DRIVE;
+		public static SubsystemManipulator SUB_MANIPULATOR;
+		public static SubsystemMast SUB_MAST;
 		public static OI oi;
-		// add subsystems as needed
+		
+	public static Vision vision;
+	public static I2C i2c;
 
 		
 	/// autonomous
@@ -32,11 +40,15 @@ public class Robot extends IterativeRobot {
 		
 	/** runs when robot is turned on */
 	public void robotInit() {
-		/// instantiate operator interface
-			OI.ye();
+		
 			
 		/// instantiate subsystems
 			SUB_DRIVE = new SubsystemDrive();
+			SUB_MANIPULATOR = new SubsystemManipulator();
+			vision = new Vision();
+			i2c = new I2C(I2C.Port.kOnboard, Constants.I2C_DEVICE_ADDRESS);
+		/// instantiate operator interface
+			OI.ye();
 		
 		/// instantiate autonomous chooser
 			autoChooser = new SendableChooser<>();
@@ -44,6 +56,9 @@ public class Robot extends IterativeRobot {
 			for(int i = 1; i < Autonomous.values().length; i++) { 
 				autoChooser.addObject(Autonomous.values()[i].toString(), Autonomous.values()[i]); } // add each autonomous enum value to chooser
 			SmartDashboard.putData("Auto Mode", autoChooser); //display the chooser on the dash
+
+		/// instantiate cameras
+			// vision.startCameraThread();
 	}
 
 	
@@ -90,3 +105,4 @@ public class Robot extends IterativeRobot {
 		LiveWindow.run(); 
 	}
 }
+

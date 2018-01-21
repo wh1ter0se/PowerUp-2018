@@ -5,6 +5,7 @@ import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
 
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 
 import org.opencv.core.Core;
@@ -21,9 +22,10 @@ public class Vision extends IterativeRobot {
     private UsbCamera cameraLeft;
     private UsbCamera cameraRight;
 
-    void startCameraStream(){
+    void startCameraThread(){
         //Places the vision in a separate thread from everything else as recommended by FIRST.
-        new Thread(this::concatStreamStart).start();
+        new Thread(this::concatCameraStream).start();
+
     }
 
     /**
@@ -31,7 +33,7 @@ public class Vision extends IterativeRobot {
      * to an output stream titled Concat.
      * This method should only be used for starting the camera stream.
      */
-    private void concatStreamStart() {
+        private void concatCameraStream() {
         cameraLeft = CameraServer.getInstance().startAutomaticCapture("Left", 0);
         cameraRight = CameraServer.getInstance().startAutomaticCapture("Right", 1);
 
