@@ -2,6 +2,7 @@ package org.usfirst.frc.team3695.robot.commands;
 
 import org.usfirst.frc.team3695.robot.OI;
 import org.usfirst.frc.team3695.robot.Robot;
+import org.usfirst.frc.team3695.robot.util.Util;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -13,13 +14,10 @@ public class ManualCommandDrive extends Command {
     }
 
     protected void initialize() {
-    	Robot.SUB_DRIVE.OFFSET = 0;
-    	Robot.SUB_DRIVE.METADIRECTION = 0;
-    	Robot.SUB_DRIVE.IN_DRIFT = false;
     }
 
     protected void execute() {
-    	Robot.SUB_DRIVE.driftDrive(OI.DRIVER);
+    	Robot.SUB_DRIVE.driveForza(OI.DRIVER, Util.getAndSetDouble("Ramp", .5));
     }
 
     protected boolean isFinished() {

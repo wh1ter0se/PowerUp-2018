@@ -1,13 +1,19 @@
 package org.usfirst.frc.team3695.robot;
 
+import org.usfirst.frc.team3695.robot.commands.ButtonCommandEat;
+import org.usfirst.frc.team3695.robot.commands.ButtonCommandSpit;
+import org.usfirst.frc.team3695.robot.enumeration.Direction;
+import org.usfirst.frc.team3695.robot.util.Xbox;
+
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /** the output/input setup */
 public class OI {
 	
 	public static final Joystick DRIVER = new Joystick(0);
 	public static final Joystick OPERATOR = new Joystick(1);
-	
 	
 	/** 
 	 * assigns what every SmartDash and controller button does
@@ -16,7 +22,10 @@ public class OI {
 	 * still in ye(), below controller value assigns, place each SmartDash button
 	 * */
 	public static void ye() { // see footer for name explanation
-		
+		Button spinIn = new JoystickButton(DRIVER, Xbox.LB);
+			spinIn.whileHeld(new ButtonCommandEat());
+		Button spinOut = new JoystickButton(DRIVER, Xbox.RB);
+			spinOut.whileHeld(new ButtonCommandSpit());
 	}
 }
 /************************
