@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3695.robot;
 
+import org.usfirst.frc.team3695.robot.commands.ButtonCommandClamp;
 import org.usfirst.frc.team3695.robot.commands.ButtonCommandEat;
 import org.usfirst.frc.team3695.robot.commands.ButtonCommandSpit;
 import org.usfirst.frc.team3695.robot.enumeration.Direction;
@@ -22,12 +23,19 @@ public class OI {
 	 * still in ye(), below controller value assigns, place each SmartDash button
 	 * */
 	public static void ye() { // see footer for name explanation
-		Button spinIn = new JoystickButton(DRIVER, Xbox.LB);
-			spinIn.whileHeld(new ButtonCommandEat());
-		Button spinOut = new JoystickButton(DRIVER, Xbox.RB);
-			spinOut.whileHeld(new ButtonCommandSpit());
+		/// manipulator wheels
+			Button spinIn = new JoystickButton(DRIVER, Xbox.LB);
+				spinIn.whileHeld(new ButtonCommandEat());
+			Button spinOut = new JoystickButton(DRIVER, Xbox.RB);
+				spinOut.whileHeld(new ButtonCommandSpit());
+		/// manipulator clamp
+			Button toggleClamp = new JoystickButton(OPERATOR, Xbox.RB);
+				toggleClamp.toggleWhenActive(new ButtonCommandClamp());
 	}
 }
+
+
+
 /************************
  * [Colton and AJ discussing why OI was instantiated but never used in 2017's Robot.java]
  * 		(it's because all of the setup was in the constructor, not a method)
