@@ -10,10 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team3695.robot.auto.CommandGroupAuto;
 import org.usfirst.frc.team3695.robot.enumeration.Autonomous;
-import org.usfirst.frc.team3695.robot.subsystems.SubsystemClamp;
-import org.usfirst.frc.team3695.robot.subsystems.SubsystemDrive;
-import org.usfirst.frc.team3695.robot.subsystems.SubsystemManipulator;
-import org.usfirst.frc.team3695.robot.subsystems.SubsystemMast;
+import org.usfirst.frc.team3695.robot.subsystems.*;
 
 /** the magic place where everything happens (where the sequence of events is controlled, top of the hierarchy) */
 public class Robot extends IterativeRobot {
@@ -28,8 +25,8 @@ public class Robot extends IterativeRobot {
 		public static SubsystemDrive SUB_DRIVE;
 		public static SubsystemManipulator SUB_MANIPULATOR;
 		public static SubsystemMast SUB_MAST;
+		public static SubsystemArduino SUB_ARDUINO;
 		
-		public static I2C i2c;
 		public static OI oi;
 		public static Vision vision;
 
@@ -49,8 +46,8 @@ public class Robot extends IterativeRobot {
 			SUB_DRIVE = new SubsystemDrive();
 			SUB_MANIPULATOR = new SubsystemManipulator();
 			SUB_MAST = new SubsystemMast();
+			SUB_ARDUINO = new SubsystemArduino();
 			vision = new Vision();
-			i2c = new I2C(I2C.Port.kOnboard, Constants.I2C_DEVICE_ADDRESS);
 		/// instantiate operator interface
 			OI.ye();
 		
