@@ -22,16 +22,29 @@ public class OI {
 	 * ye() gets called at teleop enable, assigning button values to controller input
 	 * still in ye(), below controller value assigns, place each SmartDash button
 	 * */
+	public OI() {
+		/// manipulator wheels
+		Button spinIn = new JoystickButton(OPERATOR, Xbox.LB);
+			spinIn.whileHeld(new ButtonCommandEat());
+		Button spinOut = new JoystickButton(OPERATOR, Xbox.RB);
+			spinOut.whileHeld(new ButtonCommandSpit());
+	/// manipulator clamp
+		Button toggleClamp = new JoystickButton(OPERATOR, Xbox.RB);
+			toggleClamp.toggleWhenActive(new ButtonCommandClamp());
+	}
+	
+	/**
 	public static void ye() { // see footer for name explanation
 		/// manipulator wheels
-			Button spinIn = new JoystickButton(DRIVER, Xbox.LB);
+			Button spinIn = new JoystickButton(OPERATOR, Xbox.LB);
 				spinIn.whileHeld(new ButtonCommandEat());
-			Button spinOut = new JoystickButton(DRIVER, Xbox.RB);
+			Button spinOut = new JoystickButton(OPERATOR, Xbox.RB);
 				spinOut.whileHeld(new ButtonCommandSpit());
 		/// manipulator clamp
 			Button toggleClamp = new JoystickButton(OPERATOR, Xbox.RB);
 				toggleClamp.toggleWhenActive(new ButtonCommandClamp());
 	}
+	*/
 }
 
 

@@ -20,11 +20,11 @@ public class Constants {
 			LEFT_MASTER = 2,
 				LEFT_SLAVE = 3,
 		/// MANIPULATOR SPINNY BOIS
-			LEFT_ARM = 4,
-			RIGHT_ARM = 5,
+			LEFT_ARM = 6,
+			RIGHT_ARM = 7,
 		/// MAST MOTORS
-			PINION_MOTOR = 6,
-			SCREW_MOTOR = 7;
+			PINION_MOTOR = 4,
+			SCREW_MOTOR = 5;
 			
 	
 	public static final int
@@ -41,7 +41,9 @@ public class Constants {
 			LEFT_MOTOR_INVERT  = false,
 			RIGHT_MOTOR_INVERT = true,
 			PINION_MOTOR_INVERT = false,
-			SCREW_MOTOR_INVERT = false;
+			SCREW_MOTOR_INVERT = true,
+			LEFT_ARM_MOTOR_INVERT = true,
+			RIGHT_ARM_MOTOR_INVERT = false;
 
 
 
