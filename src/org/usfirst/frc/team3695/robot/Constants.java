@@ -23,8 +23,8 @@ public class Constants {
 			LEFT_ARM = 6,
 			RIGHT_ARM = 7,
 		/// MAST MOTORS
-			PINION_MOTOR = 4,
-			SCREW_MOTOR = 5;
+			LEFT_PINION_MOTOR = 4,
+			RIGHT_PINION_MOTOR = 5;
 			
 	
 	public static final int
