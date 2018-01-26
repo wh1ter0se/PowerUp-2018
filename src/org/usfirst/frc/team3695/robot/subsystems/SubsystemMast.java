@@ -19,8 +19,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class SubsystemMast extends Subsystem {
 	
 	
-	private TalonSRX pinionMast;
-	private TalonSRX screwMast;
+	private TalonSRX leftPinion;
+	private TalonSRX rightPinion;
 
 	
 	/** runs at robot boot */
@@ -29,8 +29,10 @@ public class SubsystemMast extends Subsystem {
 	
 	/** gives birth to the CANTalons */
     public SubsystemMast(){
-    	pinionMast = new TalonSRX(Constants.PINION_MOTOR);
-    	screwMast = new TalonSRX(Constants.SCREW_MOTOR);
+    	leftPinion = new TalonSRX(Constants.LEFT_PINION_MOTOR);
+    	rightPinion = new TalonSRX(Constants.RIGHT_PINION_MOTOR);
+    	//voltage(leftPinion);
+    	//voltage(rightPinion);
     }
     
     /** apply screw motor invert */
@@ -46,8 +48,8 @@ public class SubsystemMast extends Subsystem {
    	/** raise the mast at RT-LR trigger speed */
     public void moveBySpeed(Joystick joy) {
     	double speed = Xbox.RT(joy) - Xbox.LT(joy);
-    	pinionMast.set(ControlMode.PercentOutput, pinionate(speed));
-    	screwMast.set(ControlMode.PercentOutput, screwify(speed));
+    	leftPinion.set(ControlMode.PercentOutput, pinionate(speed));
+    	rightPinion.set(ControlMode.PercentOutput, screwify(speed));
     }
 
     /** configures the voltage of each CANTalon */
@@ -55,7 +57,7 @@ public class SubsystemMast extends Subsystem {
     	// talon.configNominalOutputVoltage(0f, 0f);
     	// talon.configPeakOutputVoltage(12.0f, -12.0f);
     	// talon.enableCurrentLimit(true);
-    	// talon.configContinuousCurrentLimit(30, 3000);
+    	talon.configContinuousCurrentLimit(35, 300);
     }
     
     

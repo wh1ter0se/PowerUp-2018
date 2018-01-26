@@ -19,7 +19,7 @@ public class ButtonCommandClamp extends Command {
     }
 
     protected void initialize() {
-    	Robot.SUB_CLAMP.openArms();
+    	//Robot.SUB_CLAMP.openArms();
     }
 
     protected void execute() {}
@@ -29,7 +29,7 @@ public class ButtonCommandClamp extends Command {
     }
 
     protected void end() {
-    	Robot.SUB_CLAMP.closeArms();
+    	///Robot.SUB_CLAMP.closeArms();
     }
 
     protected void interrupted() {

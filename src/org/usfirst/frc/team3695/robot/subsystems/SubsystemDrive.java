@@ -63,7 +63,12 @@ public class SubsystemDrive extends Subsystem {
     	
     	// slaves
 	    	left2 = new TalonSRX(Constants.LEFT_SLAVE);
-	    	right2 = new TalonSRX(Constants.RIGHT_SLAVE); 	
+	    	right2 = new TalonSRX(Constants.RIGHT_SLAVE);
+	    	
+	    	//voltage(left1);
+	    	//voltage(left2);
+	    	//voltage(right1);
+	    	//voltage(right2);
     }
     
     /** simple rocket league drive code; independent rotation and acceleration */
@@ -117,7 +122,7 @@ public class SubsystemDrive extends Subsystem {
     	// talon.configNominalOutputVoltage(0f, 0f);
     	// talon.configPeakOutputVoltage(12.0f, -12.0f);
     	// talon.enableCurrentLimit(true);
-    	// talon.configContinuousCurrentLimit(30, 3000);
+    	// talon.configContinuousCurrentLimit(35, 300);
     }
     
     

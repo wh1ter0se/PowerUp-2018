@@ -20,7 +20,16 @@ public class SubsystemManipulator extends Subsystem {
 	
 	private TalonSRX armLeft;
 	private TalonSRX armRight;
-
+	
+	/** applies left arm motor invert */
+	public static final double leftArmify(double left) {
+		return left * (Constants.LEFT_ARM_MOTOR_INVERT ? -1.0 : 1.0);
+	}
+	
+	/** applies right arm motor invert */
+	public static final double rightArmify(double right) {
+		return right * (Constants.RIGHT_ARM_MOTOR_INVERT ? -1.0 : 1.0);
+	}
 	
 	/** runs at robot boot */
     public void initDefaultCommand() {}
@@ -28,20 +37,20 @@ public class SubsystemManipulator extends Subsystem {
 	/** gives birth to the CANTalons */
     public SubsystemManipulator(){
     	armLeft = new TalonSRX(Constants.LEFT_ARM);
-    	armRight = new TalonSRX(Constants.LEFT_ARM);
+    	armRight = new TalonSRX(Constants.RIGHT_ARM);
     }
     
     /** eat the power cube */
     public void eat(double speed) {
     	speed *= -1;
-    	armLeft.set(ControlMode.PercentOutput, speed);
-    	armRight.set(ControlMode.PercentOutput, speed);
+    	armLeft.set(ControlMode.PercentOutput, leftArmify(speed));
+    	armRight.set(ControlMode.PercentOutput, rightArmify(speed));
     }
     
     /** spit out the power cube */
     public void spit(double speed) {
-    	armLeft.set(ControlMode.PercentOutput, speed);
-    	armRight.set(ControlMode.PercentOutput, speed);
+    	armLeft.set(ControlMode.PercentOutput, leftArmify(speed));
+    	armRight.set(ControlMode.PercentOutput, rightArmify(speed));
     }
     
     /** STOP SPINNING ME RIGHT ROUND, BABY RIGHT ROUND */
