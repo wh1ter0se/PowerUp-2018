@@ -15,11 +15,10 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class SubsystemDrive extends Subsystem {
 	
 	
-	
 	private TalonSRX left1;
 	private TalonSRX left2;
-    private TalonSRX right1;
-    private TalonSRX right2;
+	private TalonSRX right1;
+	private TalonSRX right2;
 
 	
 	/** runs at robot boot */
@@ -58,21 +57,18 @@ public class SubsystemDrive extends Subsystem {
 	
 	/** gives birth to the CANTalons */
     public SubsystemDrive(){
-    	//Master Talons
+    	// masters
 	    	left1 = new TalonSRX(Constants.LEFT_MASTER);
 	    	right1 = new TalonSRX(Constants.RIGHT_MASTER);
     	
-    	//Slave Talons
+    	// slaves
 	    	left2 = new TalonSRX(Constants.LEFT_SLAVE);
 	    	right2 = new TalonSRX(Constants.RIGHT_SLAVE);
-    	// call voltage for each instantiated CANTalon
-    		// EX: voltage(left1);
-    	// train each CANTalon
-    		// master EX: left1.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Relative);
-    		//			  left1.setEncPosition(0);
-    		//			  left1.reverseSensor(false);
-    		// slave EX:  left2.changeControlMode(CANTalon.TalonControlMode.Follower);
-    		//			  left2.set(left1.getDeviceID());
+	    	
+	    	//voltage(left1);
+	    	//voltage(left2);
+	    	//voltage(right1);
+	    	//voltage(right2);
     }
     
     /** simple rocket league drive code; independent rotation and acceleration */
@@ -93,7 +89,7 @@ public class SubsystemDrive extends Subsystem {
     }
     
     /** drive code where rotation is dependent on acceleration */
-    public void driveForza(Joystick joy) {
+    public void driveForza(Joystick joy, double ramp) {
     	double left = 0, 
     		   right = 0;
     	double acceleration = Xbox.RT(joy) - Xbox.LT(joy);
@@ -104,7 +100,16 @@ public class SubsystemDrive extends Subsystem {
     	} else if (Xbox.LEFT_X(joy) > 0) {
     		left = acceleration;
     		right = acceleration * ((2 * (1 - Math.abs(Xbox.LEFT_X(joy)))) - 1); 
+    	} else {
+    		left = acceleration;
+    		right = acceleration;
     	}
+    	
+    	/// ramps
+	    	left1.configOpenloopRamp(ramp, 0);
+	    		left2.configOpenloopRamp(ramp, 0);
+	    	right1.configOpenloopRamp(ramp, 0);
+	    		right2.configOpenloopRamp(ramp, 0);
     	
 	    left1.set(ControlMode.PercentOutput, leftify(left));
 			left2.set(ControlMode.PercentOutput, leftify(left));
@@ -117,7 +122,7 @@ public class SubsystemDrive extends Subsystem {
     	// talon.configNominalOutputVoltage(0f, 0f);
     	// talon.configPeakOutputVoltage(12.0f, -12.0f);
     	// talon.enableCurrentLimit(true);
-    	// talon.configContinuousCurrentLimit(30, 3000);
+    	// talon.configContinuousCurrentLimit(35, 300);
     }
     
     
