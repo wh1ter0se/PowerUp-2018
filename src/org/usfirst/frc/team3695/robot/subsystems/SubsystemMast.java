@@ -31,8 +31,8 @@ public class SubsystemMast extends Subsystem {
     public SubsystemMast(){
     	leftPinion = new TalonSRX(Constants.LEFT_PINION_MOTOR);
     	rightPinion = new TalonSRX(Constants.RIGHT_PINION_MOTOR);
-    	voltage(leftPinion);
-    	voltage(rightPinion);
+    	//voltage(leftPinion);
+    	//voltage(rightPinion);
     }
     
     /** apply screw motor invert */

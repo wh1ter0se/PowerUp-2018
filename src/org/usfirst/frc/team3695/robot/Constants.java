@@ -32,7 +32,7 @@ public class Constants {
 			CAM_HEIGHT = 1080,
 			CAM_WIDTH = 1920,
 		/// I2C
-			I2C_DEVICE_ADDRESS = 0,
+			I2C_DEVICE_ADDRESS = 4,
 		/// MANIPULATOR
 			OPEN_ARMS = 0,
 			CLOSE_ARMS = 1;

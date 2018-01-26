@@ -44,7 +44,7 @@ public class Robot extends IterativeRobot {
 		
 	/** runs when robot is turned on */
 	public void robotInit() {
-//			SUB_ARDUINO = new SubsystemArduino();
+			SUB_ARDUINO = new SubsystemArduino();
 			
 		/// instantiate subsystems
 			SUB_CLAMP = new SubsystemClamp();
