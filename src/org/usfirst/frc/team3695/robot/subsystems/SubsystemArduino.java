@@ -16,16 +16,18 @@ public class SubsystemArduino extends Subsystem {
     public SubsystemArduino() {
         i2c = new I2C(I2C.Port.kOnboard, Constants.I2C_DEVICE_ADDRESS);
         toSend = new byte[1];
+//        test();
     }
 
-    public void test0(){
+    void test(){
+        while (true){
             toSend[0] = 76;
-            i2c.transaction(toSend, 1, toSend, 0);
-    }
-    
-    public void test1() {
-    	toSend[0] = 72;
-        i2c.transaction(toSend, 1, toSend, 0);
+            i2c.transaction(toSend, 1, null, 0);
+            Timer.delay(1);
+            toSend[0] = 72;
+            i2c.transaction(toSend, 1, null, 0);
+            Timer.delay(1);
+        }
     }
 
 
