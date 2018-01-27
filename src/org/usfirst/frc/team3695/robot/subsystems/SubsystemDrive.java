@@ -15,10 +15,10 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class SubsystemDrive extends Subsystem {
 	
 	
-	private TalonSRX left1;
-	private TalonSRX left2;
-	private TalonSRX right1;
-	private TalonSRX right2;
+	//private TalonSRX left1;
+	//private TalonSRX left2;
+	//private TalonSRX right1;
+	//private TalonSRX right2;
 
 	
 	/** runs at robot boot */
@@ -58,12 +58,12 @@ public class SubsystemDrive extends Subsystem {
 	/** gives birth to the CANTalons */
     public SubsystemDrive(){
     	// masters
-	    	left1 = new TalonSRX(Constants.LEFT_MASTER);
-	    	right1 = new TalonSRX(Constants.RIGHT_MASTER);
+	  //  	left1 = new TalonSRX(Constants.LEFT_MASTER);
+	  //  	right1 = new TalonSRX(Constants.RIGHT_MASTER);
     	
     	// slaves
-	    	left2 = new TalonSRX(Constants.LEFT_SLAVE);
-	    	right2 = new TalonSRX(Constants.RIGHT_SLAVE);
+	    //	left2 = new TalonSRX(Constants.LEFT_SLAVE);
+	    //	right2 = new TalonSRX(Constants.RIGHT_SLAVE);
 	    	
 	    	//voltage(left1);
 	    	//voltage(left2);
@@ -81,10 +81,10 @@ public class SubsystemDrive extends Subsystem {
     	left = (left > 1.0 ? 1.0 : (left < -1.0 ? -1.0 : left));
     	right = (right > 1.0 ? 1.0 : (right < -1.0 ? -1.0 : right));
     	    	
-    	left1.set(ControlMode.PercentOutput, leftify(left));
-    		left2.set(ControlMode.PercentOutput, leftify(left));
-    	right1.set(ControlMode.PercentOutput, rightify(right));
-    		right2.set(ControlMode.PercentOutput, rightify(right));
+    	//left1.set(ControlMode.PercentOutput, leftify(left));
+    	//	left2.set(ControlMode.PercentOutput, leftify(left));
+    	//right1.set(ControlMode.PercentOutput, rightify(right));
+    	//	right2.set(ControlMode.PercentOutput, rightify(right));
     	
     }
     
@@ -106,15 +106,15 @@ public class SubsystemDrive extends Subsystem {
     	}
     	
     	/// ramps
-	    	left1.configOpenloopRamp(ramp, 0);
-	    		left2.configOpenloopRamp(ramp, 0);
-	    	right1.configOpenloopRamp(ramp, 0);
-	    		right2.configOpenloopRamp(ramp, 0);
+	    //	left1.configOpenloopRamp(ramp, 0);
+	    //		left2.configOpenloopRamp(ramp, 0);
+	    //	right1.configOpenloopRamp(ramp, 0);
+	    //		right2.configOpenloopRamp(ramp, 0);
     	
-	    left1.set(ControlMode.PercentOutput, leftify(left));
-			left2.set(ControlMode.PercentOutput, leftify(left));
-		right1.set(ControlMode.PercentOutput, rightify(right));
-			right2.set(ControlMode.PercentOutput, rightify(right));
+	    //left1.set(ControlMode.PercentOutput, leftify(left));
+		//	left2.set(ControlMode.PercentOutput, leftify(left));
+		//right1.set(ControlMode.PercentOutput, rightify(right));
+		//	right2.set(ControlMode.PercentOutput, rightify(right));
     }
     
     /** configures the voltage of each CANTalon */

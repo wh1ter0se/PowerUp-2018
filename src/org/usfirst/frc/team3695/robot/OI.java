@@ -3,8 +3,6 @@ package org.usfirst.frc.team3695.robot;
 import org.usfirst.frc.team3695.robot.commands.ButtonCommandClamp;
 import org.usfirst.frc.team3695.robot.commands.ButtonCommandEat;
 import org.usfirst.frc.team3695.robot.commands.ButtonCommandSpit;
-import org.usfirst.frc.team3695.robot.commands.CommandArduinoTest0;
-import org.usfirst.frc.team3695.robot.commands.CommandArduinoTest1;
 import org.usfirst.frc.team3695.robot.enumeration.Direction;
 import org.usfirst.frc.team3695.robot.util.Xbox;
 
@@ -34,9 +32,6 @@ public class OI {
 		/// manipulator clamp
 			Button toggleClamp = new JoystickButton(OPERATOR, Xbox.RB);
 				toggleClamp.toggleWhenActive(new ButtonCommandClamp());
-		/// arduino tests
-				SmartDashboard.putData("Test 0", new CommandArduinoTest0());
-				SmartDashboard.putData("Test 1", new CommandArduinoTest1());
 	}
 	
 	/**
