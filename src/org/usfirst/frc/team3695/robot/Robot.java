@@ -52,7 +52,6 @@ public class Robot extends IterativeRobot {
 			SUB_MANIPULATOR = new SubsystemManipulator();
 			SUB_MAST = new SubsystemMast();
 			vision = new Vision();
-//			i2c = new I2C(I2C.Port.kOnboard, Constants.I2C_DEVICE_ADDRESS);
 		/// instantiate operator interface
 			oi = new OI();
 		

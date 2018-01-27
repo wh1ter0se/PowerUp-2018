@@ -18,8 +18,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class SubsystemManipulator extends Subsystem {
 	
 	
-	private TalonSRX armLeft;
-	private TalonSRX armRight;
+	//private TalonSRX armLeft;
+	//private TalonSRX armRight;
 	
 	/** applies left arm motor invert */
 	public static final double leftArmify(double left) {
@@ -36,27 +36,27 @@ public class SubsystemManipulator extends Subsystem {
 	
 	/** gives birth to the CANTalons */
     public SubsystemManipulator(){
-    	armLeft = new TalonSRX(Constants.LEFT_ARM);
-    	armRight = new TalonSRX(Constants.RIGHT_ARM);
+    //	armLeft = new TalonSRX(Constants.LEFT_ARM);
+    //	armRight = new TalonSRX(Constants.RIGHT_ARM);
     }
     
     /** eat the power cube */
     public void eat(double speed) {
     	speed *= -1;
-    	armLeft.set(ControlMode.PercentOutput, leftArmify(speed));
-    	armRight.set(ControlMode.PercentOutput, rightArmify(speed));
+    //	armLeft.set(ControlMode.PercentOutput, leftArmify(speed));
+    //	armRight.set(ControlMode.PercentOutput, rightArmify(speed));
     }
     
     /** spit out the power cube */
     public void spit(double speed) {
-    	armLeft.set(ControlMode.PercentOutput, leftArmify(speed));
-    	armRight.set(ControlMode.PercentOutput, rightArmify(speed));
+    //	armLeft.set(ControlMode.PercentOutput, leftArmify(speed));
+    //	armRight.set(ControlMode.PercentOutput, rightArmify(speed));
     }
     
     /** STOP SPINNING ME RIGHT ROUND, BABY RIGHT ROUND */
     public void stopSpinning() {
-    	armLeft.set(ControlMode.PercentOutput, 0);
-    	armRight.set(ControlMode.PercentOutput, 0);
+    //	armLeft.set(ControlMode.PercentOutput, 0);
+    //	armRight.set(ControlMode.PercentOutput, 0);
     }
 
     /** configures the voltage of each CANTalon */

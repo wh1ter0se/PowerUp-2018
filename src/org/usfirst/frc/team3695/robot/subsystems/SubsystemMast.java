@@ -19,8 +19,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class SubsystemMast extends Subsystem {
 	
 	
-	private TalonSRX leftPinion;
-	private TalonSRX rightPinion;
+	//private TalonSRX leftPinion;
+	//private TalonSRX rightPinion;
 
 	
 	/** runs at robot boot */
@@ -29,8 +29,8 @@ public class SubsystemMast extends Subsystem {
 	
 	/** gives birth to the CANTalons */
     public SubsystemMast(){
-    	leftPinion = new TalonSRX(Constants.LEFT_PINION_MOTOR);
-    	rightPinion = new TalonSRX(Constants.RIGHT_PINION_MOTOR);
+    //	leftPinion = new TalonSRX(Constants.LEFT_PINION_MOTOR);
+    //	rightPinion = new TalonSRX(Constants.RIGHT_PINION_MOTOR);
     	//voltage(leftPinion);
     	//voltage(rightPinion);
     }
@@ -48,8 +48,8 @@ public class SubsystemMast extends Subsystem {
    	/** raise the mast at RT-LR trigger speed */
     public void moveBySpeed(Joystick joy) {
     	double speed = Xbox.RT(joy) - Xbox.LT(joy);
-    	leftPinion.set(ControlMode.PercentOutput, pinionate(speed));
-    	rightPinion.set(ControlMode.PercentOutput, screwify(speed));
+    //	leftPinion.set(ControlMode.PercentOutput, pinionate(speed));
+    //	rightPinion.set(ControlMode.PercentOutput, screwify(speed));
     }
 
     /** configures the voltage of each CANTalon */
