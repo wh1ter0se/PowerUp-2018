@@ -1,10 +1,7 @@
 package org.usfirst.frc.team3695.robot.commands;
 
-import org.usfirst.frc.team3695.robot.Constants;
 import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.enumeration.Direction;
-import org.usfirst.frc.team3695.robot.util.Util;
-
 import edu.wpi.first.wpilibj.command.Command;
 
 /**

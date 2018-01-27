@@ -9,7 +9,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team3695.robot.auto.CommandGroupAuto;
 import org.usfirst.frc.team3695.robot.enumeration.Autonomous;
+import org.usfirst.frc.team3695.robot.subsystems.SubsystemArduino;
+import org.usfirst.frc.team3695.robot.subsystems.SubsystemClamp;
 import org.usfirst.frc.team3695.robot.subsystems.SubsystemDrive;
+import org.usfirst.frc.team3695.robot.subsystems.SubsystemManipulator;
+import org.usfirst.frc.team3695.robot.subsystems.SubsystemMast;
 
 /** the magic place where everything happens (where the sequence of events is controlled, top of the hierarchy) */
 public class Robot extends IterativeRobot {
@@ -19,7 +23,11 @@ public class Robot extends IterativeRobot {
 		// add choosers as needed, these put drop down options in the smart dash
 
 	/// subsystems
+		public static SubsystemArduino SUB_ARDUINO;
+		public static SubsystemClamp SUB_CLAMP;
 		public static SubsystemDrive SUB_DRIVE;
+		public static SubsystemManipulator SUB_MANIPULATOR;
+		public static SubsystemMast SUB_MAST;
 		public static OI oi;
 		public static Vision vision;
 		// add subsystems as needed
@@ -29,12 +37,13 @@ public class Robot extends IterativeRobot {
 		
 	/** runs when robot is turned on */
 	public void robotInit() {
-		/// instantiate operator interface
-			OI.ye();
-			
+
 		/// instantiate subsystems
 			SUB_DRIVE = new SubsystemDrive();
 			vision = new Vision();
+
+		/// instantiate operator interface
+			oi = new OI();
 
 		/// instantiate autonomous chooser
 			autoChooser = new SendableChooser<>();

@@ -2,27 +2,25 @@ package org.usfirst.frc.team3695.robot.commands;
 
 import org.usfirst.frc.team3695.robot.Constants;
 import org.usfirst.frc.team3695.robot.Robot;
-import org.usfirst.frc.team3695.robot.enumeration.Direction;
 import org.usfirst.frc.team3695.robot.util.Util;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * toggles the state of the clamp
+ * Send miscellaneous data to the arduino
  */
-public class CommandArduinoTest1 extends Command {
-	
-	Direction direction;
-	
-    public CommandArduinoTest1() {
-        requires(Robot.SUB_CLAMP);
+public class ArduinoCommandSendArbitraryData extends Command {
+		
+    public ArduinoCommandSendArbitraryData() {
+        requires(Robot.SUB_ARDUINO);
     }
 
-    protected void initialize() {
-    	Robot.SUB_ARDUINO.test1();
-    }
+    protected void initialize() {}
 
-    protected void execute() {}
+    protected void execute() {
+    	Util.getAndSetDouble("Arduino Data", 0);
+    }
 
     protected boolean isFinished() {
         return false;
