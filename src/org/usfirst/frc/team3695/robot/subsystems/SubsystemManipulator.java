@@ -58,6 +58,20 @@ public class SubsystemManipulator extends Subsystem {
     	armLeft.set(ControlMode.PercentOutput, 0);
     	armRight.set(ControlMode.PercentOutput, 0);
     }
+    
+    public void redline(double frequency) {
+    	
+    }
+    
+    
+    public double redlineCurveGenerator(double x) {
+    	// TODO simplify this; I just plugged our variables into the equation for this
+    	double y;
+    	y  = Constants.REDLINE_START * (((x - .5) * (x - 1))/(.5));
+    	y += Constants.REDLINE_MID * ((x * (x - 1))/(-.25));
+    	y += Constants.REDLINE_END * ((x * (x-.5))/(.5));
+    	return y;	
+    }
 
     /** configures the voltage of each CANTalon */
     private void voltage(TalonSRX talon) {

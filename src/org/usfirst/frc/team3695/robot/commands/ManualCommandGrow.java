@@ -9,17 +9,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /** move the mast */
 public class ManualCommandGrow extends Command {
 
-    DigitalInput lowerPinionLimit;
-    DigitalInput upperPinionLimit;
-    DigitalInput lowerScrewLimit;
-    DigitalInput upperScrewLimit;
-
+    
     public ManualCommandGrow() {
         requires(Robot.SUB_MAST);
-        lowerPinionLimit = new DigitalInput(1);
-        upperPinionLimit = new DigitalInput(2);
-        lowerScrewLimit = new DigitalInput(3);
-        upperScrewLimit = new DigitalInput(4);
     }
 
     protected void initialize() {
@@ -30,10 +22,7 @@ public class ManualCommandGrow extends Command {
     }
 
     protected boolean isFinished() {
-        return lowerPinionLimit.get() ||
-                upperPinionLimit.get() ||
-                lowerScrewLimit.get() ||
-                upperScrewLimit.get();
+        return false;
     }
 
     protected void end() {}

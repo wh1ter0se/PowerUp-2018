@@ -12,6 +12,7 @@ import com.ctre.CANTalon;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -22,6 +23,12 @@ public class SubsystemMast extends Subsystem {
 	private TalonSRX leftPinion;
 	private TalonSRX rightPinion;
 	private TalonSRX screw;
+	
+	DigitalInput lowerPinionLimit;
+    DigitalInput upperPinionLimit;
+    DigitalInput lowerScrewLimit;
+    DigitalInput midScrewLimit;
+    DigitalInput upperScrewLimit;
 
 	
 	/** runs at robot boot */
@@ -30,6 +37,12 @@ public class SubsystemMast extends Subsystem {
 	
 	/** gives birth to the CANTalons */
     public SubsystemMast(){
+    	lowerPinionLimit = new DigitalInput(1);
+        upperPinionLimit = new DigitalInput(2);
+        lowerScrewLimit  = new DigitalInput(3);
+        midScrewLimit    = new DigitalInput(4);
+        upperScrewLimit  = new DigitalInput(5);
+    	
     	leftPinion = new TalonSRX(Constants.LEFT_PINION_MOTOR);
     	rightPinion = new TalonSRX(Constants.RIGHT_PINION_MOTOR);
     	screw = new TalonSRX(Constants.SCREW_MOTOR);
@@ -55,10 +68,17 @@ public class SubsystemMast extends Subsystem {
     
    	/** raise the mast at RT-LR trigger speed */
     public void moveBySpeed(Joystick joy) {
-    	double speed = Xbox.RT(joy) - Xbox.LT(joy);
-    	leftPinion.set(ControlMode.PercentOutput, leftPinionate(speed));
-    	rightPinion.set(ControlMode.PercentOutput, rightPinionate(speed));
-    	screw.set(ControlMode.PercentOutput, screwify(speed));
+    	double screwSpeed = Xbox.RT(joy) - Xbox.LT(joy);
+    	double pinionSpeed = Xbox.RT(joy) - Xbox.LT(joy);
+    	
+    	if (lowerScrewLimit.get()  && screwSpeed  < 0)   { screwSpeed = 0;  }
+    	if (upperScrewLimit.get()  && screwSpeed  > 1)   { screwSpeed = 0;  }
+    	if (lowerPinionLimit.get() && pinionSpeed < 0)   { pinionSpeed = 0; }
+    	if (upperPinionLimit.get() && pinionSpeed > 1)   { pinionSpeed = 0; }
+    	
+    	leftPinion.set(ControlMode.PercentOutput, leftPinionate(screwSpeed));
+    	rightPinion.set(ControlMode.PercentOutput, rightPinionate(screwSpeed));
+    	screw.set(ControlMode.PercentOutput, screwify(pinionSpeed));
     }
 
     /** configures the voltage of each CANTalon */
