@@ -8,5 +8,6 @@ public class ArduinoConstants {
         RUNNING_RED = 4,
         RAINBOW_SLOW = 5,
         RAINBOW_FAST = 6,
+        //plz no
         RAINBOW_SONIC = 7;
 }
