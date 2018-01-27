@@ -20,7 +20,7 @@ public class ArduinoCommandSendArbitraryData extends Command {
     protected void initialize() {}
 
     protected void execute() {
-    	Robot.SUB_ARDUINO.sendArbitraryData((int)Util.getAndSetDouble("Arduino Data", 0));
+    	Robot.SUB_ARDUINO.sendData((int)Util.getAndSetDouble("Arduino Data", 0));
     }
 
     protected boolean isFinished() {

@@ -4,7 +4,9 @@ public class ArduinoConstants {
     public static final int
         BLUE = 1,
         RED = 2,
-        AUTONOMOUS = 3,
-        OPERATOR_CONTROL = 4,
-        DISABLED = 200;
+        RUNNING_BLUE = 3,
+        RUNNING_RED = 4,
+        RAINBOW_SLOW = 5,
+        RAINBOW_FAST = 6,
+        RAINBOW_SONIC = 7;
 }

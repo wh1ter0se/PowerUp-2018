@@ -20,38 +20,30 @@ public class SubsystemArduino extends Subsystem {
         toSend = new byte[1];
     }
 
-    private void sendData(int data){
+    public void sendData(int data){
     	toSend[0] = (byte)data;
     	i2c.transaction(toSend, 1, null, 0);
     }
 
-    private byte[] recieveData(int request, int size){
+    public byte[] recieveData(int request, int size){
         byte[] recieved = new byte[size];
         toSend[0] = (byte)request;
         i2c.transaction(toSend, 1, recieved, size);
         return recieved;
-    }
-    
-    /** 
-     * For testing purposes only. Do not send data to the arduino through this.
-     * */
-    public void sendArbitraryData(int data){
-    	toSend[0] = (byte)data;
-    	i2c.transaction(toSend, 1, null, 0);
     }
 
     public void sendAllianceColor(DriverStation.Alliance color){
     	sendData(color == DriverStation.Alliance.Blue ? ArduinoConstants.BLUE : ArduinoConstants.RED);
     }
     
-    public void sendStage(){
-    	DriverStation game = DriverStation.getInstance();
-    	if(game.isAutonomous()){
-    		sendData(ArduinoConstants.AUTONOMOUS);
-    	} else if (game.isOperatorControl()){
-    		sendData(ArduinoConstants.OPERATOR_CONTROL);
-    	} else {
-    		sendData(ArduinoConstants.DISABLED);
-    	}
-    }
+//    public void sendStage(){
+//    	DriverStation game = DriverStation.getInstance();
+//    	if(game.isAutonomous()){
+//    		sendData(ArduinoConstants.AUTONOMOUS);
+//    	} else if (game.isOperatorControl()){
+//    		sendData(ArduinoConstants.OPERATOR_CONTROL);
+//    	} else {
+//    		sendData(ArduinoConstants.DISABLED);
+//    	}
+//    }
 }
