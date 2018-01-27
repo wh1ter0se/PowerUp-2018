@@ -16,7 +16,7 @@ public class ArduinoCommandSendStage extends Command {
     protected void initialize() {}
 
     protected void execute() {
-    	Robot.SUB_ARDUINO.sendStage();
+    	//Robot.SUB_ARDUINO.sendStage();
     }
 
     protected boolean isFinished() {

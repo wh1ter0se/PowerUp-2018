@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 /**
  * Send miscellaneous data to the arduino
+ * Please don't use outside of testing purposes
  */
 public class ArduinoCommandSendArbitraryData extends Command {
 		
@@ -19,7 +20,7 @@ public class ArduinoCommandSendArbitraryData extends Command {
     protected void initialize() {}
 
     protected void execute() {
-    	Util.getAndSetDouble("Arduino Data", 0);
+    	Robot.SUB_ARDUINO.sendData((int)Util.getAndSetDouble("Arduino Data", 0));
     }
 
     protected boolean isFinished() {
