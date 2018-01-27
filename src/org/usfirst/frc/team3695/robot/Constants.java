@@ -24,7 +24,8 @@ public class Constants {
 			RIGHT_ARM = 7,
 		/// MAST MOTORS
 			LEFT_PINION_MOTOR = 4,
-			RIGHT_PINION_MOTOR = 5;
+			RIGHT_PINION_MOTOR = 5,
+			SCREW_MOTOR = 42;
 			
 	
 	public static final int
@@ -40,10 +41,11 @@ public class Constants {
 	public static final boolean 
 			LEFT_MOTOR_INVERT  = false,
 			RIGHT_MOTOR_INVERT = true,
-			PINION_MOTOR_INVERT = false,
-			SCREW_MOTOR_INVERT = true,
+			LEFT_PINION_MOTOR_INVERT = false,
+			RIGHT_PINION_MOTOR_INVERT = true,
 			LEFT_ARM_MOTOR_INVERT = true,
-			RIGHT_ARM_MOTOR_INVERT = false;
+			RIGHT_ARM_MOTOR_INVERT = false,
+			SCREW_MOTOR_INVERT = false;
 
 
 

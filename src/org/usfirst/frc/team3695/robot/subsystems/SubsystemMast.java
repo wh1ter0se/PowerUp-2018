@@ -21,6 +21,7 @@ public class SubsystemMast extends Subsystem {
 	
 	private TalonSRX leftPinion;
 	private TalonSRX rightPinion;
+	private TalonSRX screw;
 
 	
 	/** runs at robot boot */
@@ -31,25 +32,33 @@ public class SubsystemMast extends Subsystem {
     public SubsystemMast(){
     	leftPinion = new TalonSRX(Constants.LEFT_PINION_MOTOR);
     	rightPinion = new TalonSRX(Constants.RIGHT_PINION_MOTOR);
-    	//voltage(leftPinion);
-    	//voltage(rightPinion);
+    	screw = new TalonSRX(Constants.SCREW_MOTOR);
+    		voltage(leftPinion);
+    		voltage(rightPinion);
+    		voltage(screw);
     }
-    
-    /** apply screw motor invert */
-   	public static final double screwify(double right) {
-   		return right * (Constants.SCREW_MOTOR_INVERT ? -1.0 : 1.0);
-   	}
+
    	
    	/** apply pinion motor invert */
-   	public static final double pinionate(double right) {
-   		return right * (Constants.PINION_MOTOR_INVERT ? -1.0 : 1.0);
+   	public static final double leftPinionate(double left) {
+   		return left * (Constants.LEFT_PINION_MOTOR_INVERT ? -1.0 : 1.0);
+   	}
+   	
+   	/** apply screw motor invert */
+   	public static final double rightPinionate(double right) {
+   		return right * (Constants.RIGHT_PINION_MOTOR_INVERT ? -1.0 : 1.0);
+   	}
+   	
+   	public static final double screwify(double screw) {
+   		return screw * (Constants.SCREW_MOTOR_INVERT ? -1.0 : 1.0);
    	}
     
    	/** raise the mast at RT-LR trigger speed */
     public void moveBySpeed(Joystick joy) {
     	double speed = Xbox.RT(joy) - Xbox.LT(joy);
-    	leftPinion.set(ControlMode.PercentOutput, pinionate(speed));
-    	rightPinion.set(ControlMode.PercentOutput, screwify(speed));
+    	leftPinion.set(ControlMode.PercentOutput, leftPinionate(speed));
+    	rightPinion.set(ControlMode.PercentOutput, rightPinionate(speed));
+    	screw.set(ControlMode.PercentOutput, screwify(speed));
     }
 
     /** configures the voltage of each CANTalon */
