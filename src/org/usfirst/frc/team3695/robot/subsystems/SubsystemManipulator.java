@@ -1,17 +1,10 @@
 package org.usfirst.frc.team3695.robot.subsystems;
 
 import org.usfirst.frc.team3695.robot.Constants;
-import org.usfirst.frc.team3695.robot.commands.ButtonCommandSpit;
-import org.usfirst.frc.team3695.robot.commands.ManualCommandDrive;
-import org.usfirst.frc.team3695.robot.enumeration.Direction;
-import org.usfirst.frc.team3695.robot.util.Util;
-import org.usfirst.frc.team3695.robot.util.Xbox;
 
-import com.ctre.CANTalon;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /** VROOM VROOM */
@@ -20,6 +13,8 @@ public class SubsystemManipulator extends Subsystem {
 	
 	private TalonSRX armLeft;
 	private TalonSRX armRight;
+	
+	public static int redlineIteration;
 	
 	/** applies left arm motor invert */
 	public static final double leftArmify(double left) {
@@ -59,18 +54,29 @@ public class SubsystemManipulator extends Subsystem {
     	armRight.set(ControlMode.PercentOutput, 0);
     }
     
-    public void redline(double frequency) {
+    /** imitates a combustion engine redlining
+     * @param   frequency   iterations between start and end (each is about 1/50th of a sec)
+     * */
+    public void redlineUntilStop(int frequency) {
+    	if (redlineIteration >= frequency) { redlineIteration = 0 ; }
     	
+    	double speed = (double) redlineIteration / (double) frequency;
+    	speed = generateRedlineCurve(speed);
+    	
+    	armLeft.set(ControlMode.PercentOutput, leftArmify(speed));
+    	armRight.set(ControlMode.PercentOutput, rightArmify(speed));
+    	
+    	redlineIteration++;
     }
     
-    
-    public double redlineCurveGenerator(double x) {
+    /** generates a quadratic curve based on the three points in constants */
+    public double generateRedlineCurve(double x) {
     	// TODO simplify this; I just plugged our variables into the equation for this
     	double y;
     	y  = Constants.REDLINE_START * (((x - .5) * (x - 1))/(.5));
     	y += Constants.REDLINE_MID * ((x * (x - 1))/(-.25));
     	y += Constants.REDLINE_END * ((x * (x-.5))/(.5));
-    	return y;	
+    	return y;
     }
 
     /** configures the voltage of each CANTalon */
