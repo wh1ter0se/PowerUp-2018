@@ -14,7 +14,9 @@ public class SubsystemManipulator extends Subsystem {
 	private TalonSRX armLeft;
 	private TalonSRX armRight;
 	
-	public static int redlineIteration;
+	public Boolean redlining;
+	
+	public long redlineTime;
 	
 	/** applies left arm motor invert */
 	public static final double leftArmify(double left) {
@@ -54,20 +56,20 @@ public class SubsystemManipulator extends Subsystem {
     	armRight.set(ControlMode.PercentOutput, 0);
     }
     
-    /** imitates a combustion engine redlining
-     * @param   frequency   iterations between start and end (each is about 1/50th of a sec)
-     * */
-    public void redlineUntilStop(int frequency) {
-    	if (redlineIteration >= frequency) { redlineIteration = 0 ; }
+    
+    public void redline(int miliseconds) {
+    	if (!redlining) { redlineTime = System.currentTimeMillis(); redlining = true; }
+    		else if (System.currentTimeMillis() - redlineTime >= miliseconds) { redlining = false; }
     	
-    	double speed = (double) redlineIteration / (double) frequency;
+    	double speed = (System.currentTimeMillis() - redlineTime) / (double) miliseconds;
+    	speed = speed > 1.0 ? 1.0 : speed;
+    	
     	speed = generateRedlineCurve(speed);
     	
     	armLeft.set(ControlMode.PercentOutput, leftArmify(speed));
     	armRight.set(ControlMode.PercentOutput, rightArmify(speed));
-    	
-    	redlineIteration++;
     }
+
     
     /** generates a quadratic curve based on the three points in constants */
     public double generateRedlineCurve(double x) {
