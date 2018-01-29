@@ -29,7 +29,10 @@ public class Constants {
 		/// MAST MOTORS
 			LEFT_PINION_MOTOR  = 4,
 			RIGHT_PINION_MOTOR = 5,
-			SCREW_MOTOR        = 42;
+			SCREW_MOTOR        = 42,
+		/// RPM'S
+			REDLINE = 6000,
+			IDLE    = 500;
 			
 	
 	public static final int
