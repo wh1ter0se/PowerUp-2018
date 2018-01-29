@@ -16,7 +16,7 @@ public class SubsystemManipulator extends Subsystem {
 	private TalonSRX armLeft;
 	private TalonSRX armRight;
 	
-	public Boolean redlining;
+	public Boolean revving;
 	
 	public long redlineTime;
 	
@@ -60,19 +60,18 @@ public class SubsystemManipulator extends Subsystem {
     
     /** imitates an engine revving and idling */
     public void rev(Joystick joy) {
-    	double intensity = Math.abs(Math.sqrt((Math.pow(Xbox.LEFT_X(joy), 2) + Math.pow(Xbox.LEFT_X(joy), 2))));
+    	double intensity = Math.abs(Math.sqrt((Math.pow(Xbox.LEFT_X(joy), 2) + Math.pow(Xbox.LEFT_X(joy), 2)))); // intensity is 0.0-1.0, power of trigger
     	
-    	int rpm = (int) ((((double) Constants.REDLINE - (double) Constants.IDLE) * intensity) + Constants.IDLE);
-    	int miliseconds = (1 / rpm) * 60000;
+    	int rpm = (int) ((((double) Constants.REDLINE - (double) Constants.IDLE) * intensity) + Constants.IDLE); // rpm is the rpm being imitated
+    	int miliseconds = (1 / rpm) * 60000; // length in miliseconds of each rev curve, based on rpm
     	
+    	if (!revving) { redlineTime = System.currentTimeMillis(); revving = true; } // reset rev curve if not revving
+    		else if (System.currentTimeMillis() - redlineTime >= miliseconds) { revving = false; } // stop revving if time is up
     	
-    	if (!redlining) { redlineTime = System.currentTimeMillis(); redlining = true; }
-    		else if (System.currentTimeMillis() - redlineTime >= miliseconds) { redlining = false; }
+    	double speed = (System.currentTimeMillis() - redlineTime) / (double) miliseconds; // set speed to progress from 0.0-1.0 of the curve
+    	speed = speed > 1.0 ? 1.0 : speed; // quick concat the speed under 1.0
     	
-    	double speed = (System.currentTimeMillis() - redlineTime) / (double) miliseconds;
-    	speed = speed > 1.0 ? 1.0 : speed;
-    	
-    	speed = generateCurve(speed, 0, .25 * (intensity * .8 + .2), (intensity * .8 + .2));
+    	speed = generateCurve(speed, 0, .25 * (intensity * .8 + .2), (intensity * .8 + .2)); // find y value on curve, given x and parameters
     	
     	armLeft.set(ControlMode.PercentOutput, leftArmify(speed));
     	armRight.set(ControlMode.PercentOutput, rightArmify(speed));
