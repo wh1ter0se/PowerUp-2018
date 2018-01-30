@@ -30,9 +30,8 @@ public class Constants {
 			LEFT_PINION_MOTOR  = 4,
 			RIGHT_PINION_MOTOR = 5,
 			SCREW_MOTOR        = 42,
-		/// RPM'S
-			REDLINE = 6000,
-			IDLE    = 500;
+		/// CANDY CANE
+			HOOK = 42;
 			
 	
 	public static final int
@@ -43,16 +42,23 @@ public class Constants {
 			I2C_DEVICE_ADDRESS = 4,
 		/// MANIPULATOR
 			OPEN_ARMS  = 0,
-			CLOSE_ARMS = 1;
+			CLOSE_ARMS = 1,
+		/// RPM'S
+			REDLINE = 6000,
+			IDLE    = 500;
 
 	public static final boolean 
 			LEFT_MOTOR_INVERT         = false,
 			RIGHT_MOTOR_INVERT        = true,
+			
 			LEFT_PINION_MOTOR_INVERT  = false,
 			RIGHT_PINION_MOTOR_INVERT = true,
+			SCREW_MOTOR_INVERT        = false,
+			
 			LEFT_ARM_MOTOR_INVERT     = true,
 			RIGHT_ARM_MOTOR_INVERT    = false,
-			SCREW_MOTOR_INVERT        = false;
+			
+			HOOK_MOTOR_INVERT		  = false;
 
 
 

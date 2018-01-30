@@ -17,7 +17,7 @@ public class ManualCommandDrive extends Command {
     }
 
     protected void execute() {
-    	Robot.SUB_DRIVE.driveForza(OI.DRIVER, Util.getAndSetDouble("Ramp", .5));
+    	Robot.SUB_DRIVE.driveForza(OI.DRIVER, Util.getAndSetDouble("Ramp", .5), Util.getAndSetDouble("Radius", 1));
     }
 
     protected boolean isFinished() {
