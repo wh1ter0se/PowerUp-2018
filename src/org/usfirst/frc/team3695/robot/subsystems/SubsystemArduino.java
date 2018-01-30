@@ -29,6 +29,10 @@ public class SubsystemArduino extends Subsystem {
             Timer.delay(1);
         }
     }
+    
+    public void redline() {
+    	
+    }
 
 
 
