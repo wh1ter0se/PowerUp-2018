@@ -26,6 +26,21 @@ void setup() {
   Serial.begin(9600);           // start serial for output
 }
 
+void lightShow(){
+    for(int i = 0; i < 2; i++){
+  bounceChaseOpposite(BLUE, pixels.Color(0,0,50),32);
+  bounceChaseOpposite(RED, pixels.Color(50,0,0), 32);
+  }
+  rainbowCycle(4);
+  pixelRun(3, pixels.Color(50, 0, 0), RED, 25, 3);
+  rainbowCycle(2);
+  pixelRun(3, pixels.Color(0, 0, 50), BLUE, 25, 3);
+  for(int i = 0; i < 2; i++){
+  rainbowCycle(0);
+  }
+
+}
+
 
 void solidColor(uint32_t color){
   for (int i = 0; i <= NUMPIXELS; i++){
@@ -35,10 +50,7 @@ void solidColor(uint32_t color){
 }
 
 void pixelRun(int running_pixels, uint32_t base_color, uint32_t moving_color, uint8_t wait, int loops) {
-  for (int i = 0; i <= NUMPIXELS; i++){
-    pixels.setPixelColor(i, base_color);
-    pixels.show();
-  }
+  solidColor(base_color);
   for (int j = 1; j <= loops; j++){
     
     for (int k = 0; k <= NUMPIXELS; k++){
@@ -59,6 +71,39 @@ void pixelRun(int running_pixels, uint32_t base_color, uint32_t moving_color, ui
         delay(wait);
       }
     }
+}
+
+void bounceChaseIn(uint32_t bounce, uint32_t base, int wait){
+  solidColor(base);
+  for(int right = 0, left = NUMPIXELS; right <= NUMPIXELS/2; right++, left--){
+    pixels.setPixelColor(right, bounce);
+    pixels.setPixelColor(left, bounce);
+    pixels.show();
+    delay(wait);
+    pixels.setPixelColor(right, base);
+    pixels.setPixelColor(left, base);
+  }
+}
+void bounceChaseOut(uint32_t bounce, uint32_t base, int wait) {
+  solidColor(base);
+  for(int right = NUMPIXELS/2-1, left = NUMPIXELS/2+1; right != 0; right--, left++){
+    pixels.setPixelColor(right, bounce);
+    pixels.setPixelColor(left, bounce);
+    pixels.show();
+    delay(wait);
+    pixels.setPixelColor(right, base);
+    pixels.setPixelColor(left, base);
+  }
+}
+
+void bounceChase(uint32_t bounce, uint32_t base, int wait) {
+  bounceChaseIn(bounce,base,wait);
+  bounceChaseOut(bounce,base,wait);
+}
+
+void bounceChaseOpposite(uint32_t bounce, uint32_t base, int wait) {
+  bounceChaseOut(bounce,base,wait);
+  bounceChaseIn(bounce,base,wait);
 }
 
 // Input a value 0 to 255 to get a color value.
@@ -90,8 +135,10 @@ void rainbowCycle(uint8_t wait) {
 #define RAINBOW_SEIZURE rainbowCycle(0)
 
 void loop() {
-  //For testing purposes.
-//  pixelRun(3, pixels.Color(50,0,0), pixels.Color(255,0,0), 25, 5);
+  lightShow();
+  //For testing purposes.  
+
+  //pixelRun(3, pixels.Color(50,0,0), pixels.Color(255,0,0), 25, 5);
 }
 
 // function that executes whenever data is received from master
@@ -118,4 +165,3 @@ int input = Wire.read();
     RAINBOW_SEIZURE;
   }
 }
-
