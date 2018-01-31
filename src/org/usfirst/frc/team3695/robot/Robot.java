@@ -27,7 +27,8 @@ public class Robot extends IterativeRobot {
 		public static SubsystemManipulator SUB_MANIPULATOR;
 		public static SubsystemMast SUB_MAST;
 		public static SubsystemArduino SUB_ARDUINO;
-		
+		public static SubsystemCandycane SUB_CANDYCANE;
+
 		public static OI oi;
 		public static Vision vision;
 
@@ -48,6 +49,7 @@ public class Robot extends IterativeRobot {
 			SUB_MANIPULATOR = new SubsystemManipulator();
 			SUB_MAST = new SubsystemMast();
 			SUB_ARDUINO = new SubsystemArduino();
+			SUB_CANDYCANE = new SubsystemCandycane();
 			vision = new Vision();
 
 		/// instantiate operator interface

@@ -32,6 +32,10 @@ public class OI {
 		/// manipulator clamp
 			Button toggleClamp = new JoystickButton(OPERATOR, Xbox.RB);
 				toggleClamp.toggleWhenActive(new ButtonCommandClamp());
+		///Candycane control
+			Button raiseCane = new JoystickButton(DRIVER, Xbox.RB);
+
+			Button lowerCane = new JoystickButton(DRIVER, Xbox.LB);
 	}
 	
 }
