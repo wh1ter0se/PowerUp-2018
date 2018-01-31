@@ -1,9 +1,11 @@
 package org.usfirst.frc.team3695.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import org.usfirst.frc.team3695.robot.Constants;
 import org.usfirst.frc.team3695.robot.commands.ButtonCommandSpit;
 import org.usfirst.frc.team3695.robot.commands.ManualCommandDrive;
 import org.usfirst.frc.team3695.robot.commands.ManualCommandGrow;
+import org.usfirst.frc.team3695.robot.commands.TestCommandDigitalInput;
 import org.usfirst.frc.team3695.robot.enumeration.Direction;
 import org.usfirst.frc.team3695.robot.util.Util;
 import org.usfirst.frc.team3695.robot.util.Xbox;
@@ -22,13 +24,17 @@ public class SubsystemMast extends Subsystem {
 	//private TalonSRX leftPinion;
 	//private TalonSRX rightPinion;
 
+	DigitalInput dio;
 	
 	/** runs at robot boot */
     public void initDefaultCommand() {
-    	setDefaultCommand(new ManualCommandGrow()); }
+    	setDefaultCommand(new ManualCommandGrow());
+    	new TestCommandDigitalInput();
+    }
 	
 	/** gives birth to the CANTalons */
     public SubsystemMast(){
+    	dio = new DigitalInput(0);
     //	leftPinion = new TalonSRX(Constants.LEFT_PINION_MOTOR);
     //	rightPinion = new TalonSRX(Constants.RIGHT_PINION_MOTOR);
     	//voltage(leftPinion);
@@ -51,6 +57,10 @@ public class SubsystemMast extends Subsystem {
     //	leftPinion.set(ControlMode.PercentOutput, pinionate(speed));
     //	rightPinion.set(ControlMode.PercentOutput, screwify(speed));
     }
+
+    public boolean getDigitalInput(){
+    	return dio.get();
+	}
 
     /** configures the voltage of each CANTalon */
     private void voltage(TalonSRX talon) {
