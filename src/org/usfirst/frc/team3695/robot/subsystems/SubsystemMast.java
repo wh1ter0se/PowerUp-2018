@@ -29,6 +29,8 @@ public class SubsystemMast extends Subsystem {
     DigitalInput lowerScrewLimit;
     DigitalInput midScrewLimit;
     DigitalInput upperScrewLimit;
+    
+    private Direction screwPos;
 
 	
 	/** runs at robot boot */
@@ -80,13 +82,19 @@ public class SubsystemMast extends Subsystem {
     	rightPinion.set(ControlMode.PercentOutput, rightPinionate(screwSpeed));
     	screw.set(ControlMode.PercentOutput, screwify(pinionSpeed));
     }
+    
+    public void goToMiddle() {
+    	
+    }
 
     /** configures the voltage of each CANTalon */
     private void voltage(TalonSRX talon) {
     	// talon.configNominalOutputVoltage(0f, 0f);
     	// talon.configPeakOutputVoltage(12.0f, -12.0f);
     	// talon.enableCurrentLimit(true);
-    	talon.configContinuousCurrentLimit(35, 300);
+    	// talon.configContinuousCurrentLimit(35, 300);
+    		// configContinuousCurrentLimit spat mean errors
+    		// commented out for now, but we need to address it
     }
     
     

@@ -11,7 +11,7 @@ public class ManualCommandHook extends Command {
 
     
     public ManualCommandHook() {
-        requires(Robot.SUB_MAST);
+        requires(Robot.SUB_HOOK);
     }
 
     protected void initialize() {

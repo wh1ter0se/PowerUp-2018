@@ -24,8 +24,8 @@ public class Constants {
 			LEFT_MASTER     = 0,
 				LEFT_SLAVE  = 1,
 		/// MANIPULATOR SPINNY BOIS
-			LEFT_ARM =  6,
-			RIGHT_ARM = 7,
+			LEFT_FLYWHEEL =  6,
+			RIGHT_FLYWHEEL = 7,
 		/// MAST MOTORS
 			LEFT_PINION_MOTOR  = 4,
 			RIGHT_PINION_MOTOR = 5,

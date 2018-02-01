@@ -35,8 +35,8 @@ public class SubsystemManipulator extends Subsystem {
 	
 	/** gives birth to the CANTalons */
     public SubsystemManipulator(){
-    	armLeft = new TalonSRX(Constants.LEFT_ARM);
-    	armRight = new TalonSRX(Constants.RIGHT_ARM);
+    	armLeft = new TalonSRX(Constants.LEFT_FLYWHEEL);
+    	armRight = new TalonSRX(Constants.RIGHT_FLYWHEEL);
     }
     
     /** eat the power cube */
