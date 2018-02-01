@@ -4,6 +4,7 @@ import org.usfirst.frc.team3695.robot.OI;
 import org.usfirst.frc.team3695.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /** move the mast */
 public class ManualCommandGrow extends Command {
@@ -17,6 +18,8 @@ public class ManualCommandGrow extends Command {
 
     protected void execute() {
     	Robot.SUB_MAST.moveBySpeed(OI.OPERATOR);
+//        SmartDashboard.putBoolean("Digital Input", Robot.SUB_MAST.getDigitalInput());
+
     }
 
     protected boolean isFinished() {
