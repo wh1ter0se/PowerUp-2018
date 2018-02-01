@@ -26,6 +26,37 @@ void setup() {
   Serial.begin(9600);           // start serial for output
 }
 
+void sharpness(uint32_t color, double percent)
+{
+  int red = (color>>16)&0x0ff;
+  int green=(color>>8) &0x0ff;
+  int blue= (color)    &0x0ff;
+  for(int i = 0; i <= NUMPIXELS; i++){
+    pixels.setPixelColor(i, pixels.Color(red * percent, green * percent, blue * percent));
+  }
+  pixels.show();
+  delay(25);
+}
+
+void breathing(){
+  double pIncrease = .05;
+  double pCurrent = 0;
+  boolean inOrOut = false;
+  uint32_t color = pixels.Color(235,59 ,3 );
+  for(int i = 0; i < (1/pIncrease) * 2; i++){
+    sharpness(color, pCurrent);
+
+    if(!inOrOut){
+      pCurrent += pIncrease;
+    }else{
+      pCurrent -= pIncrease;
+    }
+    if(pCurrent >= 1){
+      inOrOut = true;
+    }
+  }
+}
+
 void lightShow(){
     for(int i = 0; i < 2; i++){
   bounceChaseOpposite(BLUE, pixels.Color(0,0,50),32);
@@ -135,7 +166,8 @@ void rainbowCycle(uint8_t wait) {
 #define RAINBOW_SEIZURE rainbowCycle(0)
 
 void loop() {
-  lightShow();
+  //lightShow();
+  breathing();
   //For testing purposes.  
 
   //pixelRun(3, pixels.Color(50,0,0), pixels.Color(255,0,0), 25, 5);
