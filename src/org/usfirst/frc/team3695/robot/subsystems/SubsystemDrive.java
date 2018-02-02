@@ -63,7 +63,12 @@ public class SubsystemDrive extends Subsystem {
     	
     	// slaves
 	    	left2 = new TalonSRX(Constants.LEFT_SLAVE);
-	    	right2 = new TalonSRX(Constants.RIGHT_SLAVE); 	
+	    	right2 = new TalonSRX(Constants.RIGHT_SLAVE);
+	    	
+	    	//voltage(left1);
+	    	//voltage(left2);
+	    	//voltage(right1);
+	    	//voltage(right2);
     }
     
     /** simple rocket league drive code; independent rotation and acceleration */
@@ -83,18 +88,19 @@ public class SubsystemDrive extends Subsystem {
     	
     }
     
-    /** drive code where rotation is dependent on acceleration */
-    public void driveForza(Joystick joy, double ramp) {
+    /** drive code where rotation is dependent on acceleration 
+     * @param radius 0.00-1.00, 1 being zero radius and 0 being driving in a line */
+    public void driveForza(Joystick joy, double ramp, double radius) {
     	double left = 0, 
     		   right = 0;
     	double acceleration = Xbox.RT(joy) - Xbox.LT(joy);
     	
     	if (Xbox.LEFT_X(joy) < 0) {
     		right = acceleration;
-    		left = acceleration * ((2 * (1 - Math.abs(Xbox.LEFT_X(joy)))) - 1); 
+    		left = (acceleration * ((2 * (1 - Math.abs(Xbox.LEFT_X(joy)))) - 1)) / radius; 
     	} else if (Xbox.LEFT_X(joy) > 0) {
     		left = acceleration;
-    		right = acceleration * ((2 * (1 - Math.abs(Xbox.LEFT_X(joy)))) - 1); 
+    		right = (acceleration * ((2 * (1 - Math.abs(Xbox.LEFT_X(joy)))) - 1)) / radius; 
     	} else {
     		left = acceleration;
     		right = acceleration;
@@ -117,7 +123,7 @@ public class SubsystemDrive extends Subsystem {
     	// talon.configNominalOutputVoltage(0f, 0f);
     	// talon.configPeakOutputVoltage(12.0f, -12.0f);
     	// talon.enableCurrentLimit(true);
-    	// talon.configContinuousCurrentLimit(30, 3000);
+    	// talon.configContinuousCurrentLimit(35, 300);
     }
     
     

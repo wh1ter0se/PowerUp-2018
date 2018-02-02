@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3695.robot.commands;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import org.usfirst.frc.team3695.robot.OI;
 import org.usfirst.frc.team3695.robot.Robot;
 
@@ -7,7 +8,8 @@ import edu.wpi.first.wpilibj.command.Command;
 
 /** move the mast */
 public class ManualCommandGrow extends Command {
-	
+
+    
     public ManualCommandGrow() {
         requires(Robot.SUB_MAST);
     }

@@ -1,9 +1,8 @@
 package org.usfirst.frc.team3695.robot.commands;
 
-import org.usfirst.frc.team3695.robot.Constants;
+import edu.wpi.first.wpilibj.DigitalInput;
 import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.enumeration.Direction;
-import org.usfirst.frc.team3695.robot.util.Util;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -19,17 +18,15 @@ public class ButtonCommandClamp extends Command {
     }
 
     protected void initialize() {
-    	Robot.SUB_CLAMP.openArms();
+    	//Robot.SUB_CLAMP.openArms();
     }
 
     protected void execute() {}
 
-    protected boolean isFinished() {
-        return false;
-    }
+    protected boolean isFinished() { return false; }
 
     protected void end() {
-    	Robot.SUB_CLAMP.closeArms();
+    	///Robot.SUB_CLAMP.closeArms();
     }
 
     protected void interrupted() {

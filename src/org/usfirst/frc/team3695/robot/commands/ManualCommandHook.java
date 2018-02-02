@@ -1,23 +1,24 @@
 package org.usfirst.frc.team3695.robot.commands;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import org.usfirst.frc.team3695.robot.OI;
 import org.usfirst.frc.team3695.robot.Robot;
-import org.usfirst.frc.team3695.robot.util.Util;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-/** manually command the robot with joysticks */
-public class ManualCommandDrive extends Command {
-	
-    public ManualCommandDrive() {
-        requires(Robot.SUB_DRIVE);
+/** move the mast */
+public class ManualCommandHook extends Command {
+
+    
+    public ManualCommandHook() {
+        requires(Robot.SUB_HOOK);
     }
 
     protected void initialize() {
     }
 
     protected void execute() {
-    	Robot.SUB_DRIVE.driveForza(OI.DRIVER, Util.getAndSetDouble("Ramp", .5), Util.getAndSetDouble("Radius", 1));
+    	Robot.SUB_HOOK.swing(OI.OPERATOR);
     }
 
     protected boolean isFinished() {
