@@ -21,20 +21,18 @@ public class Vision extends IterativeRobot {
     private UsbCamera cameraLeft;
     private UsbCamera cameraRight;
 
-    /**
-     * Initialization of class
-     */
-    public void robotInit() {
-        // Places the vision in a separate thread from everything else as recommended by FIRST
-        // It should never be accessed by other code, so protection isn't necessary.
-        new Thread(this::startCamerasStream).start();
+    void startCameraThread(){
+        //Places the vision in a separate thread from everything else as recommended by FIRST.
+        new Thread(this::concatCameraStream).start();
+
     }
 
     /**
      * Start both the left and right camera streams and combine them into a single one which is then pushed
-     * to an output stream titled Concat
+     * to an output stream titled Concat.
+     * This method should only be used for starting the camera stream.
      */
-    private void startCamerasStream() {
+        private void concatCameraStream() {
         cameraLeft = CameraServer.getInstance().startAutomaticCapture("Left", 0);
         cameraRight = CameraServer.getInstance().startAutomaticCapture("Right", 1);
 
