@@ -9,21 +9,22 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  * toggles the state of the clamp
  */
-public class CyborgCommandAscend extends Command {
+public class CyborgCommandGoToMid extends Command {
 	
-	Boolean isFinished;
+	Direction direction;
 	
-    public CyborgCommandAscend() {
+    public CyborgCommandGoToMid() {
+        requires(Robot.SUB_HOOK);
         requires(Robot.SUB_MAST);
     }
 
     protected void initialize() {
-    	isFinished = Robot.SUB_MAST.goToMiddle();
+
     }
 
     protected void execute() {}
 
-    protected boolean isFinished() { return isFinished; }
+    protected boolean isFinished() { return false; }
 
     protected void end() {
 

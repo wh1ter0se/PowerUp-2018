@@ -19,16 +19,16 @@ public class Constants {
 	
 	public static final int
 		/// DRIVE MOTORS
-			RIGHT_MASTER    = 2,
-				RIGHT_SLAVE = 3,
-			LEFT_MASTER     = 0,
-				LEFT_SLAVE  = 1,
+			RIGHT_MASTER    = 0,
+				RIGHT_SLAVE = 6,
+			LEFT_MASTER     = 2,
+				LEFT_SLAVE  = 7,
 		/// MANIPULATOR SPINNY BOIS
-			LEFT_FLYWHEEL =  6,
-			RIGHT_FLYWHEEL = 7,
+			LEFT_FLYWHEEL =  42,
+			RIGHT_FLYWHEEL = 42,
 		/// MAST MOTORS
-			LEFT_PINION_MOTOR  = 4,
-			RIGHT_PINION_MOTOR = 5,
+			LEFT_PINION_MOTOR  = 1,
+			RIGHT_PINION_MOTOR = 8,
 			SCREW_MOTOR        = 42,
 		/// CANDY CANE
 			HOOK = 42;

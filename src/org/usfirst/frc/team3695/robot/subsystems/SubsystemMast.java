@@ -83,10 +83,34 @@ public class SubsystemMast extends Subsystem {
     	screw.set(ControlMode.PercentOutput, screwify(pinionSpeed));
     }
     
-    public void goToMiddle() {
-    	
-    }
-
+	    public Boolean goToMiddle() {
+	    	/// make sure pinion is at bottom
+		    	if (!lowerPinionLimit.get()) {
+	    			leftPinion.set(ControlMode.PercentOutput, leftPinionate(-1));
+	    			rightPinion.set(ControlMode.PercentOutput, rightPinionate(-1));
+	    		}
+	    		else {
+	    			leftPinion.set(ControlMode.PercentOutput, 0);
+	    			rightPinion.set(ControlMode.PercentOutput, 0);
+	    		}
+	    	/// move screw to middle
+		    	if (midScrewLimit.get()) {
+		    		screw.set(ControlMode.PercentOutput, 0);
+		    		return true;
+		    	}
+		    	else {
+			    	switch (screwPos) {
+				    	case UP:
+				    		screw.set(ControlMode.PercentOutput, screwify(-1));
+				    		break;
+				    	case DOWN:
+				    		screw.set(ControlMode.PercentOutput, screwify(1));
+				    		break;
+			    	}
+			    	return false;
+		    	}
+	    }
+    
     /** configures the voltage of each CANTalon */
     private void voltage(TalonSRX talon) {
     	// talon.configNominalOutputVoltage(0f, 0f);
