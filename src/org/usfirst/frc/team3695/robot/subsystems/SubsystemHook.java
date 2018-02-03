@@ -14,12 +14,9 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class SubsystemHook extends Subsystem {
 	
 	
-	private TalonSRX hook;
-	
-	/** applies left arm motor invert */
-	public static final double hookify(double hook) {
-		return hook * (Constants.HOOK_MOTOR_INVERT ? -1.0 : 1.0);
-	}
+	// private Solenoid raiseHook;
+	// private Solenoid lowerHook;
+	// private boolean open; // current State of arms; true = open, false = closed
 	
 	/** runs at robot boot */
     public void initDefaultCommand() {
@@ -28,23 +25,28 @@ public class SubsystemHook extends Subsystem {
 	
 	/** gives birth to the CANTalons */
     public SubsystemHook(){
-    	hook = new TalonSRX(Constants.HOOK);
-    }
-
-    public void swing(Joystick joy) {
-    	double speed = 0;
-    	speed = joy.getRawButton(Xbox.A) ? speed++ : speed; 
-    	speed = joy.getRawButton(Xbox.B) ? speed-- : speed;
-    	hook.set(ControlMode.PercentOutput, speed);
+    	// raiseHook = new Solenoid(Constants.RAISE_HOOK);
+		// lowerHook = new Solenoid(Constants.LOWER_HOOK);
+		// open = false;
     }
     
-    /** configures the voltage of each CANTalon */
-    private void voltage(TalonSRX talon) {
-    	// talon.configNominalOutputVoltage(0f, 0f);
-    	// talon.configPeakOutputVoltage(12.0f, -12.0f);
-    	// talon.enableCurrentLimit(true);
-    	// talon.configContinuousCurrentLimit(30, 3000);
-    }
+    /**    
+	    public void raiseHook(){
+	    	raiseHook.set(true);
+	    	lowerHook.set(false);
+	    	open = true;
+	    }
+	    
+	    public void lowerHook(){
+	    	raiseHook.set(false);
+	    	lowerHook.set(true);
+	    	open = false;
+	    }
+	    
+	    public void toggleHook(){
+	    	if (open) lowerHook();	else raiseHook();
+	    }
+    */
            
     
 

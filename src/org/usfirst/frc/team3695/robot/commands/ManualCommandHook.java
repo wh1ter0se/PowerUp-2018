@@ -18,7 +18,7 @@ public class ManualCommandHook extends Command {
     }
 
     protected void execute() {
-    	Robot.SUB_HOOK.swing(OI.OPERATOR);
+    	
     }
 
     protected boolean isFinished() {

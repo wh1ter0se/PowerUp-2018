@@ -30,7 +30,8 @@ public class SubsystemMast extends Subsystem {
     DigitalInput midScrewLimit;
     DigitalInput upperScrewLimit;
     
-    private Direction screwPos;
+    private Direction carriagePosition;
+    private Boolean midIsPressed;
 
 	
 	/** runs at robot boot */
@@ -83,32 +84,45 @@ public class SubsystemMast extends Subsystem {
     	screw.set(ControlMode.PercentOutput, screwify(pinionSpeed));
     }
     
-	    public Boolean goToMiddle() {
-	    	/// make sure pinion is at bottom
-		    	if (!lowerPinionLimit.get()) {
-	    			leftPinion.set(ControlMode.PercentOutput, leftPinionate(-1));
-	    			rightPinion.set(ControlMode.PercentOutput, rightPinionate(-1));
-	    		}
-	    		else {
-	    			leftPinion.set(ControlMode.PercentOutput, 0);
-	    			rightPinion.set(ControlMode.PercentOutput, 0);
-	    		}
-	    	/// move screw to middle
-		    	if (midScrewLimit.get()) {
-		    		screw.set(ControlMode.PercentOutput, 0);
-		    		return true;
+    public void setCarriagePosition(Direction position) {
+    	carriagePosition = position;
+    }
+    
+    public void updateCarriage() {
+    	if (midScrewLimit.get()) {
+    		carriagePosition = Direction.CENTER;
+    	}
+    	else if (carriagePosition == Direction.CENTER) {
+    		
+    	}
+    }
+    	
+    public Boolean goToMiddle() {
+    	/// make sure pinion is at bottom
+	    	if (!lowerPinionLimit.get()) {
+    			leftPinion.set(ControlMode.PercentOutput, leftPinionate(-1));
+    			rightPinion.set(ControlMode.PercentOutput, rightPinionate(-1));
+    		}
+    		else {
+    			leftPinion.set(ControlMode.PercentOutput, 0);
+    			rightPinion.set(ControlMode.PercentOutput, 0);
+    		}
+    	/// move screw to middle
+	    	if (midScrewLimit.get()) {
+	    		screw.set(ControlMode.PercentOutput, 0);
+	    		return true;
+	    	}
+	    	else {
+		    	switch (carriagePosition) {
+			    	case UP:
+			    		screw.set(ControlMode.PercentOutput, screwify(-1));
+			    		break;
+			    	case DOWN:
+			    		screw.set(ControlMode.PercentOutput, screwify(1));
+			    		break;
 		    	}
-		    	else {
-			    	switch (screwPos) {
-				    	case UP:
-				    		screw.set(ControlMode.PercentOutput, screwify(-1));
-				    		break;
-				    	case DOWN:
-				    		screw.set(ControlMode.PercentOutput, screwify(1));
-				    		break;
-			    	}
-			    	return false;
-		    	}
+		    	return false;
+	    	}
 	    }
     
     /** configures the voltage of each CANTalon */
