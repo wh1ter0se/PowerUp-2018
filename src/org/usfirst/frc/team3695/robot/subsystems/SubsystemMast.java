@@ -71,8 +71,8 @@ public class SubsystemMast extends Subsystem {
     
    	/** raise the mast at RT-LR trigger speed */
     public void moveBySpeed(Joystick joy) {
-    	double screwSpeed = Xbox.RT(joy) - Xbox.LT(joy);
-    	double pinionSpeed = Xbox.RT(joy) - Xbox.LT(joy);
+    	double screwSpeed = Xbox.RIGHT_Y(joy);
+    	double pinionSpeed = Xbox.LEFT_Y(joy);
     	/**
     	if (lowerScrewLimit.get()  && screwSpeed  < 0)   { screwSpeed = 0;  }
     	if (upperScrewLimit.get()  && screwSpeed  > 1)   { screwSpeed = 0;  }
@@ -92,8 +92,12 @@ public class SubsystemMast extends Subsystem {
     	if (midScrewLimit.get()) {
     		carriagePosition = Direction.CENTER;
     	}
-    	else if (carriagePosition == Direction.CENTER) {
-    		
+    	else if (carriagePosition == Direction.CENTER && !midScrewLimit.get()) {
+    		if (screw.getMotorOutputPercent() > 0) {
+    			
+    		} else if (screw.getMotorOutputPercent() < 0) {
+    			
+    		}
     	}
     }
     	

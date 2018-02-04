@@ -24,12 +24,12 @@ public class Constants {
 			LEFT_MASTER     = 2,
 				LEFT_SLAVE  = 7,
 		/// MANIPULATOR SPINNY BOIS
-			LEFT_FLYWHEEL =  42,
-			RIGHT_FLYWHEEL = 42,
+			LEFT_FLYWHEEL =  8,
+			RIGHT_FLYWHEEL = 3,
 		/// MAST MOTORS
-			LEFT_PINION_MOTOR  = 1,
-			RIGHT_PINION_MOTOR = 8,
-			SCREW_MOTOR        = 42,
+			LEFT_PINION_MOTOR  = 1,// working
+			RIGHT_PINION_MOTOR = 4,
+			SCREW_MOTOR        = 5,
 		/// CANDY CANE
 			HOOK = 42;
 			
