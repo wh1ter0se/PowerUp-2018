@@ -4,6 +4,7 @@ import org.usfirst.frc.team3695.robot.commands.ButtonCommandClamp;
 import org.usfirst.frc.team3695.robot.commands.ButtonCommandEat;
 import org.usfirst.frc.team3695.robot.commands.ButtonCommandKillCompressor;
 import org.usfirst.frc.team3695.robot.commands.ButtonCommandSpit;
+import org.usfirst.frc.team3695.robot.commands.ManualCommandGrow;
 import org.usfirst.frc.team3695.robot.commands.ManualCommandHook;
 import org.usfirst.frc.team3695.robot.enumeration.Direction;
 import org.usfirst.frc.team3695.robot.util.Xbox;
@@ -37,6 +38,9 @@ public class OI {
 		/// candy cane
 			Button toggleHook = new JoystickButton(OPERATOR, Xbox.LB);
 				toggleHook.toggleWhenActive(new ManualCommandHook());
+		/// Mast moving
+			Button moveMast = new JoystickButton(DRIVER, Xbox.X);
+				moveMast.whenInactive(new ManualCommandGrow());
 		
 		/// To Compress, or Not To Compress. It is now an option.
 			SmartDashboard.putData("Disable Compressor", new ButtonCommandKillCompressor());
