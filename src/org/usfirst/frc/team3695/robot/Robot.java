@@ -39,8 +39,11 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 
 		/// instantiate subsystems
+		SUB_MAST = new SubsystemMast();
+		SUB_MANIPULATOR = new SubsystemManipulator();
+		SUB_CLAMP = new SubsystemClamp();
 			SUB_DRIVE = new SubsystemDrive();
-			vision = new Vision();
+//			vision = new Vision();
 
 		/// instantiate operator interface
 			oi = new OI();
@@ -53,7 +56,7 @@ public class Robot extends IterativeRobot {
 			SmartDashboard.putData("Auto Mode", autoChooser); //display the chooser on the dash
 
 		/// instantiate cameras
-			vision.startCameraThread();
+//			vision.startCameraThread();
 	}
 	
 	/** runs when robot gets disabled */

@@ -26,6 +26,75 @@ void setup() {
   Serial.begin(9600);           // start serial for output
 }
 
+void flashingTeam(int loops, uint32_t team){
+  for(int k = 0; k <= loops; k++)
+  {
+    for(int i = 0; i <= NUMPIXELS; i++)
+    {
+      pixels.setPixelColor(i, pixels.Color(255,255,255));
+    }
+     pixels.show();
+     delay(20);
+      for(int j = 0; j <= NUMPIXELS; j++)
+      {
+        pixels.setPixelColor(j, team);
+      }
+      pixels.show();
+  }
+}
+
+void christmasTree(int loops)
+{
+  for(int i = 0; i <= loops; i++)
+  { 
+    int rp = (int) (random(10,25));
+  for(int j = 0; j <= rp; j++){
+    int r = (int) (random(NUMPIXELS -1));
+    int rr = (int) (random(170));
+    int rg = (int) (random(170));
+    int rb = (int) (random(170));
+    pixels.setPixelColor(r, pixels.Color(rr,rg,rb));
+    pixels.setPixelColor(r+1, pixels.Color(rr,rg,rb));
+  }
+  delay(500);
+  pixels.show();
+  }
+}
+
+void sharpness(uint32_t color, double percent)
+{
+  int red = (color>>16)&0x0ff;
+  int green=(color>>8) &0x0ff;
+  int blue= (color)    &0x0ff;
+  for(int i = 0; i <= NUMPIXELS; i++){
+    pixels.setPixelColor(i, pixels.Color(red * percent, green * percent, blue * percent));
+  }
+  pixels.show();
+  delay(25);
+}
+
+void breathing(int loops){
+
+  for(int j = 0; j < loops; j++){
+    double pIncrease = .05;
+    double pCurrent = 0;
+    boolean inOrOut = false;
+    uint32_t color = pixels.Color(235,59 ,3 );
+    for(int i = 0; i < (1/pIncrease) * 2; i++){
+      sharpness(color, pCurrent);
+  
+      if(!inOrOut){
+        pCurrent += pIncrease;
+      }else{
+        pCurrent -= pIncrease;
+      }
+      if(pCurrent >= 1){
+        inOrOut = true;
+      }
+    }
+  }
+}    
+        
 void sharpness(uint32_t color, double percent){
   uint32_t nColor = pixels.Color(0,0,0);
   for(int i = 0; i <= NUMPIXELS; i++){
@@ -35,30 +104,10 @@ void sharpness(uint32_t color, double percent){
   pixels.show();
 }
 
-void breathing(int loops){
-  double pCurrent = (double)0;
-  double pIncrease = (double).05;
-  int fullRun = (int)(((1/pIncrease) * 2) * 100);
-  boolean inOut = false;
-  for(int j = 0; j < loops; j++){
-    for(int i = 0; i <= fullRun; i++){
-      sharpness(pixels.Color(255,0,0), pCurrent);
-      
-      if(!inOut){
-        pCurrent += pIncrease;
-      }else{
-        pCurrent -= pIncrease;
-      }
-      if(pCurrent == (double)1){
-        inOut = true;
-      }else if(pCurrent == (double)0){
-        inOut = false;
-      }
-    }
-  }
-}
-
 void lightShow(){
+  christmasTree(10);
+  breathing(5);
+  feakout(10);
     for(int i = 0; i < 2; i++){
   bounceChaseOpposite(BLUE, pixels.Color(0,0,50),32);
   bounceChaseOpposite(RED, pixels.Color(50,0,0), 32);
@@ -168,7 +217,9 @@ void rainbowCycle(uint8_t wait) {
 
 void loop() {
   //lightShow();
-  breathing(10);
+flashingTeam(10,RED);
+  //christmasTree(10);
+  //breathing();
   //For testing purposes.  
 
   //pixelRun(3, pixels.Color(50,0,0), pixels.Color(255,0,0), 25, 5);
