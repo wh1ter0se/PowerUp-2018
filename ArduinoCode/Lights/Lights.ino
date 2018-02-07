@@ -93,26 +93,15 @@ void breathing(int loops){
       }
     }
   }
-}
-void feakout(int loops){
-  double pIncrease = .05;
-  double pCurrent = 0;
-  boolean inOrOut = false;
-  uint32_t color = pixels.Color(235,3 ,255 );
-  for(int j = 0; j < loops; j++){
-    for(int i = 0; i < (1/pIncrease) * 2; i++){
-      sharpness(color, pCurrent);
-  
-      if(!inOrOut){
-        pCurrent += pIncrease;
-      }else{
-        pCurrent -= pIncrease;
-      }
-      if(pCurrent >= 1){
-        inOrOut = true;
-      }
-    }
+}    
+        
+void sharpness(uint32_t color, double percent){
+  uint32_t nColor = pixels.Color(0,0,0);
+  for(int i = 0; i <= NUMPIXELS; i++){
+    nColor = pixels.Color((int)(255 * percent), 0, 0);
+    pixels.setPixelColor(i, nColor);
   }
+  pixels.show();
 }
 
 void lightShow(){
@@ -228,7 +217,7 @@ void rainbowCycle(uint8_t wait) {
 
 void loop() {
   //lightShow();
-  flashingTeam(10,RED);
+flashingTeam(10,RED);
   //christmasTree(10);
   //breathing();
   //For testing purposes.  
