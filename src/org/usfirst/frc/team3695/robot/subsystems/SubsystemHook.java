@@ -1,7 +1,7 @@
 package org.usfirst.frc.team3695.robot.subsystems;
 
 import org.usfirst.frc.team3695.robot.Constants;
-import org.usfirst.frc.team3695.robot.commands.ManualCommandHook;
+import org.usfirst.frc.team3695.robot.commands.ButtonCommandToggleHook;
 import org.usfirst.frc.team3695.robot.util.Xbox;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -20,7 +20,7 @@ public class SubsystemHook extends Subsystem {
 	
 	/** runs at robot boot */
     public void initDefaultCommand() {
-    	setDefaultCommand(new ManualCommandHook());
+    	setDefaultCommand(new ButtonCommandToggleHook());
     }
 	
 	/** gives birth to the CANTalons */

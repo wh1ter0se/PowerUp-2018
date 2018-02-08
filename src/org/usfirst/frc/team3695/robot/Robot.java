@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team3695.robot.auto.CommandGroupAuto;
 import org.usfirst.frc.team3695.robot.enumeration.Autonomous;
-
+import org.usfirst.frc.team3695.robot.enumeration.Drivetrain;
 import org.usfirst.frc.team3695.robot.subsystems.*;
 
 /** the magic place where everything happens (where the sequence of events is controlled, top of the hierarchy) */
@@ -18,6 +18,7 @@ public class Robot extends IterativeRobot {
 
 	/// choosers
 		SendableChooser<Autonomous> autoChooser;
+		SendableChooser<Drivetrain> driveChooser;
 		// add choosers as needed, these put drop down options in the smart dash
 		
 		
@@ -42,10 +43,8 @@ public class Robot extends IterativeRobot {
 		
 	/** runs when robot is turned on */
 	public void robotInit() {
-//			SUB_ARDUINO = new SubsystemArduino();
-			
 		/// instantiate subsystems
-		SUB_ARDUINO = new SubsystemArduino();
+			SUB_ARDUINO = new SubsystemArduino();
 			SUB_CLAMP = new SubsystemClamp();
 			SUB_COMPRESSOR = new SubsystemCompressor();
 			SUB_DRIVE = new SubsystemDrive();
@@ -57,6 +56,13 @@ public class Robot extends IterativeRobot {
 		/// instantiate operator interface
 			oi = new OI();
 		
+		/// instantiate drivetrain chooser
+			driveChooser = new SendableChooser<>();
+			driveChooser.addDefault(Drivetrain.ROCKET_LEAGUE.toString(), Drivetrain.ROCKET_LEAGUE); // set default to RL drive
+			for(int i = 1; i < Autonomous.values().length; i++) { 
+				driveChooser.addObject(Drivetrain.values()[i].toString(), Drivetrain.values()[i]); } // add each drivetrain enum value to chooser
+			SmartDashboard.putData("Drivetrain", driveChooser); //display the chooser on the dash
+			
 		/// instantiate autonomous chooser
 			autoChooser = new SendableChooser<>();
 			autoChooser.addDefault(Autonomous.NOTHING.toString(), Autonomous.NOTHING); // set default to nothing
@@ -87,7 +93,6 @@ public class Robot extends IterativeRobot {
 		} 
 	}
 
-	
 	/** runs at 50hz when in autonomous */
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run(); 
@@ -103,7 +108,10 @@ public class Robot extends IterativeRobot {
 	
 	/** runs at ~50hz when in teleop mode */
 	public void teleopPeriodic() {
-		Scheduler.getInstance().run(); 
+		Scheduler.getInstance().run();
+		if (driveChooser.getSelected() != null) {
+			SUB_DRIVE.setDrivetrain(driveChooser.getSelected());
+		}
 	}
 
 	

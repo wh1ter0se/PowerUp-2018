@@ -18,7 +18,7 @@ public class ManualCommandGrow extends Command {
     }
 
     protected void execute() {
-    	Robot.SUB_MAST.moveBySpeed(OI.DRIVER);
+    	Robot.SUB_MAST.moveBySpeed(OI.OPERATOR);
     }
 
     protected boolean isFinished() {

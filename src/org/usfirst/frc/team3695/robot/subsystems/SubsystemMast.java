@@ -78,6 +78,8 @@ public class SubsystemMast extends Subsystem {
     	if (upperScrewLimit.get()  && screwSpeed  > 1)   { screwSpeed = 0;  }
     	if (lowerPinionLimit.get() && pinionSpeed < 0)   { pinionSpeed = 0; }
     	if (upperPinionLimit.get() && pinionSpeed > 1)   { pinionSpeed = 0; }
+    	
+    	updateCarriage();
     	**/
     	leftPinion.set(ControlMode.PercentOutput, leftPinionate(pinionSpeed));
     	rightPinion.set(ControlMode.PercentOutput, rightPinionate(pinionSpeed));
@@ -94,9 +96,9 @@ public class SubsystemMast extends Subsystem {
     	}
     	else if (carriagePosition == Direction.CENTER && !midScrewLimit.get()) {
     		if (screw.getMotorOutputPercent() > 0) {
-    			
+    			carriagePosition = Direction.UP;
     		} else if (screw.getMotorOutputPercent() < 0) {
-    			
+    			carriagePosition = Direction.DOWN;
     		}
     	}
     }

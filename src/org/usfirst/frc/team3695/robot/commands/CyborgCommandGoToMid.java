@@ -11,24 +11,27 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class CyborgCommandGoToMid extends Command {
 	
-	Direction direction;
+	Boolean isFinished;
 	
     public CyborgCommandGoToMid() {
-        requires(Robot.SUB_HOOK);
         requires(Robot.SUB_MAST);
     }
 
     protected void initialize() {
-
+    	isFinished = true;
     }
 
-    protected void execute() {}
-
-    protected boolean isFinished() { return false; }
-
-    protected void end() {
-
+    protected void execute() {
+    	if (!isFinished) {
+    		isFinished = Robot.SUB_MAST.goToMiddle();
+    	}
     }
+
+    protected boolean isFinished() { 
+    	return isFinished; 
+	}
+
+    protected void end() {}
 
     protected void interrupted() {
     	end();
