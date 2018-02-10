@@ -2,7 +2,7 @@ package org.usfirst.frc.team3695.robot;
 
 /** where all the static final variables get set */
 public class Constants {
-	
+
 	public static final double
 		/// BOT SPECS
 			DISTANCE_BETWEEN_WHEELS = 20, // inches between wheels; used for turn calculations 
@@ -18,7 +18,7 @@ public class Constants {
 		/// CANDYCANE
 			CANDYCANE_SPEED = 1;
 
-	
+
 	public static final int
 		/// DRIVE MOTORS
 			RIGHT_MASTER    = 0,
@@ -32,13 +32,15 @@ public class Constants {
 			LEFT_PINION_MOTOR  = 4,
 			RIGHT_PINION_MOTOR = 5,
 			SCREW_MOTOR        = 42,
-		/// CANDYCANE MOTOR
-			CANDYCANE_MOTOR = 999,
-		/// RPM'S
-			REDLINE = 6000,
-			IDLE    = 500;
-			
-	
+		/// CANDY CANE
+			HOOK = 999,
+		/// PID
+			RIGHT_PID = 0,
+			LEFT_PID = 1,
+			TIMEOUT_PID = 10;
+
+
+
 	public static final int
 		/// CAMERA SPECS
 			CAM_HEIGHT = 1080,
@@ -52,17 +54,17 @@ public class Constants {
 			REDLINE = 6000,
 			IDLE    = 500;
 
-	public static final boolean 
+	public static final boolean
 			LEFT_MOTOR_INVERT         = false,
 			RIGHT_MOTOR_INVERT        = true,
-			
+
 			LEFT_PINION_MOTOR_INVERT  = false,
 			RIGHT_PINION_MOTOR_INVERT = true,
 			SCREW_MOTOR_INVERT        = false,
-			
+
 			LEFT_ARM_MOTOR_INVERT     = true,
 			RIGHT_ARM_MOTOR_INVERT    = false,
-			
+
 			HOOK_MOTOR_INVERT		  = false;
 
 

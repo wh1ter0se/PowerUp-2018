@@ -1,25 +1,25 @@
 package org.usfirst.frc.team3695.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc.team3695.robot.Constants;
 import org.usfirst.frc.team3695.robot.commands.ManualCommandDrive;
 import org.usfirst.frc.team3695.robot.enumeration.Drivetrain;
 import org.usfirst.frc.team3695.robot.util.Xbox;
 
-import com.ctre.CANTalon;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.command.Subsystem;
 
 /** VROOM VROOM */
 public class SubsystemDrive extends Subsystem {
+
 	
-	
-	private TalonSRX left1;
-	private TalonSRX left2;
-	private TalonSRX right1;
-	private TalonSRX right2;
+	private TalonSRX leftMaster;
+	private TalonSRX leftSlave;
+	private TalonSRX rightMaster;
+	private TalonSRX rightSlave;
 	
 	public Drivetrain drivetrain;
 
@@ -60,20 +60,25 @@ public class SubsystemDrive extends Subsystem {
 	
 	/** gives birth to the CANTalons */
     public SubsystemDrive(){
+
     	drivetrain = Drivetrain.ROCKET_LEAGUE;
-    	
+
     	// masters
-	    	left1 = new TalonSRX(Constants.LEFT_MASTER);
-	    	right1 = new TalonSRX(Constants.RIGHT_MASTER);
+	    	leftMaster = new TalonSRX(Constants.LEFT_MASTER);
+	    	    leftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute,Constants.LEFT_PID,10);
+	    	rightMaster = new TalonSRX(Constants.RIGHT_MASTER);
+	    	    rightMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute,Constants.RIGHT_PID,10);
     	
     	// slaves
-	    	left2 = new TalonSRX(Constants.LEFT_SLAVE);
-	    	right2 = new TalonSRX(Constants.RIGHT_SLAVE);
+	    	leftSlave = new TalonSRX(Constants.LEFT_SLAVE);
+	    	    leftSlave.follow(leftMaster);
+	    	rightSlave = new TalonSRX(Constants.RIGHT_SLAVE);
+	    	    rightSlave.follow(rightMaster);
 	    	
-	    	//voltage(left1);
-	    	//voltage(left2);
-	    	//voltage(right1);
-	    	//voltage(right2);
+	    	//voltage(leftMaster);
+	    	//voltage(leftSlave);
+	    	//voltage(rightMaster);
+	    	//voltage(rightSlave);
     }
     
     public void setDrivetrain(Drivetrain drivetrain) {
@@ -90,10 +95,10 @@ public class SubsystemDrive extends Subsystem {
     	left = (left > 1.0 ? 1.0 : (left < -1.0 ? -1.0 : left));
     	right = (right > 1.0 ? 1.0 : (right < -1.0 ? -1.0 : right));
     	    	
-    	left1.set(ControlMode.PercentOutput, leftify(left));
-    		left2.set(ControlMode.PercentOutput, leftify(left));
-    	right1.set(ControlMode.PercentOutput, rightify(right));
-    		right2.set(ControlMode.PercentOutput, rightify(right));
+    	leftMaster.set(ControlMode.PercentOutput, leftify(left));
+//    		leftSlave.set(ControlMode.Follower, leftify(left));
+    	rightMaster.set(ControlMode.PercentOutput, rightify(right));
+//    		rightSlave.set(ControlMode.Follower, rightify(right));
     	
     }
     
@@ -116,17 +121,17 @@ public class SubsystemDrive extends Subsystem {
     	}
     	
     	/// ramps
-	    	left1.configOpenloopRamp(ramp, 0);
-	    		left2.configOpenloopRamp(ramp, 0);
-	    	right1.configOpenloopRamp(ramp, 0);
-	    		right2.configOpenloopRamp(ramp, 0);
+	    	leftMaster.configOpenloopRamp(ramp, 0);
+	    		leftSlave.configOpenloopRamp(ramp, 0);
+	    	rightMaster.configOpenloopRamp(ramp, 0);
+	    		rightSlave.configOpenloopRamp(ramp, 0);
     	
-	    left1.set(ControlMode.PercentOutput, leftify(left));
-			left2.set(ControlMode.PercentOutput, leftify(left));
-		right1.set(ControlMode.PercentOutput, rightify(right));
-			right2.set(ControlMode.PercentOutput, rightify(right));
+	    leftMaster.set(ControlMode.PercentOutput, leftify(left));
+//			leftSlave.set(ControlMode.PercentOutput, leftify(left));
+		rightMaster.set(ControlMode.PercentOutput, rightify(right));
+//			rightSlave.set(ControlMode.PercentOutput, rightify(right));
     }
-    
+
     /** configures the voltage of each CANTalon */
     private void voltage(TalonSRX talon) {
     	// talon.configNominalOutputVoltage(0f, 0f);
@@ -134,8 +139,25 @@ public class SubsystemDrive extends Subsystem {
     	// talon.enableCurrentLimit(true);
     	// talon.configContinuousCurrentLimit(35, 300);
     }
-    
-    
 
+    double getRightPos(){
+        return rightMaster.getSelectedSensorPosition(Constants.RIGHT_PID);
+    }
+
+    double getLeftPos(){
+        return leftMaster.getSelectedSensorPosition(Constants.LEFT_PID);
+    }
+
+    public void setPIDF(double p, double i, double d, double f){
+        rightMaster.config_kF(Constants.RIGHT_PID, f, Constants.TIMEOUT_PID);
+        rightMaster.config_kP(Constants.RIGHT_PID, p, Constants.TIMEOUT_PID);
+        rightMaster.config_kI(Constants.RIGHT_PID, i, Constants.TIMEOUT_PID);
+        rightMaster.config_kD(Constants.RIGHT_PID, d, Constants.TIMEOUT_PID);
+
+        leftMaster.config_kF(Constants.RIGHT_PID, f, Constants.TIMEOUT_PID);
+        leftMaster.config_kP(Constants.RIGHT_PID, p, Constants.TIMEOUT_PID);
+        leftMaster.config_kI(Constants.RIGHT_PID, i, Constants.TIMEOUT_PID);
+        leftMaster.config_kD(Constants.RIGHT_PID, d, Constants.TIMEOUT_PID);
+    }
 }
 
