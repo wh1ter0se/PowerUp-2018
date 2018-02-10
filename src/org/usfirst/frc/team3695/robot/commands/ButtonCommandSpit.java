@@ -2,7 +2,7 @@ package org.usfirst.frc.team3695.robot.commands;
 
 import org.usfirst.frc.team3695.robot.Constants;
 import org.usfirst.frc.team3695.robot.Robot;
-import org.usfirst.frc.team3695.robot.enumeration.Direction;
+import org.usfirst.frc.team3695.robot.enumeration.Position;
 import org.usfirst.frc.team3695.robot.util.Util;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -11,8 +11,6 @@ import edu.wpi.first.wpilibj.command.Command;
  * Commands the gear flaps
  */
 public class ButtonCommandSpit extends Command {
-	
-	Direction direction;
 	
     public ButtonCommandSpit() {
         requires(Robot.SUB_MANIPULATOR);

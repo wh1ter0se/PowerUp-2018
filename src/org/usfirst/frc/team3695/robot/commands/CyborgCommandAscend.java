@@ -2,7 +2,7 @@ package org.usfirst.frc.team3695.robot.commands;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import org.usfirst.frc.team3695.robot.Robot;
-import org.usfirst.frc.team3695.robot.enumeration.Direction;
+import org.usfirst.frc.team3695.robot.enumeration.Position;
 
 import edu.wpi.first.wpilibj.command.Command;
 
