@@ -8,7 +8,7 @@ public class Constants {
 
 	public static final double
 		/// BOT SPECS
-			DISTANCE_BETWEEN_WHEELS = 20, // inches between wheels; used for turn calculations 
+			DISTANCE_BETWEEN_WHEELS = 24, // inches between wheels; used for turn calculations
 			WHEEL_DIAMETER          = 6, // wheel diameter in inches
 		/// MANIPULATOR
 			SPINNY_SPEED = 1,
