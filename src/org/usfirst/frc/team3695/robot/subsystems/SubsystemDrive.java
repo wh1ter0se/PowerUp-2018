@@ -23,7 +23,11 @@ public class SubsystemDrive extends Subsystem {
 	
 	public Drivetrain drivetrain;
 
-	
+    /**
+     * Allowable tolerance to be considered in range when driving a distance, in rotations
+     */
+    public static final double DISTANCE_ALLOWABLE_ERROR = SubsystemDrive.in2rot(2.0);
+
 	/** runs at robot boot */
     public void initDefaultCommand() {
     	setDefaultCommand(new ManualCommandDrive()); }
@@ -65,9 +69,9 @@ public class SubsystemDrive extends Subsystem {
 
     	// masters
 	    	leftMaster = new TalonSRX(Constants.LEFT_MASTER);
-	    	    leftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute,Constants.LEFT_PID,10);
+	    	    leftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,Constants.LEFT_PID,10);
 	    	rightMaster = new TalonSRX(Constants.RIGHT_MASTER);
-	    	    rightMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute,Constants.RIGHT_PID,10);
+	    	    rightMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,Constants.RIGHT_PID,10);
     	
     	// slaves
 	    	leftSlave = new TalonSRX(Constants.LEFT_SLAVE);
@@ -146,6 +150,24 @@ public class SubsystemDrive extends Subsystem {
 
     double getLeftPos(){
         return leftMaster.getSelectedSensorPosition(Constants.LEFT_PID);
+    }
+
+    public boolean driveDistance(double leftIn, double rightIn){
+        double leftGoal = in2rot(leftIn);
+        double rightGoal = in2rot(rightIn);
+
+        leftMaster.set(ControlMode.MotionMagic, in2rot(leftIn));
+        rightMaster.set(ControlMode.MotionMagic, in2rot(rightIn));
+
+        boolean leftInRange =
+                getLeftPos() > leftify(leftGoal) - DISTANCE_ALLOWABLE_ERROR &&
+                        getLeftPos() < leftify(leftGoal) + DISTANCE_ALLOWABLE_ERROR;
+        boolean rightInRange =
+                getRightPos() > rightify(rightGoal) - DISTANCE_ALLOWABLE_ERROR &&
+                        getRightPos() < rightify(rightGoal) + DISTANCE_ALLOWABLE_ERROR;
+
+        return leftInRange && rightInRange;
+
     }
 
     public void setPIDF(double p, double i, double d, double f){
