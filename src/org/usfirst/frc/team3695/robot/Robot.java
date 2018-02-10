@@ -33,7 +33,7 @@ public class Robot extends IterativeRobot {
 		public static SubsystemHook SUB_HOOK;
 		public static SubsystemManipulator SUB_MANIPULATOR;
 		public static SubsystemMast SUB_MAST;
-		
+
 		public static OI oi;
 		public static Vision vision;
 
