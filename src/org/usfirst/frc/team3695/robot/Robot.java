@@ -10,15 +10,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team3695.robot.auto.CommandGroupAuto;
 import org.usfirst.frc.team3695.robot.enumeration.Autonomous;
+import org.usfirst.frc.team3695.robot.enumeration.Position;
 import org.usfirst.frc.team3695.robot.enumeration.Drivetrain;
+import org.usfirst.frc.team3695.robot.enumeration.Goals;
 import org.usfirst.frc.team3695.robot.subsystems.*;
 
 /** the magic place where everything happens (where the sequence of events is controlled, top of the hierarchy) */
 public class Robot extends IterativeRobot {
 
 	/// choosers
-		SendableChooser<Autonomous> autoChooser;
+		SendableChooser<Goals> autoChooser;
 		SendableChooser<Drivetrain> driveChooser;
+		SendableChooser<Position>  positionChooser;
 		// add choosers as needed, these put drop down options in the smart dash
 		
 		
@@ -65,9 +68,9 @@ public class Robot extends IterativeRobot {
 			
 		/// instantiate autonomous chooser
 			autoChooser = new SendableChooser<>();
-			autoChooser.addDefault(Autonomous.NOTHING.toString(), Autonomous.NOTHING); // set default to nothing
+			autoChooser.addDefault(Autonomous.NOTHING.toString(), Goals.NOTHING); // set default to nothing
 			for(int i = 1; i < Autonomous.values().length; i++) { 
-				autoChooser.addObject(Autonomous.values()[i].toString(), Autonomous.values()[i]); } // add each autonomous enum value to chooser
+				autoChooser.addObject(Autonomous.values()[i].toString(), Goals.values()[i]); } // add each autonomous enum value to chooser
 			SmartDashboard.putData("Auto Mode", autoChooser); //display the chooser on the dash
 
 		/// instantiate cameras
@@ -88,7 +91,7 @@ public class Robot extends IterativeRobot {
 	/** runs when autonomous start */
 	public void autonomousInit() {
 		if(autoChooser.getSelected() != null) {
-			auto = new CommandGroupAuto(autoChooser.getSelected());
+			auto = new CommandGroupAuto(positionChooser.getSelected(), autoChooser.getSelected());
 			auto.start(); 
 		} 
 	}

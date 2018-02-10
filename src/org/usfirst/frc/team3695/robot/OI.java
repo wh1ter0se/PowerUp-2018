@@ -6,7 +6,7 @@ import org.usfirst.frc.team3695.robot.commands.ButtonCommandKillCompressor;
 import org.usfirst.frc.team3695.robot.commands.ButtonCommandSpit;
 import org.usfirst.frc.team3695.robot.commands.ManualCommandGrow;
 import org.usfirst.frc.team3695.robot.commands.ButtonCommandToggleHook;
-import org.usfirst.frc.team3695.robot.enumeration.Direction;
+import org.usfirst.frc.team3695.robot.enumeration.Position;
 import org.usfirst.frc.team3695.robot.util.Xbox;
 
 import edu.wpi.first.wpilibj.Joystick;

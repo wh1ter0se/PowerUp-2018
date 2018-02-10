@@ -1,31 +1,31 @@
 package org.usfirst.frc.team3695.robot.util;
 
-import org.usfirst.frc.team3695.robot.enumeration.Direction;
+import org.usfirst.frc.team3695.robot.enumeration.Position;
 
 import edu.wpi.first.wpilibj.DriverStation;
 
 public class Field {
-	public static Direction getOurScale() {
+	public static Position getOurScale() {
 		if (DriverStation.getInstance().getGameSpecificMessage().charAt(0) == 'L') {
-			return Direction.LEFT;
+			return Position.LEFT;
 		} else {
-			return Direction.RIGHT;
+			return Position.RIGHT;
 		}
 	}
 	
-	public static Direction getThierScale() {
+	public static Position getThierScale() {
 		if (DriverStation.getInstance().getGameSpecificMessage().charAt(2) == 'L') {
-			return Direction.LEFT;
+			return Position.LEFT;
 		} else {
-			return Direction.RIGHT;
+			return Position.RIGHT;
 		}
 	}
 	
-	public static Direction getSwitch() {
+	public static Position getSwitch() {
 		if (DriverStation.getInstance().getGameSpecificMessage().charAt(1) == 'L') {
-			return Direction.LEFT;
+			return Position.LEFT;
 		} else {
-			return Direction.RIGHT;
+			return Position.RIGHT;
 		}
 	}
 }

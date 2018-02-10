@@ -4,7 +4,7 @@ import org.usfirst.frc.team3695.robot.Constants;
 import org.usfirst.frc.team3695.robot.commands.ButtonCommandSpit;
 import org.usfirst.frc.team3695.robot.commands.ManualCommandDrive;
 import org.usfirst.frc.team3695.robot.commands.ManualCommandGrow;
-import org.usfirst.frc.team3695.robot.enumeration.Direction;
+import org.usfirst.frc.team3695.robot.enumeration.Position;
 import org.usfirst.frc.team3695.robot.util.Util;
 import org.usfirst.frc.team3695.robot.util.Xbox;
 
@@ -30,7 +30,7 @@ public class SubsystemMast extends Subsystem {
     DigitalInput midScrewLimit;
     DigitalInput upperScrewLimit;
     
-    private Direction carriagePosition;
+    private Position carriagePosition;
     private Boolean midIsPressed;
 
 	
@@ -86,19 +86,19 @@ public class SubsystemMast extends Subsystem {
     	screw.set(ControlMode.PercentOutput, screwify(screwSpeed));
     }
     
-    public void setCarriagePosition(Direction position) {
+    public void setCarriagePosition(Position position) {
     	carriagePosition = position;
     }
     
     public void updateCarriage() {
     	if (midScrewLimit.get()) {
-    		carriagePosition = Direction.CENTER;
+    		carriagePosition = Position.CENTER;
     	}
-    	else if (carriagePosition == Direction.CENTER && !midScrewLimit.get()) {
+    	else if (carriagePosition == Position.CENTER && !midScrewLimit.get()) {
     		if (screw.getMotorOutputPercent() > 0) {
-    			carriagePosition = Direction.UP;
+    			carriagePosition = Position.UP;
     		} else if (screw.getMotorOutputPercent() < 0) {
-    			carriagePosition = Direction.DOWN;
+    			carriagePosition = Position.DOWN;
     		}
     	}
     }
