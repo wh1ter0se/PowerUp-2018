@@ -1,5 +1,8 @@
 package org.usfirst.frc.team3695.robot;
 
+import edu.wpi.first.wpilibj.command.Subsystem;
+import org.usfirst.frc.team3695.robot.subsystems.SubsystemDrive;
+
 /** where all the static final variables get set */
 public class Constants {
 
@@ -38,8 +41,6 @@ public class Constants {
 			RIGHT_PID = 0,
 			LEFT_PID = 1,
 			TIMEOUT_PID = 10;
-
-
 
 	public static final int
 		/// CAMERA SPECS
