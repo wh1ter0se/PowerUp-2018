@@ -8,7 +8,7 @@ public class Constants {
 
 	public static final double
 		/// BOT SPECS
-			DISTANCE_BETWEEN_WHEELS = 20, // inches between wheels; used for turn calculations 
+			DISTANCE_BETWEEN_WHEELS = 24, // inches between wheels; used for turn calculations
 			WHEEL_DIAMETER          = 6, // wheel diameter in inches
 		/// MANIPULATOR
 			SPINNY_SPEED = 1,
@@ -69,5 +69,17 @@ public class Constants {
 			HOOK_MOTOR_INVERT		  = false;
 
 
+	/** where all the static final variables for arduino get set */
+	public static class ArduinoPatterns {
 
+		public static final int
+				SOLID_RED =         1,
+				SOLID_BLUE =        2,
+				RUNNING_RED =       3,
+				RUNNING_BLUE =      4,
+				RAINBOW_SLOW =      5,
+				RAINBOW_FAST =      6,
+				RAINBOW_SONIC =     7, // plz yes
+				GOD_BLESS_AMERICA = 8;
+	}
 }
