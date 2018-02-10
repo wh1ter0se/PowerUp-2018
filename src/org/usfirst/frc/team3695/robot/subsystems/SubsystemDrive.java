@@ -2,6 +2,7 @@ package org.usfirst.frc.team3695.robot.subsystems;
 
 import org.usfirst.frc.team3695.robot.Constants;
 import org.usfirst.frc.team3695.robot.commands.ManualCommandDrive;
+import org.usfirst.frc.team3695.robot.enumeration.Drivetrain;
 import org.usfirst.frc.team3695.robot.util.Xbox;
 
 import com.ctre.CANTalon;
@@ -19,6 +20,8 @@ public class SubsystemDrive extends Subsystem {
 	private TalonSRX left2;
 	private TalonSRX right1;
 	private TalonSRX right2;
+	
+	public Drivetrain drivetrain;
 
 	
 	/** runs at robot boot */
@@ -57,6 +60,8 @@ public class SubsystemDrive extends Subsystem {
 	
 	/** gives birth to the CANTalons */
     public SubsystemDrive(){
+    	drivetrain = Drivetrain.ROCKET_LEAGUE;
+    	
     	// masters
 	    	left1 = new TalonSRX(Constants.LEFT_MASTER);
 	    	right1 = new TalonSRX(Constants.RIGHT_MASTER);
@@ -69,6 +74,10 @@ public class SubsystemDrive extends Subsystem {
 	    	//voltage(left2);
 	    	//voltage(right1);
 	    	//voltage(right2);
+    }
+    
+    public void setDrivetrain(Drivetrain drivetrain) {
+    	this.drivetrain = drivetrain;
     }
     
     /** simple rocket league drive code; independent rotation and acceleration */
@@ -88,18 +97,19 @@ public class SubsystemDrive extends Subsystem {
     	
     }
     
-    /** drive code where rotation is dependent on acceleration */
-    public void driveForza(Joystick joy, double ramp) {
+    /** drive code where rotation is dependent on acceleration 
+     * @param radius 0.00-1.00, 1 being zero radius and 0 being driving in a line */
+    public void driveForza(Joystick joy, double ramp, double radius) {
     	double left = 0, 
     		   right = 0;
     	double acceleration = Xbox.RT(joy) - Xbox.LT(joy);
     	
     	if (Xbox.LEFT_X(joy) < 0) {
     		right = acceleration;
-    		left = acceleration * ((2 * (1 - Math.abs(Xbox.LEFT_X(joy)))) - 1); 
+    		left = (acceleration * ((2 * (1 - Math.abs(Xbox.LEFT_X(joy)))) - 1)) / radius; 
     	} else if (Xbox.LEFT_X(joy) > 0) {
     		left = acceleration;
-    		right = acceleration * ((2 * (1 - Math.abs(Xbox.LEFT_X(joy)))) - 1); 
+    		right = (acceleration * ((2 * (1 - Math.abs(Xbox.LEFT_X(joy)))) - 1)) / radius; 
     	} else {
     		left = acceleration;
     		right = acceleration;

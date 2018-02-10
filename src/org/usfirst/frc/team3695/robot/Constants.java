@@ -22,12 +22,12 @@ public class Constants {
 	public static final int
 		/// DRIVE MOTORS
 			RIGHT_MASTER    = 0,
-				RIGHT_SLAVE = 1,
+				RIGHT_SLAVE = 6,
 			LEFT_MASTER     = 2,
-				LEFT_SLAVE  = 3,
+				LEFT_SLAVE  = 7,
 		/// MANIPULATOR SPINNY BOIS
-			LEFT_ARM =  6,
-			RIGHT_ARM = 7,
+			LEFT_FLYWHEEL =  8,
+			RIGHT_FLYWHEEL = 3,
 		/// MAST MOTORS
 			LEFT_PINION_MOTOR  = 4,
 			RIGHT_PINION_MOTOR = 5,
@@ -47,16 +47,23 @@ public class Constants {
 			I2C_DEVICE_ADDRESS = 4,
 		/// MANIPULATOR
 			OPEN_ARMS  = 0,
-			CLOSE_ARMS = 1;
+			CLOSE_ARMS = 1,
+		/// RPM'S
+			REDLINE = 6000,
+			IDLE    = 500;
 
 	public static final boolean 
 			LEFT_MOTOR_INVERT         = false,
 			RIGHT_MOTOR_INVERT        = true,
+			
 			LEFT_PINION_MOTOR_INVERT  = false,
 			RIGHT_PINION_MOTOR_INVERT = true,
+			SCREW_MOTOR_INVERT        = false,
+			
 			LEFT_ARM_MOTOR_INVERT     = true,
 			RIGHT_ARM_MOTOR_INVERT    = false,
-			SCREW_MOTOR_INVERT        = false;
+			
+			HOOK_MOTOR_INVERT		  = false;
 
 
 

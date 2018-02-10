@@ -2,7 +2,10 @@ package org.usfirst.frc.team3695.robot;
 
 import org.usfirst.frc.team3695.robot.commands.ButtonCommandClamp;
 import org.usfirst.frc.team3695.robot.commands.ButtonCommandEat;
+import org.usfirst.frc.team3695.robot.commands.ButtonCommandKillCompressor;
 import org.usfirst.frc.team3695.robot.commands.ButtonCommandSpit;
+import org.usfirst.frc.team3695.robot.commands.ManualCommandGrow;
+import org.usfirst.frc.team3695.robot.commands.ButtonCommandToggleHook;
 import org.usfirst.frc.team3695.robot.enumeration.Direction;
 import org.usfirst.frc.team3695.robot.util.Xbox;
 
@@ -32,10 +35,15 @@ public class OI {
 		/// manipulator clamp
 			Button toggleClamp = new JoystickButton(OPERATOR, Xbox.RB);
 				toggleClamp.toggleWhenActive(new ButtonCommandClamp());
-		///Candycane control
-			Button raiseCane = new JoystickButton(DRIVER, Xbox.RB);
-
-			Button lowerCane = new JoystickButton(DRIVER, Xbox.LB);
+		/// candy cane
+			Button toggleHook = new JoystickButton(OPERATOR, Xbox.LB);
+				toggleHook.toggleWhenActive(new ButtonCommandToggleHook());
+		/// Mast moving
+			Button moveMast = new JoystickButton(DRIVER, Xbox.X);
+				moveMast.whenInactive(new ManualCommandGrow());
+		
+		/// To Compress, or Not To Compress. It is now an option.
+			SmartDashboard.putData("Disable Compressor", new ButtonCommandKillCompressor());
 	}
 	
 }

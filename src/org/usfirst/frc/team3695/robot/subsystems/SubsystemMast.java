@@ -29,6 +29,9 @@ public class SubsystemMast extends Subsystem {
     DigitalInput lowerScrewLimit;
     DigitalInput midScrewLimit;
     DigitalInput upperScrewLimit;
+    
+    private Direction carriagePosition;
+    private Boolean midIsPressed;
 
 	
 	/** runs at robot boot */
@@ -68,26 +71,74 @@ public class SubsystemMast extends Subsystem {
     
    	/** raise the mast at RT-LR trigger speed */
     public void moveBySpeed(Joystick joy) {
-    	double screwSpeed = Xbox.RT(joy) - Xbox.LT(joy);
-    	double pinionSpeed = Xbox.RT(joy) - Xbox.LT(joy);
+    	double screwSpeed = Xbox.RIGHT_Y(joy);
+    	double pinionSpeed = Xbox.LEFT_Y(joy);
 
-    	// If the limit switches are set to normally open, then add a ! to all the gets, otherwise this will be fine
     	if (lowerScrewLimit.get()  && screwSpeed  < 0)   { screwSpeed = 0;  }
     	if (upperScrewLimit.get()  && screwSpeed  > 1)   { screwSpeed = 0;  }
     	if (lowerPinionLimit.get() && pinionSpeed < 0)   { pinionSpeed = 0; }
     	if (upperPinionLimit.get() && pinionSpeed > 1)   { pinionSpeed = 0; }
     	
-    	leftPinion.set(ControlMode.PercentOutput, leftPinionate(screwSpeed));
-    	rightPinion.set(ControlMode.PercentOutput, rightPinionate(screwSpeed));
-    	screw.set(ControlMode.PercentOutput, screwify(pinionSpeed));
+    	updateCarriage();
+    	**/
+    	leftPinion.set(ControlMode.PercentOutput, leftPinionate(pinionSpeed));
+    	rightPinion.set(ControlMode.PercentOutput, rightPinionate(pinionSpeed));
+    	screw.set(ControlMode.PercentOutput, screwify(screwSpeed));
     }
-
+    
+    public void setCarriagePosition(Direction position) {
+    	carriagePosition = position;
+    }
+    
+    public void updateCarriage() {
+    	if (midScrewLimit.get()) {
+    		carriagePosition = Direction.CENTER;
+    	}
+    	else if (carriagePosition == Direction.CENTER && !midScrewLimit.get()) {
+    		if (screw.getMotorOutputPercent() > 0) {
+    			carriagePosition = Direction.UP;
+    		} else if (screw.getMotorOutputPercent() < 0) {
+    			carriagePosition = Direction.DOWN;
+    		}
+    	}
+    }
+    	
+    public Boolean goToMiddle() {
+    	/// make sure pinion is at bottom
+	    	if (!lowerPinionLimit.get()) {
+    			leftPinion.set(ControlMode.PercentOutput, leftPinionate(-1));
+    			rightPinion.set(ControlMode.PercentOutput, rightPinionate(-1));
+    		}
+    		else {
+    			leftPinion.set(ControlMode.PercentOutput, 0);
+    			rightPinion.set(ControlMode.PercentOutput, 0);
+    		}
+    	/// move screw to middle
+	    	if (midScrewLimit.get()) {
+	    		screw.set(ControlMode.PercentOutput, 0);
+	    		return true;
+	    	}
+	    	else {
+		    	switch (carriagePosition) {
+			    	case UP:
+			    		screw.set(ControlMode.PercentOutput, screwify(-1));
+			    		break;
+			    	case DOWN:
+			    		screw.set(ControlMode.PercentOutput, screwify(1));
+			    		break;
+		    	}
+		    	return false;
+	    	}
+	    }
+    
     /** configures the voltage of each CANTalon */
     private void voltage(TalonSRX talon) {
     	// talon.configNominalOutputVoltage(0f, 0f);
     	// talon.configPeakOutputVoltage(12.0f, -12.0f);
     	// talon.enableCurrentLimit(true);
-    	talon.configContinuousCurrentLimit(35, 300);
+    	// talon.configContinuousCurrentLimit(35, 300);
+    		// configContinuousCurrentLimit spat mean errors
+    		// commented out for now, but we need to address it
     }
     
     
