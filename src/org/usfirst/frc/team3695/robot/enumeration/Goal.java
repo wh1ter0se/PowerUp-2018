@@ -1,6 +1,6 @@
 package org.usfirst.frc.team3695.robot.enumeration;
 
-public enum Goals {
+public enum Goal {
 	NOTHING("Do nothing"),
 	RUN_FOR_IT("Run for it"),
 	SWITCH_LEFT("Switch - Left Side"),
@@ -9,7 +9,7 @@ public enum Goals {
 	SCALE_RIGHT("Scale - Right");
 
 	private final String name;
-	Goals(String name) {
+	Goal(String name) {
 		this.name = name;
 	}
 	
