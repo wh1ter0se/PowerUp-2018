@@ -1,11 +1,12 @@
 package org.usfirst.frc.team3695.robot.commands;
 
+import org.usfirst.frc.team3695.robot.Constants;
 import org.usfirst.frc.team3695.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 public class CyborgCommandRotateDegrees extends Command {
-    public static final double SCALAR = (22.5 * Math.PI) / 360;
+    public static final double SCALAR = (Constants.DISTANCE_BETWEEN_WHEELS * Math.PI) / 360;
     public static final long TIME_WAIT = 500;
 
     private boolean inRange;
