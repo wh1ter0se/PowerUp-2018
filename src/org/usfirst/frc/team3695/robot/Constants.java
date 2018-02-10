@@ -14,7 +14,9 @@ public class Constants {
 		/// REDLINE CURVE POINTS
 			REDLINE_START = 0,
 			REDLINE_MID   = .125,
-			REDLINE_END   = 1;
+			REDLINE_END   = 1,
+		/// CANDYCANE
+			CANDYCANE_SPEED = 1;
 
 	
 	public static final int
@@ -27,11 +29,14 @@ public class Constants {
 			LEFT_FLYWHEEL =  8,
 			RIGHT_FLYWHEEL = 3,
 		/// MAST MOTORS
-			LEFT_PINION_MOTOR  = 1,// working
-			RIGHT_PINION_MOTOR = 4,
-			SCREW_MOTOR        = 5,
-		/// CANDY CANE
-			HOOK = 42;
+			LEFT_PINION_MOTOR  = 4,
+			RIGHT_PINION_MOTOR = 5,
+			SCREW_MOTOR        = 42,
+		/// CANDYCANE MOTOR
+			CANDYCANE_MOTOR = 999,
+		/// RPM'S
+			REDLINE = 6000,
+			IDLE    = 500;
 			
 	
 	public static final int
