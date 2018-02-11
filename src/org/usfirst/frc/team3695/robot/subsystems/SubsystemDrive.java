@@ -69,9 +69,9 @@ public class SubsystemDrive extends Subsystem {
 
     	// masters
 	    	leftMaster = new TalonSRX(Constants.LEFT_MASTER);
-	    	    leftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,Constants.LEFT_PID,10);
+//	    	    leftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,Constants.LEFT_PID,10);
 	    	rightMaster = new TalonSRX(Constants.RIGHT_MASTER);
-	    	    rightMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,Constants.RIGHT_PID,10);
+//	    	    rightMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,Constants.RIGHT_PID,10);
 
     	// slaves
 	    	leftSlave = new TalonSRX(Constants.LEFT_SLAVE);
