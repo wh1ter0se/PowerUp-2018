@@ -174,6 +174,10 @@ public class SubsystemDrive extends Subsystem {
         // talon.configContinuousCurrentLimit(35, 300);
     }
 
+    public double getError() {
+        return  (leftify(leftMaster.getErrorDerivative(Constants.LEFT_PID)) + rightify(rightMaster.getErrorDerivative(Constants.RIGHT_PID))) / 2.0;
+    }
+
     double getRightPos() {
         return rightMaster.getSelectedSensorPosition(Constants.RIGHT_PID);
     }
@@ -199,9 +203,9 @@ public class SubsystemDrive extends Subsystem {
         return leftInRange && rightInRange;
     }
 
-    public void setVelocity(double left, double right) {
-        leftMaster.set(ControlMode.Velocity, left);
-        rightMaster.set(ControlMode.Velocity, right);
+    public void driveDirect(double left, double right) {
+        leftMaster.set(ControlMode.PercentOutput, left);
+        rightMaster.set(ControlMode.PercentOutput, right);
     }
 
     public void setPIDF(double p, double i, double d, double f) {

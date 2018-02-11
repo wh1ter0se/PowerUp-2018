@@ -34,7 +34,7 @@ public class CyborgCommandDriveDistance extends Command {
     }
 
     protected void end() {
-        Robot.SUB_DRIVE.setVelocity(0, 0);
+        Robot.SUB_DRIVE.driveDirect(0, 0);
     }
 
     protected void interrupted() {
