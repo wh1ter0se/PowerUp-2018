@@ -12,147 +12,177 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.Joystick;
 
-/** VROOM VROOM */
+/**
+ * VROOM VROOM
+ */
 public class SubsystemDrive extends Subsystem {
 
 
-	private TalonSRX leftMaster;
-	private TalonSRX leftSlave;
-	private TalonSRX rightMaster;
-	private TalonSRX rightSlave;
+    private TalonSRX leftMaster;
+    private TalonSRX leftSlave;
+    private TalonSRX rightMaster;
+    private TalonSRX rightSlave;
 
-	public Drivetrain drivetrain;
+    public Drivetrain drivetrain;
 
     /**
      * Allowable tolerance to be considered in range when driving a distance, in rotations
      */
     public static final double DISTANCE_ALLOWABLE_ERROR = SubsystemDrive.in2rot(2.0);
 
-	/** runs at robot boot */
+    /**
+     * runs at robot boot
+     */
     public void initDefaultCommand() {
-    	setDefaultCommand(new ManualCommandDrive()); }
+        setDefaultCommand(new ManualCommandDrive());
+    }
 
 
-    /** converts RPM to inches per second */
+    /**
+     * converts RPM to inches per second
+     */
     public static final double rpm2ips(double rpm) {
-    	return rpm / 60.0 * Constants.WHEEL_DIAMETER * Math.PI; }
+        return rpm / 60.0 * Constants.WHEEL_DIAMETER * Math.PI;
+    }
 
 
-    /** converts an inches per second number to RPM */
+    /**
+     * converts an inches per second number to RPM
+     */
     public static final double ips2rpm(double ips) {
-    	return ips * 60.0 / Constants.WHEEL_DIAMETER / Math.PI; }
+        return ips * 60.0 / Constants.WHEEL_DIAMETER / Math.PI;
+    }
 
 
-    /** converts rotations to distance traveled in inches */
+    /**
+     * converts rotations to distance traveled in inches
+     */
     public static final double rot2in(double rot) {
-    	return rot * Constants.WHEEL_DIAMETER * Math.PI; }
+        return rot * Constants.WHEEL_DIAMETER * Math.PI;
+    }
 
 
-    /** converts distance traveled in inches to rotations */
+    /**
+     * converts distance traveled in inches to rotations
+     */
     public static final double in2rot(double in) {
-    	return in / Constants.WHEEL_DIAMETER / Math.PI; }
+        return in / Constants.WHEEL_DIAMETER / Math.PI;
+    }
 
-    /** apply left motor invert */
+    /**
+     * apply left motor invert
+     */
     public static final double leftify(double left) {
-		return left * (Constants.LEFT_MOTOR_INVERT ? -1.0 : 1.0);
-	}
+        return left * (Constants.LEFT_MOTOR_INVERT ? -1.0 : 1.0);
+    }
 
-    /** apply right motor invert */
-	public static final double rightify(double right) {
-		return right * (Constants.RIGHT_MOTOR_INVERT ? -1.0 : 1.0);
-	}
+    /**
+     * apply right motor invert
+     */
+    public static final double rightify(double right) {
+        return right * (Constants.RIGHT_MOTOR_INVERT ? -1.0 : 1.0);
+    }
 
-	/** gives birth to the CANTalons */
-    public SubsystemDrive(){
+    /**
+     * gives birth to the CANTalons
+     */
+    public SubsystemDrive() {
 
-    	drivetrain = Drivetrain.ROCKET_LEAGUE;
+        drivetrain = Drivetrain.ROCKET_LEAGUE;
 
-    	// masters
-	    	leftMaster = new TalonSRX(Constants.LEFT_MASTER);
-	    	    leftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,Constants.LEFT_PID,10);
-	    	rightMaster = new TalonSRX(Constants.RIGHT_MASTER);
-	    	    rightMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,Constants.RIGHT_PID,10);
+        // masters
+        leftMaster = new TalonSRX(Constants.LEFT_MASTER);
+        leftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.LEFT_PID, Constants.TIMEOUT_PID);
+        rightMaster = new TalonSRX(Constants.RIGHT_MASTER);
+        rightMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.RIGHT_PID, Constants.TIMEOUT_PID);
 
-    	// slaves
-	    	leftSlave = new TalonSRX(Constants.LEFT_SLAVE);
-	    	    leftSlave.follow(leftMaster);
-	    	rightSlave = new TalonSRX(Constants.RIGHT_SLAVE);
-	    	    rightSlave.follow(rightMaster);
+        // slaves
+        leftSlave = new TalonSRX(Constants.LEFT_SLAVE);
+        leftSlave.follow(leftMaster);
+        rightSlave = new TalonSRX(Constants.RIGHT_SLAVE);
+        rightSlave.follow(rightMaster);
 
-	    	//voltage(leftMaster);
-	    	//voltage(leftSlave);
-	    	//voltage(rightMaster);
-	    	//voltage(rightSlave);
+        //voltage(leftMaster);
+        //voltage(leftSlave);
+        //voltage(rightMaster);
+        //voltage(rightSlave);
     }
 
     public void setDrivetrain(Drivetrain drivetrain) {
-    	this.drivetrain = drivetrain;
+        this.drivetrain = drivetrain;
     }
 
-    /** simple rocket league drive code; independent rotation and acceleration */
+    /**
+     * simple rocket league drive code; independent rotation and acceleration
+     */
     public void driveRLTank(Joystick joy) {
-    	double adder = Xbox.RT(joy) - Xbox.LT(joy);
-    	double left = adder + (Xbox.LEFT_X(joy) / 1.333333);
-    	double right = adder - (Xbox.LEFT_X(joy) / 1.333333);
+        double adder = Xbox.RT(joy) - Xbox.LT(joy);
+        double left = adder + (Xbox.LEFT_X(joy) / 1.333333);
+        double right = adder - (Xbox.LEFT_X(joy) / 1.333333);
 
-    	//Quick Truncate
-    	left = (left > 1.0 ? 1.0 : (left < -1.0 ? -1.0 : left));
-    	right = (right > 1.0 ? 1.0 : (right < -1.0 ? -1.0 : right));
+        //Quick Truncate
+        left = (left > 1.0 ? 1.0 : (left < -1.0 ? -1.0 : left));
+        right = (right > 1.0 ? 1.0 : (right < -1.0 ? -1.0 : right));
 
-    	leftMaster.set(ControlMode.PercentOutput, leftify(left));
+        leftMaster.set(ControlMode.PercentOutput, leftify(left));
 //    		leftSlave.set(ControlMode.Follower, leftify(left));
-    	rightMaster.set(ControlMode.PercentOutput, rightify(right));
+        rightMaster.set(ControlMode.PercentOutput, rightify(right));
 //    		rightSlave.set(ControlMode.Follower, rightify(right));
 
     }
 
-    /** drive code where rotation is dependent on acceleration
-     * @param radius 0.00-1.00, 1 being zero radius and 0 being driving in a line */
+    /**
+     * drive code where rotation is dependent on acceleration
+     *
+     * @param radius 0.00-1.00, 1 being zero radius and 0 being driving in a line
+     */
     public void driveForza(Joystick joy, double ramp, double radius) {
-    	double left = 0,
-    		   right = 0;
-    	double acceleration = Xbox.RT(joy) - Xbox.LT(joy);
+        double left = 0,
+                right = 0;
+        double acceleration = Xbox.RT(joy) - Xbox.LT(joy);
 
-    	if (Xbox.LEFT_X(joy) < 0) {
-    		right = acceleration;
-    		left = (acceleration * ((2 * (1 - Math.abs(Xbox.LEFT_X(joy)))) - 1)) / radius;
-    	} else if (Xbox.LEFT_X(joy) > 0) {
-    		left = acceleration;
-    		right = (acceleration * ((2 * (1 - Math.abs(Xbox.LEFT_X(joy)))) - 1)) / radius;
-    	} else {
-    		left = acceleration;
-    		right = acceleration;
-    	}
+        if (Xbox.LEFT_X(joy) < 0) {
+            right = acceleration;
+            left = (acceleration * ((2 * (1 - Math.abs(Xbox.LEFT_X(joy)))) - 1)) / radius;
+        } else if (Xbox.LEFT_X(joy) > 0) {
+            left = acceleration;
+            right = (acceleration * ((2 * (1 - Math.abs(Xbox.LEFT_X(joy)))) - 1)) / radius;
+        } else {
+            left = acceleration;
+            right = acceleration;
+        }
 
-    	/// ramps
-	    	leftMaster.configOpenloopRamp(ramp, 0);
-	    		leftSlave.configOpenloopRamp(ramp, 0);
-	    	rightMaster.configOpenloopRamp(ramp, 0);
-	    		rightSlave.configOpenloopRamp(ramp, 0);
+        /// ramps
+        leftMaster.configOpenloopRamp(ramp, 0);
+        leftSlave.configOpenloopRamp(ramp, 0);
+        rightMaster.configOpenloopRamp(ramp, 0);
+        rightSlave.configOpenloopRamp(ramp, 0);
 
-	    leftMaster.set(ControlMode.PercentOutput, leftify(left));
+        leftMaster.set(ControlMode.PercentOutput, leftify(left));
 //			leftSlave.set(ControlMode.PercentOutput, leftify(left));
-		rightMaster.set(ControlMode.PercentOutput, rightify(right));
+        rightMaster.set(ControlMode.PercentOutput, rightify(right));
 //			rightSlave.set(ControlMode.PercentOutput, rightify(right));
     }
 
-    /** configures the voltage of each CANTalon */
+    /**
+     * configures the voltage of each CANTalon
+     */
     private void voltage(TalonSRX talon) {
-    	// talon.configNominalOutputVoltage(0f, 0f);
-    	// talon.configPeakOutputVoltage(12.0f, -12.0f);
-    	// talon.enableCurrentLimit(true);
-    	// talon.configContinuousCurrentLimit(35, 300);
+        // talon.configNominalOutputVoltage(0f, 0f);
+        // talon.configPeakOutputVoltage(12.0f, -12.0f);
+        // talon.enableCurrentLimit(true);
+        // talon.configContinuousCurrentLimit(35, 300);
     }
 
-    double getRightPos(){
+    double getRightPos() {
         return rightMaster.getSelectedSensorPosition(Constants.RIGHT_PID);
     }
 
-    double getLeftPos(){
+    double getLeftPos() {
         return leftMaster.getSelectedSensorPosition(Constants.LEFT_PID);
     }
 
-    public boolean driveDistance(double leftIn, double rightIn){
+    public boolean driveDistance(double leftIn, double rightIn) {
         double leftGoal = in2rot(leftIn);
         double rightGoal = in2rot(rightIn);
 
@@ -174,7 +204,7 @@ public class SubsystemDrive extends Subsystem {
         rightMaster.set(ControlMode.Velocity, right);
     }
 
-    public void setPIDF(double p, double i, double d, double f){
+    public void setPIDF(double p, double i, double d, double f) {
         rightMaster.config_kF(Constants.RIGHT_PID, f, Constants.TIMEOUT_PID);
         rightMaster.config_kP(Constants.RIGHT_PID, p, Constants.TIMEOUT_PID);
         rightMaster.config_kI(Constants.RIGHT_PID, i, Constants.TIMEOUT_PID);
