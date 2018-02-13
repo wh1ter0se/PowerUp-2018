@@ -6,9 +6,7 @@ import org.usfirst.frc.team3695.robot.enumeration.Position;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-/**
- * toggles the state of the clamp
- */
+/** toggles the state of the clamp */
 public class ButtonCommandClamp extends Command {
 	
     public ButtonCommandClamp() {
