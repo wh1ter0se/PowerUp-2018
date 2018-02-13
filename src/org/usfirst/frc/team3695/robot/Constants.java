@@ -32,11 +32,9 @@ public class Constants {
 			LEFT_FLYWHEEL =  8,
 			RIGHT_FLYWHEEL = 3,
 		/// MAST MOTORS
-			LEFT_PINION_MOTOR  = 4,
-			RIGHT_PINION_MOTOR = 5,
-			SCREW_MOTOR        = 42,
-		/// CANDY CANE
-			HOOK = 999,
+			LEFT_PINION_MOTOR  = 1,
+			RIGHT_PINION_MOTOR = 4,
+			SCREW_MOTOR        = 5,
 		/// PID
 			RIGHT_PID = 0,
 			LEFT_PID = 1,
@@ -49,8 +47,8 @@ public class Constants {
 		/// I2C
 			I2C_DEVICE_ADDRESS = 4,
 		/// MANIPULATOR
-			OPEN_ARMS  = 0,
-			CLOSE_ARMS = 1,
+			OPEN_ARMS  = 5,
+			CLOSE_ARMS = 4,
 		/// RPM'S
 			REDLINE = 6000,
 			IDLE    = 500;
