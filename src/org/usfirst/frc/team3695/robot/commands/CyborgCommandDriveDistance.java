@@ -1,30 +1,29 @@
+
 package org.usfirst.frc.team3695.robot.commands;
 
-import org.usfirst.frc.team3695.robot.Constants;
 import org.usfirst.frc.team3695.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class CyborgCommandRotateDegrees extends Command {
-    public static final double SCALAR = (Constants.DISTANCE_BETWEEN_WHEELS * Math.PI) / 360;
-    public static final long TIME_WAIT = 500;
+public class CyborgCommandDriveDistance extends Command {
 
-    private boolean inRange;
-    private long time;
+    public static final long TIME_WAIT = 1000;
     public final double inches;
+    private long time;
+    private boolean inRange;
 
-    public CyborgCommandRotateDegrees(double degrees) {
-        this.inches = degrees * SCALAR;
+    public CyborgCommandDriveDistance(double inches) {
+        this.inches = inches;
         requires(Robot.SUB_DRIVE);
     }
 
     protected void initialize() {
-        time = System.currentTimeMillis() + TIME_WAIT;
         Robot.SUB_DRIVE.reset();
+        time = System.currentTimeMillis() + TIME_WAIT;
     }
 
     protected void execute() {
-        inRange = Robot.SUB_DRIVE.driveDistance(inches, -inches);
+        inRange = Robot.SUB_DRIVE.driveDistance(inches, inches);
     }
 
     protected boolean isFinished() {
