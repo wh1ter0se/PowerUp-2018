@@ -12,6 +12,8 @@ import org.opencv.core.Core;
 import org.opencv.core.Mat;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 /**
  * Contains methods used for anything vision
@@ -25,7 +27,6 @@ public class Vision extends IterativeRobot {
     void startCameraThread(){
         //Places the vision in a separate thread from everything else as recommended by FIRST.
         new Thread(this::concatCameraStream).start();
-
     }
 
     /**

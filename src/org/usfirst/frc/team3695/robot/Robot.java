@@ -26,7 +26,7 @@ public class Robot extends IterativeRobot {
 		
 		
 	/// subsystems
-		public static SubsystemArduino SUB_ARDUINO;
+//		public static SubsystemArduino SUB_ARDUINO;
 		public static SubsystemClamp SUB_CLAMP;
 		public static SubsystemCompressor SUB_COMPRESSOR;
 		public static SubsystemDrive SUB_DRIVE;
@@ -47,7 +47,7 @@ public class Robot extends IterativeRobot {
 	/** runs when robot is turned on */
 	public void robotInit() {
 		/// instantiate subsystems
-			SUB_ARDUINO = new SubsystemArduino();
+//			SUB_ARDUINO = new SubsystemArduino();
 			SUB_CLAMP = new SubsystemClamp();
 			SUB_COMPRESSOR = new SubsystemCompressor();
 			SUB_DRIVE = new SubsystemDrive();
