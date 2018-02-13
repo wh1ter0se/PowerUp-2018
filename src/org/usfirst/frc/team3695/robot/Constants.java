@@ -17,9 +17,7 @@ public class Constants {
 		/// REDLINE CURVE POINTS
 			REDLINE_START = 0,
 			REDLINE_MID   = .125,
-			REDLINE_END   = 1,
-		/// CANDYCANE
-			CANDYCANE_SPEED = 1;
+			REDLINE_END   = 1;
 
 
 	public static final int
@@ -49,6 +47,9 @@ public class Constants {
 		/// MANIPULATOR
 			OPEN_ARMS  = 5,
 			CLOSE_ARMS = 4,
+		/// CANDY CANE
+			RAISE_HOOK = 6,
+			LOWER_HOOK = 7,
 		/// RPM'S
 			REDLINE = 6000,
 			IDLE    = 500;

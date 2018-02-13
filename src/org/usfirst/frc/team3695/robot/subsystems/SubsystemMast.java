@@ -70,7 +70,7 @@ public class SubsystemMast extends Subsystem {
    	}
     
    	/** raise the mast at RT-LR trigger speed */
-    public void moveBySpeed(Joystick joy) {
+    public void moveBySpeed(Joystick joy, double inhibitor) {
     	double screwSpeed = Xbox.RIGHT_Y(joy);
     	double pinionSpeed = Xbox.LEFT_Y(joy);
     	/**
@@ -83,7 +83,7 @@ public class SubsystemMast extends Subsystem {
     	*/
     	leftPinion.set(ControlMode.PercentOutput, leftPinionate(pinionSpeed));
     	rightPinion.set(ControlMode.PercentOutput, rightPinionate(pinionSpeed));
-    	screw.set(ControlMode.PercentOutput, screwify(screwSpeed));
+    	screw.set(ControlMode.PercentOutput, inhibitor * screwify(screwSpeed));
     }
     
     public void setCarriagePosition(Position position) {

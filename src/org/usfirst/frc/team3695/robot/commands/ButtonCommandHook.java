@@ -7,25 +7,25 @@ import org.usfirst.frc.team3695.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /** move the mast */
-public class ButtonCommandToggleHook extends Command {
-
+public class ButtonCommandHook extends Command {
     
-    public ButtonCommandToggleHook() {
+    public ButtonCommandHook() {
         requires(Robot.SUB_HOOK);
     }
 
     protected void initialize() {
+    	Robot.SUB_HOOK.lowerHook();
     }
 
-    protected void execute() {
-    	
+    protected void execute() {}
+
+    protected boolean isFinished() { return false; }
+
+    protected void end() {
+    	Robot.SUB_HOOK.raiseHook();
     }
 
-    protected boolean isFinished() {
-        return false;
+    protected void interrupted() {
+    	end();
     }
-
-    protected void end() {}
-
-    protected void interrupted() {}
 }
