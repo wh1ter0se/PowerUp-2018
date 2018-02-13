@@ -81,25 +81,6 @@ public class SubsystemDrive extends Subsystem {
 		return right * (Constants.RIGHT_MOTOR_INVERT ? -1.0 : 1.0);
 	}
 
-	/** gives birth to the CANTalons */
-    public SubsystemDrive(){
-
-    	drivetrain = Drivetrain.ROCKET_LEAGUE;
-
-    	// masters
-	    	leftMaster = new TalonSRX(Constants.LEFT_MASTER);
-//	    	    leftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,Constants.LEFT_PID,10);
-	    	rightMaster = new TalonSRX(Constants.RIGHT_MASTER);
-//	    	    rightMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,Constants.RIGHT_PID,10);
-    }
-
-    /**
-     * apply right motor invert
-     */
-    public static final double rightify(double right) {
-        return right * (Constants.RIGHT_MOTOR_INVERT ? -1.0 : 1.0);
-    }
-
     /**
      * gives birth to the CANTalons
      */
