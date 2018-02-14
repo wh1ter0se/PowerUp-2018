@@ -77,8 +77,8 @@ public class SubsystemManipulator extends Subsystem {
     	
     	speed = generateCurve(speed, 0, .25 * (intensity * .8 + .2), (intensity * .8 + .2)); // find y value on curve, given x and parameters
     	
-    	//armLeft.set(ControlMode.PercentOutput, leftArmify(speed));
-    	//armRight.set(ControlMode.PercentOutput, rightArmify(speed));
+    	armLeft.set(ControlMode.PercentOutput, leftArmify(speed));
+    	armRight.set(ControlMode.PercentOutput, rightArmify(speed));
     }
 
     

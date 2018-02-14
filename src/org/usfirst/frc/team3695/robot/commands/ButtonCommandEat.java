@@ -18,12 +18,12 @@ public class ButtonCommandEat extends Command {
     }
 
     protected void initialize() {
-    	DriverStation.reportError("Eat 1", true);
-    	Robot.SUB_MANIPULATOR.eat();
+    	
     }
 
     protected void execute() {
-    	
+    	DriverStation.reportError("Eat 1", true);
+    	Robot.SUB_MANIPULATOR.eat();
     }
 
     protected boolean isFinished() {

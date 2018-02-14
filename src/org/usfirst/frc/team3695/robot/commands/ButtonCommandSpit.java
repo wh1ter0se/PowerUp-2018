@@ -18,12 +18,12 @@ public class ButtonCommandSpit extends Command {
     }
 
     protected void initialize() {
-    	DriverStation.reportError("Spit 1", true);
-    	Robot.SUB_MANIPULATOR.spit();
+    	
     }
 
     protected void execute() {
-    	
+    	DriverStation.reportError("Spit 1", true);
+    	Robot.SUB_MANIPULATOR.spit();
     }
 
     protected boolean isFinished() {
