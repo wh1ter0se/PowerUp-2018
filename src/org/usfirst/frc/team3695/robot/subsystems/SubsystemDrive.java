@@ -76,10 +76,12 @@ public class SubsystemDrive extends Subsystem {
 		return left * (Constants.LEFT_MOTOR_INVERT ? -1.0 : 1.0);
 	}
 
-    /** apply right motor invert */
-	public static final double rightify(double right) {
-		return right * (Constants.RIGHT_MOTOR_INVERT ? -1.0 : 1.0);
-	}
+    /**
+     * apply right motor invert
+     */
+    public static final double rightify(double right) {
+        return right * (Constants.RIGHT_MOTOR_INVERT ? -1.0 : 1.0);
+    }
 
     /**
      * gives birth to the CANTalons
@@ -223,4 +225,3 @@ public class SubsystemDrive extends Subsystem {
         rightMaster.setSelectedSensorPosition(0, Constants.RIGHT_PID, Constants.TIMEOUT_PID);
     }
 }
-
