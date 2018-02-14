@@ -5,6 +5,7 @@ import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.enumeration.Position;
 import org.usfirst.frc.team3695.robot.util.Util;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -17,17 +18,20 @@ public class ButtonCommandEat extends Command {
     }
 
     protected void initialize() {
-    	Robot.SUB_MANIPULATOR.eat(Util.getAndSetDouble("Spinning Speed", Constants.SPINNY_SPEED));
+    	DriverStation.reportError("Eat 1", true);
+    	Robot.SUB_MANIPULATOR.eat();
     }
 
-    protected void execute() {}
+    protected void execute() {
+    	
+    }
 
     protected boolean isFinished() {
         return false;
     }
 
     protected void end() {
-    	Robot.SUB_MANIPULATOR.stopSpinning();
+    	//Robot.SUB_MANIPULATOR.stopSpinning();
     }
 
     protected void interrupted() {

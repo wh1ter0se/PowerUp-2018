@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team3695.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -46,6 +47,7 @@ public class Robot extends IterativeRobot {
 		
 	/** runs when robot is turned on */
 	public void robotInit() {
+		DriverStation.reportError("WOOOOOOO", true);
 		/// instantiate subsystems
 //			SUB_ARDUINO = new SubsystemArduino();
 			SUB_CLAMP = new SubsystemClamp();
@@ -54,7 +56,7 @@ public class Robot extends IterativeRobot {
 			SUB_HOOK = new SubsystemHook();
 			SUB_MANIPULATOR = new SubsystemManipulator();
 			SUB_MAST = new SubsystemMast();
-			vision = new Vision();
+			//vision = new Vision();
 
 		/// instantiate operator interface
 			oi = new OI();
