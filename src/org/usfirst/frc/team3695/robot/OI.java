@@ -23,9 +23,9 @@ public class OI {
 	public OI() {
 		/// manipulator wheels
 			Button spinIn = new JoystickButton(OPERATOR, Xbox.X);
-				spinIn.toggleWhenPressed(new ButtonCommandEat());
+				spinIn.whileHeld(new ButtonCommandEat());
 			Button spinOut = new JoystickButton(OPERATOR, Xbox.Y);
-				spinOut.toggleWhenPressed(new ButtonCommandSpit());
+				spinOut.whileHeld(new ButtonCommandSpit());
 		/// manipulator clamp
 			Button toggleClamp = new JoystickButton(OPERATOR, Xbox.A);
 				toggleClamp.toggleWhenActive(new ButtonCommandClamp());
