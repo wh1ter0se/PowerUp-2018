@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3695.robot.subsystems;
 
 import org.usfirst.frc.team3695.robot.Constants;
+import org.usfirst.frc.team3695.robot.commands.ManualCommandSpin;
 import org.usfirst.frc.team3695.robot.util.Xbox;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -32,7 +33,9 @@ public class SubsystemManipulator extends Subsystem {
 	}
 	
 	/** runs at robot boot */
-    public void initDefaultCommand() {}
+    public void initDefaultCommand() {
+    	setDefaultCommand(new ManualCommandSpin());
+    }
 	
 	/** gives birth to the CANTalons */
     public SubsystemManipulator(){
@@ -56,6 +59,14 @@ public class SubsystemManipulator extends Subsystem {
     	DriverStation.reportError("Spit 3", true);
     }
     
+    public void spinByJoystick(Joystick joy) {
+    	int speed = 0;
+    	speed += joy.getRawButton(Xbox.RB) ? 1d : 0d;
+    	speed -= joy.getRawButton(Xbox.LB) ? 1d : 0d;
+    	armLeft.set(ControlMode.PercentOutput, leftArmify(speed));
+    	armRight.set(ControlMode.PercentOutput, rightArmify(speed));
+    }
+    
     /** STOP SPINNING ME RIGHT ROUND, BABY RIGHT ROUND */
     public void stopSpinning() {
     	//armLeft.set(ControlMode.PercentOutput, 0);
@@ -77,8 +88,8 @@ public class SubsystemManipulator extends Subsystem {
     	
     	speed = generateCurve(speed, 0, .25 * (intensity * .8 + .2), (intensity * .8 + .2)); // find y value on curve, given x and parameters
     	
-    	armLeft.set(ControlMode.PercentOutput, leftArmify(speed));
-    	armRight.set(ControlMode.PercentOutput, rightArmify(speed));
+    	//armLeft.set(ControlMode.PercentOutput, leftArmify(speed));
+    	//armRight.set(ControlMode.PercentOutput, rightArmify(speed));
     }
 
     

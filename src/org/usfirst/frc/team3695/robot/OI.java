@@ -21,11 +21,6 @@ public class OI {
 	 * still in ye(), below controller value assigns, place each SmartDash button
 	 * */
 	public OI() {
-		/// manipulator wheels
-			Button spinIn = new JoystickButton(OPERATOR, Xbox.X);
-				spinIn.whileHeld(new ButtonCommandEat());
-			Button spinOut = new JoystickButton(OPERATOR, Xbox.Y);
-				spinOut.whileHeld(new ButtonCommandSpit());
 		/// manipulator clamp
 			Button toggleClamp = new JoystickButton(OPERATOR, Xbox.A);
 				toggleClamp.toggleWhenActive(new ButtonCommandClamp());
