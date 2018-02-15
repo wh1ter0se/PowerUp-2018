@@ -47,14 +47,14 @@ public class Robot extends IterativeRobot {
 		
 	/** runs when robot is turned on */
 	public void robotInit() {
-		DriverStation.reportError("WOOOOOOO", true);
+		DriverStation.reportError("WOOOOOOO", false);
 		/// instantiate subsystems
 //			SUB_ARDUINO = new SubsystemArduino();
+			SUB_MANIPULATOR = new SubsystemManipulator();
 			SUB_CLAMP = new SubsystemClamp();
 			SUB_COMPRESSOR = new SubsystemCompressor();
 			SUB_DRIVE = new SubsystemDrive();
 			SUB_HOOK = new SubsystemHook();
-			SUB_MANIPULATOR = new SubsystemManipulator();
 			SUB_MAST = new SubsystemMast();
 			//vision = new Vision();
 
@@ -124,6 +124,7 @@ public class Robot extends IterativeRobot {
 		if (driveChooser.getSelected() != null) {
 			SUB_DRIVE.setDrivetrain(driveChooser.getSelected());
 		}
+		SUB_MANIPULATOR.spinByJoystick(OI.OPERATOR);
 	}
 
 	

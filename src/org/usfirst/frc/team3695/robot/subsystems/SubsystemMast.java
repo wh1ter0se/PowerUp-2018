@@ -72,14 +72,13 @@ public class SubsystemMast extends Subsystem {
     public void moveBySpeed(Joystick joy, double inhibitor) {
     	double screwSpeed = Xbox.RIGHT_Y(joy);
     	double pinionSpeed = Xbox.LEFT_Y(joy);
-    	/**
-			if (lowerScrewLimit.get()  && screwSpeed  < 0)   { screwSpeed = 0;  }
-			if (upperScrewLimit.get()  && screwSpeed  > 1)   { screwSpeed = 0;  }
-			if (lowerPinionLimit.get() && pinionSpeed < 0)   { pinionSpeed = 0; }
-			if (upperPinionLimit.get() && pinionSpeed > 1)   { pinionSpeed = 0; }
+    	
+//		if (lowerPinionLimit.get() && pinionSpeed < 0)   { pinionSpeed = 0; }
+//		if (upperPinionLimit.get() && pinionSpeed > 1)   { pinionSpeed = 0; }
+//		if (lowerScrewLimit.get()  && screwSpeed  < 0)   { screwSpeed = 0;  }
+//		if (upperScrewLimit.get()  && screwSpeed  > 1)   { screwSpeed = 0;  }
 			
-			updateCarriage();
-    	*/
+//			updateCarriage();
     	leftPinion.set(ControlMode.PercentOutput, leftPinionate(pinionSpeed));
     	rightPinion.set(ControlMode.PercentOutput, rightPinionate(pinionSpeed));
     	screw.set(ControlMode.PercentOutput, inhibitor * screwify(screwSpeed));
