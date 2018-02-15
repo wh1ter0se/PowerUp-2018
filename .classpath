@@ -2,15 +2,19 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
-	<classpathentry kind="lib" path="wpilib17/java/current/lib/cscore.jar"/>
-	<classpathentry kind="lib" path="wpilib17/java/current/lib/CTRLib.jar"/>
-	<classpathentry kind="lib" path="wpilib17/java/current/lib/NetworkTables.jar"/>
-	<classpathentry kind="lib" path="wpilib17/java/current/lib/opencv.jar"/>
-	<classpathentry kind="lib" path="wpilib17/java/current/lib/WPILib.jar"/>
+	<classpathentry kind="lib" path="wpilib18/java/current/lib/cscore.jar"/>
+	<classpathentry kind="lib" path="wpilib18/java/current/lib/ntcore.jar"/>
+	<classpathentry kind="lib" path="wpilib18/java/current/lib/opencv.jar"/>
+	<classpathentry kind="lib" path="wpilib18/java/current/lib/WPILib.jar"/>
+	<classpathentry kind="lib" path="wpilib18/java/current/lib/wpiutil.jar"/>
+	<classpathentry kind="lib" path="wpilib18/java/current/lib/CTRE_Phoenix.jar"/>
 	<classpathentry kind="var" path="wpilib" sourcepath="wpilib.sources"/>
 	<classpathentry kind="var" path="networktables" sourcepath="networktables.sources"/>
 	<classpathentry kind="var" path="opencv" sourcepath="opencv.sources"/>
 	<classpathentry kind="var" path="cscore" sourcepath="cscore.sources"/>
+	<classpathentry kind="var" path="wpiutil" sourcepath="wpiutil.sources"/>
+	<classpathentry kind="var" path="USERLIBS_DIR/CTRE_Phoenix-sources.jar"/>
+	<classpathentry kind="var" path="USERLIBS_DIR/CTRE_Phoenix.jar"/>
 	<classpathentry kind="var" path="USERLIBS_DIR/CTRLib.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
