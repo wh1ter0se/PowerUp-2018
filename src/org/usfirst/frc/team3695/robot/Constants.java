@@ -75,10 +75,15 @@ public class Constants {
 		public static final int DIST_BLOCKS_TO_SWITCH = 42;
 		public static final int DIST_WALL_TO_LINE = 120;
 		public static final int DIST_WALL_TO_BLOCKS = 98;
-
+		public static final int DIST_BLOCK_TO_MIDDLE_OF_SWITCH = 28;
+		public static final int DIST_WALL_TO_ENEMY_BLOCKS = 463;
+		public static final int DIST_WALL_TO_SWITCH_BLOCKS = 196;
+		public static final int DIST_SWITCH_BLOCK_TO_SCALE = 128;
+		
 		public static final int ROT_90_CLOCKWISE = 90;
 		public static final int ROT_90_COUNTERCLOCKWISE = -90;
 		public static final int ROT_180 = 180;
+		
 	}
 
 //	/** where all the static final variables for arduino get set */
