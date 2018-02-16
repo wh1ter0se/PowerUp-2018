@@ -14,6 +14,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /** the big, metal pole */
 public class SubsystemMast extends Subsystem {
@@ -79,6 +80,7 @@ public class SubsystemMast extends Subsystem {
 //		if (upperScrewLimit.get()  && screwSpeed  > 1)   { screwSpeed = 0;  }
 			
 //			updateCarriage();
+    	publishSwitches();
     	leftPinion.set(ControlMode.PercentOutput, leftPinionate(pinionSpeed));
     	rightPinion.set(ControlMode.PercentOutput, rightPinionate(pinionSpeed));
     	screw.set(ControlMode.PercentOutput, inhibitor * screwify(screwSpeed));
@@ -101,6 +103,13 @@ public class SubsystemMast extends Subsystem {
     	}
     }
     	
+    public void publishSwitches() {
+    	SmartDashboard.putBoolean("Lower Screw", lowerScrewLimit.get());
+    	SmartDashboard.putBoolean("Mid Position", midScrewLimit.get());
+    	SmartDashboard.putBoolean("Upper Screw", upperScrewLimit.get());
+    	SmartDashboard.putBoolean("Lower Pinion", lowerPinionLimit.get());
+    	SmartDashboard.putBoolean("Upper Pinion", upperPinionLimit.get());
+    }
     public Boolean goToMiddle() {
     	/// make sure pinion is at bottom
 	    	if (!lowerPinionLimit.get()) {

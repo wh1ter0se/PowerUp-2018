@@ -3,6 +3,7 @@ package org.usfirst.frc.team3695.robot.commands;
 
 import org.usfirst.frc.team3695.robot.Robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class CyborgCommandDriveDirect extends Command {
@@ -18,6 +19,7 @@ public class CyborgCommandDriveDirect extends Command {
     }
 
     protected void initialize() {
+    	DriverStation.reportWarning("DRIVING BY POWER", false);
         Robot.SUB_DRIVE.reset();
         time = System.currentTimeMillis() + TIME_WAIT;
     }

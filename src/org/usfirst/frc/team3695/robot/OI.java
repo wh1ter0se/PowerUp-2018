@@ -3,6 +3,7 @@ package org.usfirst.frc.team3695.robot;
 import org.usfirst.frc.team3695.robot.commands.*;
 import org.usfirst.frc.team3695.robot.util.Xbox;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -33,6 +34,15 @@ public class OI {
 
 		/// PID
 			SmartDashboard.putData("Kill PID", new ButtonCommandKillPID());
+			
+		/// limit switch displays
+			SmartDashboard.putBoolean("Lower Screw", true);
+	    	SmartDashboard.putBoolean("Mid Position", false);
+	    	SmartDashboard.putBoolean("Upper Screw", false);
+	    	SmartDashboard.putBoolean("Lower Pinion", true);
+	    	SmartDashboard.putBoolean("Upper Pinion", false);
+	    	
+	    	DriverStation.reportWarning("OI IS INSTANTIATED", false);
 	}
 	
 }

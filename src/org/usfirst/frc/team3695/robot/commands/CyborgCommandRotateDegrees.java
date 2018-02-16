@@ -3,6 +3,7 @@ package org.usfirst.frc.team3695.robot.commands;
 import org.usfirst.frc.team3695.robot.Constants;
 import org.usfirst.frc.team3695.robot.Robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class CyborgCommandRotateDegrees extends Command {
@@ -19,6 +20,7 @@ public class CyborgCommandRotateDegrees extends Command {
     }
 
     protected void initialize() {
+    	DriverStation.reportWarning("ROTATING " + (inches / SCALAR) + " DEGREES" + ((inches > 0) ? "CW" : "CCW"), false);
         time = System.currentTimeMillis() + TIME_WAIT;
         Robot.SUB_DRIVE.reset();
     }
@@ -28,6 +30,7 @@ public class CyborgCommandRotateDegrees extends Command {
     }
 
     protected boolean isFinished() {
+    	DriverStation.reportWarning("DONE ROTATING", false);
         if(!inRange) {
             time = System.currentTimeMillis() + TIME_WAIT;
         }

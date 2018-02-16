@@ -22,10 +22,10 @@ public class Constants {
 
 	public static final int
 		/// DRIVE MOTORS
-			RIGHT_MASTER    = 0,
-				RIGHT_SLAVE = 6,
-			LEFT_MASTER     = 2,
-				LEFT_SLAVE  = 7,
+			RIGHT_MASTER    = 6,
+				RIGHT_SLAVE = 0,
+			LEFT_MASTER     = 7,
+				LEFT_SLAVE  = 2,
 		/// MANIPULATOR SPINNY BOIS
 			LEFT_FLYWHEEL =  43,
 			RIGHT_FLYWHEEL = 42,
@@ -35,7 +35,7 @@ public class Constants {
 			SCREW_MOTOR        = 5,
 		/// PID
 			RIGHT_PID = 0,
-			LEFT_PID = 1,
+			LEFT_PID = 0,
 			TIMEOUT_PID = 10;
 
 	public static final int

@@ -1,6 +1,8 @@
 package org.usfirst.frc.team3695.robot.commands;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DriverStation;
+
 import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.enumeration.Position;
 
@@ -18,6 +20,7 @@ public class CyborgCommandGoToMid extends Command {
     }
 
     protected void initialize() {
+    	DriverStation.reportWarning("MOVING TO MID POSITION", false);
     	isFinished = true;
     }
 
@@ -27,7 +30,8 @@ public class CyborgCommandGoToMid extends Command {
     	}
     }
 
-    protected boolean isFinished() { 
+    protected boolean isFinished() {
+    	DriverStation.reportWarning("AT MID POSITION", false);
     	return isFinished; 
 	}
 
