@@ -33,7 +33,6 @@ public class CommandGroupAuto extends CommandGroup {
 							addParallel(new CyborgCommandDriveDistance(Constants.Autonomous.DIST_TO_SWITCH_FROM_SIDE));
 							addSequential(new CyborgCommandGoToMid());
 							addSequential(new CyborgCommandRotateDegrees(Constants.Autonomous.ROT_90_CLOCKWISE));
-							addSequential(new ButtonCommandSpit());
 						} else { //When the switch is on the right
 
 						}
@@ -63,7 +62,6 @@ public class CommandGroupAuto extends CommandGroup {
 							addSequential(new CyborgCommandDriveDistance(Constants.Autonomous.DIST_WALL_TO_BLOCKS
 																				+ Constants.Autonomous.DIST_BLOCKS_TO_SWITCH
 																				- Constants.Autonomous.DIST_PASS_PORTAL));
-							addSequential(new ButtonCommandSpit());
 
 						} else { //When the switch is on the right
 							addSequential(new CyborgCommandRotateDegrees(Constants.Autonomous.ROT_90_CLOCKWISE));
@@ -72,7 +70,6 @@ public class CommandGroupAuto extends CommandGroup {
 							addSequential(new CyborgCommandDriveDistance(Constants.Autonomous.DIST_WALL_TO_BLOCKS
 																				+ Constants.Autonomous.DIST_BLOCKS_TO_SWITCH
 																				- Constants.Autonomous.DIST_PASS_PORTAL));
-							addSequential(new ButtonCommandSpit());
 						}
 						break;
 					case ENEMY_SWITCH:
