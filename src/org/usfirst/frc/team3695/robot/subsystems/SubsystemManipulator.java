@@ -34,7 +34,6 @@ public class SubsystemManipulator extends Subsystem {
 	
 	/** runs at robot boot */
     public void initDefaultCommand() {
-    	DriverStation.reportWarning("SubManipCommand", false);
     	setDefaultCommand(new ManualCommandSpin());
     }
 	
@@ -46,18 +45,14 @@ public class SubsystemManipulator extends Subsystem {
     
     /** eat the power cube */
     public void eat() {
-    	DriverStation.reportError("Eat 2", true);
     	armLeft.set(ControlMode.PercentOutput, leftArmify(-1));
     	armRight.set(ControlMode.PercentOutput, rightArmify(-1));
-    	DriverStation.reportError("Eat 3", true);
     }
     
     /** spit out the power cube */
     public void spit() {
-    	DriverStation.reportError("Spit 2", true);
     	armLeft.set(ControlMode.PercentOutput, leftArmify(1));
     	armRight.set(ControlMode.PercentOutput, rightArmify(1));
-    	DriverStation.reportError("Spit 3", true);
     }
     
     public void spinByJoystick(Joystick joy) {

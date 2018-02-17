@@ -47,7 +47,7 @@ public class Robot extends IterativeRobot {
 		
 	/** runs when robot is turned on */
 	public void robotInit() {
-		DriverStation.reportError("WOOOOOOO", false);
+			DriverStation.reportWarning("ROBOT STARTED; GOOD LUCK", false);
 		/// instantiate subsystems
 //			SUB_ARDUINO = new SubsystemArduino();
 			SUB_MANIPULATOR = new SubsystemManipulator();
@@ -81,14 +81,18 @@ public class Robot extends IterativeRobot {
 			for(int i = 1; i < Goal.values().length; i++) { 
 				goalChooser.addObject(Goal.values()[i].toString(), Goal.values()[i]); } // add each autonomous enum value to chooser
 			SmartDashboard.putData("Goal", goalChooser); //display the chooser on the dash
-
+			
 		/// instantiate cameras
 			// vision.startCameraThread();
+			
+			DriverStation.reportWarning("SUBSYSTEMS, CHOOSERS INSTANTIATED", false);
 	}
 
 	
 	/** runs when robot gets disabled */
-	public void disabledInit() { }
+	public void disabledInit() { 
+		DriverStation.reportWarning("TELEOP IS DISABLED", false);
+	}
 
 	
 	/** runs at 50hz when bot is disabled */
@@ -99,6 +103,7 @@ public class Robot extends IterativeRobot {
 	
 	/** runs when autonomous start */
 	public void autonomousInit() {
+		DriverStation.reportWarning("AUTONOMOUS IS STARTING...", false);
 		if(goalChooser.getSelected() != null) {
 			auto = new CommandGroupAuto(positionChooser.getSelected(), goalChooser.getSelected());
 			auto.start(); 
@@ -113,6 +118,7 @@ public class Robot extends IterativeRobot {
 	
 	/** runs when teleop starts*/
 	public void teleopInit() {
+		DriverStation.reportWarning("TELEOP IS ENABLED", false);
 		if (auto != null)
 			auto.cancel(); 
 	}
@@ -124,7 +130,7 @@ public class Robot extends IterativeRobot {
 		if (driveChooser.getSelected() != null) {
 			SUB_DRIVE.setDrivetrain(driveChooser.getSelected());
 		}
-		SUB_MANIPULATOR.spinByJoystick(OI.OPERATOR);
+		SUB_MANIPULATOR.spinByJoystick(OI.OPERATOR); // THIS IS A PATCH. DO AS I SAY, NOT AS I DO
 	}
 
 	

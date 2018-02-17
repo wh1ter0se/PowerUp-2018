@@ -1,6 +1,8 @@
 package org.usfirst.frc.team3695.robot.commands;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DriverStation;
+
 import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.enumeration.Position;
 
@@ -18,6 +20,7 @@ public class CyborgCommandAscend extends Command {
     }
 
     protected void initialize() {
+    	DriverStation.reportError("AHHHHHH I'M FLYING AWAY", false);
     	isFinished = Robot.SUB_MAST.goToMiddle();
     }
 

@@ -8,16 +8,16 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class CommandWait extends Command {
 
-    private long wait;
-    private long startTime;
-
+	private long wait;
+	private long startTime;
+	
     public CommandWait(long time) {
         this.wait = time;
     }
 
     protected void initialize() {
-        DriverStation.reportWarning("WAITING " + wait + " MILISECONDS", false);
-        startTime = System.currentTimeMillis();
+    	DriverStation.reportWarning("WAITING " + wait + " MILISECONDS", false);
+    	startTime = System.currentTimeMillis();
     }
 
     protected void execute() {}
@@ -27,10 +27,10 @@ public class CommandWait extends Command {
     }
 
     protected void end() {
-        DriverStation.reportWarning("DONE WAITING", false);
+    	DriverStation.reportWarning("DONE WAITING", false);
     }
 
     protected void interrupted() {
-        end();
+    	end();
     }
 }
