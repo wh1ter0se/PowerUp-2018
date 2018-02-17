@@ -61,7 +61,7 @@ public class SubsystemManipulator extends Subsystem {
     }
     
     public void spinByJoystick(Joystick joy) {
-//    	DriverStation.reportError("WEEEEEEE", false);
+    	DriverStation.reportError("WEEEEEEE", false);
     	int speed = 0;
     	speed += joy.getRawButton(Xbox.RB) ? 1d : 0d;
     	speed -= joy.getRawButton(Xbox.LB) ? 1d : 0d;
