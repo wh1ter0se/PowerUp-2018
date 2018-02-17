@@ -12,7 +12,7 @@ Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ80
 #define INDIGO pixels.Color(75,0,130)
 #define GREEN pixels.Color(0,255,0)
 #define YELLOW pixels.Color(255,255,0)
-#define ORANGE pixels.Color(255,127,0)
+#define ORANGE pixels.Color(255,69,0)
 
 
 //Blue = 1
