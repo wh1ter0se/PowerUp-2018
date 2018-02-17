@@ -153,10 +153,11 @@ public class SubsystemDrive extends Subsystem {
         }
 
         /// ramps
-        leftMaster.configOpenloopRamp(ramp, 0);
-        leftSlave.configOpenloopRamp(ramp, 0);
-        rightMaster.configOpenloopRamp(ramp, 0);
-        rightSlave.configOpenloopRamp(ramp, 0);
+        leftMaster.configOpenloopRamp(ramp, 10);
+        leftSlave.configOpenloopRamp(ramp, 10);
+        rightMaster.configOpenloopRamp(ramp, 10);
+        rightSlave.configOpenloopRamp(ramp, 10);
+       
 
         leftMaster.set(ControlMode.PercentOutput, leftify(left));
 //			leftSlave.set(ControlMode.PercentOutput, leftify(left));

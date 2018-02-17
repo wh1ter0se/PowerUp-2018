@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team3695.robot.auto.CommandGroupAuto;
 import org.usfirst.frc.team3695.robot.enumeration.Autonomous;
+import org.usfirst.frc.team3695.robot.enumeration.Bot;
 import org.usfirst.frc.team3695.robot.enumeration.Position;
 import org.usfirst.frc.team3695.robot.enumeration.Drivetrain;
 import org.usfirst.frc.team3695.robot.enumeration.Goal;
@@ -20,6 +21,7 @@ import org.usfirst.frc.team3695.robot.subsystems.*;
 public class Robot extends IterativeRobot {
 
 	/// choosers
+		SendableChooser<Bot> botChooser;
 		SendableChooser<Goal> goalChooser;
 		SendableChooser<Drivetrain> driveChooser;
 		SendableChooser<Position>  positionChooser;
@@ -56,7 +58,7 @@ public class Robot extends IterativeRobot {
 			SUB_DRIVE = new SubsystemDrive();
 			SUB_HOOK = new SubsystemHook();
 			SUB_MAST = new SubsystemMast();
-			//vision = new Vision();
+			vision = new Vision();
 
 		/// instantiate operator interface
 			oi = new OI();
@@ -82,7 +84,15 @@ public class Robot extends IterativeRobot {
 				goalChooser.addObject(Goal.values()[i].toString(), Goal.values()[i]); } // add each autonomous enum value to chooser
 			SmartDashboard.putData("Goal", goalChooser); //display the chooser on the dash
 			
+		/// instantiate bot chooser
+			botChooser = new SendableChooser<>();
+			botChooser.addDefault(Bot.SWISS.toString(), Bot.SWISS);
+			for(int i = 1; i < Goal.values().length; i++) { 
+				botChooser.addObject(Bot.values()[i].toString(), Bot.values()[i]); }
+			SmartDashboard.putData("Bot", botChooser);
+			
 		/// instantiate cameras
+			vision.startScrewCameraThread();
 			// vision.startCameraThread();
 			
 			DriverStation.reportWarning("SUBSYSTEMS, CHOOSERS INSTANTIATED", false);

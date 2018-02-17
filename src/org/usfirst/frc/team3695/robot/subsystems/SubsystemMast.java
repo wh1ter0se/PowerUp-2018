@@ -40,11 +40,11 @@ public class SubsystemMast extends Subsystem {
 	
 	/** gives birth to the CANTalons */
     public SubsystemMast(){
-    	lowerPinionLimit = new DigitalInput(1);
-        upperPinionLimit = new DigitalInput(2);
-        lowerScrewLimit  = new DigitalInput(3);
+    	lowerPinionLimit = new DigitalInput(3);
+        upperPinionLimit = new DigitalInput(5);
+        lowerScrewLimit  = new DigitalInput(1);
         midScrewLimit    = new DigitalInput(4);
-        upperScrewLimit  = new DigitalInput(5);
+        upperScrewLimit  = new DigitalInput(2);
     	
     	leftPinion = new TalonSRX(Constants.LEFT_PINION_MOTOR);
     	rightPinion = new TalonSRX(Constants.RIGHT_PINION_MOTOR);
@@ -74,12 +74,12 @@ public class SubsystemMast extends Subsystem {
     	double screwSpeed = Xbox.RIGHT_Y(joy);
     	double pinionSpeed = Xbox.LEFT_Y(joy);
     	
-//		if (lowerPinionLimit.get() && pinionSpeed < 0)   { pinionSpeed = 0; }
-//		if (upperPinionLimit.get() && pinionSpeed > 1)   { pinionSpeed = 0; }
-//		if (lowerScrewLimit.get()  && screwSpeed  < 0)   { screwSpeed = 0;  }
-//		if (upperScrewLimit.get()  && screwSpeed  > 1)   { screwSpeed = 0;  }
+		if (!lowerPinionLimit.get() && pinionSpeed > 1)   { pinionSpeed = 0; }
+		if (!upperPinionLimit.get() && pinionSpeed < 0)   { pinionSpeed = 0; }
+		if (!lowerScrewLimit.get()  && screwSpeed  > 1)   { screwSpeed = 0;  }
+		if (!upperScrewLimit.get()  && screwSpeed  < 0)   { screwSpeed = 0;  }
 			
-//			updateCarriage();
+		updateCarriage();
     	publishSwitches();
     	leftPinion.set(ControlMode.PercentOutput, leftPinionate(pinionSpeed));
     	rightPinion.set(ControlMode.PercentOutput, rightPinionate(pinionSpeed));
@@ -91,7 +91,7 @@ public class SubsystemMast extends Subsystem {
     }
     
     public void updateCarriage() {
-    	if (midScrewLimit.get()) {
+    	if (!midScrewLimit.get()) {
     		carriagePosition = Position.CENTER;
     	}
     	else if (carriagePosition == Position.CENTER && !midScrewLimit.get()) {
@@ -104,11 +104,11 @@ public class SubsystemMast extends Subsystem {
     }
     	
     public void publishSwitches() {
-    	SmartDashboard.putBoolean("Lower Screw", lowerScrewLimit.get());
-    	SmartDashboard.putBoolean("Mid Position", midScrewLimit.get());
-    	SmartDashboard.putBoolean("Upper Screw", upperScrewLimit.get());
-    	SmartDashboard.putBoolean("Lower Pinion", lowerPinionLimit.get());
-    	SmartDashboard.putBoolean("Upper Pinion", upperPinionLimit.get());
+    	SmartDashboard.putBoolean("Lower Screw", !lowerScrewLimit.get());
+    	SmartDashboard.putBoolean("Mid Position", !midScrewLimit.get());
+    	SmartDashboard.putBoolean("Upper Screw", !upperScrewLimit.get());
+    	SmartDashboard.putBoolean("Lower Pinion", !lowerPinionLimit.get());
+    	SmartDashboard.putBoolean("Upper Pinion", !upperPinionLimit.get());
     }
     public Boolean goToMiddle() {
     	/// make sure pinion is at bottom
@@ -121,7 +121,7 @@ public class SubsystemMast extends Subsystem {
     			rightPinion.set(ControlMode.PercentOutput, 0);
     		}
     	/// move screw to middle
-	    	if (midScrewLimit.get()) {
+	    	if (!midScrewLimit.get()) {
 	    		screw.set(ControlMode.PercentOutput, 0);
 	    		return true;
 	    	}

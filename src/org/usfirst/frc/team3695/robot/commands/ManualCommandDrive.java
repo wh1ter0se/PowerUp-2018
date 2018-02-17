@@ -23,7 +23,7 @@ public class ManualCommandDrive extends Command {
     			Robot.SUB_DRIVE.driveRLTank(OI.DRIVER);
     			break;
     		case FORZA: 
-    			Robot.SUB_DRIVE.driveForza(OI.DRIVER, Util.getAndSetDouble("Ramp", .25), Util.getAndSetDouble("Radius", 1));
+    			Robot.SUB_DRIVE.driveForza(OI.DRIVER, Util.getAndSetDouble("Ramp", .75), Util.getAndSetDouble("Radius", 1));
     			break;
     		case REV:
     			Robot.SUB_MANIPULATOR.rev(OI.DRIVER);

@@ -44,15 +44,17 @@ public class Constants {
 			CAM_WIDTH  = 1920,
 		/// I2C
 			I2C_DEVICE_ADDRESS = 4,
+		/// RPM'S
+			REDLINE = 6000,
+			IDLE    = 500;
+	
+	public static final int
 		/// MANIPULATOR
 			OPEN_ARMS  = 5,
 			CLOSE_ARMS = 4,
 		/// CANDY CANE
 			RAISE_HOOK = 6,
-			LOWER_HOOK = 7,
-		/// RPM'S
-			REDLINE = 6000,
-			IDLE    = 500;
+			LOWER_HOOK = 7;
 
 	public static final boolean
 			LEFT_MOTOR_INVERT         = false,
