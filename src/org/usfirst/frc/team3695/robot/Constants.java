@@ -17,7 +17,10 @@ public class Constants {
 		/// REDLINE CURVE POINTS
 			REDLINE_START = 0,
 			REDLINE_MID   = .125,
-			REDLINE_END   = 1;
+			REDLINE_END   = 1,
+		///SAFETY
+			TILT_ANGLE = 20,
+			RECOVERY_SPEED = 0.5;
 
 
 	public static final int
@@ -67,7 +70,7 @@ public class Constants {
 
 			HOOK_MOTOR_INVERT		  = false;
 
-	public static class Autonomous {
+	public static class AutonomousConstants {
 		//Save distances in inches
 		public static final int DIST_TO_SWITCH_FROM_SIDE = 168;
 		public static final int DIST_PASS_PORTAL = 36;
@@ -75,6 +78,8 @@ public class Constants {
 		public static final int DIST_BLOCKS_TO_SWITCH = 42;
 		public static final int DIST_WALL_TO_LINE = 120;
 		public static final int DIST_WALL_TO_BLOCKS = 98;
+		public static final int DIST_WALL_TO_SCALE = 324; //Goes right in front of the scale
+		public static final double DIST_WALL_TO_SWITCH_BLOCK_MID = 228.74;
 
 		public static final int ROT_90_CLOCKWISE = 90;
 		public static final int ROT_90_COUNTERCLOCKWISE = -90;
