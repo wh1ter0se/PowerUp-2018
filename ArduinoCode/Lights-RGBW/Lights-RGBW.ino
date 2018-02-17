@@ -2,17 +2,18 @@
 #include <Wire.h>
 
 #define PIN 6
-#define NUMPIXELS 30
+#define NUMPIXELS 60
 
-Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRBW + NEO_KHZ800);
 
 #define BLUE pixels.Color(0,0,255)
+#define WHITE pixels.Color(0,0,0,255)
 #define RED pixels.Color(255,0,0)
 #define VIOLET pixels.Color(148,0,211)
 #define INDIGO pixels.Color(75,0,130)
 #define GREEN pixels.Color(0,255,0)
-#define YELLOW pixels.Color(255,255,0)
-#define ORANGE pixels.Color(255,127,0)
+#define YELLOW pixels.Color(255,175,0)
+#define ORANGE pixels.Color(255,69,0)
 
 
 //Blue = 1
@@ -33,16 +34,103 @@ void setup() {
 
 }
 
-void rainbowChase(int loops, int wait) {
-  uint32_t color = pixels.Color(0, 0, 0);
-  int numPixel = 0;
-  for (int j = 0; j < loops; j++) {
-    for (int i = 0; i <= NUMPIXELS; i++) {
-      numPixel = i;
-      pixels.setPixelColor(i, color);
+void wingz(uint8_t wait, int loops, int skipAmount, uint32_t bounce) {
+  for(int i = 0; i <= NUMPIXELS; i++){
+    pixels.setPixelColor(i, bounce);
+    pixels.setPixelColor(i+skipAmount, bounce);
+    pixels.show();
+    if (i > 0){
+      pixels.setPixelColor(i-1, pixels.Color(0,0,0,0));
+      pixels.show();
+    }
+    pixels.setPixelColor(i+skipAmount-1, pixels.Color(0,0,0,0));
+    pixels.show();
+    delay(wait);
+  }
+}
+
+void rgbChase(int running_pixels, uint32_t base_color, uint8_t wait, int loops) {
+  solidColor(base_color);
+  for (int j = 1; j <= loops; j++) {
+    for (int k = 0; k <= NUMPIXELS; k++) {
+      for (int l = 0; l < running_pixels; l++) {
+        if (k + 3 <= NUMPIXELS) {
+          pixels.setPixelColor(k + l, RED);
+          pixels.setPixelColor(k + 2, GREEN);
+          pixels.setPixelColor(k + 3, BLUE);
+        } else {
+          pixels.setPixelColor((k + l) % NUMPIXELS - 1, RED);
+          pixels.setPixelColor((k + 2) % NUMPIXELS - 1, GREEN);
+          pixels.setPixelColor((k + 3) % NUMPIXELS - 1, BLUE);
+        }
+      }
+
+      if (k - 1 < 0) {
+        pixels.setPixelColor(NUMPIXELS, base_color);
+      } else {
+        pixels.setPixelColor(k - 1, base_color);
+      }
       pixels.show();
       delay(wait);
     }
+  }
+}
+
+void whiteOverRainbow(uint8_t wait, uint8_t whiteSpeed, uint8_t whiteLength ) {
+
+  if (whiteLength >= pixels.numPixels()) whiteLength = pixels.numPixels() - 1;
+
+  int head = whiteLength - 1;
+  int tail = 0;
+
+  int loops = 3;
+  int loopNum = 0;
+
+  static unsigned long lastTime = 0;
+
+
+  while (true) {
+    for (int j = 0; j < 256; j++) {
+      for (uint16_t i = 0; i < pixels.numPixels(); i++) {
+        if ((i >= tail && i <= head) || (tail > head && i >= tail) || (tail > head && i <= head) ) {
+          pixels.setPixelColor(i, pixels.Color(0, 0, 0, 255 ) );
+        }
+        else {
+          pixels.setPixelColor(i, Wheel(((i * 256 / pixels.numPixels()) + j) & 255));
+        }
+
+      }
+
+      if (millis() - lastTime > whiteSpeed) {
+        head++;
+        tail++;
+        if (head == pixels.numPixels()) {
+          loopNum++;
+        }
+        lastTime = millis();
+      }
+
+      if (loopNum == loops) return;
+
+      head %= pixels.numPixels();
+      tail %= pixels.numPixels();
+      pixels.show();
+      delay(wait);
+    }
+  }
+
+}
+
+void rainbowChase(int loops, int wait) {
+  for (int i = 0; i < loops; i++)
+  {
+    buildingChase(50, 1, RED);
+    buildingChase(50, 1, ORANGE);
+    buildingChase(50, 1, YELLOW);
+    buildingChase(50, 1, GREEN);
+    buildingChase(50, 1, BLUE);
+    buildingChase(50, 1, INDIGO);
+    buildingChase(50, 1, VIOLET);
   }
 }
 
@@ -50,9 +138,9 @@ void Merica(int loops) {
   for (int l = 0; l < loops; l++) {
     if (l % 2 == 0)
     {
-      for (int i = 12; i < NUMPIXELS; i++) {
+      for (int i = 24; i < NUMPIXELS; i++) {
         if (i % 2 == 0) {
-          pixels.setPixelColor(i, pixels.Color(175, 175, 175));
+          pixels.setPixelColor(i, pixels.Color(0, 0, 0, 175));
         }
         else {
           pixels.setPixelColor(i, RED);
@@ -64,9 +152,9 @@ void Merica(int loops) {
   for (int j = 0; j < loops; j++) {
     if (j % 2 == 0)
     {
-      for (int i = 0; i < 12; i++) {
+      for (int i = 0; i < 24; i++) {
         if (i % 2 == 0) {
-          pixels.setPixelColor(i, pixels.Color(175, 175, 175));
+          pixels.setPixelColor(i, pixels.Color(0, 0, 0, 175));
         }
         else {
           pixels.setPixelColor(i, BLUE);
@@ -77,12 +165,12 @@ void Merica(int loops) {
     }
     else {
       {
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < 24; i++) {
           if (i % 2 == 0) {
             pixels.setPixelColor(i, BLUE);
           }
           else {
-            pixels.setPixelColor(i, pixels.Color(175, 175, 175));
+            pixels.setPixelColor(i, pixels.Color(0, 0, 0, 175));
           }
         }
         pixels.show();
@@ -105,7 +193,7 @@ void flashingTeamOff(int loops, uint32_t team) {
   {
     for (int i = 0; i <= NUMPIXELS; i++)
     {
-      pixels.setPixelColor(i, pixels.Color(0, 0, 0));
+      pixels.setPixelColor(i, pixels.Color(0, 0, 0, 0));
     }
     pixels.show();
     delay(500);
@@ -118,52 +206,23 @@ void flashingTeamOff(int loops, uint32_t team) {
   }
 }
 
-void alternatingBuild(int loops) {
-  for (int i = 0; i < loops; i++) {
-    buildingChase(i % 2, 32, 1);
-
-  }
-}
-
-void buildingChase(int type, int wait, int loops) {
-  uint32_t color = pixels.Color(0, 0, 0);
-  int numPixel = 0;
+void buildingChase(int wait, int loops, uint32_t color) {
   for (int j = 0; j < loops; j++) {
-    int rr = 0;
-    int rg = 0;
-    int rb = 0;
-    switch (type) {
-      case 1:
-        color = BLUE;
-        break;
-      case 2:
-        color = RED;
-        break;
-      case 3:
-        rr = (int) (random(170));
-        rg = (int) (random(170));
-        rb = (int) (random(170));
-        color = pixels.Color(rr, rg, rb);
-        break;
-      default:
-        break;
-    }
     for (int i = 0; i <= NUMPIXELS; i++) {
-      numPixel = i;
       pixels.setPixelColor(i, color);
       pixels.show();
       delay(wait);
     }
-
   }
 }
+
 
 void flashingTeam(int loops, uint32_t team) {
   for (int k = 0; k <= loops; k++)
   {
     for (int i = 0; i <= NUMPIXELS; i++)
     {
-      pixels.setPixelColor(i, pixels.Color(255, 255, 255));
+      pixels.setPixelColor(i, pixels.Color(0, 0, 0, 255));
     }
     pixels.show();
     delay(500);
@@ -198,19 +257,14 @@ void RandomRapidSinglePixels(int loops) {
   for (int i = 0; i <= loops; i++)
   {
     for (int h = 0; h <= NUMPIXELS; h++) {
-      pixels.setPixelColor(h, pixels.Color(0, 0, 0));
-      pixels.setPixelColor(h + 1, pixels.Color(0, 0, 0));
+      pixels.setPixelColor(h, pixels.Color(0, 0, 0, 0));
+      pixels.setPixelColor(h + 1, pixels.Color(0, 0, 0, 0));
     }
-    int r = (int)(random(NUMPIXELS - 1));
-    for (int j = 0; j <= NUMPIXELS; j++) {
-      int rr = (int) (random(255));
-      int rg = (int) (random(150));
-      int rb = (int) (random(150));
-      pixels.setPixelColor(r, pixels.Color(rr, rg, rb));
+    for (int j = 0; j <= 10; j++) {
+      pixels.setPixelColor((int)(random(NUMPIXELS - 1)), pixels.Color(0, 0, 0, 255));
+      pixels.show();
     }
-    pixels.show();
-    delay(50);
-
+    delay(40);
   }
 }
 
@@ -250,12 +304,13 @@ void breathing(int loops, uint32_t color) {
 
 void lightShow() { //main
   Merica(35);
+  RandomRapidSinglePixels(100);
+  rgbChase(3, pixels.Color(0, 0, 0, 255), 30, 3);
+  whiteOverRainbow(20, 35, 5);
   redBlueChase(5);
   flashingTeamOff(5, RED);
   flashingTeamOff(5, BLUE);
   buildingChase(3, 32, 5);
-  alternatingBuild(10);
-  RandomRapidSinglePixels(100);
   christmasTree(10);
   breathing(2, BLUE);
   breathing(2, RED);
@@ -265,7 +320,7 @@ void lightShow() { //main
     bounceChaseOpposite(BLUE, pixels.Color(0, 0, 50), 32);
     bounceChaseOpposite(RED, pixels.Color(50, 0, 0), 32);
   }
-  rainbowCycle(4);
+  //rainbowCycle(4);
   pixelRun(3, pixels.Color(50, 0, 0), RED, 25, 3);
   rainbowCycle(2);
   pixelRun(3, pixels.Color(0, 0, 50), BLUE, 25, 3);
@@ -369,9 +424,15 @@ void rainbowCycle(uint8_t wait) {
 #define RAINBOW_SEIZURE rainbowCycle(0)
 
 void loop() {
-  lightShow();
-  //rainbowChase(10,50);
+  RAINBOW_SEIZURE;
+ // lightShow();
+  //wingz(50, 5, 5, RED);
+  //rainbowChase(1, 0);
+  //rgbChase(3,pixels.Color(0,0,0,255),30,3);
+  //whiteOverRainbow(20,75,5);
+  //RandomRapidSinglePixels(10);
   //Merica(10);
+  //rainbowCycle(0);
   //flashingTeam(10,RED);
   //christmasTree(10);
   //breathing();
