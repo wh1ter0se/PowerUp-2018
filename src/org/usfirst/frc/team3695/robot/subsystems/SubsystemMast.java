@@ -1,10 +1,9 @@
 package org.usfirst.frc.team3695.robot.subsystems;
 
 import org.usfirst.frc.team3695.robot.Constants;
-import org.usfirst.frc.team3695.robot.commands.ButtonCommandSpit;
 import org.usfirst.frc.team3695.robot.commands.ManualCommandDrive;
 import org.usfirst.frc.team3695.robot.commands.ManualCommandGrow;
-import org.usfirst.frc.team3695.robot.enumeration.Direction;
+import org.usfirst.frc.team3695.robot.enumeration.Position;
 import org.usfirst.frc.team3695.robot.util.Util;
 import org.usfirst.frc.team3695.robot.util.Xbox;
 
@@ -15,6 +14,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /** the big, metal pole */
 public class SubsystemMast extends Subsystem {
@@ -30,7 +30,8 @@ public class SubsystemMast extends Subsystem {
     DigitalInput midScrewLimit;
     DigitalInput upperScrewLimit;
     
-    private Direction screwPos;
+    private Position carriagePosition;
+    private Boolean midIsPressed;
 
 	
 	/** runs at robot boot */
@@ -69,24 +70,74 @@ public class SubsystemMast extends Subsystem {
    	}
     
    	/** raise the mast at RT-LR trigger speed */
-    public void moveBySpeed(Joystick joy) {
-    	double screwSpeed = Xbox.RT(joy) - Xbox.LT(joy);
-    	double pinionSpeed = Xbox.RT(joy) - Xbox.LT(joy);
-    	/**
-    	if (lowerScrewLimit.get()  && screwSpeed  < 0)   { screwSpeed = 0;  }
-    	if (upperScrewLimit.get()  && screwSpeed  > 1)   { screwSpeed = 0;  }
-    	if (lowerPinionLimit.get() && pinionSpeed < 0)   { pinionSpeed = 0; }
-    	if (upperPinionLimit.get() && pinionSpeed > 1)   { pinionSpeed = 0; }
-    	**/
-    	leftPinion.set(ControlMode.PercentOutput, leftPinionate(screwSpeed));
-    	rightPinion.set(ControlMode.PercentOutput, rightPinionate(screwSpeed));
-    	screw.set(ControlMode.PercentOutput, screwify(pinionSpeed));
+    public void moveBySpeed(Joystick joy, double inhibitor) {
+    	double screwSpeed = Xbox.RIGHT_Y(joy);
+    	double pinionSpeed = Xbox.LEFT_Y(joy);
+    	
+//		if (lowerPinionLimit.get() && pinionSpeed < 0)   { pinionSpeed = 0; }
+//		if (upperPinionLimit.get() && pinionSpeed > 1)   { pinionSpeed = 0; }
+//		if (lowerScrewLimit.get()  && screwSpeed  < 0)   { screwSpeed = 0;  }
+//		if (upperScrewLimit.get()  && screwSpeed  > 1)   { screwSpeed = 0;  }
+			
+//			updateCarriage();
+    	publishSwitches();
+    	leftPinion.set(ControlMode.PercentOutput, leftPinionate(pinionSpeed));
+    	rightPinion.set(ControlMode.PercentOutput, rightPinionate(pinionSpeed));
+    	screw.set(ControlMode.PercentOutput, inhibitor * screwify(screwSpeed));
     }
     
-    public void goToMiddle() {
-    	
+    public void setCarriagePosition(Position position) {
+    	carriagePosition = position;
     }
-
+    
+    public void updateCarriage() {
+    	if (midScrewLimit.get()) {
+    		carriagePosition = Position.CENTER;
+    	}
+    	else if (carriagePosition == Position.CENTER && !midScrewLimit.get()) {
+    		if (screw.getMotorOutputPercent() > 0) {
+    			carriagePosition = Position.UP;
+    		} else if (screw.getMotorOutputPercent() < 0) {
+    			carriagePosition = Position.DOWN;
+    		}
+    	}
+    }
+    	
+    public void publishSwitches() {
+    	SmartDashboard.putBoolean("Lower Screw", lowerScrewLimit.get());
+    	SmartDashboard.putBoolean("Mid Position", midScrewLimit.get());
+    	SmartDashboard.putBoolean("Upper Screw", upperScrewLimit.get());
+    	SmartDashboard.putBoolean("Lower Pinion", lowerPinionLimit.get());
+    	SmartDashboard.putBoolean("Upper Pinion", upperPinionLimit.get());
+    }
+    public Boolean goToMiddle() {
+    	/// make sure pinion is at bottom
+	    	if (!lowerPinionLimit.get()) {
+    			leftPinion.set(ControlMode.PercentOutput, leftPinionate(-1));
+    			rightPinion.set(ControlMode.PercentOutput, rightPinionate(-1));
+    		}
+    		else {
+    			leftPinion.set(ControlMode.PercentOutput, 0);
+    			rightPinion.set(ControlMode.PercentOutput, 0);
+    		}
+    	/// move screw to middle
+	    	if (midScrewLimit.get()) {
+	    		screw.set(ControlMode.PercentOutput, 0);
+	    		return true;
+	    	}
+	    	else {
+		    	switch (carriagePosition) {
+			    	case UP:
+			    		screw.set(ControlMode.PercentOutput, screwify(-1));
+			    		break;
+			    	case DOWN:
+			    		screw.set(ControlMode.PercentOutput, screwify(1));
+			    		break;
+		    	}
+		    	return false;
+	    	}
+	    }
+    
     /** configures the voltage of each CANTalon */
     private void voltage(TalonSRX talon) {
     	// talon.configNominalOutputVoltage(0f, 0f);

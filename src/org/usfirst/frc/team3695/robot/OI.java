@@ -1,12 +1,9 @@
 package org.usfirst.frc.team3695.robot;
 
-import org.usfirst.frc.team3695.robot.commands.ButtonCommandClamp;
-import org.usfirst.frc.team3695.robot.commands.ButtonCommandEat;
-import org.usfirst.frc.team3695.robot.commands.ButtonCommandKillCompressor;
-import org.usfirst.frc.team3695.robot.commands.ButtonCommandSpit;
-import org.usfirst.frc.team3695.robot.enumeration.Direction;
+import org.usfirst.frc.team3695.robot.commands.*;
 import org.usfirst.frc.team3695.robot.util.Xbox;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -25,16 +22,27 @@ public class OI {
 	 * still in ye(), below controller value assigns, place each SmartDash button
 	 * */
 	public OI() {
-		/// manipulator wheels
-			Button spinIn = new JoystickButton(OPERATOR, Xbox.LB);
-				spinIn.whileHeld(new ButtonCommandEat());
-			Button spinOut = new JoystickButton(OPERATOR, Xbox.RB);
-				spinOut.whileHeld(new ButtonCommandSpit());
 		/// manipulator clamp
-			Button toggleClamp = new JoystickButton(OPERATOR, Xbox.RB);
+			Button toggleClamp = new JoystickButton(OPERATOR, Xbox.A);
 				toggleClamp.toggleWhenActive(new ButtonCommandClamp());
+		/// candy cane
+			Button toggleHook = new JoystickButton(OPERATOR, Xbox.B);
+				toggleHook.toggleWhenActive(new ButtonCommandHook());
+		
 		/// To Compress, or Not To Compress. It is now an option.
 			SmartDashboard.putData("Disable Compressor", new ButtonCommandKillCompressor());
+
+		/// PID
+			SmartDashboard.putData("Kill PID", new ButtonCommandKillPID());
+			
+		/// limit switch displays
+			SmartDashboard.putBoolean("Lower Screw", true);
+	    	SmartDashboard.putBoolean("Mid Position", false);
+	    	SmartDashboard.putBoolean("Upper Screw", false);
+	    	SmartDashboard.putBoolean("Lower Pinion", true);
+	    	SmartDashboard.putBoolean("Upper Pinion", false);
+	    	
+	    	DriverStation.reportWarning("OI IS INSTANTIATED", false);
 	}
 	
 }

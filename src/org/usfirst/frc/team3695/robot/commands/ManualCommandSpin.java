@@ -1,24 +1,30 @@
 package org.usfirst.frc.team3695.robot.commands;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DriverStation;
+
 import org.usfirst.frc.team3695.robot.OI;
 import org.usfirst.frc.team3695.robot.Robot;
+import org.usfirst.frc.team3695.robot.util.Util;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /** move the mast */
-public class ManualCommandHook extends Command {
+public class ManualCommandSpin extends Command {
 
     
-    public ManualCommandHook() {
-        requires(Robot.SUB_HOOK);
+    public ManualCommandSpin() {
+        requires(Robot.SUB_MANIPULATOR);
+    	DriverStation.reportWarning("Spin Construct", false);
     }
 
     protected void initialize() {
+    	DriverStation.reportWarning("Spin Init", false);
     }
 
     protected void execute() {
-    	Robot.SUB_HOOK.swing(OI.OPERATOR);
+    	DriverStation.reportWarning("Spin Execute", false);
+    	Robot.SUB_MANIPULATOR.spinByJoystick(OI.OPERATOR);
     }
 
     protected boolean isFinished() {

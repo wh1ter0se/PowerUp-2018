@@ -1,40 +1,41 @@
-package org.usfirst.frc.team3695.robot.subsystems;
-
-import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.command.Subsystem;
-import org.usfirst.frc.team3695.robot.Constants;
-
-//This is all uncertain and if it works will be commented properly later
-public class SubsystemArduino extends Subsystem {
-
-    I2C i2c;
-    byte[] toSend;
-
-    protected void initDefaultCommand() {}
-
-    public SubsystemArduino() {
-        i2c = new I2C(I2C.Port.kOnboard, Constants.I2C_DEVICE_ADDRESS);
-        toSend = new byte[1];
-//        test();
-    }
-
-    void test(){
-        while (true){
-            toSend[0] = 76;
-            i2c.transaction(toSend, 1, null, 0);
-            Timer.delay(1);
-            toSend[0] = 72;
-            i2c.transaction(toSend, 1, null, 0);
-            Timer.delay(1);
-        }
-    }
-    
-    public void redline() {
-    	
-    }
-
-
-
-
-}
+//package org.usfirst.frc.team3695.robot.subsystems;
+//
+//import edu.wpi.first.wpilibj.DriverStation;
+//import edu.wpi.first.wpilibj.I2C;
+//import edu.wpi.first.wpilibj.command.Subsystem;
+//import org.usfirst.frc.team3695.robot.Constants;
+//
+//import static org.usfirst.frc.team3695.robot.Constants.ArduinoPatterns.*;
+//
+///**
+// * Controls for the Arduino
+// */
+//public class SubsystemArduino extends Subsystem {
+//
+//    I2C i2c;
+//    byte[] toSend;
+//
+//    protected void initDefaultCommand() {
+//    }
+//
+//    public SubsystemArduino() {
+//        i2c = new I2C(I2C.Port.kOnboard, 4);
+//        toSend = new byte[1];
+//    }
+//
+//    public void sendData(int data) {
+//        toSend[0] = (byte) data;
+//        i2c.transaction(toSend, 1, null, 0);
+//    }
+//
+//    public byte[] recieveData(int request, int size) {
+//        byte[] recieved = new byte[size];
+//        toSend[0] = (byte) request;
+//        i2c.transaction(toSend, 1, recieved, size);
+//        return recieved;
+//    }
+//
+//    public void sendAllianceColor(DriverStation.Alliance color) {
+//        sendData(color == DriverStation.Alliance.Blue ? SOLID_BLUE : SOLID_RED);
+//    }
+//}
