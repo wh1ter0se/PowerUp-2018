@@ -17,15 +17,18 @@ public class Constants {
 		/// REDLINE CURVE POINTS
 			REDLINE_START = 0,
 			REDLINE_MID   = .125,
-			REDLINE_END   = 1;
+			REDLINE_END   = 1,
+		///SAFETY
+			TILT_ANGLE = 20,
+			RECOVERY_SPEED = 0.5;
 
 
 	public static final int
 		/// DRIVE MOTORS
-			RIGHT_MASTER    = 0,
-				RIGHT_SLAVE = 6,
-			LEFT_MASTER     = 2,
-				LEFT_SLAVE  = 7,
+			RIGHT_MASTER    = 6,
+				RIGHT_SLAVE = 0,
+			LEFT_MASTER     = 7,
+				LEFT_SLAVE  = 2,
 		/// MANIPULATOR SPINNY BOIS
 			LEFT_FLYWHEEL =  43,
 			RIGHT_FLYWHEEL = 42,
@@ -35,7 +38,7 @@ public class Constants {
 			SCREW_MOTOR        = 5,
 		/// PID
 			RIGHT_PID = 0,
-			LEFT_PID = 1,
+			LEFT_PID = 0,
 			TIMEOUT_PID = 10;
 
 	public static final int
@@ -67,7 +70,7 @@ public class Constants {
 
 			HOOK_MOTOR_INVERT		  = false;
 
-	public static class Autonomous {
+	public static class AutonomousConstants {
 		//Save distances in inches
 		public static final int DIST_TO_SWITCH_FROM_SIDE = 168;
 		public static final int DIST_PASS_PORTAL = 36;
@@ -79,7 +82,9 @@ public class Constants {
 		public static final int DIST_WALL_TO_ENEMY_BLOCKS = 463;
 		public static final int DIST_WALL_TO_SWITCH_BLOCKS = 196;
 		public static final int DIST_SWITCH_BLOCK_TO_SCALE = 128;
-		
+		public static final int DIST_WALL_TO_SCALE = 324; //Goes right in front of the scale
+		public static final double DIST_WALL_TO_SWITCH_BLOCK_MID = 228.74;
+
 		public static final int ROT_90_CLOCKWISE = 90;
 		public static final int ROT_90_COUNTERCLOCKWISE = -90;
 		public static final int ROT_180 = 180;

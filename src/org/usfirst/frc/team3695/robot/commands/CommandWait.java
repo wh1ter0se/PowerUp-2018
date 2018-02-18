@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3695.robot.commands;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -15,6 +16,7 @@ public class CommandWait extends Command {
     }
 
     protected void initialize() {
+    	DriverStation.reportWarning("WAITING " + wait + " MILISECONDS", false);
     	startTime = System.currentTimeMillis();
     }
 
@@ -24,7 +26,9 @@ public class CommandWait extends Command {
         return startTime + wait < System.currentTimeMillis();
     }
 
-    protected void end() {}
+    protected void end() {
+    	DriverStation.reportWarning("DONE WAITING", false);
+    }
 
     protected void interrupted() {
     	end();

@@ -39,24 +39,20 @@ public class SubsystemManipulator extends Subsystem {
 	
 	/** gives birth to the CANTalons */
     public SubsystemManipulator(){
-    	armLeft = new TalonSRX(Constants.LEFT_FLYWHEEL);
+		armLeft = new TalonSRX(Constants.LEFT_FLYWHEEL);
     	armRight = new TalonSRX(Constants.RIGHT_FLYWHEEL);
     }
     
     /** eat the power cube */
     public void eat() {
-    	DriverStation.reportError("Eat 2", true);
     	armLeft.set(ControlMode.PercentOutput, leftArmify(-1));
     	armRight.set(ControlMode.PercentOutput, rightArmify(-1));
-    	DriverStation.reportError("Eat 3", true);
     }
     
     /** spit out the power cube */
     public void spit() {
-    	DriverStation.reportError("Spit 2", true);
     	armLeft.set(ControlMode.PercentOutput, leftArmify(1));
     	armRight.set(ControlMode.PercentOutput, rightArmify(1));
-    	DriverStation.reportError("Spit 3", true);
     }
     
     public void spinByJoystick(Joystick joy) {

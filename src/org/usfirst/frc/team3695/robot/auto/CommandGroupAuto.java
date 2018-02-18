@@ -9,6 +9,8 @@ import org.usfirst.frc.team3695.robot.enumeration.Position;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
+import static org.usfirst.frc.team3695.robot.Constants.AutonomousConstants;
+
 /** the sequence of commands for autonomous */
 public class CommandGroupAuto extends CommandGroup {
 
@@ -30,11 +32,13 @@ public class CommandGroupAuto extends CommandGroup {
 						break;
 					case SWITCH:
 						if (gameData.charAt(0) == 'L'){ //When the switch is on the left
-							addParallel(new CyborgCommandDriveDistance(Constants.Autonomous.DIST_TO_SWITCH_FROM_SIDE));
+							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_TO_SWITCH_FROM_SIDE));
+							addParallel(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CLOCKWISE));
 							addSequential(new CyborgCommandGoToMid());
-							addSequential(new CyborgCommandRotateDegrees(Constants.Autonomous.ROT_90_CLOCKWISE));
+							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CLOCKWISE));
 						} else { //When the switch is on the right
-
+							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_WALL_TO_SWITCH_BLOCK_MID));
+							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CLOCKWISE));
 						}
 						break;
 					case ENEMY_SWITCH:
@@ -56,23 +60,27 @@ public class CommandGroupAuto extends CommandGroup {
 //						Code for dropping block
 						break;
 					case SCALE:
-						addSequential(new CyborgCommandDriveDistance(Constants.Autonomous.DIST_WALL_TO_SWITCH_BLOCKS));
-						addSequential(new CyborgCommandRotateDegrees(Constants.Autonomous.ROT_90_CLOCKWISE));
-						addSequential(new CyborgCommandDriveUntilError(Position.FORWARD));
+						if (gameData.charAt(1) == 'L'){ //When scale is on the left
+              addSequential(new CyborgCommandDriveDistance(Constants.Autonomous.DIST_WALL_TO_SWITCH_BLOCKS));
+						  addSequential(new CyborgCommandRotateDegrees(Constants.Autonomous.ROT_90_CLOCKWISE));
+						  addSequential(new CyborgCommandDriveUntilError(Position.FORWARD));
 						
 						
-//						 (in parallel) Set mast to proper grabbing height 
-//						Code for grabbing block
+//						  (in parallel) Set mast to proper grabbing height 
+//						  Code for grabbing block
 						
 //						Needs distance from enemy switch blocks to robot (going backwards (maybe record the distance using a variable?))
 //						addSequential(new CyborgCommandDriveDistance(-1*Constants.Autonomous.))
-						addSequential(new CyborgCommandRotateDegrees(Constants.Autonomous.ROT_90_COUNTERCLOCKWISE));
-						addSequential(new CyborgCommandDriveDistance(Constants.Autonomous.DIST_SWITCH_BLOCK_TO_SCALE));
-						addSequential(new CyborgCommandRotateDegrees(Constants.Autonomous.ROT_90_CLOCKWISE));
+						  addSequential(new CyborgCommandRotateDegrees(Constants.Autonomous.ROT_90_COUNTERCLOCKWISE));
+						  addSequential(new CyborgCommandDriveDistance(Constants.Autonomous.DIST_SWITCH_BLOCK_TO_SCALE));
+						  addSequential(new CyborgCommandRotateDegrees(Constants.Autonomous.ROT_90_CLOCKWISE));
 //						Don't run into scale plz
 						
-//						(in parallel) Set mast height to max
+//						(in parallel) Note: We need a command to go to top to replace GoToMid here
 //						Spit cube out
+						} else { //When scale is on the right
+
+						}
 						break;
 					case BEST_OPTION:
 						break;
@@ -85,24 +93,24 @@ public class CommandGroupAuto extends CommandGroup {
 						addSequential(new CyborgCommandDriveUntilError(Position.FORWARD));
 						break;
 					case SWITCH:
-						//Raise the mast to midpoint and pass the portal to avoid collisions
-						addParallel(new CyborgCommandGoToMid());
-						addSequential(new CyborgCommandDriveDistance(Constants.Autonomous.DIST_PASS_PORTAL));
+						addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_PASS_PORTAL));
 						if (gameData.charAt(0) == 'L'){ //When the switch is on the left
-							addSequential(new CyborgCommandRotateDegrees(Constants.Autonomous.ROT_90_COUNTERCLOCKWISE));
-							addSequential(new CyborgCommandDriveDistance(Constants.Autonomous.DIST_CENTER_LINE_SWITCH_ALIGN));
-							addSequential(new CyborgCommandRotateDegrees(Constants.Autonomous.ROT_90_CLOCKWISE));
-							addSequential(new CyborgCommandDriveDistance(Constants.Autonomous.DIST_WALL_TO_BLOCKS
-																				+ Constants.Autonomous.DIST_BLOCKS_TO_SWITCH
-																				- Constants.Autonomous.DIST_PASS_PORTAL));
+							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_COUNTERCLOCKWISE));
+							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_CENTER_LINE_SWITCH_ALIGN));
+							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CLOCKWISE));
+							addParallel(new CyborgCommandGoToMid());
+							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_WALL_TO_BLOCKS
+																				+ AutonomousConstants.DIST_BLOCKS_TO_SWITCH
+																				- AutonomousConstants.DIST_PASS_PORTAL));
 
 						} else { //When the switch is on the right
-							addSequential(new CyborgCommandRotateDegrees(Constants.Autonomous.ROT_90_CLOCKWISE));
-							addSequential(new CyborgCommandDriveDistance(Constants.Autonomous.DIST_CENTER_LINE_SWITCH_ALIGN));
-							addSequential(new CyborgCommandRotateDegrees(Constants.Autonomous.ROT_90_COUNTERCLOCKWISE));
-							addSequential(new CyborgCommandDriveDistance(Constants.Autonomous.DIST_WALL_TO_BLOCKS
-																				+ Constants.Autonomous.DIST_BLOCKS_TO_SWITCH
-																				- Constants.Autonomous.DIST_PASS_PORTAL));
+							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CLOCKWISE));
+							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_CENTER_LINE_SWITCH_ALIGN));
+							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_COUNTERCLOCKWISE));
+							addParallel(new CyborgCommandGoToMid());
+							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_WALL_TO_BLOCKS
+																				+ AutonomousConstants.DIST_BLOCKS_TO_SWITCH
+																				- AutonomousConstants.DIST_PASS_PORTAL));
 						}
 						break;
 					case ENEMY_SWITCH:
@@ -146,23 +154,28 @@ public class CommandGroupAuto extends CommandGroup {
 //						Code for dropping block
 						break;
 					case SCALE:
-						addSequential(new CyborgCommandDriveDistance(Constants.Autonomous.DIST_WALL_TO_SWITCH_BLOCKS));
-						addSequential(new CyborgCommandRotateDegrees(Constants.Autonomous.ROT_90_COUNTERCLOCKWISE));
-						addSequential(new CyborgCommandDriveUntilError(Position.FORWARD));
+						if (gameData.charAt(1) == 'R'){ //When scale is on the right
+														addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_WALL_TO_SCALE));
+              addSequential(new CyborgCommandDriveDistance(Constants.Autonomous.DIST_WALL_TO_SWITCH_BLOCKS));
+						  addSequential(new CyborgCommandRotateDegrees(Constants.Autonomous.ROT_90_COUNTERCLOCKWISE));
+						  addSequential(new CyborgCommandDriveUntilError(Position.FORWARD));
 						
 						
-//						 (in parallel) Set mast to proper grabbing height 
-//						Code for grabbing block
+//						  (in parallel) Set mast to proper grabbing height 
+//						  Code for grabbing block
 						
 //						Needs distance from enemy switch blocks to robot (going backwards (maybe record the distance using a variable?))
 //						addSequential(new CyborgCommandDriveDistance(-1*Constants.Autonomous.))
-						addSequential(new CyborgCommandRotateDegrees(Constants.Autonomous.ROT_90_CLOCKWISE));
-						addSequential(new CyborgCommandDriveDistance(Constants.Autonomous.DIST_SWITCH_BLOCK_TO_SCALE));
-						addSequential(new CyborgCommandRotateDegrees(Constants.Autonomous.ROT_90_COUNTERCLOCKWISE));
+						  addSequential(new CyborgCommandRotateDegrees(Constants.Autonomous.ROT_90_CLOCKWISE));
+						  addSequential(new CyborgCommandDriveDistance(Constants.Autonomous.DIST_SWITCH_BLOCK_TO_SCALE));
+						  addSequential(new CyborgCommandRotateDegrees(Constants.Autonomous.ROT_90_COUNTERCLOCKWISE));
 //						Don't run into scale plz
 						
-//						(in parallel) Set mast height to max
+//						(in parallel) Note: We need a command to go to top to replace GoToMid here
 //						Spit cube out
+						} else { //When scale is on the left
+
+						}
 						break;
 					case BEST_OPTION:
 						break;
