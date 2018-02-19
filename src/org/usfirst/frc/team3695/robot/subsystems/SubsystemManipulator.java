@@ -1,7 +1,9 @@
 package org.usfirst.frc.team3695.robot.subsystems;
 
 import org.usfirst.frc.team3695.robot.Constants;
+import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.commands.ManualCommandSpin;
+import org.usfirst.frc.team3695.robot.enumeration.Bot;
 import org.usfirst.frc.team3695.robot.util.Xbox;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -24,12 +26,14 @@ public class SubsystemManipulator extends Subsystem {
 	
 	/** applies left arm motor invert */
 	public static final double leftArmify(double left) {
-		return left * (Constants.LEFT_ARM_MOTOR_INVERT ? -1.0 : 1.0);
+		Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.LEFT_ARM_MOTOR_INVERT : Constants.SWISS.LEFT_ARM_MOTOR_INVERT;
+		return left * (invert ? -1.0 : 1.0);
 	}
 	
 	/** applies right arm motor invert */
 	public static final double rightArmify(double right) {
-		return right * (Constants.RIGHT_ARM_MOTOR_INVERT ? -1.0 : 1.0);
+		Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_ARM_MOTOR_INVERT : Constants.SWISS.RIGHT_ARM_MOTOR_INVERT;
+		return right * (invert ? -1.0 : 1.0);
 	}
 	
 	/** runs at robot boot */
@@ -65,8 +69,8 @@ public class SubsystemManipulator extends Subsystem {
     
     /** STOP SPINNING ME RIGHT ROUND, BABY RIGHT ROUND */
     public void stopSpinning() {
-    	//armLeft.set(ControlMode.PercentOutput, 0);
-    	//armRight.set(ControlMode.PercentOutput, 0);
+    	armLeft.set(ControlMode.PercentOutput, 0);
+    	armRight.set(ControlMode.PercentOutput, 0);
     }
     
     /** imitates an engine revving and idling */
@@ -84,8 +88,8 @@ public class SubsystemManipulator extends Subsystem {
     	
     	speed = generateCurve(speed, 0, .25 * (intensity * .8 + .2), (intensity * .8 + .2)); // find y value on curve, given x and parameters
     	
-    	//armLeft.set(ControlMode.PercentOutput, leftArmify(speed));
-    	//armRight.set(ControlMode.PercentOutput, rightArmify(speed));
+    	armLeft.set(ControlMode.PercentOutput, leftArmify(speed));
+    	armRight.set(ControlMode.PercentOutput, rightArmify(speed));
     }
 
     

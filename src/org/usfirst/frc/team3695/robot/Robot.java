@@ -20,6 +20,8 @@ import org.usfirst.frc.team3695.robot.subsystems.*;
 /** the magic place where everything happens (where the sequence of events is controlled, top of the hierarchy) */
 public class Robot extends IterativeRobot {
 
+		public static Bot bot;
+	
 	/// choosers
 		SendableChooser<Bot> botChooser;
 		SendableChooser<Goal> goalChooser;
@@ -87,8 +89,7 @@ public class Robot extends IterativeRobot {
 		/// instantiate bot chooser
 			botChooser = new SendableChooser<>();
 			botChooser.addDefault(Bot.SWISS.toString(), Bot.SWISS);
-			for(int i = 1; i < Goal.values().length; i++) { 
-				botChooser.addObject(Bot.values()[i].toString(), Bot.values()[i]); }
+				botChooser.addObject(Bot.OOF.toString(), Bot.OOF); 
 			SmartDashboard.putData("Bot", botChooser);
 			
 		/// instantiate cameras
@@ -123,6 +124,7 @@ public class Robot extends IterativeRobot {
 	/** runs at 50hz when in autonomous */
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run(); 
+		bot = botChooser.getSelected(); // update motor inverts
 	}
 
 	

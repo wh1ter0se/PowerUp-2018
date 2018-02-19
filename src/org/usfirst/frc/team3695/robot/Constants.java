@@ -18,12 +18,17 @@ public class Constants {
 			REDLINE_START = 0,
 			REDLINE_MID   = .125,
 			REDLINE_END   = 1;
+	
+	public static final double
+		/// ENCODER MAGIC UNIT TRANSLATIONS
+			LEFT_MAGIC_PER_INCHES = -214.560,
+			RIGHT_MAGIC_PER_INCHES = 208.847;
 
 
 	public static final int
 		/// DRIVE MOTORS
 			RIGHT_MASTER    = 6,
-				RIGHT_SLAVE = 0,
+				RIGHT_SLAVE = 20,
 			LEFT_MASTER     = 7,
 				LEFT_SLAVE  = 2,
 		/// MANIPULATOR SPINNY BOIS
@@ -55,19 +60,37 @@ public class Constants {
 		/// CANDY CANE
 			RAISE_HOOK = 6,
 			LOWER_HOOK = 7;
-
-	public static final boolean
+	
+	public static class OOF {
+		public static final boolean
 			LEFT_MOTOR_INVERT         = false,
-			RIGHT_MOTOR_INVERT        = true,
-
+			RIGHT_MOTOR_INVERT        = true, 
+	
 			LEFT_PINION_MOTOR_INVERT  = false,
 			RIGHT_PINION_MOTOR_INVERT = true,
 			SCREW_MOTOR_INVERT        = false,
-
+	
 			LEFT_ARM_MOTOR_INVERT     = true,
 			RIGHT_ARM_MOTOR_INVERT    = false,
-
+	
 			HOOK_MOTOR_INVERT		  = false;
+	}
+	
+	public static class SWISS {
+		public static final boolean
+			LEFT_MOTOR_INVERT         = false,
+			RIGHT_MOTOR_INVERT        = false,
+	
+			LEFT_PINION_MOTOR_INVERT  = false,
+			RIGHT_PINION_MOTOR_INVERT = true,
+			SCREW_MOTOR_INVERT        = false,
+	
+			LEFT_ARM_MOTOR_INVERT     = true,
+			RIGHT_ARM_MOTOR_INVERT    = false,
+	
+			HOOK_MOTOR_INVERT		  = false;
+	}
+	
 
 	public static class Autonomous {
 		//Save distances in inches

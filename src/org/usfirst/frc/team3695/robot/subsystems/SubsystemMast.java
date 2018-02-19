@@ -1,8 +1,10 @@
 package org.usfirst.frc.team3695.robot.subsystems;
 
 import org.usfirst.frc.team3695.robot.Constants;
+import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.commands.ManualCommandDrive;
 import org.usfirst.frc.team3695.robot.commands.ManualCommandGrow;
+import org.usfirst.frc.team3695.robot.enumeration.Bot;
 import org.usfirst.frc.team3695.robot.enumeration.Position;
 import org.usfirst.frc.team3695.robot.util.Util;
 import org.usfirst.frc.team3695.robot.util.Xbox;
@@ -43,8 +45,7 @@ public class SubsystemMast extends Subsystem {
     	lowerPinionLimit = new DigitalInput(3);
         upperPinionLimit = new DigitalInput(5);
         lowerScrewLimit  = new DigitalInput(1);
-        midScrewLimit    = new DigitalInput(4);
-        upperScrewLimit  = new DigitalInput(2);
+        upperScrewLimit  = new DigitalInput(4);
     	
     	leftPinion = new TalonSRX(Constants.LEFT_PINION_MOTOR);
     	rightPinion = new TalonSRX(Constants.RIGHT_PINION_MOTOR);
@@ -57,16 +58,19 @@ public class SubsystemMast extends Subsystem {
    	
    	/** apply pinion motor invert */
    	public static final double leftPinionate(double left) {
-   		return left * (Constants.LEFT_PINION_MOTOR_INVERT ? -1.0 : 1.0);
+   		Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.LEFT_PINION_MOTOR_INVERT : Constants.SWISS.LEFT_PINION_MOTOR_INVERT;
+   		return left * (invert ? -1.0 : 1.0);
    	}
    	
    	/** apply screw motor invert */
    	public static final double rightPinionate(double right) {
-   		return right * (Constants.RIGHT_PINION_MOTOR_INVERT ? -1.0 : 1.0);
+   		Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_PINION_MOTOR_INVERT : Constants.SWISS.RIGHT_PINION_MOTOR_INVERT;
+   		return right * (invert ? -1.0 : 1.0);
    	}
    	
    	public static final double screwify(double screw) {
-   		return screw * (Constants.SCREW_MOTOR_INVERT ? -1.0 : 1.0);
+   		Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.SCREW_MOTOR_INVERT : Constants.SWISS.SCREW_MOTOR_INVERT;
+   		return screw * (invert ? -1.0 : 1.0);
    	}
     
    	/** raise the mast at RT-LR trigger speed */

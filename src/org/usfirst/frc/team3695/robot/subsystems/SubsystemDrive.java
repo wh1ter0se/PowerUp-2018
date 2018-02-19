@@ -3,7 +3,9 @@ package org.usfirst.frc.team3695.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc.team3695.robot.Constants;
+import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.commands.ManualCommandDrive;
+import org.usfirst.frc.team3695.robot.enumeration.Bot;
 import org.usfirst.frc.team3695.robot.enumeration.Drivetrain;
 import org.usfirst.frc.team3695.robot.util.Xbox;
 
@@ -37,55 +39,52 @@ public class SubsystemDrive extends Subsystem {
         setDefaultCommand(new ManualCommandDrive());
     }
 
+    public static final double leftMag2in(double leftMag) {
+    	return leftMag / Constants.LEFT_MAGIC_PER_INCHES;
+    }
+    
+    public static final double rightMag2in(double rightMag) {
+    	return rightMag / Constants.LEFT_MAGIC_PER_INCHES;
+    }
 
-    /**
-     * converts RPM to inches per second
-     */
+    /** converts RPM to inches per second */
     public static final double rpm2ips(double rpm) {
         return rpm / 60.0 * Constants.WHEEL_DIAMETER * Math.PI;
     }
 
 
-    /**
-     * converts an inches per second number to RPM
-     */
+    /** converts an inches per second number to RPM */
     public static final double ips2rpm(double ips) {
         return ips * 60.0 / Constants.WHEEL_DIAMETER / Math.PI;
     }
 
 
-    /**
-     * converts rotations to distance traveled in inches
-     */
+    /** converts rotations to distance traveled in inches */
     public static final double rot2in(double rot) {
         return rot * Constants.WHEEL_DIAMETER * Math.PI;
     }
 
 
-    /**
-     * converts distance traveled in inches to rotations
-     */
+    /** converts distance traveled in inches to rotations */
     public static final double in2rot(double in) {
         return in / Constants.WHEEL_DIAMETER / Math.PI;
     }
 
-    /**
-     * apply left motor invert
-     */
+    /** apply left motor invert */
     public static final double leftify(double left) {
-		return left * (Constants.LEFT_MOTOR_INVERT ? -1.0 : 1.0);
+    	left = (left > 1.0 ? 1.0 : (left < -1.0 ? -1.0 : left));
+    	Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.LEFT_MOTOR_INVERT : Constants.SWISS.LEFT_PINION_MOTOR_INVERT;
+		return left * (invert ? -1.0 : 1.0);
 	}
 
-    /**
-     * apply right motor invert
-     */
+    /** apply right motor invert */
     public static final double rightify(double right) {
-        return right * (Constants.RIGHT_MOTOR_INVERT ? -1.0 : 1.0);
+    	right = (right > 1.0 ? 1.0 : (right < -1.0 ? -1.0 : right));
+    	Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_MOTOR_INVERT : Constants.SWISS.RIGHT_MOTOR_INVERT;
+    	return right * (invert ? -1.0 : 1.0);
     }
 
-    /**
-     * gives birth to the CANTalons
-     */
+    /** gives birth to the CANTalons */
     public SubsystemDrive() {
 
         drivetrain = Drivetrain.ROCKET_LEAGUE;
@@ -101,11 +100,6 @@ public class SubsystemDrive extends Subsystem {
         leftSlave.follow(leftMaster);
         rightSlave = new TalonSRX(Constants.RIGHT_SLAVE);
         rightSlave.follow(rightMaster);
-
-        //voltage(leftMaster);
-        //voltage(leftSlave);
-        //voltage(rightMaster);
-        //voltage(rightSlave);
     }
 
     public void setDrivetrain(Drivetrain drivetrain) {
@@ -113,30 +107,32 @@ public class SubsystemDrive extends Subsystem {
     }
 
     /**
-     * simple rocket league drive code; independent rotation and acceleration
+     * simple rocket league drive code
+     * independent rotation and acceleration
      */
-    public void driveRLTank(Joystick joy) {
+    public void driveRLTank(Joystick joy, double ramp, double inhibitor) {
         double adder = Xbox.RT(joy) - Xbox.LT(joy);
         double left = adder + (Xbox.LEFT_X(joy) / 1.333333);
         double right = adder - (Xbox.LEFT_X(joy) / 1.333333);
 
-        //Quick Truncate
-        left = (left > 1.0 ? 1.0 : (left < -1.0 ? -1.0 : left));
-        right = (right > 1.0 ? 1.0 : (right < -1.0 ? -1.0 : right));
-
-        leftMaster.set(ControlMode.PercentOutput, leftify(left));
+        
+        /// ramps
+	        leftMaster.configOpenloopRamp(ramp, 10);
+	        leftSlave.configOpenloopRamp(ramp, 10);
+	        rightMaster.configOpenloopRamp(ramp, 10);
+	        rightSlave.configOpenloopRamp(ramp, 10);
+        
+        leftMaster.set(ControlMode.PercentOutput, leftify(left) * inhibitor);
 //    		leftSlave.set(ControlMode.Follower, leftify(left));
-        rightMaster.set(ControlMode.PercentOutput, rightify(right));
+        rightMaster.set(ControlMode.PercentOutput, rightify(right) * inhibitor);
 //    		rightSlave.set(ControlMode.Follower, rightify(right));
 
     }
 
-    /**
-     * drive code where rotation is dependent on acceleration
-     *
-     * @param radius 0.00-1.00, 1 being zero radius and 0 being driving in a line
+    /** drive code where rotation is dependent on acceleration
+     *  @param radius 0.00-1.00, 1 being zero radius and 0 being driving in a line
      */
-    public void driveForza(Joystick joy, double ramp, double radius) {
+    public void driveForza(Joystick joy, double ramp, double radius, double inhibitor) {
         double left = 0,
                 right = 0;
         double acceleration = Xbox.RT(joy) - Xbox.LT(joy);
@@ -153,21 +149,19 @@ public class SubsystemDrive extends Subsystem {
         }
 
         /// ramps
-        leftMaster.configOpenloopRamp(ramp, 10);
-        leftSlave.configOpenloopRamp(ramp, 10);
-        rightMaster.configOpenloopRamp(ramp, 10);
-        rightSlave.configOpenloopRamp(ramp, 10);
+	        leftMaster.configOpenloopRamp(ramp, 10);
+	        leftSlave.configOpenloopRamp(ramp, 10);
+	        rightMaster.configOpenloopRamp(ramp, 10);
+	        rightSlave.configOpenloopRamp(ramp, 10);
        
 
-        leftMaster.set(ControlMode.PercentOutput, leftify(left));
+        leftMaster.set(ControlMode.PercentOutput, leftify(left) * inhibitor);
 //			leftSlave.set(ControlMode.PercentOutput, leftify(left));
-        rightMaster.set(ControlMode.PercentOutput, rightify(right));
+        rightMaster.set(ControlMode.PercentOutput, rightify(right) * inhibitor);
 //			rightSlave.set(ControlMode.PercentOutput, rightify(right));
     }
 
-    /**
-     * configures the voltage of each CANTalon
-     */
+    /** configures the voltage of each CANTalon */
     private void voltage(TalonSRX talon) {
         // talon.configNominalOutputVoltage(0f, 0f);
         // talon.configPeakOutputVoltage(12.0f, -12.0f);
