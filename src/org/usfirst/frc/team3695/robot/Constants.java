@@ -24,7 +24,8 @@ public class Constants {
 			LEFT_MAGIC_PER_INCHES = -214.560,
 			RIGHT_MAGIC_PER_INCHES = 208.847,
 		///SAFETY
-			RECOVERY_SPEED = 0.5;
+			RECOVERY_SPEED = 0.5,
+			DOCK_SPEED = 0.5;
 
 
 	public static final int

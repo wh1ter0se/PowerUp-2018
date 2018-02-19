@@ -1,11 +1,9 @@
 package org.usfirst.frc.team3695.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
 import org.usfirst.frc.team3695.robot.Constants;
 import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.commands.ManualCommandDrive;
@@ -30,6 +28,9 @@ public class SubsystemDrive extends Subsystem {
     private TalonSRX rightSlave;
 
     public Drivetrain drivetrain;
+
+    private static boolean docked;
+    private static double dockInhibitor;
 
     private Accelerometer accel;
 
@@ -80,14 +81,14 @@ public class SubsystemDrive extends Subsystem {
     public static final double leftify(double left) {
     	left = (left > 1.0 ? 1.0 : (left < -1.0 ? -1.0 : left));
     	Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.LEFT_MOTOR_INVERT : Constants.SWISS.LEFT_PINION_MOTOR_INVERT;
-		return left * (invert ? -1.0 : 1.0);
+		return left * (invert ? -1.0 : 1.0) * (docked ? dockInhibitor : 1);
 	}
 
     /** apply right motor invert */
     public static final double rightify(double right) {
     	right = (right > 1.0 ? 1.0 : (right < -1.0 ? -1.0 : right));
     	Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_MOTOR_INVERT : Constants.SWISS.RIGHT_MOTOR_INVERT;
-    	return right * (invert ? -1.0 : 1.0);
+    	return right * (invert ? -1.0 : 1.0) * (docked ? dockInhibitor : 1);
     }
 
     /** gives birth to the CANTalons */
@@ -96,6 +97,9 @@ public class SubsystemDrive extends Subsystem {
         accel = new BuiltInAccelerometer();
 
         drivetrain = Drivetrain.ROCKET_LEAGUE;
+
+        docked = false;
+        dockInhibitor = 1;
 
         // masters
         leftMaster = new TalonSRX(Constants.LEFT_MASTER);
@@ -117,6 +121,11 @@ public class SubsystemDrive extends Subsystem {
     public double getYAngle(){
         //http://www.hobbytronics.co.uk/accelerometer-info
         return Math.atan(accel.getY()/Math.sqrt(Math.pow(accel.getX(),2) + Math.pow(accel.getZ(),2)));
+    }
+
+    public void docker(boolean docked, double dock){
+        this.docked = docked;
+        this.dockInhibitor = dock;
     }
     /**
      * simple rocket league drive code
