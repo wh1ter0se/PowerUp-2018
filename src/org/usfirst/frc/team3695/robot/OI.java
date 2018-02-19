@@ -30,9 +30,8 @@ public class OI {
 		/// candy cane
 			Button toggleHook = new JoystickButton(OPERATOR, Xbox.B);
 				toggleHook.toggleWhenActive(new ButtonCommandHook());
-		///Drop manipulator and mast
-			Button dropIt = new JoystickButton(OPERATOR, Xbox.X);
-				dropIt.toggleWhenPressed(new ButtonCommandHitTheDeck());
+			//Button dropIt = new JoystickButton(OPERATOR, Xbox.X);
+				//dropIt.whenPressed(new ButtonCommandHitTheDeck());
 		/// Reversing mode
 			Button toggleReverse = new JoystickButton(DRIVER, Xbox.Y);
 				toggleReverse.toggleWhenPressed(new ButtonCommandReverse());

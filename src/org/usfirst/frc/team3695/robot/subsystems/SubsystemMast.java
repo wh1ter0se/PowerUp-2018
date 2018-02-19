@@ -76,9 +76,9 @@ public class SubsystemMast extends Subsystem {
     
    	/** raise the mast at RT-LR trigger speed */
     public void moveBySpeed(Joystick joy, double inhibitor) {
-    	double dualAction = Xbox.RT(joy) + Xbox.LT(joy);
-    	double screwSpeed = Xbox.RIGHT_Y(joy) + dualAction;
-    	double pinionSpeed = Xbox.LEFT_Y(joy) + dualAction;
+    	double dualAction = Xbox.RT(joy) - Xbox.LT(joy);
+    	double screwSpeed = Xbox.LEFT_Y(joy) + dualAction;
+    	double pinionSpeed = Xbox.RIGHT_Y(joy) + dualAction;
     	
 		if (!lowerPinionLimit.get() && pinionSpeed > 0)   { pinionSpeed = 0; }
 		if (!upperPinionLimit.get() && pinionSpeed < 0)   { pinionSpeed = 0; }
@@ -94,7 +94,7 @@ public class SubsystemMast extends Subsystem {
     }
     
     public Boolean dropIt() {
-    	if (!lowerPinionLimit.get()) {
+    	if (!lowerPinionLimit.get() || !upperPinionLimit.get()) {
 	    	leftPinion.set(ControlMode.PercentOutput, leftPinionate(-1));
 	    	rightPinion.set(ControlMode.PercentOutput, rightPinionate(-1));
     	} else {
@@ -102,10 +102,10 @@ public class SubsystemMast extends Subsystem {
 	    	rightPinion.set(ControlMode.PercentOutput, rightPinionate(0));
     	}
     	
-    	if (!lowerScrewLimit.get()) {
-    		screw.set(ControlMode.PercentOutput, screwify(-1));
+    	if (!lowerScrewLimit.get() || !upperScrewLimit.get()) {
+    		screw.set(ControlMode.PercentOutput, screwify(1));
     	} else {
-    		screw.set(ControlMode.PercentOutput, screwify(-1));
+    		screw.set(ControlMode.PercentOutput, screwify(0));
     	}
     	
     	return !lowerScrewLimit.get() && !lowerPinionLimit.get();
@@ -122,8 +122,9 @@ public class SubsystemMast extends Subsystem {
     private void voltage(TalonSRX talon) {
     	// talon.configNominalOutputVoltage(0f, 0f);
     	// talon.configPeakOutputVoltage(12.0f, -12.0f);
-    	// talon.enableCurrentLimit(true);
-    	// talon.configContinuousCurrentLimit(35, 300);
+    	talon.enableCurrentLimit(true);
+    	talon.configContinuousCurrentLimit(60, 300);
+    	talon.configPeakCurrentDuration(500, 10);
     		// configContinuousCurrentLimit spat mean errors
     		// commented out for now, but we need to address it
     }
