@@ -64,7 +64,11 @@ public class Robot extends IterativeRobot {
 
 		/// instantiate operator interface
 			oi = new OI();
-		
+
+		//Set PID
+		//plz no kill me colton
+		Robot.SUB_DRIVE.setPIDF(0.2,0,0, 0.2);
+
 		/// instantiate drivetrain chooser
 			driveChooser = new SendableChooser<>();
 			driveChooser.addDefault(Drivetrain.ROCKET_LEAGUE.toString(), Drivetrain.ROCKET_LEAGUE); // set default to RL drive

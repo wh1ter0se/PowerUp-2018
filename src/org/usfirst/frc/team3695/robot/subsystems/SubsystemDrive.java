@@ -29,6 +29,8 @@ public class SubsystemDrive extends Subsystem {
 
     public Drivetrain drivetrain;
 
+    private static boolean reversing;
+
     private static boolean docking;
     private static double dockInhibitor;
 
@@ -79,14 +81,14 @@ public class SubsystemDrive extends Subsystem {
     public static final double leftify(double left) {
     	left = (left > 1.0 ? 1.0 : (left < -1.0 ? -1.0 : left));
     	Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.LEFT_MOTOR_INVERT : Constants.SWISS.LEFT_PINION_MOTOR_INVERT;
-		return left * (invert ? -1.0 : 1.0) * (docking ? dockInhibitor : 1);
+		return left * (invert ? -1.0 : 1.0) * (docking ? dockInhibitor : 1) * (reversing ? -1.0 : 1.0);
 	}
 
     /** apply right motor invert */
     public static final double rightify(double right) {
     	right = (right > 1.0 ? 1.0 : (right < -1.0 ? -1.0 : right));
     	Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_MOTOR_INVERT : Constants.SWISS.RIGHT_MOTOR_INVERT;
-    	return right * (invert ? -1.0 : 1.0) * (docking ? dockInhibitor : 1);
+    	return right * (invert ? -1.0 : 1.0) * (docking ? dockInhibitor : 1) * (reversing ? -1.0 : 1.0);
     }
 
     /** gives birth to the CANTalons */
@@ -95,6 +97,8 @@ public class SubsystemDrive extends Subsystem {
         accel = new BuiltInAccelerometer();
 
         drivetrain = Drivetrain.ROCKET_LEAGUE;
+
+        reversing = false;
 
         docking = false;
         dockInhibitor = 0.5d;
@@ -126,6 +130,10 @@ public class SubsystemDrive extends Subsystem {
     public void isDocking(boolean docking, double dockInhibitor){
         this.docking = docking;
         this.dockInhibitor = dockInhibitor;
+    }
+
+    public void isReversing(boolean reversing) {
+        this.reversing = reversing;
     }
     /**
      * simple rocket league drive code
