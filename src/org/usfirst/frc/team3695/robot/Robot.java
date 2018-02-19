@@ -94,7 +94,7 @@ public class Robot extends IterativeRobot {
 			
 		/// instantiate cameras
 			vision.startScrewCameraThread();
-			// vision.startCameraThread();
+			vision.startFrameCameraThread();
 			
 			DriverStation.reportWarning("SUBSYSTEMS, CHOOSERS INSTANTIATED", false);
 	}

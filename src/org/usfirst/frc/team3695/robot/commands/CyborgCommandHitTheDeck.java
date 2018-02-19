@@ -11,31 +11,30 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  * toggles the state of the clamp
  */
-public class CyborgCommandGoToMid extends Command {
+public class CyborgCommandHitTheDeck extends Command {
 	
 	Boolean isFinished;
 	
-    public CyborgCommandGoToMid() {
+    public CyborgCommandHitTheDeck() {
         requires(Robot.SUB_MAST);
     }
-
+    
     protected void initialize() {
-    	DriverStation.reportWarning("MOVING TO MID POSITION", false);
-    	isFinished = true;
+    	Robot.SUB_MAST.override = true;
+    	//isFinished = Robot.SUB_MAST.goToMiddle();
     }
 
     protected void execute() {
-    	if (!isFinished) {
-    		isFinished = Robot.SUB_MAST.goToMiddle();
-    	}
+    	isFinished = Robot.SUB_MAST.dropIt();
+    	if (isFinished) 
+			end();
     }
 
-    protected boolean isFinished() {
-    	DriverStation.reportWarning("AT MID POSITION", false);
-    	return isFinished; 
-	}
+    protected boolean isFinished() { return isFinished; }
 
-    protected void end() {}
+    protected void end() {
+    	
+    }
 
     protected void interrupted() {
     	end();

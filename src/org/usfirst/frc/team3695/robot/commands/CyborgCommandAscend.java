@@ -21,7 +21,7 @@ public class CyborgCommandAscend extends Command {
 
     protected void initialize() {
     	DriverStation.reportError("AHHHHHH I'M FLYING AWAY", false);
-    	isFinished = Robot.SUB_MAST.goToMiddle();
+    	//isFinished = Robot.SUB_MAST.goToMiddle();
     }
 
     protected void execute() {}
