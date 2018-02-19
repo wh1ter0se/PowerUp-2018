@@ -1,6 +1,8 @@
 package org.usfirst.frc.team3695.robot;
 
 import org.usfirst.frc.team3695.robot.commands.*;
+import org.usfirst.frc.team3695.robot.enumeration.Position;
+import org.usfirst.frc.team3695.robot.util.Util;
 import org.usfirst.frc.team3695.robot.util.Xbox;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -46,6 +48,16 @@ public class OI {
 	    	SmartDashboard.putNumber("Right inches", 0);
 	    	
 	    	DriverStation.reportWarning("OI IS INSTANTIATED", false);
+
+	    /// Cyborg command buttons
+			SmartDashboard.putData("Ascend", new CyborgCommandAscend());
+			SmartDashboard.putNumber("Drive Direct Power", 0);
+			SmartDashboard.putData("Drive Direct", new CyborgCommandDriveDirect(Util.getAndSetDouble("Drive Direct Power", 0)));
+			SmartDashboard.putNumber("Drive Distance Inches", 0);
+			SmartDashboard.putData("Drive Distance", new CyborgCommandDriveDistance(Util.getAndSetDouble("Drive Distance Inches", 0)));
+			SmartDashboard.putData("Drive Until Error", new CyborgCommandDriveUntilError(Position.FORWARD));
+			SmartDashboard.putNumber("Rotate Degrees", 0);
+			SmartDashboard.putData("Rotate Degree", new CyborgCommandRotateDegrees(Util.getAndSetDouble("Rotate Degrees", 0)));
 	}
 	
 }
