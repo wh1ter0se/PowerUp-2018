@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
+import org.usfirst.frc.team3695.robot.Constants.VisionConstants;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -36,7 +37,8 @@ public class Vision extends IterativeRobot {
     }
     
     private void screwCameraStream(){
-    	cameraScrew = CameraServer.getInstance().startAutomaticCapture("Screw", 0);
+
+    	cameraScrew = CameraServer.getInstance().startAutomaticCapture("Screw", VisionConstants.SCREW_ID);
     	
     	CvSink cvsinkScrew = new CvSink("screwSink");
     	cvsinkScrew.setSource(cameraScrew);
@@ -44,7 +46,7 @@ public class Vision extends IterativeRobot {
     	
     	Mat streamImages = new Mat();
     	
-    	CvSource outputScrew = CameraServer.getInstance().putVideo("Screw", Constants.CAM_WIDTH, Constants.CAM_HEIGHT);
+    	CvSource outputScrew = CameraServer.getInstance().putVideo("Screw", VisionConstants.CAM_WIDTH, VisionConstants.CAM_HEIGHT);
     	 while (!Thread.interrupted()){
     		 cvsinkScrew.grabFrame(streamImages);
     		 outputScrew.putFrame(streamImages);
@@ -57,8 +59,8 @@ public class Vision extends IterativeRobot {
      * This method should only be used for starting the camera stream.
      */
         private void concatCameraStream() {
-        cameraLeft = CameraServer.getInstance().startAutomaticCapture("Left", 0);
-        cameraRight = CameraServer.getInstance().startAutomaticCapture("Right", 1);
+        cameraLeft = CameraServer.getInstance().startAutomaticCapture("Left", VisionConstants.LEFT_ID);
+        cameraRight = CameraServer.getInstance().startAutomaticCapture("Right", VisionConstants.RIGHT_ID);
 
         /// Dummy sinks to keep camera connections open.
         CvSink cvsinkLeft = new CvSink("leftSink");
@@ -82,7 +84,7 @@ public class Vision extends IterativeRobot {
 
         /// Puts the combined video on the SmartDashboard (I think)
         /// The width is multiplied by 2 as the dimensions of the stream will have a width two times that of a single webcam
-        CvSource outputStream = CameraServer.getInstance().putVideo("Concat", 2*Constants.CAM_WIDTH, Constants.CAM_HEIGHT);
+        CvSource outputStream = CameraServer.getInstance().putVideo("Concat", 2*VisionConstants.CAM_WIDTH, VisionConstants.CAM_HEIGHT);
 
         while (!Thread.interrupted()) {
             /// Provide each mat with the current frame
