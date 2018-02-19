@@ -38,7 +38,7 @@ public class Vision extends IterativeRobot {
     }
     
     void startFrameCameraThread(){
-    	new Thread(this::screwCameraStream).start();
+    	new Thread(this::frameCameraStream).start();
     }
     
     private void screwCameraStream(){
@@ -59,18 +59,18 @@ public class Vision extends IterativeRobot {
     }
     
     private void frameCameraStream(){
-    	cameraFrame = CameraServer.getInstance().startAutomaticCapture("Frame", 1);
+    	cameraFrame = CameraServer.getInstance().startAutomaticCapture("Frame", VisionConstants.HOOK_ID);
     	
-    	CvSink cvsinkScrew = new CvSink("frameSink");
-    	cvsinkScrew.setSource(cameraFrame);
-    	cvsinkScrew.setEnabled(true);
+    	CvSink cvsinkFrame = new CvSink("frameSink");
+    	cvsinkFrame.setSource(cameraFrame);
+    	cvsinkFrame.setEnabled(true);
     	
     	Mat streamImages = new Mat();
     	
-    	CvSource outputScrew = CameraServer.getInstance().putVideo("Screw", Constants.CAM_WIDTH, Constants.CAM_HEIGHT);
+    	CvSource outputFrame = CameraServer.getInstance().putVideo("Frame", VisionConstants.CAM_WIDTH, VisionConstants.CAM_HEIGHT);
     	 while (!Thread.interrupted()){
-    		 cvsinkScrew.grabFrame(streamImages);
-    		 outputScrew.putFrame(streamImages);
+    		 cvsinkFrame.grabFrame(streamImages);
+    		 outputFrame.putFrame(streamImages);
     	 }
     }
 
