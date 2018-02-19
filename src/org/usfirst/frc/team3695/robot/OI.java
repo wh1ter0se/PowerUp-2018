@@ -31,8 +31,8 @@ public class OI {
 			Button toggleHook = new JoystickButton(OPERATOR, Xbox.B);
 				toggleHook.toggleWhenActive(new ButtonCommandHook());
 				
-			Button dropIt = new JoystickButton(OPERATOR, Xbox.X);
-				dropIt.whenPressed(new ButtonCommandHitTheDeck());
+			//Button dropIt = new JoystickButton(OPERATOR, Xbox.X);
+				//dropIt.whenPressed(new ButtonCommandHitTheDeck());
 		
 		/// Docking mode
 			Button toggleDock = new JoystickButton(DRIVER, Xbox.Y);
