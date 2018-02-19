@@ -32,6 +32,8 @@ public class SubsystemDrive extends Subsystem {
     private static boolean docked;
     private static double dockInhibitor;
 
+    public static boolean auto;
+
     private Accelerometer accel;
 
     /**
@@ -50,14 +52,10 @@ public class SubsystemDrive extends Subsystem {
     	return leftMag / Constants.LEFT_MAGIC_PER_INCHES;
     }
     
-    public static final double rightMag2in(double rightMag) {
-    	return rightMag / Constants.RIGHT_MAGIC_PER_INCHES;
-    }
+    public static final double rightMag2in(double rightMag) { return rightMag / Constants.RIGHT_MAGIC_PER_INCHES; }
 
     /** converts RPM to inches per second */
-    public static final double rpm2ips(double rpm) {
-        return rpm / 60.0 * Constants.WHEEL_DIAMETER * Math.PI;
-    }
+    public static final double rpm2ips(double rpm) { return rpm / 60.0 * Constants.WHEEL_DIAMETER * Math.PI; }
 
 
     /** converts an inches per second number to RPM */
@@ -100,6 +98,8 @@ public class SubsystemDrive extends Subsystem {
 
         docked = false;
         dockInhibitor = 1;
+
+        auto = false;
 
         // masters
         leftMaster = new TalonSRX(Constants.LEFT_MASTER);
@@ -195,6 +195,10 @@ public class SubsystemDrive extends Subsystem {
 //			leftSlave.set(ControlMode.PercentOutput, leftify(left));
         rightMaster.set(ControlMode.PercentOutput, rightify(right) * inhibitor);
 //			rightSlave.set(ControlMode.PercentOutput, rightify(right));
+    }
+
+    public void setAuto(boolean auto){
+        this.auto = auto;
     }
 
     /** configures the voltage of each CANTalon */
