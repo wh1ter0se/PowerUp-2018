@@ -25,7 +25,8 @@ public class Constants {
 			RIGHT_MAGIC_PER_INCHES = 208.847,
 		///SAFETY
 			RECOVERY_SPEED = 0.5,
-			DOCK_SPEED = 0.5;
+			DOCK_INHIBITOR = 0.5,
+			TILT_ANGLE = 10;
 
 
 	public static final int
@@ -51,9 +52,8 @@ public class Constants {
 			I2C_DEVICE_ADDRESS = 4,
 		/// RPM'S
 			REDLINE = 6000,
-			IDLE    = 500,
-		///SAFETY
-			TILT_ANGLE = 20;
+			IDLE    = 500;
+
 	
 	public static final int
 		/// MANIPULATOR
