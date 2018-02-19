@@ -76,6 +76,11 @@ public class Constants {
 			RIGHT_ARM_MOTOR_INVERT    = false,
 	
 			HOOK_MOTOR_INVERT		  = false;
+		public static final int
+            P = 0,
+            I = 0,
+            D = 0,
+            F = 0;
 	}
 	
 	public static class SWISS {
@@ -91,6 +96,11 @@ public class Constants {
 			RIGHT_ARM_MOTOR_INVERT    = false,
 	
 			HOOK_MOTOR_INVERT		  = false;
+        public static final int
+                P = 0,
+                I = 0,
+                D = 0,
+                F = 0;
 	}
 	
 

@@ -14,7 +14,7 @@ public class ButtonCommandHook extends Command {
     }
 
     protected void initialize() {
-    	Robot.SUB_HOOK.lowerHook();
+        Robot.SUB_HOOK.raiseHook();
     }
 
     protected void execute() {}
@@ -22,7 +22,7 @@ public class ButtonCommandHook extends Command {
     protected boolean isFinished() { return false; }
 
     protected void end() {
-    	Robot.SUB_HOOK.raiseHook();
+        Robot.SUB_HOOK.lowerHook();
     }
 
     protected void interrupted() {
