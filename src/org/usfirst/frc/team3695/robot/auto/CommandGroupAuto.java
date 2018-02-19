@@ -34,7 +34,7 @@ public class CommandGroupAuto extends CommandGroup {
 						if (gameData.charAt(0) == 'L'){ //When the switch is on the left
 							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_TO_SWITCH_FROM_SIDE));
 							addParallel(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CLOCKWISE));
-							addSequential(new CyborgCommandGoToMid());
+					//		addSequential(new CyborgCommandGoToMid());
 							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CLOCKWISE));
 						} else { //When the switch is on the right
 							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_WALL_TO_SWITCH_BLOCK_MID));
@@ -78,9 +78,9 @@ public class CommandGroupAuto extends CommandGroup {
 						
 //						(in parallel) Note: We need a command to go to top to replace GoToMid here
 //						Spit cube out
-						} else { //When scale is on the right
+						//} else { //When scale is on the right
 
-						}
+					//	}
 						break;
 					case BEST_OPTION:
 						break;
@@ -98,7 +98,7 @@ public class CommandGroupAuto extends CommandGroup {
 							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_COUNTERCLOCKWISE));
 							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_CENTER_LINE_SWITCH_ALIGN));
 							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CLOCKWISE));
-							addParallel(new CyborgCommandGoToMid());
+			//				addParallel(new CyborgCommandGoToMid());
 							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_WALL_TO_BLOCKS
 																				+ AutonomousConstants.DIST_BLOCKS_TO_SWITCH
 																				- AutonomousConstants.DIST_PASS_PORTAL));
@@ -107,7 +107,7 @@ public class CommandGroupAuto extends CommandGroup {
 							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CLOCKWISE));
 							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_CENTER_LINE_SWITCH_ALIGN));
 							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_COUNTERCLOCKWISE));
-							addParallel(new CyborgCommandGoToMid());
+				//			addParallel(new CyborgCommandGoToMid());
 							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_WALL_TO_BLOCKS
 																				+ AutonomousConstants.DIST_BLOCKS_TO_SWITCH
 																				- AutonomousConstants.DIST_PASS_PORTAL));
