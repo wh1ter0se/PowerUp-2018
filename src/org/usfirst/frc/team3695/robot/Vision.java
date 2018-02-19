@@ -54,6 +54,7 @@ public class Vision extends IterativeRobot {
     	CvSource outputScrew = CameraServer.getInstance().putVideo("Screw", VisionConstants.CAM_WIDTH, VisionConstants.CAM_HEIGHT);
     	 while (!Thread.interrupted()){
     		 cvsinkScrew.grabFrame(streamImages);
+    		 Core.rotate(streamImages, streamImages, Core.ROTATE_180);
     		 outputScrew.putFrame(streamImages);
     	 }
     }
