@@ -46,9 +46,6 @@ public class Constants {
 			TIMEOUT_PID = 10;
 
 	public static final int
-		/// CAMERA SPECS
-			CAM_HEIGHT = 1080,
-			CAM_WIDTH  = 1920,
 		/// I2C
 			I2C_DEVICE_ADDRESS = 4,
 		/// RPM'S
@@ -114,7 +111,17 @@ public class Constants {
 		public static final int ROT_90_CLOCKWISE = 90;
 		public static final int ROT_90_COUNTERCLOCKWISE = -90;
 		public static final int ROT_180 = 180;
-		
+	}
+
+	public static class VisionConstants {
+		public static final int CAM_HEIGHT = 1080;
+		public static final int CAM_WIDTH  = 1920;
+
+		public static final int SCREW_ID = 0;
+		public static final int HOOK_ID = 1;
+		public static final int	LEFT_ID = 2;
+		public static final int RIGHT_ID = 3;
+
 	}
 
 //	/** where all the static final variables for arduino get set */

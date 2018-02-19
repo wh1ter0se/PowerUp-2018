@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3695.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team3695.robot.OI;
 import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.enumeration.Drivetrain;
@@ -18,6 +19,8 @@ public class ManualCommandDrive extends Command {
     protected void initialize() {}
 
     protected void execute() {
+        SmartDashboard.putNumber("Right Encoder Position", Robot.SUB_DRIVE.rightMag2in(Robot.SUB_DRIVE.getRightPos()));
+        SmartDashboard.putNumber("Left Encoder Position", Robot.SUB_DRIVE.leftMag2in(Robot.SUB_DRIVE.getLeftPos()));
     	switch (Robot.SUB_DRIVE.drivetrain) {
     		case ROCKET_LEAGUE:
     			Robot.SUB_DRIVE.driveRLTank(OI.DRIVER, Util.getAndSetDouble("Ramp", .75), Util.getAndSetDouble("Drive Inhibitor", 1));
