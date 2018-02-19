@@ -17,16 +17,20 @@ public class Constants {
 		/// REDLINE CURVE POINTS
 			REDLINE_START = 0,
 			REDLINE_MID   = .125,
-			REDLINE_END   = 1,
+			REDLINE_END   = 1;
+	
+	public static final double
+		/// ENCODER MAGIC UNIT TRANSLATIONS
+			LEFT_MAGIC_PER_INCHES = -214.560,
+			RIGHT_MAGIC_PER_INCHES = 208.847,
 		///SAFETY
-			TILT_ANGLE = 20,
 			RECOVERY_SPEED = 0.5;
 
 
 	public static final int
 		/// DRIVE MOTORS
 			RIGHT_MASTER    = 6,
-				RIGHT_SLAVE = 0,
+				RIGHT_SLAVE = 20,
 			LEFT_MASTER     = 7,
 				LEFT_SLAVE  = 2,
 		/// MANIPULATOR SPINNY BOIS
@@ -47,28 +51,50 @@ public class Constants {
 			CAM_WIDTH  = 1920,
 		/// I2C
 			I2C_DEVICE_ADDRESS = 4,
+		/// RPM'S
+			REDLINE = 6000,
+			IDLE    = 500,
+		///SAFETY
+			TILT_ANGLE = 20;
+	
+	public static final int
 		/// MANIPULATOR
 			OPEN_ARMS  = 5,
 			CLOSE_ARMS = 4,
 		/// CANDY CANE
 			RAISE_HOOK = 6,
-			LOWER_HOOK = 7,
-		/// RPM'S
-			REDLINE = 6000,
-			IDLE    = 500;
-
-	public static final boolean
+			LOWER_HOOK = 7;
+	
+	public static class OOF {
+		public static final boolean
 			LEFT_MOTOR_INVERT         = false,
-			RIGHT_MOTOR_INVERT        = true,
-
+			RIGHT_MOTOR_INVERT        = true, 
+	
 			LEFT_PINION_MOTOR_INVERT  = false,
 			RIGHT_PINION_MOTOR_INVERT = true,
 			SCREW_MOTOR_INVERT        = false,
-
+	
 			LEFT_ARM_MOTOR_INVERT     = true,
 			RIGHT_ARM_MOTOR_INVERT    = false,
-
+	
 			HOOK_MOTOR_INVERT		  = false;
+	}
+	
+	public static class SWISS {
+		public static final boolean
+			LEFT_MOTOR_INVERT         = false,
+			RIGHT_MOTOR_INVERT        = false,
+	
+			LEFT_PINION_MOTOR_INVERT  = false,
+			RIGHT_PINION_MOTOR_INVERT = true,
+			SCREW_MOTOR_INVERT        = false,
+	
+			LEFT_ARM_MOTOR_INVERT     = true,
+			RIGHT_ARM_MOTOR_INVERT    = false,
+	
+			HOOK_MOTOR_INVERT		  = false;
+	}
+	
 
 	public static class AutonomousConstants {
 		//Save distances in inches
@@ -78,12 +104,17 @@ public class Constants {
 		public static final int DIST_BLOCKS_TO_SWITCH = 42;
 		public static final int DIST_WALL_TO_LINE = 120;
 		public static final int DIST_WALL_TO_BLOCKS = 98;
+		public static final int DIST_BLOCK_TO_MIDDLE_OF_SWITCH = 28;
+		public static final int DIST_WALL_TO_ENEMY_BLOCKS = 463;
+		public static final int DIST_WALL_TO_SWITCH_BLOCKS = 196;
+		public static final int DIST_SWITCH_BLOCK_TO_SCALE = 128;
 		public static final int DIST_WALL_TO_SCALE = 324; //Goes right in front of the scale
 		public static final double DIST_WALL_TO_SWITCH_BLOCK_MID = 228.74;
 
 		public static final int ROT_90_CLOCKWISE = 90;
 		public static final int ROT_90_COUNTERCLOCKWISE = -90;
 		public static final int ROT_180 = 180;
+		
 	}
 
 //	/** where all the static final variables for arduino get set */

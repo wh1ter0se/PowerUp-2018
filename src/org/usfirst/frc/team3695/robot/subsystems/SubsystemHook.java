@@ -17,7 +17,7 @@ public class SubsystemHook extends Subsystem {
 	
 	private Solenoid raiseHook;
 	private Solenoid lowerHook;
-	private boolean open; // current State of arms; true = open, false = closed
+	private boolean raised; // current State of arms; true = open, false = closed
 	
 	/** runs at robot boot */
     public void initDefaultCommand() {}
@@ -26,23 +26,23 @@ public class SubsystemHook extends Subsystem {
     public SubsystemHook(){
     	raiseHook = new Solenoid(Constants.RAISE_HOOK);
 		lowerHook = new Solenoid(Constants.LOWER_HOOK);
-		open = false;
+		raised = false;
     }
    
 	    public void raiseHook(){
 	    	lowerHook.set(false);
 	    	raiseHook.set(true);
-	    	open = true;
+	    	raised = true;
 	    }
 	    
 	    public void lowerHook(){
 	    	raiseHook.set(false);
 	    	lowerHook.set(true);
-	    	open = false;
+	    	raised = false;
 	    }
 	    
 	    public void toggleHook(){
-	    	if (open) lowerHook();	else raiseHook();
+	    	if (raised) lowerHook();	else raiseHook();
 	    }    
     
 
