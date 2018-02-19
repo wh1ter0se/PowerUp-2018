@@ -23,6 +23,9 @@ public class CommandGroupAuto extends CommandGroup {
 
 		// make sure everything is in the right state/position up here
 		Robot.SUB_CLAMP.closeArms();
+
+		//Set PID
+		Robot.SUB_DRIVE.setPIDF(0.2,0,0, 0.2);
 		// EX: making sure flap is closed before auto starts
 		switch (position) {
 			case LEFT:
