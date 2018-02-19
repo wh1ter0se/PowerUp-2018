@@ -30,7 +30,9 @@ public class OI {
 		/// candy cane
 			Button toggleHook = new JoystickButton(OPERATOR, Xbox.B);
 				toggleHook.toggleWhenActive(new ButtonCommandHook());
-		
+		/// Docking mode
+			Button toggleDock = new JoystickButton(DRIVER, Xbox.Y);
+				toggleDock.toggleWhenActive(new ButtonCommandDock());
 		/// To Compress, or Not To Compress. It is now an option.
 			SmartDashboard.putData("Disable Compressor", new ButtonCommandKillCompressor());
 

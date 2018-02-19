@@ -24,7 +24,8 @@ public class Constants {
 			LEFT_MAGIC_PER_INCHES = -214.560,
 			RIGHT_MAGIC_PER_INCHES = 208.847,
 		///SAFETY
-			RECOVERY_SPEED = 0.5;
+			RECOVERY_SPEED = 0.5,
+			DOCK_SPEED = 0.5;
 
 
 	public static final int
@@ -75,6 +76,11 @@ public class Constants {
 			RIGHT_ARM_MOTOR_INVERT    = false,
 	
 			HOOK_MOTOR_INVERT		  = false;
+		public static final int
+            P = 0,
+            I = 0,
+            D = 0,
+            F = 0;
 	}
 	
 	public static class SWISS {
@@ -90,6 +96,11 @@ public class Constants {
 			RIGHT_ARM_MOTOR_INVERT    = false,
 	
 			HOOK_MOTOR_INVERT		  = false;
+        public static final int
+                P = 0,
+                I = 0,
+                D = 0,
+                F = 0;
 	}
 	
 
