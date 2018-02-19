@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3695.robot.commands;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.enumeration.Position;
 import org.usfirst.frc.team3695.robot.subsystems.SubsystemDrive;
@@ -39,6 +40,7 @@ public class CyborgCommandDriveUntilError extends Command {
     }
 
     protected void end() {
+        DriverStation.reportWarning("CyborgCommandDriveUntilError finished", false);
         Robot.SUB_DRIVE.driveDirect(0, 0);
     }
 

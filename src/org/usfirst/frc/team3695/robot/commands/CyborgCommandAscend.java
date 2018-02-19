@@ -29,7 +29,7 @@ public class CyborgCommandAscend extends Command {
     protected boolean isFinished() { return isFinished; }
 
     protected void end() {
-
+        DriverStation.reportWarning("CyborgCommandAscend finished", false);
     }
 
     protected void interrupted() {
