@@ -26,6 +26,7 @@ public class Vision extends IterativeRobot {
     private UsbCamera cameraRight;
     
     private UsbCamera cameraScrew;
+    private UsbCamera cameraFrame;
 
     void startConcatCameraThread(){
         //Places the vision in a separate thread from everything else as recommended by FIRST.
@@ -33,6 +34,10 @@ public class Vision extends IterativeRobot {
     }
     
     void startScrewCameraThread(){
+    	new Thread(this::screwCameraStream).start();
+    }
+    
+    void startFrameCameraThread(){
     	new Thread(this::screwCameraStream).start();
     }
     
@@ -47,6 +52,22 @@ public class Vision extends IterativeRobot {
     	Mat streamImages = new Mat();
     	
     	CvSource outputScrew = CameraServer.getInstance().putVideo("Screw", VisionConstants.CAM_WIDTH, VisionConstants.CAM_HEIGHT);
+    	 while (!Thread.interrupted()){
+    		 cvsinkScrew.grabFrame(streamImages);
+    		 outputScrew.putFrame(streamImages);
+    	 }
+    }
+    
+    private void frameCameraStream(){
+    	cameraFrame = CameraServer.getInstance().startAutomaticCapture("Frame", 1);
+    	
+    	CvSink cvsinkScrew = new CvSink("frameSink");
+    	cvsinkScrew.setSource(cameraFrame);
+    	cvsinkScrew.setEnabled(true);
+    	
+    	Mat streamImages = new Mat();
+    	
+    	CvSource outputScrew = CameraServer.getInstance().putVideo("Screw", Constants.CAM_WIDTH, Constants.CAM_HEIGHT);
     	 while (!Thread.interrupted()){
     		 cvsinkScrew.grabFrame(streamImages);
     		 outputScrew.putFrame(streamImages);

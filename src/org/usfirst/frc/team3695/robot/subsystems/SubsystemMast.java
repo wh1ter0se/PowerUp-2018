@@ -31,9 +31,8 @@ public class SubsystemMast extends Subsystem {
     DigitalInput lowerScrewLimit;
     DigitalInput midScrewLimit;
     DigitalInput upperScrewLimit;
-    
-    private Position carriagePosition;
-    private Boolean midIsPressed;
+
+    public Boolean override;
 
 	
 	/** runs at robot boot */
@@ -42,9 +41,9 @@ public class SubsystemMast extends Subsystem {
 	
 	/** gives birth to the CANTalons */
     public SubsystemMast(){
-    	lowerPinionLimit = new DigitalInput(3);
-        upperPinionLimit = new DigitalInput(5);
-        lowerScrewLimit  = new DigitalInput(1);
+    	lowerPinionLimit = new DigitalInput(1);
+        upperPinionLimit = new DigitalInput(2);
+        lowerScrewLimit  = new DigitalInput(3);
         upperScrewLimit  = new DigitalInput(4);
     	
     	leftPinion = new TalonSRX(Constants.LEFT_PINION_MOTOR);
@@ -53,6 +52,8 @@ public class SubsystemMast extends Subsystem {
     		voltage(leftPinion);
     		voltage(rightPinion);
     		voltage(screw);
+    		
+		override = false;
     }
 
    	
@@ -75,72 +76,47 @@ public class SubsystemMast extends Subsystem {
     
    	/** raise the mast at RT-LR trigger speed */
     public void moveBySpeed(Joystick joy, double inhibitor) {
-    	double screwSpeed = Xbox.RIGHT_Y(joy);
-    	double pinionSpeed = Xbox.LEFT_Y(joy);
+    	double dualAction = Xbox.RT(joy) + Xbox.LT(joy);
+    	double screwSpeed = Xbox.RIGHT_Y(joy) + dualAction;
+    	double pinionSpeed = Xbox.LEFT_Y(joy) + dualAction;
     	
 		if (!lowerPinionLimit.get() && pinionSpeed > 1)   { pinionSpeed = 0; }
 		if (!upperPinionLimit.get() && pinionSpeed < 0)   { pinionSpeed = 0; }
 		if (!lowerScrewLimit.get()  && screwSpeed  > 1)   { screwSpeed = 0;  }
 		if (!upperScrewLimit.get()  && screwSpeed  < 0)   { screwSpeed = 0;  }
 			
-		updateCarriage();
     	publishSwitches();
-    	leftPinion.set(ControlMode.PercentOutput, leftPinionate(pinionSpeed));
-    	rightPinion.set(ControlMode.PercentOutput, rightPinionate(pinionSpeed));
-    	screw.set(ControlMode.PercentOutput, inhibitor * screwify(screwSpeed));
+    	if (!override) {
+    		leftPinion.set(ControlMode.PercentOutput, leftPinionate(pinionSpeed));
+        	rightPinion.set(ControlMode.PercentOutput, rightPinionate(pinionSpeed));
+        	screw.set(ControlMode.PercentOutput, inhibitor * screwify(screwSpeed));
+    	}
     }
     
-    public void setCarriagePosition(Position position) {
-    	carriagePosition = position;
-    }
-    
-    public void updateCarriage() {
-    	if (!midScrewLimit.get()) {
-    		carriagePosition = Position.CENTER;
+    public Boolean dropIt() {
+    	if (!lowerPinionLimit.get()) {
+	    	leftPinion.set(ControlMode.PercentOutput, leftPinionate(-1));
+	    	rightPinion.set(ControlMode.PercentOutput, rightPinionate(-1));
+    	} else {
+    		leftPinion.set(ControlMode.PercentOutput, leftPinionate(0));
+	    	rightPinion.set(ControlMode.PercentOutput, rightPinionate(0));
     	}
-    	else if (carriagePosition == Position.CENTER && !midScrewLimit.get()) {
-    		if (screw.getMotorOutputPercent() > 0) {
-    			carriagePosition = Position.UP;
-    		} else if (screw.getMotorOutputPercent() < 0) {
-    			carriagePosition = Position.DOWN;
-    		}
+    	
+    	if (!lowerScrewLimit.get()) {
+    		screw.set(ControlMode.PercentOutput, screwify(-1));
+    	} else {
+    		screw.set(ControlMode.PercentOutput, screwify(-1));
     	}
+    	
+    	return !lowerScrewLimit.get() && !lowerPinionLimit.get();
     }
     	
     public void publishSwitches() {
     	SmartDashboard.putBoolean("Lower Screw", !lowerScrewLimit.get());
-    	SmartDashboard.putBoolean("Mid Position", !midScrewLimit.get());
     	SmartDashboard.putBoolean("Upper Screw", !upperScrewLimit.get());
     	SmartDashboard.putBoolean("Lower Pinion", !lowerPinionLimit.get());
     	SmartDashboard.putBoolean("Upper Pinion", !upperPinionLimit.get());
     }
-    public Boolean goToMiddle() {
-    	/// make sure pinion is at bottom
-	    	if (!lowerPinionLimit.get()) {
-    			leftPinion.set(ControlMode.PercentOutput, leftPinionate(-1));
-    			rightPinion.set(ControlMode.PercentOutput, rightPinionate(-1));
-    		}
-    		else {
-    			leftPinion.set(ControlMode.PercentOutput, 0);
-    			rightPinion.set(ControlMode.PercentOutput, 0);
-    		}
-    	/// move screw to middle
-	    	if (!midScrewLimit.get()) {
-	    		screw.set(ControlMode.PercentOutput, 0);
-	    		return true;
-	    	}
-	    	else {
-		    	switch (carriagePosition) {
-			    	case UP:
-			    		screw.set(ControlMode.PercentOutput, screwify(-1));
-			    		break;
-			    	case DOWN:
-			    		screw.set(ControlMode.PercentOutput, screwify(1));
-			    		break;
-		    	}
-		    	return false;
-	    	}
-	    }
     
     /** configures the voltage of each CANTalon */
     private void voltage(TalonSRX talon) {
