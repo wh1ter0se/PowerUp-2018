@@ -29,7 +29,7 @@ public class SubsystemDrive extends Subsystem {
 
     public Drivetrain drivetrain;
 
-    private static boolean docked;
+    private static boolean docking;
     private static double dockInhibitor;
 
     public static boolean auto;
@@ -79,14 +79,14 @@ public class SubsystemDrive extends Subsystem {
     public static final double leftify(double left) {
     	left = (left > 1.0 ? 1.0 : (left < -1.0 ? -1.0 : left));
     	Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.LEFT_MOTOR_INVERT : Constants.SWISS.LEFT_PINION_MOTOR_INVERT;
-		return left * (invert ? -1.0 : 1.0) * (docked ? dockInhibitor : 1);
+		return left * (invert ? -1.0 : 1.0) * (docking ? dockInhibitor : 1);
 	}
 
     /** apply right motor invert */
     public static final double rightify(double right) {
     	right = (right > 1.0 ? 1.0 : (right < -1.0 ? -1.0 : right));
     	Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_MOTOR_INVERT : Constants.SWISS.RIGHT_MOTOR_INVERT;
-    	return right * (invert ? -1.0 : 1.0) * (docked ? dockInhibitor : 1);
+    	return right * (invert ? -1.0 : 1.0) * (docking ? dockInhibitor : 1);
     }
 
     /** gives birth to the CANTalons */
@@ -96,8 +96,8 @@ public class SubsystemDrive extends Subsystem {
 
         drivetrain = Drivetrain.ROCKET_LEAGUE;
 
-        docked = false;
-        dockInhibitor = 1;
+        docking = false;
+        dockInhibitor = 0.5d;
 
         auto = false;
 
@@ -123,9 +123,9 @@ public class SubsystemDrive extends Subsystem {
         return Math.atan(accel.getY()/Math.sqrt(Math.pow(accel.getX(),2) + Math.pow(accel.getZ(),2)));
     }
 
-    public void docker(boolean docked, double dock){
-        this.docked = docked;
-        this.dockInhibitor = dock;
+    public void isDocking(boolean docking, double dockInhibitor){
+        this.docking = docking;
+        this.dockInhibitor = dockInhibitor;
     }
     /**
      * simple rocket league drive code

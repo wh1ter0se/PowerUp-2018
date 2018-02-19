@@ -1,9 +1,7 @@
 package org.usfirst.frc.team3695.robot.commands;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import org.usfirst.frc.team3695.robot.Constants;
 import org.usfirst.frc.team3695.robot.Robot;
-import org.usfirst.frc.team3695.robot.enumeration.Position;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3695.robot.util.Util;
@@ -16,7 +14,7 @@ public class ButtonCommandDock extends Command {
     }
 
     protected void initialize() {
-        Robot.SUB_DRIVE.docker(true, Util.getAndSetDouble("Dock", Constants.DOCK_SPEED));
+        Robot.SUB_DRIVE.isDocking(true, 0.5d);
     }
 
     protected void execute() {}
@@ -24,7 +22,7 @@ public class ButtonCommandDock extends Command {
     protected boolean isFinished() { return false; }
 
     protected void end() {
-        Robot.SUB_DRIVE.docker(false, Util.getAndSetDouble("Dock", Constants.DOCK_SPEED));
+        Robot.SUB_DRIVE.isDocking(false, 0.5d);
     }
 
     protected void interrupted() {

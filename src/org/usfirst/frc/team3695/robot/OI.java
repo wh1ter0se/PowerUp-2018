@@ -36,7 +36,7 @@ public class OI {
 		
 		/// Docking mode
 			Button toggleDock = new JoystickButton(DRIVER, Xbox.Y);
-				toggleDock.toggleWhenActive(new ButtonCommandDock());
+				toggleDock.toggleWhenPressed(new ButtonCommandDock());
 		/// To Compress, or Not To Compress. It is now an option.
 			SmartDashboard.putData("Disable Compressor", new ButtonCommandKillCompressor());
 
