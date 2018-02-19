@@ -43,7 +43,7 @@ public class SubsystemManipulator extends Subsystem {
 	
 	/** gives birth to the CANTalons */
     public SubsystemManipulator(){
-    	armLeft = new TalonSRX(Constants.LEFT_FLYWHEEL);
+		armLeft = new TalonSRX(Constants.LEFT_FLYWHEEL);
     	armRight = new TalonSRX(Constants.RIGHT_FLYWHEEL);
     }
     

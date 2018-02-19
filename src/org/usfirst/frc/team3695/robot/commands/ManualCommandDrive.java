@@ -20,10 +20,10 @@ public class ManualCommandDrive extends Command {
     protected void execute() {
     	switch (Robot.SUB_DRIVE.drivetrain) {
     		case ROCKET_LEAGUE:
-    			Robot.SUB_DRIVE.driveRLTank(OI.DRIVER, Util.getAndSetDouble("Ramp", .75), Util.getAndSetDouble("Caleb Inhibitor", .5));
+    			Robot.SUB_DRIVE.driveRLTank(OI.DRIVER, Util.getAndSetDouble("Ramp", .75), Util.getAndSetDouble("Drive Inhibitor", 1));
     			break;
     		case FORZA: 
-    			Robot.SUB_DRIVE.driveForza(OI.DRIVER, Util.getAndSetDouble("Ramp", .75), Util.getAndSetDouble("Radius", 1));
+    			Robot.SUB_DRIVE.driveForza(OI.DRIVER, Util.getAndSetDouble("Ramp", .75), Util.getAndSetDouble("Radius", 1), Util.getAndSetDouble("Drive Inhibitor", 1));
     			break;
     		case REV:
     			Robot.SUB_MANIPULATOR.rev(OI.DRIVER);

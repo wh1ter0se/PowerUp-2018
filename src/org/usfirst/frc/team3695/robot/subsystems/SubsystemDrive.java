@@ -1,7 +1,11 @@
 package org.usfirst.frc.team3695.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import edu.wpi.first.wpilibj.AnalogGyro;
+import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.interfaces.Accelerometer;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 import org.usfirst.frc.team3695.robot.Constants;
 import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.commands.ManualCommandDrive;
@@ -26,6 +30,8 @@ public class SubsystemDrive extends Subsystem {
     private TalonSRX rightSlave;
 
     public Drivetrain drivetrain;
+
+    private Accelerometer accel;
 
     /**
      * Allowable tolerance to be considered in range when driving a distance, in rotations
@@ -87,6 +93,8 @@ public class SubsystemDrive extends Subsystem {
     /** gives birth to the CANTalons */
     public SubsystemDrive() {
 
+        accel = new BuiltInAccelerometer();
+
         drivetrain = Drivetrain.ROCKET_LEAGUE;
 
         // masters
@@ -106,26 +114,38 @@ public class SubsystemDrive extends Subsystem {
         this.drivetrain = drivetrain;
     }
 
+    public double getYAngle(){
+        //http://www.hobbytronics.co.uk/accelerometer-info
+        return Math.atan(accel.getY()/Math.sqrt(Math.pow(accel.getX(),2) + Math.pow(accel.getZ(),2)));
+    }
     /**
      * simple rocket league drive code
      * independent rotation and acceleration
      */
+
     public void driveRLTank(Joystick joy, double ramp, double inhibitor) {
         double adder = Xbox.RT(joy) - Xbox.LT(joy);
         double left = adder + (Xbox.LEFT_X(joy) / 1.333333);
         double right = adder - (Xbox.LEFT_X(joy) / 1.333333);
 
-        
         /// ramps
-	        leftMaster.configOpenloopRamp(ramp, 10);
-	        leftSlave.configOpenloopRamp(ramp, 10);
-	        rightMaster.configOpenloopRamp(ramp, 10);
-	        rightSlave.configOpenloopRamp(ramp, 10);
-        
-        leftMaster.set(ControlMode.PercentOutput, leftify(left) * inhibitor);
+        leftMaster.configOpenloopRamp(ramp, 10);
+        leftSlave.configOpenloopRamp(ramp, 10);
+        rightMaster.configOpenloopRamp(ramp, 10);
+        rightSlave.configOpenloopRamp(ramp, 10);
+
+        if (getYAngle() > Constants.TILT_ANGLE ) {
+            leftMaster.set(ControlMode.PercentOutput, -1*Constants.RECOVERY_SPEED);
+            rightMaster.set(ControlMode.PercentOutput, -1*Constants.RECOVERY_SPEED);
+        } else if (getYAngle() < -1*Constants.TILT_ANGLE){
+            leftMaster.set(ControlMode.PercentOutput, Constants.RECOVERY_SPEED);
+            rightMaster.set(ControlMode.PercentOutput, Constants.RECOVERY_SPEED);
+        } else {
+            leftMaster.set(ControlMode.PercentOutput, leftify(left));
 //    		leftSlave.set(ControlMode.Follower, leftify(left));
-        rightMaster.set(ControlMode.PercentOutput, rightify(right) * inhibitor);
+            rightMaster.set(ControlMode.PercentOutput, rightify(right));
 //    		rightSlave.set(ControlMode.Follower, rightify(right));
+        }
 
     }
 
@@ -137,15 +157,23 @@ public class SubsystemDrive extends Subsystem {
                 right = 0;
         double acceleration = Xbox.RT(joy) - Xbox.LT(joy);
 
-        if (Xbox.LEFT_X(joy) < 0) {
-            right = acceleration;
-            left = (acceleration * ((2 * (1 - Math.abs(Xbox.LEFT_X(joy)))) - 1)) / radius;
-        } else if (Xbox.LEFT_X(joy) > 0) {
-            left = acceleration;
-            right = (acceleration * ((2 * (1 - Math.abs(Xbox.LEFT_X(joy)))) - 1)) / radius;
+        if (getYAngle() > Constants.TILT_ANGLE ) {
+            leftMaster.set(ControlMode.PercentOutput, -1*Constants.RECOVERY_SPEED);
+            rightMaster.set(ControlMode.PercentOutput, -1*Constants.RECOVERY_SPEED);
+        } else if (getYAngle() < -1*Constants.TILT_ANGLE){
+            leftMaster.set(ControlMode.PercentOutput, Constants.RECOVERY_SPEED);
+            rightMaster.set(ControlMode.PercentOutput, Constants.RECOVERY_SPEED);
         } else {
-            left = acceleration;
-            right = acceleration;
+            if (Xbox.LEFT_X(joy) < 0) {
+                right = acceleration;
+                left = (acceleration * ((2 * (1 - Math.abs(Xbox.LEFT_X(joy)))) - 1)) / radius;
+            } else if (Xbox.LEFT_X(joy) > 0) {
+                left = acceleration;
+                right = (acceleration * ((2 * (1 - Math.abs(Xbox.LEFT_X(joy)))) - 1)) / radius;
+            } else {
+                left = acceleration;
+                right = acceleration;
+            }
         }
 
         /// ramps
@@ -153,7 +181,6 @@ public class SubsystemDrive extends Subsystem {
 	        leftSlave.configOpenloopRamp(ramp, 10);
 	        rightMaster.configOpenloopRamp(ramp, 10);
 	        rightSlave.configOpenloopRamp(ramp, 10);
-       
 
         leftMaster.set(ControlMode.PercentOutput, leftify(left) * inhibitor);
 //			leftSlave.set(ControlMode.PercentOutput, leftify(left));
