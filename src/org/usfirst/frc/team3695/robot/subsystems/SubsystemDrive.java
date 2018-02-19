@@ -50,7 +50,7 @@ public class SubsystemDrive extends Subsystem {
     }
     
     public static final double rightMag2in(double rightMag) {
-    	return rightMag / Constants.LEFT_MAGIC_PER_INCHES;
+    	return rightMag / Constants.RIGHT_MAGIC_PER_INCHES;
     }
 
     /** converts RPM to inches per second */
@@ -200,11 +200,11 @@ public class SubsystemDrive extends Subsystem {
         return  (leftify(leftMaster.getErrorDerivative(Constants.LEFT_PID)) + rightify(rightMaster.getErrorDerivative(Constants.RIGHT_PID))) / 2.0;
     }
 
-    double getRightPos() {
+    public double getRightPos() {
         return rightMaster.getSelectedSensorPosition(Constants.RIGHT_PID);
     }
 
-    double getLeftPos() {
+    public double getLeftPos() {
         return leftMaster.getSelectedSensorPosition(Constants.LEFT_PID);
     }
 

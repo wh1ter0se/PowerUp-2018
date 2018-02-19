@@ -36,6 +36,8 @@ public class OI {
 
 		/// PID
 			SmartDashboard.putData("Kill PID", new ButtonCommandKillPID());
+			SmartDashboard.putNumber("Right Encoder Position", 0);
+			SmartDashboard.putNumber("Left Encoder Position", 0);
 			
 		/// limit switch displays
 			SmartDashboard.putBoolean("Lower Screw", true);
