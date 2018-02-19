@@ -23,6 +23,8 @@ public class CommandGroupAuto extends CommandGroup {
 
 		// make sure everything is in the right state/position up here
 		Robot.SUB_CLAMP.closeArms();
+
+
 		// EX: making sure flap is closed before auto starts
 		switch (position) {
 			case LEFT:

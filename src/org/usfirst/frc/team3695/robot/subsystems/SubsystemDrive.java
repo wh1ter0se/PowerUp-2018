@@ -29,8 +29,12 @@ public class SubsystemDrive extends Subsystem {
 
     public Drivetrain drivetrain;
 
-    private static boolean docked;
+    private static boolean reversing;
+
+    private static boolean docking;
     private static double dockInhibitor;
+
+    public static boolean auto;
 
     private Accelerometer accel;
 
@@ -50,14 +54,10 @@ public class SubsystemDrive extends Subsystem {
     	return leftMag / Constants.LEFT_MAGIC_PER_INCHES;
     }
     
-    public static final double rightMag2in(double rightMag) {
-    	return rightMag / Constants.RIGHT_MAGIC_PER_INCHES;
-    }
+    public static final double rightMag2in(double rightMag) { return rightMag / Constants.RIGHT_MAGIC_PER_INCHES; }
 
     /** converts RPM to inches per second */
-    public static final double rpm2ips(double rpm) {
-        return rpm / 60.0 * Constants.WHEEL_DIAMETER * Math.PI;
-    }
+    public static final double rpm2ips(double rpm) { return rpm / 60.0 * Constants.WHEEL_DIAMETER * Math.PI; }
 
 
     /** converts an inches per second number to RPM */
@@ -81,14 +81,14 @@ public class SubsystemDrive extends Subsystem {
     public static final double leftify(double left) {
     	left = (left > 1.0 ? 1.0 : (left < -1.0 ? -1.0 : left));
     	Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.LEFT_MOTOR_INVERT : Constants.SWISS.LEFT_PINION_MOTOR_INVERT;
-		return left * (invert ? -1.0 : 1.0) * (docked ? dockInhibitor : 1);
+		return left * (invert ? -1.0 : 1.0) * (docking ? dockInhibitor : 1) * (reversing ? -1.0 : 1.0);
 	}
 
     /** apply right motor invert */
     public static final double rightify(double right) {
     	right = (right > 1.0 ? 1.0 : (right < -1.0 ? -1.0 : right));
     	Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_MOTOR_INVERT : Constants.SWISS.RIGHT_MOTOR_INVERT;
-    	return right * (invert ? -1.0 : 1.0) * (docked ? dockInhibitor : 1);
+    	return right * (invert ? -1.0 : 1.0) * (docking ? dockInhibitor : 1) * (reversing ? -1.0 : 1.0);
     }
 
     /** gives birth to the CANTalons */
@@ -98,8 +98,12 @@ public class SubsystemDrive extends Subsystem {
 
         drivetrain = Drivetrain.ROCKET_LEAGUE;
 
-        docked = false;
-        dockInhibitor = 1;
+        reversing = false;
+
+        docking = false;
+        dockInhibitor = 0.5d;
+
+        auto = false;
 
         // masters
         leftMaster = new TalonSRX(Constants.LEFT_MASTER);
@@ -123,9 +127,13 @@ public class SubsystemDrive extends Subsystem {
         return Math.atan(accel.getY()/Math.sqrt(Math.pow(accel.getX(),2) + Math.pow(accel.getZ(),2)));
     }
 
-    public void docker(boolean docked, double dock){
-        this.docked = docked;
-        this.dockInhibitor = dock;
+    public void isDocking(boolean docking, double dockInhibitor){
+        this.docking = docking;
+        this.dockInhibitor = dockInhibitor;
+    }
+
+    public void isReversing(boolean reversing) {
+        this.reversing = reversing;
     }
     /**
      * simple rocket league drive code
@@ -195,6 +203,10 @@ public class SubsystemDrive extends Subsystem {
 //			leftSlave.set(ControlMode.PercentOutput, leftify(left));
         rightMaster.set(ControlMode.PercentOutput, rightify(right) * inhibitor);
 //			rightSlave.set(ControlMode.PercentOutput, rightify(right));
+    }
+
+    public void setAuto(boolean auto){
+        this.auto = auto;
     }
 
     /** configures the voltage of each CANTalon */

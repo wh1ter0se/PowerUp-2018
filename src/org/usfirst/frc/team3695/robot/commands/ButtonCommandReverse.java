@@ -7,14 +7,14 @@ import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3695.robot.util.Util;
 
 /** toggles the state of the clamp */
-public class ButtonCommandDock extends Command {
+public class ButtonCommandReverse extends Command {
 
-    public ButtonCommandDock() {
+    public ButtonCommandReverse() {
         requires(Robot.SUB_DRIVE);
     }
 
     protected void initialize() {
-        Robot.SUB_DRIVE.isDocking(true, 0.5d);
+        Robot.SUB_DRIVE.isReversing(true);
     }
 
     protected void execute() {}
@@ -22,7 +22,7 @@ public class ButtonCommandDock extends Command {
     protected boolean isFinished() { return false; }
 
     protected void end() {
-        Robot.SUB_DRIVE.isDocking(false, 0.5d);
+        Robot.SUB_DRIVE.isReversing(false);
     }
 
     protected void interrupted() {

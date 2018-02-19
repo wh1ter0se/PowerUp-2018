@@ -19,6 +19,8 @@ public class ManualCommandDrive extends Command {
     protected void initialize() {}
 
     protected void execute() {
+        SmartDashboard.putNumber("Tilt Angle", Robot.SUB_DRIVE.getYAngle());
+        if (Robot.SUB_DRIVE.auto) end();
         SmartDashboard.putNumber("Right Encoder Position", Robot.SUB_DRIVE.rightMag2in(Robot.SUB_DRIVE.getRightPos()));
         SmartDashboard.putNumber("Left Encoder Position", Robot.SUB_DRIVE.leftMag2in(Robot.SUB_DRIVE.getLeftPos()));
     	switch (Robot.SUB_DRIVE.drivetrain) {
