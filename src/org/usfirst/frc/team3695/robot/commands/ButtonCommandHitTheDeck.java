@@ -11,11 +11,11 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  * toggles the state of the clamp
  */
-public class CyborgCommandHitTheDeck extends Command {
+public class ButtonCommandHitTheDeck extends Command {
 	
 	Boolean isFinished;
 	
-    public CyborgCommandHitTheDeck() {
+    public ButtonCommandHitTheDeck() {
         requires(Robot.SUB_MAST);
     }
     

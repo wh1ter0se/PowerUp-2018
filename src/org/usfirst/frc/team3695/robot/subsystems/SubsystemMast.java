@@ -80,9 +80,9 @@ public class SubsystemMast extends Subsystem {
     	double screwSpeed = Xbox.RIGHT_Y(joy) + dualAction;
     	double pinionSpeed = Xbox.LEFT_Y(joy) + dualAction;
     	
-		if (!lowerPinionLimit.get() && pinionSpeed > 1)   { pinionSpeed = 0; }
+		if (!lowerPinionLimit.get() && pinionSpeed > 0)   { pinionSpeed = 0; }
 		if (!upperPinionLimit.get() && pinionSpeed < 0)   { pinionSpeed = 0; }
-		if (!lowerScrewLimit.get()  && screwSpeed  > 1)   { screwSpeed = 0;  }
+		if (!lowerScrewLimit.get()  && screwSpeed  > 0)   { screwSpeed = 0;  }
 		if (!upperScrewLimit.get()  && screwSpeed  < 0)   { screwSpeed = 0;  }
 			
     	publishSwitches();

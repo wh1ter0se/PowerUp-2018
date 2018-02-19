@@ -78,9 +78,11 @@ public class CommandGroupAuto extends CommandGroup {
 //						(in parallel) Note: We need a command to go to top to replace GoToMid here
 //						Spit cube out
 						//} else { //When scale is on the right
+					//	}
 
 						}
 						break;
+					
 					case BEST_OPTION:
 						break;
 				}
