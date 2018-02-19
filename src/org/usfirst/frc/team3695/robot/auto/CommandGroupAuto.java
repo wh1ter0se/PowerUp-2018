@@ -78,8 +78,8 @@ public class CommandGroupAuto extends CommandGroup {
 //						(in parallel) Note: We need a command to go to top to replace GoToMid here
 //						Spit cube out
 						//} else { //When scale is on the right
-
 					//	}
+
 						}
 						break;
 					
@@ -131,7 +131,6 @@ public class CommandGroupAuto extends CommandGroup {
 					case SWITCH:
 						if (gameData.charAt(0) == 'R'){ //When the switch is on the right
 							addParallel(new CyborgCommandDriveDistance(AutonomousConstants.DIST_TO_SWITCH_FROM_SIDE));
-//							addSequential(new CyborgCommandGoToMid());
 							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_COUNTERCLOCKWISE));
 						} else { //When the switch is on the left
 
@@ -149,7 +148,6 @@ public class CommandGroupAuto extends CommandGroup {
 						addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CLOCKWISE));
 						addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_BLOCK_TO_MIDDLE_OF_SWITCH));
 						addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_COUNTERCLOCKWISE));
-//						addParallel(new CyborgCommandGoToMid());
 						addSequential(new CyborgCommandDriveUntilError(Position.FORWARD));
 						
 //						Code for dropping block
