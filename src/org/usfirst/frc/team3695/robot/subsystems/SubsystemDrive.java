@@ -47,7 +47,7 @@ public class SubsystemDrive extends Subsystem {
     }
 
 
-    
+
     /** converts left magnetic encoder's magic units to inches */
     public static final double leftMag2in(double leftMag) { return leftMag / Constants.LEFT_MAGIC_PER_INCHES; }
 
@@ -71,7 +71,7 @@ public class SubsystemDrive extends Subsystem {
     /** apply left motor invert */
     public static final double leftify(double left) {
     	left = (left > 1.0 ? 1.0 : (left < -1.0 ? -1.0 : left));
-    	Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.LEFT_MOTOR_INVERT : Constants.SWISS.LEFT_PINION_MOTOR_INVERT;
+    	Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.LEFT_MOTOR_INVERT : Constants.SWISS.LEFT_MOTOR_INVERT;
 		return left * (invert ? -1.0 : 1.0) * (docking ? dockInhibitor : 1) ;
 	}
 
@@ -122,7 +122,7 @@ public class SubsystemDrive extends Subsystem {
 
     public void isDocking(boolean docking, double dockInhibitor){
         this.docking = docking;
-        this.dockInhibitor = dockInhibitor;
+         this.dockInhibitor = dockInhibitor;
     }
 
     public void isReversing(boolean reversing) {
