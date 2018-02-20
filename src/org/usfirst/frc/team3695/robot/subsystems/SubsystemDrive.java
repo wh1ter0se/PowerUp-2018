@@ -32,7 +32,7 @@ public class SubsystemDrive extends Subsystem {
     public static boolean docking;
     private static double dockInhibitor;
 
-    public static boolean auto;
+    public static boolean override;
 
     private Accelerometer accel;
 
@@ -94,7 +94,7 @@ public class SubsystemDrive extends Subsystem {
         docking = false;
         dockInhibitor = 0.5d;
 
-        auto = false;
+        override = false;
 
         // masters
         leftMaster = new TalonSRX(Constants.LEFT_MASTER);
@@ -197,7 +197,7 @@ public class SubsystemDrive extends Subsystem {
     }
 
     public void setAuto(boolean override){
-        this.auto = override;
+        this.override = override;
     }
 
     public double getError() {

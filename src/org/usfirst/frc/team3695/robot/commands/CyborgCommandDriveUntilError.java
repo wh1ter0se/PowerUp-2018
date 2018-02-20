@@ -25,7 +25,7 @@ public class CyborgCommandDriveUntilError extends Command {
     }
 
     protected void execute() {
-        double speed = Robot.SUB_DRIVE.ips2rpm(Util.getAndSetDouble("SPEED ERROR: Forward", 5.0));
+        double speed = Util.getAndSetDouble("SPEED ERROR: Forward", 0.25);
         if(position == Position.BACKWARD) speed *= -1;
         Robot.SUB_DRIVE.driveDirect(speed, speed);
     }
