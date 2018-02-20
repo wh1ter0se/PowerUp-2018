@@ -3,18 +3,13 @@ package org.usfirst.frc.team3695.robot;
 import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
-
 import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
-
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.usfirst.frc.team3695.robot.Constants.VisionConstants;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.stream.Collectors;
 
 /**
  * Contains methods used for anything vision

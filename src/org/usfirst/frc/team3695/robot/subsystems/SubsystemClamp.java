@@ -1,9 +1,8 @@
 package org.usfirst.frc.team3695.robot.subsystems;
 
-import org.usfirst.frc.team3695.robot.Constants;
-
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import org.usfirst.frc.team3695.robot.Constants;
 
 /**
  * opens and closes the clamp part of the manipulator

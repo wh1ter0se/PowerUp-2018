@@ -1,10 +1,9 @@
 
 package org.usfirst.frc.team3695.robot.commands;
 
-import org.usfirst.frc.team3695.robot.Robot;
-
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
+import org.usfirst.frc.team3695.robot.Robot;
 
 public class CyborgCommandDriveDirect extends Command {
 
