@@ -122,7 +122,9 @@ public class SubsystemDrive extends Subsystem {
 
     public double getYAngle(){
         //http://www.hobbytronics.co.uk/accelerometer-info
-        return Math.atan(accel.getY()/Math.sqrt(Math.pow(accel.getX(),2) + Math.pow(accel.getZ(),2)));
+        //Formula for getting the angle through the accelerometer
+        //arctan returns in radians so we convert to degrees.
+        return Math.atan(accel.getY()/Math.sqrt(Math.pow(accel.getX(),2) + Math.pow(accel.getZ(),2))) * 180/Math.PI;
     }
 
     public void isDocking(boolean docking, double dockInhibitor){
