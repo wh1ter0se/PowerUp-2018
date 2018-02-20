@@ -190,16 +190,8 @@ public class SubsystemDrive extends Subsystem {
         rightSlave.configOpenloopRamp(ramp, 10);
     }
 
-    public void setAuto(boolean auto){
-        this.auto = auto;
-    }
-
-    /** configures the voltage of each CANTalon */
-    private void voltage(TalonSRX talon) {
-        // talon.configNominalOutputVoltage(0f, 0f);
-        // talon.configPeakOutputVoltage(12.0f, -12.0f);
-        // talon.enableCurrentLimit(true);
-        // talon.configContinuousCurrentLimit(35, 300);
+    public void setAuto(boolean override){
+        this.auto = override;
     }
 
     public double getError() {
@@ -207,11 +199,11 @@ public class SubsystemDrive extends Subsystem {
     }
 
     public double getRightPos() {
-        return rightMaster.getSelectedSensorPosition(Constants.RIGHT_PID);
+        return rightMag2in(rightMaster.getSelectedSensorPosition(Constants.RIGHT_PID));
     }
 
     public double getLeftPos() {
-        return leftMaster.getSelectedSensorPosition(Constants.LEFT_PID);
+        return leftMag2in(leftMaster.getSelectedSensorPosition(Constants.LEFT_PID));
     }
 
     public boolean driveDistance(double leftIn, double rightIn) {
