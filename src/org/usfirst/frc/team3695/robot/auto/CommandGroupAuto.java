@@ -42,45 +42,19 @@ public class CommandGroupAuto extends CommandGroup {
 							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_WALL_TO_SWITCH_BLOCK_MID));
 							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CLOCKWISE));
 						}
+						Robot.SUB_MANIPULATOR.spit();
 						break;
 					case ENEMY_SWITCH:
-						addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_WALL_TO_ENEMY_BLOCKS));
-						addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CLOCKWISE));
-						addSequential(new CyborgCommandDriveUntilError(Position.FORWARD));
-						
-//						(in parallel) Set mast to proper grabbing height 
-//						Code for grabbing block
-						
-//						Needs distance from enemy switch blocks to robot (going backwards (maybe record the distance using a variable?))
-//						addSequential(new CyborgCommandDriveDistance(-1*AutonomousConstants.))
-						addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_COUNTERCLOCKWISE));
-						addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_BLOCK_TO_MIDDLE_OF_SWITCH));
-						addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CLOCKWISE));
-						addSequential(new CyborgCommandDriveUntilError(Position.FORWARD));
-						
-//						Code for dropping block
+                        if (gameData.charAt(2) == 'L'){ //When switch is on the left
+
+                        } else { //When switch is on the right
+
+                        }
 						break;
 					case SCALE:
 						if (gameData.charAt(1) == 'L'){ //When scale is on the left
-              addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_WALL_TO_SWITCH_BLOCKS));
-						  addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CLOCKWISE));
-						  addSequential(new CyborgCommandDriveUntilError(Position.FORWARD));
-						
-						
-//						  (in parallel) Set mast to proper grabbing height 
-//						  Code for grabbing block
-						
-//						Needs distance from enemy switch blocks to robot (going backwards (maybe record the distance using a variable?))
-//						addSequential(new CyborgCommandDriveDistance(-1*AutonomousConstants.))
-						  addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_COUNTERCLOCKWISE));
-						  addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_SWITCH_BLOCK_TO_SCALE));
-						  addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CLOCKWISE));
-//						Don't run into scale plz
-						
-//						(in parallel) Note: We need a command to go to top to replace GoToMid here
-//						Spit cube out
-						//} else { //When scale is on the right
-					//	}
+
+						} else { //When scale is on the right
 
 						}
 						break;
@@ -139,41 +113,11 @@ public class CommandGroupAuto extends CommandGroup {
 						}
 						break;
 					case ENEMY_SWITCH:
-						addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_WALL_TO_ENEMY_BLOCKS));
-						addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_COUNTERCLOCKWISE));
-						addSequential(new CyborgCommandDriveUntilError(Position.FORWARD));
-						
-//						Code for grabbing block
-						
-//						Needs distance from enemy switch blocks to robot (going backwards (maybe record the distance using a variable?))
-//						addSequential(new CyborgCommandDriveDistance(-1*AutonomousConstants.))
-						addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CLOCKWISE));
-						addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_BLOCK_TO_MIDDLE_OF_SWITCH));
-						addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_COUNTERCLOCKWISE));
-						addSequential(new CyborgCommandDriveUntilError(Position.FORWARD));
-						
-//						Code for dropping block
+
 						break;
 					case SCALE:
 						if (gameData.charAt(1) == 'R'){ //When scale is on the right
-														addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_WALL_TO_SCALE));
-              addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_WALL_TO_SWITCH_BLOCKS));
-						  addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_COUNTERCLOCKWISE));
-						  addSequential(new CyborgCommandDriveUntilError(Position.FORWARD));
-						
-						
-//						  (in parallel) Set mast to proper grabbing height 
-//						  Code for grabbing block
-						
-//						Needs distance from enemy switch blocks to robot (going backwards (maybe record the distance using a variable?))
-//						addSequential(new CyborgCommandDriveDistance(-1*AutonomousConstants.))
-						  addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CLOCKWISE));
-						  addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_SWITCH_BLOCK_TO_SCALE));
-						  addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_COUNTERCLOCKWISE));
-//						Don't run into scale plz
-						
-//						(in parallel) Note: We need a command to go to top to replace GoToMid here
-//						Spit cube out
+
 						} else { //When scale is on the left
 
 						}

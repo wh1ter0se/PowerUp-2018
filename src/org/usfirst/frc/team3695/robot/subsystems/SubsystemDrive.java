@@ -81,14 +81,14 @@ public class SubsystemDrive extends Subsystem {
     public static final double leftify(double left) {
     	left = (left > 1.0 ? 1.0 : (left < -1.0 ? -1.0 : left));
     	Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.LEFT_MOTOR_INVERT : Constants.SWISS.LEFT_PINION_MOTOR_INVERT;
-		return left * (invert ? -1.0 : 1.0) * (docking ? dockInhibitor : 1) * (reversing ? -1.0 : 1.0);
+		return left * (invert ? -1.0 : 1.0) * (docking ? dockInhibitor : 1) ;
 	}
 
     /** apply right motor invert */
     public static final double rightify(double right) {
     	right = (right > 1.0 ? 1.0 : (right < -1.0 ? -1.0 : right));
     	Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_MOTOR_INVERT : Constants.SWISS.RIGHT_MOTOR_INVERT;
-    	return right * (invert ? -1.0 : 1.0) * (docking ? dockInhibitor : 1) * (reversing ? -1.0 : 1.0);
+    	return right * (invert ? -1.0 : 1.0) * (docking ? dockInhibitor : 1);
     }
 
     /** gives birth to the CANTalons */
@@ -158,9 +158,9 @@ public class SubsystemDrive extends Subsystem {
             leftMaster.set(ControlMode.PercentOutput, Constants.RECOVERY_SPEED);
             rightMaster.set(ControlMode.PercentOutput, Constants.RECOVERY_SPEED);
         } else {
-            leftMaster.set(ControlMode.PercentOutput, leftify(left));
+            leftMaster.set(ControlMode.PercentOutput, leftify(left)* (reversing ? -1.0 : 1.0));
 //    		leftSlave.set(ControlMode.Follower, leftify(left));
-            rightMaster.set(ControlMode.PercentOutput, rightify(right));
+            rightMaster.set(ControlMode.PercentOutput, rightify(right)* (reversing ? -1.0 : 1.0));
 //    		rightSlave.set(ControlMode.Follower, rightify(right));
         }
 
@@ -199,9 +199,9 @@ public class SubsystemDrive extends Subsystem {
 	        rightMaster.configOpenloopRamp(ramp, 10);
 	        rightSlave.configOpenloopRamp(ramp, 10);
 
-        leftMaster.set(ControlMode.PercentOutput, leftify(left) * inhibitor);
+        leftMaster.set(ControlMode.PercentOutput, leftify(left) * inhibitor * (reversing ? -1.0 : 1.0));
 //			leftSlave.set(ControlMode.PercentOutput, leftify(left));
-        rightMaster.set(ControlMode.PercentOutput, rightify(right) * inhibitor);
+        rightMaster.set(ControlMode.PercentOutput, rightify(right) * inhibitor * (reversing ? -1.0 : 1.0));
 //			rightSlave.set(ControlMode.PercentOutput, rightify(right));
     }
 
@@ -251,16 +251,12 @@ public class SubsystemDrive extends Subsystem {
         rightMaster.set(ControlMode.PercentOutput, right);
     }
 
-    public void setPIDF(double p, double i, double d, double f) {
-        rightMaster.config_kF(Constants.RIGHT_PID, f, Constants.TIMEOUT_PID);
-        rightMaster.config_kP(Constants.RIGHT_PID, p, Constants.TIMEOUT_PID);
-        rightMaster.config_kI(Constants.RIGHT_PID, i, Constants.TIMEOUT_PID);
-        rightMaster.config_kD(Constants.RIGHT_PID, d, Constants.TIMEOUT_PID);
-
-        leftMaster.config_kF(Constants.RIGHT_PID, f, Constants.TIMEOUT_PID);
-        leftMaster.config_kP(Constants.RIGHT_PID, p, Constants.TIMEOUT_PID);
-        leftMaster.config_kI(Constants.RIGHT_PID, i, Constants.TIMEOUT_PID);
-        leftMaster.config_kD(Constants.RIGHT_PID, d, Constants.TIMEOUT_PID);
+    public void setPIDF(TalonSRX talon, double p, double i, double d, double f) {
+        talon.selectProfileSlot(0, 0);
+        talon.config_kF(0, f, Constants.TIMEOUT_PID);
+        talon.config_kP(0, p, Constants.TIMEOUT_PID);
+        talon.config_kI(0, i, Constants.TIMEOUT_PID);
+        talon.config_kD(0, d, Constants.TIMEOUT_PID);
     }
 
     public void reset() {
