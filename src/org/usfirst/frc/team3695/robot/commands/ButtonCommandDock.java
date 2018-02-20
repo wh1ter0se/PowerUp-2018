@@ -1,10 +1,7 @@
 package org.usfirst.frc.team3695.robot.commands;
 
-import org.usfirst.frc.team3695.robot.Constants;
-import org.usfirst.frc.team3695.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
-import org.usfirst.frc.team3695.robot.util.Util;
+import org.usfirst.frc.team3695.robot.Robot;
 
 /** toggles the state of the clamp */
 public class ButtonCommandDock extends Command {

@@ -1,13 +1,11 @@
 package org.usfirst.frc.team3695.robot.commands;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.enumeration.Position;
 import org.usfirst.frc.team3695.robot.subsystems.SubsystemDrive;
-
 import org.usfirst.frc.team3695.robot.util.Util;
-
-import edu.wpi.first.wpilibj.command.Command;
 
 public class CyborgCommandDriveUntilError extends Command {
     public static final long ERROR_TIME = 500;

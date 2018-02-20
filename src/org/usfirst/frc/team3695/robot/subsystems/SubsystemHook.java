@@ -1,15 +1,8 @@
 package org.usfirst.frc.team3695.robot.subsystems;
 
-import org.usfirst.frc.team3695.robot.Constants;
-import org.usfirst.frc.team3695.robot.commands.ButtonCommandHook;
-import org.usfirst.frc.team3695.robot.util.Xbox;
-
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import org.usfirst.frc.team3695.robot.Constants;
 
 /** VROOM VROOM */
 public class SubsystemHook extends Subsystem {
