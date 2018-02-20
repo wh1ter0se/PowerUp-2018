@@ -46,11 +46,11 @@ public class SubsystemDrive extends Subsystem {
         setDefaultCommand(new ManualCommandDrive());
     }
 
-    
+
     
     /** converts left magnetic encoder's magic units to inches */
     public static final double leftMag2in(double leftMag) { return leftMag / Constants.LEFT_MAGIC_PER_INCHES; }
-   
+
     /** converts right magnetic encoder's magic units to inches */
     public static final double rightMag2in(double rightMag) { return rightMag / Constants.RIGHT_MAGIC_PER_INCHES; }
 
@@ -66,8 +66,8 @@ public class SubsystemDrive extends Subsystem {
     /** converts distance traveled in inches to rotations */
     public static final double in2rot(double in) { return in / Constants.WHEEL_DIAMETER / Math.PI; }
 
-    
-    
+
+
     /** apply left motor invert */
     public static final double leftify(double left) {
     	left = (left > 1.0 ? 1.0 : (left < -1.0 ? -1.0 : left));
@@ -87,12 +87,14 @@ public class SubsystemDrive extends Subsystem {
 
         accel = new BuiltInAccelerometer();
 
-        reversing = false; // forward is back when this is true
+        drivetrain = Drivetrain.ROCKET_LEAGUE;
 
-        docking = false; // speed is dampened when this is true
-        dockInhibitor = 0.5d; // dampener for docking mode
+        reversing = false;
 
-        auto = false; // ????????
+        docking = false;
+        dockInhibitor = 0.5d;
+
+        auto = false;
 
         // masters
         leftMaster = new TalonSRX(Constants.LEFT_MASTER);
@@ -112,9 +114,10 @@ public class SubsystemDrive extends Subsystem {
     }
 
     public double getYAngle(){
-        // http://www.hobbytronics.co.uk/accelerometer-info
-    	// BROGAN YOU STILL HAVE TO EXPLAINNNNN
-        return Math.atan(accel.getY()/Math.sqrt(Math.pow(accel.getX(),2) + Math.pow(accel.getZ(),2)));
+        //http://www.hobbytronics.co.uk/accelerometer-info
+        //Formula for getting the angle through the accelerometer
+        //arctan returns in radians so we convert to degrees.
+        return Math.atan(accel.getY()/Math.sqrt(Math.pow(accel.getX(),2) + Math.pow(accel.getZ(),2))) * 180/Math.PI;
     }
 
     public void isDocking(boolean docking, double dockInhibitor){
@@ -125,16 +128,17 @@ public class SubsystemDrive extends Subsystem {
     public void isReversing(boolean reversing) {
         this.reversing = reversing;
     }
-    
+
     /**
      * simple rocket league drive code
      * independent rotation and acceleration
      */
+
     public void driveRLTank(Joystick joy, double ramp, double inhibitor) {
         double adder = Xbox.RT(joy) - Xbox.LT(joy);
         double left = adder + (Xbox.LEFT_X(joy) / 1.333333);
         double right = adder - (Xbox.LEFT_X(joy) / 1.333333);
-        
+
         setRamps(ramp);
 
         if (getYAngle() > Constants.TILT_ANGLE ) {
@@ -145,7 +149,9 @@ public class SubsystemDrive extends Subsystem {
             rightMaster.set(ControlMode.PercentOutput, Constants.RECOVERY_SPEED);
         } else {
             leftMaster.set(ControlMode.PercentOutput, leftify(left)* (reversing ? -1.0 : 1.0));
+//    		leftSlave.set(ControlMode.Follower, leftify(left));
             rightMaster.set(ControlMode.PercentOutput, rightify(right)* (reversing ? -1.0 : 1.0));
+//    		rightSlave.set(ControlMode.Follower, rightify(right));
         }
 
     }
@@ -157,7 +163,7 @@ public class SubsystemDrive extends Subsystem {
         double left = 0,
                 right = 0;
         double acceleration = Xbox.RT(joy) - Xbox.LT(joy);
-        
+
         setRamps(ramp);
 
         if (getYAngle() > Constants.TILT_ANGLE ) {
@@ -182,7 +188,7 @@ public class SubsystemDrive extends Subsystem {
         leftMaster.set(ControlMode.PercentOutput, leftify(left) * inhibitor * (reversing ? -1.0 : 1.0));
         rightMaster.set(ControlMode.PercentOutput, rightify(right) * inhibitor * (reversing ? -1.0 : 1.0));
     }
-    
+
     public void setRamps(double ramp) {
     	leftMaster.configOpenloopRamp(ramp, 10);
         leftSlave.configOpenloopRamp(ramp, 10);
@@ -224,7 +230,7 @@ public class SubsystemDrive extends Subsystem {
     }
 
     public void driveDirect(double left, double right) {
-    	
+
         leftMaster.set(ControlMode.PercentOutput, left);
         rightMaster.set(ControlMode.PercentOutput, right);
     }
