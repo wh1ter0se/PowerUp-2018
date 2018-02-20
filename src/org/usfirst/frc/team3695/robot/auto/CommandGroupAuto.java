@@ -1,13 +1,13 @@
 package org.usfirst.frc.team3695.robot.auto;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import org.usfirst.frc.team3695.robot.Constants;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import org.usfirst.frc.team3695.robot.Robot;
-import org.usfirst.frc.team3695.robot.commands.*; // when the commands are ready, load each individually to decrease runtime
+import org.usfirst.frc.team3695.robot.commands.CyborgCommandDriveDistance;
+import org.usfirst.frc.team3695.robot.commands.CyborgCommandDriveUntilError;
+import org.usfirst.frc.team3695.robot.commands.CyborgCommandRotateDegrees;
 import org.usfirst.frc.team3695.robot.enumeration.Goal;
 import org.usfirst.frc.team3695.robot.enumeration.Position;
-
-import edu.wpi.first.wpilibj.command.CommandGroup;
 
 import static org.usfirst.frc.team3695.robot.Constants.AutonomousConstants;
 

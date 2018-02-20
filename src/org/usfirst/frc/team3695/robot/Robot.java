@@ -2,19 +2,16 @@
 package org.usfirst.frc.team3695.robot;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import org.usfirst.frc.team3695.robot.auto.CommandGroupAuto;
-import org.usfirst.frc.team3695.robot.enumeration.Autonomous;
 import org.usfirst.frc.team3695.robot.enumeration.Bot;
-import org.usfirst.frc.team3695.robot.enumeration.Position;
 import org.usfirst.frc.team3695.robot.enumeration.Drivetrain;
 import org.usfirst.frc.team3695.robot.enumeration.Goal;
+import org.usfirst.frc.team3695.robot.enumeration.Position;
 import org.usfirst.frc.team3695.robot.subsystems.*;
 
 /** the magic place where everything happens (where the sequence of events is controlled, top of the hierarchy) */
@@ -67,7 +64,7 @@ public class Robot extends IterativeRobot {
 
 		//Set PID
 		//plz no kill me colton
-		Robot.SUB_DRIVE.setPIDF(0.2,0,0, 0.2);
+//		Robot.SUB_DRIVE.setPIDF(0.2,0,0, 0.2);
 
 		/// instantiate drivetrain chooser
 			driveChooser = new SendableChooser<>();

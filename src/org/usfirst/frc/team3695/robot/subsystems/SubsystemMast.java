@@ -1,22 +1,16 @@
 package org.usfirst.frc.team3695.robot.subsystems;
 
-import org.usfirst.frc.team3695.robot.Constants;
-import org.usfirst.frc.team3695.robot.Robot;
-import org.usfirst.frc.team3695.robot.commands.ManualCommandDrive;
-import org.usfirst.frc.team3695.robot.commands.ManualCommandGrow;
-import org.usfirst.frc.team3695.robot.enumeration.Bot;
-import org.usfirst.frc.team3695.robot.enumeration.Position;
-import org.usfirst.frc.team3695.robot.util.Util;
-import org.usfirst.frc.team3695.robot.util.Xbox;
-
-import com.ctre.CANTalon;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc.team3695.robot.Constants;
+import org.usfirst.frc.team3695.robot.Robot;
+import org.usfirst.frc.team3695.robot.commands.ManualCommandGrow;
+import org.usfirst.frc.team3695.robot.enumeration.Bot;
+import org.usfirst.frc.team3695.robot.util.Xbox;
 
 /** the big, metal pole */
 public class SubsystemMast extends Subsystem {

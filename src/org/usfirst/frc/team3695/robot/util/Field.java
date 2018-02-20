@@ -1,8 +1,7 @@
 package org.usfirst.frc.team3695.robot.util;
 
-import org.usfirst.frc.team3695.robot.enumeration.Position;
-
 import edu.wpi.first.wpilibj.DriverStation;
+import org.usfirst.frc.team3695.robot.enumeration.Position;
 
 public class Field {
 	public static Position getOurScale() {

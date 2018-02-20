@@ -1,7 +1,10 @@
 package org.usfirst.frc.team3695.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 import org.usfirst.frc.team3695.robot.Constants;
@@ -10,11 +13,6 @@ import org.usfirst.frc.team3695.robot.commands.ManualCommandDrive;
 import org.usfirst.frc.team3695.robot.enumeration.Bot;
 import org.usfirst.frc.team3695.robot.enumeration.Drivetrain;
 import org.usfirst.frc.team3695.robot.util.Xbox;
-
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
-import edu.wpi.first.wpilibj.Joystick;
 
 /**
  * VROOM VROOM
@@ -29,9 +27,9 @@ public class SubsystemDrive extends Subsystem {
 
     public Drivetrain drivetrain;
 
-    private static boolean reversing;
+    public static boolean reversing;
 
-    private static boolean docking;
+    public static boolean docking;
     private static double dockInhibitor;
 
     public static boolean auto;

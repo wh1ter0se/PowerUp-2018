@@ -1,8 +1,5 @@
 package org.usfirst.frc.team3695.robot;
 
-import edu.wpi.first.wpilibj.command.Subsystem;
-import org.usfirst.frc.team3695.robot.subsystems.SubsystemDrive;
-
 /** where all the static final variables get set */
 public class Patterns {
 
