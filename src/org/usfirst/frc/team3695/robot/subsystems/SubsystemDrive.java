@@ -32,7 +32,7 @@ public class SubsystemDrive extends Subsystem {
     public static boolean docking;
     private static double dockInhibitor;
 
-    public static boolean auto;
+    public static boolean override;
 
     private Accelerometer accel;
 
@@ -94,7 +94,7 @@ public class SubsystemDrive extends Subsystem {
         docking = false;
         dockInhibitor = 0.5d;
 
-        auto = false;
+        override = false;
 
         // masters
         leftMaster = new TalonSRX(Constants.LEFT_MASTER);
@@ -196,16 +196,8 @@ public class SubsystemDrive extends Subsystem {
         rightSlave.configOpenloopRamp(ramp, 10);
     }
 
-    public void setAuto(boolean auto){
-        this.auto = auto;
-    }
-
-    /** configures the voltage of each CANTalon */
-    private void voltage(TalonSRX talon) {
-        // talon.configNominalOutputVoltage(0f, 0f);
-        // talon.configPeakOutputVoltage(12.0f, -12.0f);
-        // talon.enableCurrentLimit(true);
-        // talon.configContinuousCurrentLimit(35, 300);
+    public void setAuto(boolean override){
+        this.override = override;
     }
 
     public double getError() {
@@ -213,11 +205,11 @@ public class SubsystemDrive extends Subsystem {
     }
 
     public double getRightPos() {
-        return rightMaster.getSelectedSensorPosition(Constants.RIGHT_PID);
+        return rightMag2in(rightMaster.getSelectedSensorPosition(Constants.RIGHT_PID));
     }
 
     public double getLeftPos() {
-        return leftMaster.getSelectedSensorPosition(Constants.LEFT_PID);
+        return leftMag2in(leftMaster.getSelectedSensorPosition(Constants.LEFT_PID));
     }
 
     public boolean driveDistance(double leftIn, double rightIn) {
