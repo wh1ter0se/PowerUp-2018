@@ -20,6 +20,7 @@ public class CyborgCommandDriveUntilError extends Command {
     }
 
     protected void initialize() {
+        DriverStation.reportWarning("Driving until error", false);
         time = System.currentTimeMillis() + ERROR_TIME;
         Robot.SUB_DRIVE.setAuto(true);
     }
