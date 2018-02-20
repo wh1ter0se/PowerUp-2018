@@ -41,39 +41,32 @@ public class SubsystemDrive extends Subsystem {
      */
     public static final double DISTANCE_ALLOWABLE_ERROR = SubsystemDrive.in2rot(2.0);
 
-    /**
-     * runs at robot boot
-     */
+    /** runs at robot boot */
     public void initDefaultCommand() {
         setDefaultCommand(new ManualCommandDrive());
     }
 
-    public static final double leftMag2in(double leftMag) {
-    	return leftMag / Constants.LEFT_MAGIC_PER_INCHES;
-    }
+
     
+    /** converts left magnetic encoder's magic units to inches */
+    public static final double leftMag2in(double leftMag) { return leftMag / Constants.LEFT_MAGIC_PER_INCHES; }
+
+    /** converts right magnetic encoder's magic units to inches */
     public static final double rightMag2in(double rightMag) { return rightMag / Constants.RIGHT_MAGIC_PER_INCHES; }
 
     /** converts RPM to inches per second */
     public static final double rpm2ips(double rpm) { return rpm / 60.0 * Constants.WHEEL_DIAMETER * Math.PI; }
 
-
     /** converts an inches per second number to RPM */
-    public static final double ips2rpm(double ips) {
-        return ips * 60.0 / Constants.WHEEL_DIAMETER / Math.PI;
-    }
-
+    public static final double ips2rpm(double ips) {  return ips * 60.0 / Constants.WHEEL_DIAMETER / Math.PI; }
 
     /** converts rotations to distance traveled in inches */
-    public static final double rot2in(double rot) {
-        return rot * Constants.WHEEL_DIAMETER * Math.PI;
-    }
-
+    public static final double rot2in(double rot) { return rot * Constants.WHEEL_DIAMETER * Math.PI; }
 
     /** converts distance traveled in inches to rotations */
-    public static final double in2rot(double in) {
-        return in / Constants.WHEEL_DIAMETER / Math.PI;
-    }
+    public static final double in2rot(double in) { return in / Constants.WHEEL_DIAMETER / Math.PI; }
+
+
 
     /** apply left motor invert */
     public static final double leftify(double left) {
@@ -111,9 +104,9 @@ public class SubsystemDrive extends Subsystem {
 
         // slaves
         leftSlave = new TalonSRX(Constants.LEFT_SLAVE);
-        leftSlave.follow(leftMaster);
+        	leftSlave.follow(leftMaster);
         rightSlave = new TalonSRX(Constants.RIGHT_SLAVE);
-        rightSlave.follow(rightMaster);
+        	rightSlave.follow(rightMaster);
     }
 
     public void setDrivetrain(Drivetrain drivetrain) {
@@ -135,6 +128,7 @@ public class SubsystemDrive extends Subsystem {
     public void isReversing(boolean reversing) {
         this.reversing = reversing;
     }
+
     /**
      * simple rocket league drive code
      * independent rotation and acceleration
@@ -145,11 +139,7 @@ public class SubsystemDrive extends Subsystem {
         double left = adder + (Xbox.LEFT_X(joy) / 1.333333);
         double right = adder - (Xbox.LEFT_X(joy) / 1.333333);
 
-        /// ramps
-        leftMaster.configOpenloopRamp(ramp, 10);
-        leftSlave.configOpenloopRamp(ramp, 10);
-        rightMaster.configOpenloopRamp(ramp, 10);
-        rightSlave.configOpenloopRamp(ramp, 10);
+        setRamps(ramp);
 
         if (getYAngle() > Constants.TILT_ANGLE ) {
             leftMaster.set(ControlMode.PercentOutput, -1*Constants.RECOVERY_SPEED);
@@ -174,10 +164,12 @@ public class SubsystemDrive extends Subsystem {
                 right = 0;
         double acceleration = Xbox.RT(joy) - Xbox.LT(joy);
 
+        setRamps(ramp);
+
         if (getYAngle() > Constants.TILT_ANGLE ) {
-            leftMaster.set(ControlMode.PercentOutput, -1*Constants.RECOVERY_SPEED);
-            rightMaster.set(ControlMode.PercentOutput, -1*Constants.RECOVERY_SPEED);
-        } else if (getYAngle() < -1*Constants.TILT_ANGLE){
+            leftMaster.set(ControlMode.PercentOutput, -1 * Constants.RECOVERY_SPEED);
+            rightMaster.set(ControlMode.PercentOutput, -1 * Constants.RECOVERY_SPEED);
+        } else if (getYAngle() < -1 * Constants.TILT_ANGLE){
             leftMaster.set(ControlMode.PercentOutput, Constants.RECOVERY_SPEED);
             rightMaster.set(ControlMode.PercentOutput, Constants.RECOVERY_SPEED);
         } else {
@@ -193,16 +185,15 @@ public class SubsystemDrive extends Subsystem {
             }
         }
 
-        /// ramps
-	        leftMaster.configOpenloopRamp(ramp, 10);
-	        leftSlave.configOpenloopRamp(ramp, 10);
-	        rightMaster.configOpenloopRamp(ramp, 10);
-	        rightSlave.configOpenloopRamp(ramp, 10);
-
         leftMaster.set(ControlMode.PercentOutput, leftify(left) * inhibitor * (reversing ? -1.0 : 1.0));
-//			leftSlave.set(ControlMode.PercentOutput, leftify(left));
         rightMaster.set(ControlMode.PercentOutput, rightify(right) * inhibitor * (reversing ? -1.0 : 1.0));
-//			rightSlave.set(ControlMode.PercentOutput, rightify(right));
+    }
+
+    public void setRamps(double ramp) {
+    	leftMaster.configOpenloopRamp(ramp, 10);
+        leftSlave.configOpenloopRamp(ramp, 10);
+        rightMaster.configOpenloopRamp(ramp, 10);
+        rightSlave.configOpenloopRamp(ramp, 10);
     }
 
     public void setAuto(boolean auto){
@@ -247,6 +238,7 @@ public class SubsystemDrive extends Subsystem {
     }
 
     public void driveDirect(double left, double right) {
+
         leftMaster.set(ControlMode.PercentOutput, left);
         rightMaster.set(ControlMode.PercentOutput, right);
     }
