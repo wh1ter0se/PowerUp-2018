@@ -39,48 +39,78 @@ public class SubsystemDrive extends Subsystem {
      */
     public static final double DISTANCE_ALLOWABLE_ERROR = SubsystemDrive.in2rot(2.0);
 
-    /** runs at robot boot */
+    /**
+     * runs at robot boot
+     */
     public void initDefaultCommand() {
         setDefaultCommand(new ManualCommandDrive());
     }
 
 
-    
-    /** converts left magnetic encoder's magic units to inches */
-    public static final double leftMag2in(double leftMag) { return leftMag / Constants.LEFT_MAGIC_PER_INCHES; }
-
-    /** converts right magnetic encoder's magic units to inches */
-    public static final double rightMag2in(double rightMag) { return rightMag / Constants.RIGHT_MAGIC_PER_INCHES; }
-
-    /** converts RPM to inches per second */
-    public static final double rpm2ips(double rpm) { return rpm / 60.0 * Constants.WHEEL_DIAMETER * Math.PI; }
-
-    /** converts an inches per second number to RPM */
-    public static final double ips2rpm(double ips) {  return ips * 60.0 / Constants.WHEEL_DIAMETER / Math.PI; }
-
-    /** converts rotations to distance traveled in inches */
-    public static final double rot2in(double rot) { return rot * Constants.WHEEL_DIAMETER * Math.PI; }
-
-    /** converts distance traveled in inches to rotations */
-    public static final double in2rot(double in) { return in / Constants.WHEEL_DIAMETER / Math.PI; }
-
-
-
-    /** apply left motor invert */
-    public static final double leftify(double left) {
-    	left = (left > 1.0 ? 1.0 : (left < -1.0 ? -1.0 : left));
-    	Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.LEFT_MOTOR_INVERT : Constants.SWISS.LEFT_PINION_MOTOR_INVERT;
-		return left * (invert ? -1.0 : 1.0) * (docking ? dockInhibitor : 1) ;
-	}
-
-    /** apply right motor invert */
-    public static final double rightify(double right) {
-    	right = (right > 1.0 ? 1.0 : (right < -1.0 ? -1.0 : right));
-    	Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_MOTOR_INVERT : Constants.SWISS.RIGHT_MOTOR_INVERT;
-    	return right * (invert ? -1.0 : 1.0) * (docking ? dockInhibitor : 1);
+    /**
+     * converts left magnetic encoder's magic units to inches
+     */
+    public static final double leftMag2in(double leftMag) {
+        return leftMag / Constants.LEFT_MAGIC_PER_INCHES;
     }
 
-    /** gives birth to the CANTalons */
+    /**
+     * converts right magnetic encoder's magic units to inches
+     */
+    public static final double rightMag2in(double rightMag) {
+        return rightMag / Constants.RIGHT_MAGIC_PER_INCHES;
+    }
+
+    /**
+     * converts RPM to inches per second
+     */
+    public static final double rpm2ips(double rpm) {
+        return rpm / 60.0 * Constants.WHEEL_DIAMETER * Math.PI;
+    }
+
+    /**
+     * converts an inches per second number to RPM
+     */
+    public static final double ips2rpm(double ips) {
+        return ips * 60.0 / Constants.WHEEL_DIAMETER / Math.PI;
+    }
+
+    /**
+     * converts rotations to distance traveled in inches
+     */
+    public static final double rot2in(double rot) {
+        return rot * Constants.WHEEL_DIAMETER * Math.PI;
+    }
+
+    /**
+     * converts distance traveled in inches to rotations
+     */
+    public static final double in2rot(double in) {
+        return in / Constants.WHEEL_DIAMETER / Math.PI;
+    }
+
+
+    /**
+     * apply left motor invert
+     */
+    public static final double leftify(double left) {
+        left = (left > 1.0 ? 1.0 : (left < -1.0 ? -1.0 : left));
+        Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.LEFT_MOTOR_INVERT : Constants.SWISS.LEFT_MOTOR_INVERT;
+        return left * (invert ? -1.0 : 1.0) * (docking ? dockInhibitor : 1);
+    }
+
+    /**
+     * apply right motor invert
+     */
+    public static final double rightify(double right) {
+        right = (right > 1.0 ? 1.0 : (right < -1.0 ? -1.0 : right));
+        Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_MOTOR_INVERT : Constants.SWISS.RIGHT_MOTOR_INVERT;
+        return right * (invert ? -1.0 : 1.0) * (docking ? dockInhibitor : 1);
+    }
+
+    /**
+     * gives birth to the CANTalons
+     */
     public SubsystemDrive() {
 
         accel = new BuiltInAccelerometer();
@@ -96,29 +126,29 @@ public class SubsystemDrive extends Subsystem {
 
         // masters
         leftMaster = new TalonSRX(Constants.LEFT_MASTER);
-        	leftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.LEFT_PID, Constants.TIMEOUT_PID);
+        leftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.LEFT_PID, Constants.TIMEOUT_PID);
         rightMaster = new TalonSRX(Constants.RIGHT_MASTER);
-        	rightMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.RIGHT_PID, Constants.TIMEOUT_PID);
+        rightMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.RIGHT_PID, Constants.TIMEOUT_PID);
 
         // slaves
         leftSlave = new TalonSRX(Constants.LEFT_SLAVE);
-        	leftSlave.follow(leftMaster);
+        leftSlave.follow(leftMaster);
         rightSlave = new TalonSRX(Constants.RIGHT_SLAVE);
-        	rightSlave.follow(rightMaster);
+        rightSlave.follow(rightMaster);
     }
 
     public void setDrivetrain(Drivetrain drivetrain) {
         this.drivetrain = drivetrain;
     }
 
-    public double getYAngle(){
+    public double getYAngle() {
         //http://www.hobbytronics.co.uk/accelerometer-info
         //Formula for getting the angle through the accelerometer
         //arctan returns in radians so we convert to degrees.
-        return Math.atan(accel.getY()/Math.sqrt(Math.pow(accel.getX(),2) + Math.pow(accel.getZ(),2))) * 180/Math.PI;
+        return Math.atan(accel.getY() / Math.sqrt(Math.pow(accel.getX(), 2) + Math.pow(accel.getZ(), 2))) * 180 / Math.PI;
     }
 
-    public void isDocking(boolean docking, double dockInhibitor){
+    public void isDocking(boolean docking, double dockInhibitor) {
         this.docking = docking;
         this.dockInhibitor = dockInhibitor;
     }
@@ -139,21 +169,25 @@ public class SubsystemDrive extends Subsystem {
 
         setRamps(ramp);
 
-        if (getYAngle() > Constants.TILT_ANGLE ) {
-            leftMaster.set(ControlMode.PercentOutput, -1*Constants.RECOVERY_SPEED);
-            rightMaster.set(ControlMode.PercentOutput, -1*Constants.RECOVERY_SPEED);
-        } else if (getYAngle() < -1*Constants.TILT_ANGLE){
+        if (getYAngle() > Constants.TILT_ANGLE) {
+            leftMaster.set(ControlMode.PercentOutput, -1 * Constants.RECOVERY_SPEED);
+            rightMaster.set(ControlMode.PercentOutput, -1 * Constants.RECOVERY_SPEED);
+        } else if (getYAngle() < -1 * Constants.TILT_ANGLE) {
             leftMaster.set(ControlMode.PercentOutput, Constants.RECOVERY_SPEED);
             rightMaster.set(ControlMode.PercentOutput, Constants.RECOVERY_SPEED);
         } else {
-            leftMaster.set(ControlMode.PercentOutput, leftify(left)* (reversing ? -1.0 : 1.0));
-            rightMaster.set(ControlMode.PercentOutput, rightify(right)* (reversing ? -1.0 : 1.0));
+            leftMaster.set(ControlMode.PercentOutput, leftify(left) * (reversing ? -1.0 : 1.0));
+//    		leftSlave.set(ControlMode.Follower, leftify(left));
+            rightMaster.set(ControlMode.PercentOutput, rightify(right) * (reversing ? -1.0 : 1.0));
+//    		rightSlave.set(ControlMode.Follower, rightify(right));
         }
 
     }
 
-    /** drive code where rotation is dependent on acceleration
-     *  @param radius 0.00-1.00, 1 being zero radius and 0 being driving in a line
+    /**
+     * drive code where rotation is dependent on acceleration
+     *
+     * @param radius 0.00-1.00, 1 being zero radius and 0 being driving in a line
      */
     public void driveForza(Joystick joy, double ramp, double radius, double inhibitor) {
         double left = 0,
@@ -162,10 +196,10 @@ public class SubsystemDrive extends Subsystem {
 
         setRamps(ramp);
 
-        if (getYAngle() > Constants.TILT_ANGLE ) {
+        if (getYAngle() > Constants.TILT_ANGLE) {
             leftMaster.set(ControlMode.PercentOutput, -1 * Constants.RECOVERY_SPEED);
             rightMaster.set(ControlMode.PercentOutput, -1 * Constants.RECOVERY_SPEED);
-        } else if (getYAngle() < -1 * Constants.TILT_ANGLE){
+        } else if (getYAngle() < -1 * Constants.TILT_ANGLE) {
             leftMaster.set(ControlMode.PercentOutput, Constants.RECOVERY_SPEED);
             rightMaster.set(ControlMode.PercentOutput, Constants.RECOVERY_SPEED);
         } else {
@@ -186,18 +220,19 @@ public class SubsystemDrive extends Subsystem {
     }
 
     public void setRamps(double ramp) {
-    	leftMaster.configOpenloopRamp(ramp, 10);
+        leftMaster.configOpenloopRamp(ramp, 10);
         leftSlave.configOpenloopRamp(ramp, 10);
         rightMaster.configOpenloopRamp(ramp, 10);
         rightSlave.configOpenloopRamp(ramp, 10);
     }
+
 
     public void setOverride(boolean override){
         this.override = override;
     }
 
     public double getError() {
-        return  (leftify(leftMaster.getErrorDerivative(Constants.LEFT_PID)) + rightify(rightMaster.getErrorDerivative(Constants.RIGHT_PID))) / 2.0;
+        return (leftify(leftMaster.getErrorDerivative(Constants.LEFT_PID)) + rightify(rightMaster.getErrorDerivative(Constants.RIGHT_PID))) / 2.0;
     }
 
     public double getRightPos() {
