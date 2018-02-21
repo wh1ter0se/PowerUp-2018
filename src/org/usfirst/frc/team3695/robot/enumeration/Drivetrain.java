@@ -13,5 +13,4 @@ public enum Drivetrain {
 	public String toString() {
 		return name;
 	}
-	;
 }

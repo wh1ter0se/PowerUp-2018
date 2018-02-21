@@ -35,9 +35,8 @@ public class CommandGroupAuto extends CommandGroup {
 					case SWITCH:
 						if (gameData.charAt(0) == 'L'){ //When the switch is on the left
 							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_TO_SWITCH_FROM_SIDE));
-							addParallel(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CLOCKWISE));
-					//		addSequential(new CyborgCommandGoToMid());
 							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CLOCKWISE));
+							Robot.SUB_MANIPULATOR.spit();
 						} else { //When the switch is on the right
 							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_WALL_TO_SWITCH_BLOCK_MID));
 							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CLOCKWISE));
@@ -75,7 +74,6 @@ public class CommandGroupAuto extends CommandGroup {
 							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_COUNTERCLOCKWISE));
 							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_CENTER_LINE_SWITCH_ALIGN));
 							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CLOCKWISE));
-			//				addParallel(new CyborgCommandGoToMid());
 							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_WALL_TO_BLOCKS
 																				+ AutonomousConstants.DIST_BLOCKS_TO_SWITCH
 																				- AutonomousConstants.DIST_PASS_PORTAL));
