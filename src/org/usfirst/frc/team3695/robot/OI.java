@@ -16,12 +16,7 @@ public class OI {
 	public static final Joystick DRIVER = new Joystick(0);
 	public static final Joystick OPERATOR = new Joystick(1);
 	
-	/** 
-	 * assigns what every SmartDash and controller button does
-	 * 
-	 * ye() gets called at teleop enable, assigning button values to controller input
-	 * still in ye(), below controller value assigns, place each SmartDash button
-	 * */
+	/** assigns what every SmartDash and controller button does */
 	public OI() {
 		/// manipulator clamp
 			Button toggleClamp = new JoystickButton(OPERATOR, Xbox.A);
@@ -29,8 +24,9 @@ public class OI {
 		/// candy cane
 			Button toggleHook = new JoystickButton(OPERATOR, Xbox.B);
 				toggleHook.toggleWhenActive(new ButtonCommandHook());
-			//Button dropIt = new JoystickButton(OPERATOR, Xbox.X);
-				//dropIt.whenPressed(new ButtonCommandHitTheDeck());
+		/// drop the mast
+			Button dropIt = new JoystickButton(OPERATOR, Xbox.X);
+				dropIt.whenPressed(new ButtonCommandHitTheDeck());
 		/// Reversing mode
 			Button toggleReverse = new JoystickButton(DRIVER, Xbox.Y);
 				toggleReverse.toggleWhenPressed(new ButtonCommandReverse());
@@ -57,10 +53,10 @@ public class OI {
 	    	
 	    	DriverStation.reportWarning("OI IS INSTANTIATED", false);
 
-	    /// Cyborg command buttons
+	    /// Cyborg command testers
 			SmartDashboard.putData("Drive Direct", new CyborgCommandDriveDirect(Util.getAndSetDouble("Drive Direct Power", 0)));
 			SmartDashboard.putData("Drive Distance", new CyborgCommandDriveDistance(Util.getAndSetDouble("Drive Distance Inches", 0)));
-			SmartDashboard.putData("Drive Until Error", new CyborgCommandDriveUntilError(Position.FORWARD));
+			SmartDashboard.putData("Drive Until Error", new CyborgCommandDriveUntilError());
 			SmartDashboard.putData("Rotate Degree", new CyborgCommandRotateDegrees(Util.getAndSetDouble("Rotate Degrees", 0)));
 	}
 	
