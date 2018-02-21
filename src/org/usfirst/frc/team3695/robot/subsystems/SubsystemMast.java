@@ -10,6 +10,7 @@ import org.usfirst.frc.team3695.robot.Constants;
 import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.commands.ManualCommandGrow;
 import org.usfirst.frc.team3695.robot.enumeration.Bot;
+import org.usfirst.frc.team3695.robot.enumeration.Position;
 import org.usfirst.frc.team3695.robot.util.Xbox;
 
 /** the big, metal pole */
@@ -107,6 +108,36 @@ public class SubsystemMast extends Subsystem {
     	
     	return (!lowerPinionLimit.get() || !upperPinionLimit.get()) && (!lowerScrewLimit.get() || !upperScrewLimit.get());
     }
+
+    public void adjustPinion(Position direction){
+
+    	if (direction == Position.UP) {
+			while (!upperPinionLimit.get()) {
+				rightPinion.set(ControlMode.PercentOutput, rightPinionate(1));
+				leftPinion.set(ControlMode.PercentOutput, leftPinionate(1));
+			}
+		} else if (direction == Position.DOWN) {
+			while (!lowerPinionLimit.get()) {
+				rightPinion.set(ControlMode.PercentOutput, rightPinionate(-1));
+				leftPinion.set(ControlMode.PercentOutput, leftPinionate(-1));
+			}
+		}
+		rightPinion.set(ControlMode.PercentOutput, rightPinionate(0));
+    	leftPinion.set(ControlMode.PercentOutput, leftPinionate(0));
+	}
+
+	public void adjustScrew(Position direction){
+    	if (direction == Position.UP){
+    		while (!upperScrewLimit.get()){
+    			screw.set(ControlMode.PercentOutput, screwify(1));
+			}
+		} else if (direction == Position.DOWN){
+    		while (!lowerScrewLimit.get()){
+    			screw.set(ControlMode.PercentOutput, screwify(-1));
+			}
+		}
+		screw.set(ControlMode.PercentOutput, screwify(0));
+	}
     	
     public void publishSwitches() {
     	SmartDashboard.putBoolean("Lower Screw", !lowerScrewLimit.get());
