@@ -139,16 +139,16 @@ public class SubsystemDrive extends Subsystem {
 
         setRamps(ramp);
 
-        if (getYAngle() > Constants.TILT_ANGLE ) {
-            leftMaster.set(ControlMode.PercentOutput, -1*Constants.RECOVERY_SPEED);
-            rightMaster.set(ControlMode.PercentOutput, -1*Constants.RECOVERY_SPEED);
-        } else if (getYAngle() < -1*Constants.TILT_ANGLE){
-            leftMaster.set(ControlMode.PercentOutput, Constants.RECOVERY_SPEED);
-            rightMaster.set(ControlMode.PercentOutput, Constants.RECOVERY_SPEED);
-        } else {
+//        if (getYAngle() > Constants.TILT_ANGLE ) {
+//            leftMaster.set(ControlMode.PercentOutput, -1*Constants.RECOVERY_SPEED);
+//            rightMaster.set(ControlMode.PercentOutput, -1*Constants.RECOVERY_SPEED);
+//        } else if (getYAngle() < -1*Constants.TILT_ANGLE){
+//            leftMaster.set(ControlMode.PercentOutput, Constants.RECOVERY_SPEED);
+//            rightMaster.set(ControlMode.PercentOutput, Constants.RECOVERY_SPEED);
+//        } else {
             leftMaster.set(ControlMode.PercentOutput, leftify(left)* (reversing ? -1.0 : 1.0));
             rightMaster.set(ControlMode.PercentOutput, rightify(right)* (reversing ? -1.0 : 1.0));
-        }
+//        }
 
     }
 
@@ -162,13 +162,13 @@ public class SubsystemDrive extends Subsystem {
 
         setRamps(ramp);
 
-        if (getYAngle() > Constants.TILT_ANGLE ) {
-            leftMaster.set(ControlMode.PercentOutput, -1 * Constants.RECOVERY_SPEED);
-            rightMaster.set(ControlMode.PercentOutput, -1 * Constants.RECOVERY_SPEED);
-        } else if (getYAngle() < -1 * Constants.TILT_ANGLE){
-            leftMaster.set(ControlMode.PercentOutput, Constants.RECOVERY_SPEED);
-            rightMaster.set(ControlMode.PercentOutput, Constants.RECOVERY_SPEED);
-        } else {
+//        if (getYAngle() > Constants.TILT_ANGLE ) {
+//            leftMaster.set(ControlMode.PercentOutput, -1 * Constants.RECOVERY_SPEED);
+//            rightMaster.set(ControlMode.PercentOutput, -1 * Constants.RECOVERY_SPEED);
+//        } else if (getYAngle() < -1 * Constants.TILT_ANGLE){
+//            leftMaster.set(ControlMode.PercentOutput, Constants.RECOVERY_SPEED);
+//            rightMaster.set(ControlMode.PercentOutput, Constants.RECOVERY_SPEED);
+//        } else {
             if (Xbox.LEFT_X(joy) < 0) {
                 right = acceleration;
                 left = (acceleration * ((2 * (1 - Math.abs(Xbox.LEFT_X(joy)))) - 1)) / radius;
@@ -179,7 +179,7 @@ public class SubsystemDrive extends Subsystem {
                 left = acceleration;
                 right = acceleration;
             }
-        }
+//        }
 
         leftMaster.set(ControlMode.PercentOutput, leftify(left) * inhibitor * (reversing ? -1.0 : 1.0));
         rightMaster.set(ControlMode.PercentOutput, rightify(right) * inhibitor * (reversing ? -1.0 : 1.0));
