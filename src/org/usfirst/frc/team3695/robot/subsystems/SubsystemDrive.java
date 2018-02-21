@@ -14,9 +14,7 @@ import org.usfirst.frc.team3695.robot.enumeration.Bot;
 import org.usfirst.frc.team3695.robot.enumeration.Drivetrain;
 import org.usfirst.frc.team3695.robot.util.Xbox;
 
-/**
- * VROOM VROOM
- */
+/** VROOM VROOM */
 public class SubsystemDrive extends Subsystem {
 
 
@@ -149,9 +147,7 @@ public class SubsystemDrive extends Subsystem {
             rightMaster.set(ControlMode.PercentOutput, Constants.RECOVERY_SPEED);
         } else {
             leftMaster.set(ControlMode.PercentOutput, leftify(left)* (reversing ? -1.0 : 1.0));
-//    		leftSlave.set(ControlMode.Follower, leftify(left));
             rightMaster.set(ControlMode.PercentOutput, rightify(right)* (reversing ? -1.0 : 1.0));
-//    		rightSlave.set(ControlMode.Follower, rightify(right));
         }
 
     }
@@ -196,7 +192,7 @@ public class SubsystemDrive extends Subsystem {
         rightSlave.configOpenloopRamp(ramp, 10);
     }
 
-    public void setAuto(boolean override){
+    public void setOverride(boolean override){
         this.override = override;
     }
 
@@ -230,7 +226,6 @@ public class SubsystemDrive extends Subsystem {
     }
 
     public void driveDirect(double left, double right) {
-
         leftMaster.set(ControlMode.PercentOutput, left);
         rightMaster.set(ControlMode.PercentOutput, right);
     }

@@ -15,7 +15,7 @@ public class ButtonCommandHitTheDeck extends Command {
     }
     
     protected void initialize() {
-    	Robot.SUB_MAST.override = true;
+    	Robot.SUB_MAST.setOverride(true);
     	//isFinished = Robot.SUB_MAST.goToMiddle();
     }
 

@@ -26,7 +26,7 @@ public class SubsystemMast extends Subsystem {
     DigitalInput midScrewLimit;
     DigitalInput upperScrewLimit;
 
-    public Boolean override;
+    private Boolean override;
 
 	
 	/** runs at robot boot */
@@ -49,8 +49,11 @@ public class SubsystemMast extends Subsystem {
     		
 		override = false;
     }
+    
+    public void setOverride(Boolean override) {
+    	this.override = override;
+    }
 
-   	
    	/** apply pinion motor invert */
    	public static final double leftPinionate(double left) {
    		Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.LEFT_PINION_MOTOR_INVERT : Constants.SWISS.LEFT_PINION_MOTOR_INVERT;
@@ -88,21 +91,21 @@ public class SubsystemMast extends Subsystem {
     }
     
     public Boolean dropIt() {
-    	if (!lowerPinionLimit.get() || !upperPinionLimit.get()) {
+    	if (lowerPinionLimit.get() && upperPinionLimit.get()) {
 	    	leftPinion.set(ControlMode.PercentOutput, leftPinionate(-1));
 	    	rightPinion.set(ControlMode.PercentOutput, rightPinionate(-1));
     	} else {
-    		leftPinion.set(ControlMode.PercentOutput, leftPinionate(0));
-	    	rightPinion.set(ControlMode.PercentOutput, rightPinionate(0));
+    		leftPinion.set(ControlMode.PercentOutput, 0);
+	    	rightPinion.set(ControlMode.PercentOutput, 0);
     	}
     	
-    	if (!lowerScrewLimit.get() || !upperScrewLimit.get()) {
+    	if (lowerScrewLimit.get() && upperScrewLimit.get()) {
     		screw.set(ControlMode.PercentOutput, screwify(1));
     	} else {
-    		screw.set(ControlMode.PercentOutput, screwify(0));
+    		screw.set(ControlMode.PercentOutput, 0);
     	}
     	
-    	return !lowerScrewLimit.get() && !lowerPinionLimit.get();
+    	return (!lowerPinionLimit.get() || !upperPinionLimit.get()) && (!lowerScrewLimit.get() || !upperScrewLimit.get());
     }
     	
     public void publishSwitches() {
@@ -119,8 +122,6 @@ public class SubsystemMast extends Subsystem {
     	talon.enableCurrentLimit(true);
     	talon.configContinuousCurrentLimit(60, 300);
     	talon.configPeakCurrentDuration(500, 10);
-    		// configContinuousCurrentLimit spat mean errors
-    		// commented out for now, but we need to address it
     }
     
     
