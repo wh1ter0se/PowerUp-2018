@@ -60,7 +60,7 @@ public class OI {
 	    /// Cyborg command buttons
 			SmartDashboard.putData("Drive Direct", new CyborgCommandDriveDirect(Util.getAndSetDouble("Drive Direct Power", 0)));
 			SmartDashboard.putData("Drive Distance", new CyborgCommandDriveDistance(Util.getAndSetDouble("Drive Distance Inches", 0)));
-			SmartDashboard.putData("Drive Until Error", new CyborgCommandDriveUntilError(Position.FORWARD));
+			SmartDashboard.putData("Drive Until Error", new CyborgCommandDriveUntilError());
 			SmartDashboard.putData("Rotate Degree", new CyborgCommandRotateDegrees(Util.getAndSetDouble("Rotate Degrees", 0)));
 	}
 	

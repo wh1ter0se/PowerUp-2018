@@ -42,10 +42,7 @@ public class Robot extends IterativeRobot {
 		
 	/// autonomous
 		private CommandGroupAuto auto;
-		
-		
-		
-		
+
 	/** runs when robot is turned on */
 	public void robotInit() {
 			DriverStation.reportWarning("ROBOT STARTED; GOOD LUCK", false);

@@ -30,7 +30,7 @@ public class CommandGroupAuto extends CommandGroup {
 			case LEFT:
 				switch (goal){
 					case RUN_FOR_IT:
-						addSequential(new CyborgCommandDriveUntilError(Position.FORWARD));
+						addSequential(new CyborgCommandDriveUntilError());
 						break;
 					case SWITCH:
 						if (gameData.charAt(0) == 'L'){ //When the switch is on the left
@@ -67,7 +67,7 @@ public class CommandGroupAuto extends CommandGroup {
 			case CENTER:
 				switch (goal){
 					case RUN_FOR_IT:
-						addSequential(new CyborgCommandDriveUntilError(Position.FORWARD));
+						addSequential(new CyborgCommandDriveUntilError());
 						break;
 					case SWITCH:
 						addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_PASS_PORTAL));
@@ -102,7 +102,7 @@ public class CommandGroupAuto extends CommandGroup {
 			case RIGHT:
 				switch (goal) {
 					case RUN_FOR_IT:
-						addSequential(new CyborgCommandDriveUntilError(Position.FORWARD));
+						addSequential(new CyborgCommandDriveUntilError());
 						break;
 					case SWITCH:
 						if (gameData.charAt(0) == 'R'){ //When the switch is on the right

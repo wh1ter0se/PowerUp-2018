@@ -11,12 +11,10 @@ public class CyborgCommandDriveUntilError extends Command {
     public static final long ERROR_TIME = 500;
     public static final int TARGET_ERROR = 500;
 
-    private final Position position;
     private long time = 0;
 
-    public CyborgCommandDriveUntilError(Position position) {
+    public CyborgCommandDriveUntilError() {
         requires(Robot.SUB_DRIVE);
-        this.position = position;
     }
 
     protected void initialize() {
@@ -25,8 +23,7 @@ public class CyborgCommandDriveUntilError extends Command {
     }
 
     protected void execute() {
-        double speed = Util.getAndSetDouble("SPEED ERROR: Forward", 0.25);
-        if(position == Position.BACKWARD) speed *= -1;
+        double speed = Util.getAndSetDouble("SPEED ERROR: Forward", -0.25);
         Robot.SUB_DRIVE.driveDirect(speed, speed);
     }
 
