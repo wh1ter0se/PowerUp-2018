@@ -285,6 +285,11 @@ public class SubsystemDrive extends Subsystem {
     }
 
     public void setPIDF(TalonSRX talon, double p, double i, double d, double f) {
+        talon.configNominalOutputForward(0, 10);
+        talon.configNominalOutputReverse(0, 10);
+        talon.configPeakOutputForward(1, 10);
+        talon.configPeakOutputReverse(-1, 10);
+
         talon.selectProfileSlot(0, 0);
         talon.config_kF(0, f, Constants.TIMEOUT_PID);
         talon.config_kP(0, p, Constants.TIMEOUT_PID);
