@@ -1,20 +1,20 @@
 package org.usfirst.frc.team3695.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import edu.wpi.first.wpilibj.BuiltInAccelerometer;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 import org.usfirst.frc.team3695.robot.Constants;
+import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.commands.ManualCommandDrive;
+import org.usfirst.frc.team3695.robot.enumeration.Bot;
 import org.usfirst.frc.team3695.robot.enumeration.Drivetrain;
 import org.usfirst.frc.team3695.robot.util.Xbox;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
-import edu.wpi.first.wpilibj.Joystick;
-
-/**
- * VROOM VROOM
- */
+/** VROOM VROOM */
 public class SubsystemDrive extends Subsystem {
 
 
@@ -24,6 +24,15 @@ public class SubsystemDrive extends Subsystem {
     private TalonSRX rightSlave;
 
     public Drivetrain drivetrain;
+
+    public static boolean reversing;
+
+    public static boolean docking;
+    private static double dockInhibitor;
+
+    public static boolean override;
+
+    private Accelerometer accel;
 
     /**
      * Allowable tolerance to be considered in range when driving a distance, in rotations
@@ -39,12 +48,25 @@ public class SubsystemDrive extends Subsystem {
 
 
     /**
+     * converts left magnetic encoder's magic units to inches
+     */
+    public static final double leftMag2in(double leftMag) {
+        return leftMag / Constants.LEFT_MAGIC_PER_INCHES;
+    }
+
+    /**
+     * converts right magnetic encoder's magic units to inches
+     */
+    public static final double rightMag2in(double rightMag) {
+        return rightMag / Constants.RIGHT_MAGIC_PER_INCHES;
+    }
+
+    /**
      * converts RPM to inches per second
      */
     public static final double rpm2ips(double rpm) {
         return rpm / 60.0 * Constants.WHEEL_DIAMETER * Math.PI;
     }
-
 
     /**
      * converts an inches per second number to RPM
@@ -53,14 +75,12 @@ public class SubsystemDrive extends Subsystem {
         return ips * 60.0 / Constants.WHEEL_DIAMETER / Math.PI;
     }
 
-
     /**
      * converts rotations to distance traveled in inches
      */
     public static final double rot2in(double rot) {
         return rot * Constants.WHEEL_DIAMETER * Math.PI;
     }
-
 
     /**
      * converts distance traveled in inches to rotations
@@ -69,18 +89,23 @@ public class SubsystemDrive extends Subsystem {
         return in / Constants.WHEEL_DIAMETER / Math.PI;
     }
 
+
     /**
      * apply left motor invert
      */
     public static final double leftify(double left) {
-		return left * (Constants.LEFT_MOTOR_INVERT ? -1.0 : 1.0);
-	}
+        left = (left > 1.0 ? 1.0 : (left < -1.0 ? -1.0 : left));
+        Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.LEFT_MOTOR_INVERT : Constants.SWISS.LEFT_MOTOR_INVERT;
+        return left * (invert ? -1.0 : 1.0) * (docking ? dockInhibitor : 1);
+    }
 
     /**
      * apply right motor invert
      */
     public static final double rightify(double right) {
-        return right * (Constants.RIGHT_MOTOR_INVERT ? -1.0 : 1.0);
+        right = (right > 1.0 ? 1.0 : (right < -1.0 ? -1.0 : right));
+        Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_MOTOR_INVERT : Constants.SWISS.RIGHT_MOTOR_INVERT;
+        return right * (invert ? -1.0 : 1.0) * (docking ? dockInhibitor : 1);
     }
 
     /**
@@ -88,46 +113,72 @@ public class SubsystemDrive extends Subsystem {
      */
     public SubsystemDrive() {
 
+        accel = new BuiltInAccelerometer();
+
         drivetrain = Drivetrain.ROCKET_LEAGUE;
+
+        reversing = false;
+
+        docking = false;
+        dockInhibitor = 0.5d;
+
+        override = false;
 
         // masters
         leftMaster = new TalonSRX(Constants.LEFT_MASTER);
-        	leftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.LEFT_PID, Constants.TIMEOUT_PID);
+        leftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.LEFT_PID, Constants.TIMEOUT_PID);
         rightMaster = new TalonSRX(Constants.RIGHT_MASTER);
-        	rightMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.RIGHT_PID, Constants.TIMEOUT_PID);
+        rightMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.RIGHT_PID, Constants.TIMEOUT_PID);
 
         // slaves
         leftSlave = new TalonSRX(Constants.LEFT_SLAVE);
         leftSlave.follow(leftMaster);
         rightSlave = new TalonSRX(Constants.RIGHT_SLAVE);
         rightSlave.follow(rightMaster);
-
-        //voltage(leftMaster);
-        //voltage(leftSlave);
-        //voltage(rightMaster);
-        //voltage(rightSlave);
     }
 
     public void setDrivetrain(Drivetrain drivetrain) {
         this.drivetrain = drivetrain;
     }
 
+    public double getYAngle() {
+        //http://www.hobbytronics.co.uk/accelerometer-info
+        //Formula for getting the angle through the accelerometer
+        //arctan returns in radians so we convert to degrees.
+        return Math.atan(accel.getY() / Math.sqrt(Math.pow(accel.getX(), 2) + Math.pow(accel.getZ(), 2))) * 180 / Math.PI;
+    }
+
+    public void isDocking(boolean docking, double dockInhibitor) {
+        this.docking = docking;
+        this.dockInhibitor = dockInhibitor;
+    }
+
+    public void isReversing(boolean reversing) {
+        this.reversing = reversing;
+    }
+
     /**
-     * simple rocket league drive code; independent rotation and acceleration
+     * simple rocket league drive code
+     * independent rotation and acceleration
      */
-    public void driveRLTank(Joystick joy) {
+
+    public void driveRLTank(Joystick joy, double ramp, double inhibitor) {
         double adder = Xbox.RT(joy) - Xbox.LT(joy);
         double left = adder + (Xbox.LEFT_X(joy) / 1.333333);
         double right = adder - (Xbox.LEFT_X(joy) / 1.333333);
 
-        //Quick Truncate
-        left = (left > 1.0 ? 1.0 : (left < -1.0 ? -1.0 : left));
-        right = (right > 1.0 ? 1.0 : (right < -1.0 ? -1.0 : right));
+        setRamps(ramp);
 
-        leftMaster.set(ControlMode.PercentOutput, leftify(left));
-//    		leftSlave.set(ControlMode.Follower, leftify(left));
-        rightMaster.set(ControlMode.PercentOutput, rightify(right));
-//    		rightSlave.set(ControlMode.Follower, rightify(right));
+//        if (getYAngle() > Constants.TILT_ANGLE ) {
+//            leftMaster.set(ControlMode.PercentOutput, -1*Constants.RECOVERY_SPEED);
+//            rightMaster.set(ControlMode.PercentOutput, -1*Constants.RECOVERY_SPEED);
+//        } else if (getYAngle() < -1*Constants.TILT_ANGLE){
+//            leftMaster.set(ControlMode.PercentOutput, Constants.RECOVERY_SPEED);
+//            rightMaster.set(ControlMode.PercentOutput, Constants.RECOVERY_SPEED);
+//        } else {
+            leftMaster.set(ControlMode.PercentOutput, leftify(left)* (reversing ? -1.0 : 1.0));
+            rightMaster.set(ControlMode.PercentOutput, rightify(right)* (reversing ? -1.0 : 1.0));
+//        }
 
     }
 
@@ -136,54 +187,58 @@ public class SubsystemDrive extends Subsystem {
      *
      * @param radius 0.00-1.00, 1 being zero radius and 0 being driving in a line
      */
-    public void driveForza(Joystick joy, double ramp, double radius) {
+    public void driveForza(Joystick joy, double ramp, double radius, double inhibitor) {
         double left = 0,
                 right = 0;
         double acceleration = Xbox.RT(joy) - Xbox.LT(joy);
 
-        if (Xbox.LEFT_X(joy) < 0) {
-            right = acceleration;
-            left = (acceleration * ((2 * (1 - Math.abs(Xbox.LEFT_X(joy)))) - 1)) / radius;
-        } else if (Xbox.LEFT_X(joy) > 0) {
-            left = acceleration;
-            right = (acceleration * ((2 * (1 - Math.abs(Xbox.LEFT_X(joy)))) - 1)) / radius;
-        } else {
-            left = acceleration;
-            right = acceleration;
-        }
+        setRamps(ramp);
+//        if (getYAngle() > Constants.TILT_ANGLE ) {
+//            leftMaster.set(ControlMode.PercentOutput, -1 * Constants.RECOVERY_SPEED);
+//            rightMaster.set(ControlMode.PercentOutput, -1 * Constants.RECOVERY_SPEED);
+//        } else if (getYAngle() < -1 * Constants.TILT_ANGLE){
+//            leftMaster.set(ControlMode.PercentOutput, Constants.RECOVERY_SPEED);
+//            rightMaster.set(ControlMode.PercentOutput, Constants.RECOVERY_SPEED);
+//        } else {
 
-        /// ramps
-        leftMaster.configOpenloopRamp(ramp, 0);
-        leftSlave.configOpenloopRamp(ramp, 0);
-        rightMaster.configOpenloopRamp(ramp, 0);
-        rightSlave.configOpenloopRamp(ramp, 0);
+            if (Xbox.LEFT_X(joy) < 0) {
+                right = acceleration;
+                left = (acceleration * ((2 * (1 - Math.abs(Xbox.LEFT_X(joy)))) - 1)) / radius;
+            } else if (Xbox.LEFT_X(joy) > 0) {
+                left = acceleration;
+                right = (acceleration * ((2 * (1 - Math.abs(Xbox.LEFT_X(joy)))) - 1)) / radius;
+            } else {
+                left = acceleration;
+                right = acceleration;
+            }
+//        }
 
-        leftMaster.set(ControlMode.PercentOutput, leftify(left));
-//			leftSlave.set(ControlMode.PercentOutput, leftify(left));
-        rightMaster.set(ControlMode.PercentOutput, rightify(right));
-//			rightSlave.set(ControlMode.PercentOutput, rightify(right));
+        leftMaster.set(ControlMode.PercentOutput, leftify(left) * inhibitor * (reversing ? -1.0 : 1.0));
+        rightMaster.set(ControlMode.PercentOutput, rightify(right) * inhibitor * (reversing ? -1.0 : 1.0));
     }
 
-    /**
-     * configures the voltage of each CANTalon
-     */
-    private void voltage(TalonSRX talon) {
-        // talon.configNominalOutputVoltage(0f, 0f);
-        // talon.configPeakOutputVoltage(12.0f, -12.0f);
-        // talon.enableCurrentLimit(true);
-        // talon.configContinuousCurrentLimit(35, 300);
+    public void setRamps(double ramp) {
+        leftMaster.configOpenloopRamp(ramp, 10);
+        leftSlave.configOpenloopRamp(ramp, 10);
+        rightMaster.configOpenloopRamp(ramp, 10);
+        rightSlave.configOpenloopRamp(ramp, 10);
+    }
+
+
+    public void setOverride(boolean override){
+        this.override = override;
     }
 
     public double getError() {
-        return  (leftify(leftMaster.getErrorDerivative(Constants.LEFT_PID)) + rightify(rightMaster.getErrorDerivative(Constants.RIGHT_PID))) / 2.0;
+        return (leftify(leftMaster.getErrorDerivative(Constants.LEFT_PID)) + rightify(rightMaster.getErrorDerivative(Constants.RIGHT_PID))) / 2.0;
     }
 
-    double getRightPos() {
-        return rightMaster.getSelectedSensorPosition(Constants.RIGHT_PID);
+    public double getRightPos() {
+        return rightMag2in(rightMaster.getSelectedSensorPosition(Constants.RIGHT_PID));
     }
 
-    double getLeftPos() {
-        return leftMaster.getSelectedSensorPosition(Constants.LEFT_PID);
+    public double getLeftPos() {
+        return leftMag2in(leftMaster.getSelectedSensorPosition(Constants.LEFT_PID));
     }
 
     public boolean driveDistance(double leftIn, double rightIn) {
@@ -208,16 +263,12 @@ public class SubsystemDrive extends Subsystem {
         rightMaster.set(ControlMode.PercentOutput, right);
     }
 
-    public void setPIDF(double p, double i, double d, double f) {
-        rightMaster.config_kF(Constants.RIGHT_PID, f, Constants.TIMEOUT_PID);
-        rightMaster.config_kP(Constants.RIGHT_PID, p, Constants.TIMEOUT_PID);
-        rightMaster.config_kI(Constants.RIGHT_PID, i, Constants.TIMEOUT_PID);
-        rightMaster.config_kD(Constants.RIGHT_PID, d, Constants.TIMEOUT_PID);
-
-        leftMaster.config_kF(Constants.RIGHT_PID, f, Constants.TIMEOUT_PID);
-        leftMaster.config_kP(Constants.RIGHT_PID, p, Constants.TIMEOUT_PID);
-        leftMaster.config_kI(Constants.RIGHT_PID, i, Constants.TIMEOUT_PID);
-        leftMaster.config_kD(Constants.RIGHT_PID, d, Constants.TIMEOUT_PID);
+    public void setPIDF(TalonSRX talon, double p, double i, double d, double f) {
+        talon.selectProfileSlot(0, 0);
+        talon.config_kF(0, f, Constants.TIMEOUT_PID);
+        talon.config_kP(0, p, Constants.TIMEOUT_PID);
+        talon.config_kI(0, i, Constants.TIMEOUT_PID);
+        talon.config_kD(0, d, Constants.TIMEOUT_PID);
     }
 
     public void reset() {

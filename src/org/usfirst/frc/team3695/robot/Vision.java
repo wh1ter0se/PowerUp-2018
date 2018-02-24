@@ -3,17 +3,13 @@ package org.usfirst.frc.team3695.robot;
 import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
-
 import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
-
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
+import org.usfirst.frc.team3695.robot.Constants.VisionConstants;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.stream.Collectors;
 
 /**
  * Contains methods used for anything vision
@@ -23,10 +19,55 @@ public class Vision extends IterativeRobot {
     /// Two cameras for double FOV
     private UsbCamera cameraLeft;
     private UsbCamera cameraRight;
+    
+    private UsbCamera cameraScrew;
+    private UsbCamera cameraFrame;
 
-    void startCameraThread(){
+    void startConcatCameraThread(){
         //Places the vision in a separate thread from everything else as recommended by FIRST.
         new Thread(this::concatCameraStream).start();
+    }
+    
+    void startScrewCameraThread(){
+    	new Thread(this::screwCameraStream).start();
+    }
+    
+    void startFrameCameraThread(){
+    	new Thread(this::frameCameraStream).start();
+    }
+    
+    private void screwCameraStream(){
+
+    	cameraScrew = CameraServer.getInstance().startAutomaticCapture("Screw", VisionConstants.SCREW_ID);
+    	
+    	CvSink cvsinkScrew = new CvSink("screwSink");
+    	cvsinkScrew.setSource(cameraScrew);
+    	cvsinkScrew.setEnabled(true);
+    	
+    	Mat streamImages = new Mat();
+    	
+    	CvSource outputScrew = CameraServer.getInstance().putVideo("Screw", VisionConstants.CAM_WIDTH, VisionConstants.CAM_HEIGHT);
+    	 while (!Thread.interrupted()){
+    		 cvsinkScrew.grabFrame(streamImages);
+    		 Core.rotate(streamImages, streamImages, Core.ROTATE_180);
+    		 outputScrew.putFrame(streamImages);
+    	 }
+    }
+    
+    private void frameCameraStream(){
+    	cameraFrame = CameraServer.getInstance().startAutomaticCapture("Frame", VisionConstants.HOOK_ID);
+    	
+    	CvSink cvsinkFrame = new CvSink("frameSink");
+    	cvsinkFrame.setSource(cameraFrame);
+    	cvsinkFrame.setEnabled(true);
+    	
+    	Mat streamImages = new Mat();
+
+    	CvSource outputFrame = CameraServer.getInstance().putVideo("Frame", VisionConstants.CAM_WIDTH, VisionConstants.CAM_HEIGHT);
+    	 while (!Thread.interrupted()){
+    		 cvsinkFrame.grabFrame(streamImages);
+    		 outputFrame.putFrame(streamImages);
+    	 }
     }
 
     /**
@@ -35,8 +76,8 @@ public class Vision extends IterativeRobot {
      * This method should only be used for starting the camera stream.
      */
         private void concatCameraStream() {
-        cameraLeft = CameraServer.getInstance().startAutomaticCapture("Left", 0);
-        cameraRight = CameraServer.getInstance().startAutomaticCapture("Right", 1);
+        cameraLeft = CameraServer.getInstance().startAutomaticCapture("Left", VisionConstants.LEFT_ID);
+        cameraRight = CameraServer.getInstance().startAutomaticCapture("Right", VisionConstants.RIGHT_ID);
 
         /// Dummy sinks to keep camera connections open.
         CvSink cvsinkLeft = new CvSink("leftSink");
@@ -60,7 +101,7 @@ public class Vision extends IterativeRobot {
 
         /// Puts the combined video on the SmartDashboard (I think)
         /// The width is multiplied by 2 as the dimensions of the stream will have a width two times that of a single webcam
-        CvSource outputStream = CameraServer.getInstance().putVideo("Concat", 2*Constants.CAM_WIDTH, Constants.CAM_HEIGHT);
+        CvSource outputStream = CameraServer.getInstance().putVideo("Concat", 2*VisionConstants.CAM_WIDTH, VisionConstants.CAM_HEIGHT);
 
         while (!Thread.interrupted()) {
             /// Provide each mat with the current frame

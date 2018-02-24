@@ -1,16 +1,14 @@
 package org.usfirst.frc.team3695.robot.enumeration;
 
-public enum Drivetrain {
-	ROCKET_LEAGUE("Rocket League"),
-	FORZA("Forza"),
-	REV("VROOOOOM");
-
+public enum Bot {
+	OOF("OOF"), SWISS("Swiss");
 	private final String name;
-	Drivetrain(String name) {
+	Bot(String name) {
 		this.name = name;
 	}
 	
 	public String toString() {
 		return name;
 	}
+	;
 }
