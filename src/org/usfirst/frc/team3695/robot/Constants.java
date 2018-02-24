@@ -73,7 +73,7 @@ public class Constants {
 			RIGHT_ARM_MOTOR_INVERT    = false,
 	
 			HOOK_MOTOR_INVERT		  = false;
-		public static final int
+		public static final double
             P = 0,
             I = 0,
             D = 0,
@@ -93,7 +93,7 @@ public class Constants {
 			RIGHT_ARM_MOTOR_INVERT    = false,
 	
 			HOOK_MOTOR_INVERT		  = false;
-        public static final int
+        public static final double
                 P = 0,
                 I = 0,
                 D = 0,
