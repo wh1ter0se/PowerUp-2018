@@ -11,7 +11,7 @@ public class ManualCommandDrive extends Command {
 	
     public ManualCommandDrive() {
         requires(Robot.SUB_DRIVE);
-        requires(Robot.SUB_MANIPULATOR);
+//        requires(Robot.SUB_MANIPULATOR);
     }
 
     protected void initialize() {}
@@ -31,8 +31,8 @@ public class ManualCommandDrive extends Command {
     		case FORZA: 
     			Robot.SUB_DRIVE.driveForza(OI.DRIVER, Util.getAndSetDouble("Ramp", .75), Util.getAndSetDouble("Radius", 1), Util.getAndSetDouble("Drive Inhibitor", 1));
     			break;
-    		case REV:
-    			Robot.SUB_MANIPULATOR.rev(OI.DRIVER);
+//    		case REV:
+//    			Robot.SUB_MANIPULATOR.rev(OI.DRIVER);
     	}
     }
 
