@@ -4,8 +4,10 @@ import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import org.opencv.core.Core;
+import org.opencv.core.CvException;
 import org.opencv.core.Mat;
 import org.usfirst.frc.team3695.robot.Constants.VisionConstants;
 
@@ -48,9 +50,13 @@ public class Vision extends IterativeRobot {
     	
     	CvSource outputScrew = CameraServer.getInstance().putVideo("Screw", VisionConstants.CAM_WIDTH, VisionConstants.CAM_HEIGHT);
     	 while (!Thread.interrupted()){
-    		 cvsinkScrew.grabFrame(streamImages);
-    		 Core.rotate(streamImages, streamImages, Core.ROTATE_180);
-    		 outputScrew.putFrame(streamImages);
+    	     try {
+                 cvsinkScrew.grabFrame(streamImages);
+                 Core.rotate(streamImages, streamImages, Core.ROTATE_180);
+                 outputScrew.putFrame(streamImages);
+             } catch (CvException cameraFail){
+    	         DriverStation.reportWarning("Screw Camera: " + cameraFail.toString(), false);
+             }
     	 }
     }
     
@@ -65,9 +71,13 @@ public class Vision extends IterativeRobot {
 
     	CvSource outputFrame = CameraServer.getInstance().putVideo("Frame", VisionConstants.CAM_WIDTH, VisionConstants.CAM_HEIGHT);
     	 while (!Thread.interrupted()){
-    		 cvsinkFrame.grabFrame(streamImages);
-             Core.rotate(streamImages, streamImages, Core.ROTATE_180);
-             outputFrame.putFrame(streamImages);
+             try {
+                 cvsinkFrame.grabFrame(streamImages);
+                 Core.rotate(streamImages, streamImages, Core.ROTATE_180);
+                 outputFrame.putFrame(streamImages);
+             } catch (CvException cameraFail){
+                 DriverStation.reportWarning("Frame Camera: " + cameraFail.toString(), false);
+             }
     	 }
     }
 
@@ -105,12 +115,16 @@ public class Vision extends IterativeRobot {
         CvSource outputStream = CameraServer.getInstance().putVideo("Concat", 2*VisionConstants.CAM_WIDTH, VisionConstants.CAM_HEIGHT);
 
         while (!Thread.interrupted()) {
-            /// Provide each mat with the current frame
-            cvsinkLeft.grabFrame(leftSource);
-            cvsinkRight.grabFrame(rightSource);
-            /// Combine the frames into a single mat in the Output and stream the image.
-            Core.hconcat(sources, concat);
-            outputStream.putFrame(concat);
+            try {
+                /// Provide each mat with the current frame
+                cvsinkLeft.grabFrame(leftSource);
+                cvsinkRight.grabFrame(rightSource);
+                /// Combine the frames into a single mat in the Output and stream the image.
+                Core.hconcat(sources, concat);
+                outputStream.putFrame(concat);
+            } catch (CvException cameraFail){
+                DriverStation.reportWarning("Concat Cameras: " + cameraFail.toString(), false);
+            }
         }
     }
 }
