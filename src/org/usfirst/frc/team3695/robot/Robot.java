@@ -45,6 +45,18 @@ public class Robot extends IterativeRobot {
 
 	/** runs when robot is turned on */
 	public void robotInit() {
+		/// instantiate bot chooser
+		botChooser = new SendableChooser<>();
+		botChooser.addDefault(Bot.SWISS.toString(), Bot.SWISS);
+		botChooser.addObject(Bot.OOF.toString(), Bot.OOF);
+		SmartDashboard.putData("Bot", botChooser);
+
+		if (botChooser.getSelected() != null){
+			bot = botChooser.getSelected();
+		} else {
+			bot = Bot.OOF;
+		}
+
 			DriverStation.reportWarning("ROBOT STARTED; GOOD LUCK", false);
 		/// instantiate subsystems
 //			SUB_ARDUINO = new SubsystemArduino();
