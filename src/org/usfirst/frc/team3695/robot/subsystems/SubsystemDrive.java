@@ -266,8 +266,8 @@ public class SubsystemDrive extends Subsystem {
         double leftGoal = in2rot(leftIn);
         double rightGoal = in2rot(rightIn);
 
-        leftMaster.set(ControlMode.MotionMagic, leftGoal);
-        rightMaster.set(ControlMode.MotionMagic, rightGoal);
+        leftMaster.set(ControlMode.Position, leftGoal);
+        rightMaster.set(ControlMode.Position, rightGoal);
 
         boolean leftInRange =
                 getLeftPos() > leftify(leftGoal) - DISTANCE_ALLOWABLE_ERROR &&
@@ -280,8 +280,8 @@ public class SubsystemDrive extends Subsystem {
     }
 
     public void driveDirect(double left, double right) {
-        leftMaster.set(ControlMode.PercentOutput, left);
-        rightMaster.set(ControlMode.PercentOutput, right);
+        leftMaster.set(ControlMode.PercentOutput, leftify(left));
+        rightMaster.set(ControlMode.PercentOutput, rightify(right));
     }
 
     public void setPIDF(TalonSRX talon, double p, double i, double d, double f) {
