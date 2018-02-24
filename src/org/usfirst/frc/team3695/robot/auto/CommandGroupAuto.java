@@ -38,8 +38,7 @@ public class CommandGroupAuto extends CommandGroup {
 							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CLOCKWISE));
 							Robot.SUB_MANIPULATOR.spit();
 						} else { //When the switch is on the right
-							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_WALL_TO_SWITCH_BLOCK_MID));
-							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CLOCKWISE));
+
 						}
 						Robot.SUB_MANIPULATOR.spit();
 						break;

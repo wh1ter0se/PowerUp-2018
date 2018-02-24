@@ -119,6 +119,9 @@ public class Constants {
 		public static final int ROT_90_CLOCKWISE = 90;
 		public static final int ROT_90_COUNTERCLOCKWISE = -90;
 		public static final int ROT_180 = 180;
+
+		public static final int SPIT_LENGTH = 500;
+		public static final int WAIT_TO_ADJUST_MAST = 300;
 	}
 
 	public static class VisionConstants {
