@@ -63,11 +63,11 @@ public class Constants {
 	public static class OOF {
 		public static final boolean
 			LEFT_MOTOR_INVERT         = false,
-			RIGHT_MOTOR_INVERT        = true, 
+			RIGHT_MOTOR_INVERT        = false, 
 	
 			LEFT_PINION_MOTOR_INVERT  = false,
 			RIGHT_PINION_MOTOR_INVERT = true,
-			SCREW_MOTOR_INVERT        = false,
+			SCREW_MOTOR_INVERT        = true,
 	
 			LEFT_ARM_MOTOR_INVERT     = true,
 			RIGHT_ARM_MOTOR_INVERT    = false,

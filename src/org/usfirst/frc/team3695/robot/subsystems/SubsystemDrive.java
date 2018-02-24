@@ -238,6 +238,9 @@ public class SubsystemDrive extends Subsystem {
 
     public void setOverride(boolean override){
         this.override = override;
+        if (override) {
+        	
+        }
     }
 
     public double getError() {
