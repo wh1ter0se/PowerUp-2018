@@ -297,6 +297,8 @@ public class SubsystemDrive extends Subsystem {
         talon.config_kP(0, p, Constants.TIMEOUT_PID);
         talon.config_kI(0, i, Constants.TIMEOUT_PID);
         talon.config_kD(0, d, Constants.TIMEOUT_PID);
+        //Start the relative sensor at the same point as absolute
+        talon.setSelectedSensorPosition(talon.getSensorCollection().getPulseWidthPosition(), 0, 10);
     }
 
     public void reset() {
