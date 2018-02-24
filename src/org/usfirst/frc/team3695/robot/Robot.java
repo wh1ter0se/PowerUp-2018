@@ -141,7 +141,6 @@ public class Robot extends IterativeRobot {
 		if (driveChooser.getSelected() != null) {
 			SUB_DRIVE.setDrivetrain(driveChooser.getSelected());
 		}
-		SUB_MANIPULATOR.spinByJoystick(OI.OPERATOR); // THIS IS A PATCH. DO AS I SAY, NOT AS I DO
 	}
 
 	

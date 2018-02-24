@@ -23,13 +23,12 @@ public class ManualCommandDrive extends Command {
         SmartDashboard.putNumber("Right Encoder Position", Robot.SUB_DRIVE.rightMag2in(Robot.SUB_DRIVE.getRightPos()));
         SmartDashboard.putNumber("Left Encoder Position", Robot.SUB_DRIVE.leftMag2in(Robot.SUB_DRIVE.getLeftPos()));
 
-        if (Robot.SUB_DRIVE.override) end();
     	switch (Robot.SUB_DRIVE.drivetrain) {
     		case ROCKET_LEAGUE:
-    			Robot.SUB_DRIVE.driveRLTank(OI.DRIVER, Util.getAndSetDouble("Ramp", .75), Util.getAndSetDouble("Drive Inhibitor", 1));
+    			Robot.SUB_DRIVE.driveRLTank(OI.DRIVER, Util.getAndSetDouble("Rocket Ramp", .75), Util.getAndSetDouble("Drive Inhibitor", 1));
     			break;
     		case FORZA: 
-    			Robot.SUB_DRIVE.driveForza(OI.DRIVER, Util.getAndSetDouble("Ramp", .75), Util.getAndSetDouble("Radius", 1), Util.getAndSetDouble("Drive Inhibitor", 1));
+    			Robot.SUB_DRIVE.driveForza(OI.DRIVER, Util.getAndSetDouble("Forza Ramp", .75), Util.getAndSetDouble("Radius", 1), Util.getAndSetDouble("Drive Inhibitor", 1));
     			break;
 //    		case REV:
 //    			Robot.SUB_MANIPULATOR.rev(OI.DRIVER);
@@ -42,5 +41,7 @@ public class ManualCommandDrive extends Command {
 
     protected void end() {}
 
-    protected void interrupted() {}
+    protected void interrupted() {
+    	end();
+    }
 }
