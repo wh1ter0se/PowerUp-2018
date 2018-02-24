@@ -12,6 +12,7 @@ public class CyborgCommandSpit extends Command {
     
     public CyborgCommandSpit(long runTime) {
         requires(Robot.SUB_MANIPULATOR);
+        isFinished = false;
         this.runTime = runTime;
     }
 
