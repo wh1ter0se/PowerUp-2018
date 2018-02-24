@@ -259,8 +259,8 @@ public class SubsystemDrive extends Subsystem {
         double leftGoal = in2rot(leftIn);
         double rightGoal = in2rot(rightIn);
 
-        leftMaster.set(ControlMode.MotionMagic, leftify(leftGoal));
-        rightMaster.set(ControlMode.MotionMagic, rightify(rightGoal));
+        leftMaster.set(ControlMode.Position, leftGoal);
+        rightMaster.set(ControlMode.Position, rightGoal);
 
         boolean leftInRange =
                 getLeftPos() > leftify(leftGoal) - DISTANCE_ALLOWABLE_ERROR &&
