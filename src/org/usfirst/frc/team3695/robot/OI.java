@@ -22,14 +22,14 @@ public class OI {
 		/// manipulator clamp
 			Button toggleClamp = new JoystickButton(OPERATOR, Xbox.A);
 				toggleClamp.toggleWhenActive(new ButtonCommandClamp());
-		/// candy cane
-			Button toggleHook = new JoystickButton(OPERATOR, Xbox.B);
-				toggleHook.toggleWhenActive(new ButtonCommandHook());
-		/// drop the mast
-			Button dropIt = new JoystickButton(OPERATOR, Xbox.X);
-				dropIt.whenPressed(new ButtonCommandHitTheDeck());
-		/// Reversing mode
-			Button toggleReverse = new JoystickButton(DRIVER, Xbox.Y);
+        /// candy cane
+        Button toggleHook = new JoystickButton(OPERATOR, Xbox.B);
+        toggleHook.toggleWhenActive(new ButtonCommandHook());
+        /// drop the mast
+        Button dropIt = new JoystickButton(OPERATOR, Xbox.X);
+        dropIt.whenPressed(new ButtonCommandHitTheDeck());
+        /// Reversing mode
+        Button toggleReverse = new JoystickButton(DRIVER, Xbox.Y);
 				toggleReverse.toggleWhenPressed(new ButtonCommandReverse());
 		/// Docking mode
 			Button toggleDock = new JoystickButton(DRIVER, Xbox.X);

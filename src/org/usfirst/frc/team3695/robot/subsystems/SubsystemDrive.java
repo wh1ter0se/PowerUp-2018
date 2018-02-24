@@ -135,6 +135,17 @@ public class SubsystemDrive extends Subsystem {
         leftSlave.follow(leftMaster);
         rightSlave = new TalonSRX(Constants.RIGHT_SLAVE);
         rightSlave.follow(rightMaster);
+
+        switch (Robot.bot){
+            case SWISS:
+                setPIDF(leftMaster, Constants.SWISS.P, Constants.SWISS.I, Constants.SWISS.D, Constants.SWISS.F);
+                setPIDF(rightMaster, Constants.SWISS.P, Constants.SWISS.I, Constants.SWISS.D, Constants.SWISS.F);
+                break;
+            case OOF:
+                setPIDF(leftMaster, Constants.OOF.P, Constants.OOF.I, Constants.OOF.D, Constants.OOF.F);
+                setPIDF(rightMaster, Constants.OOF.P, Constants.OOF.I, Constants.OOF.D, Constants.OOF.F);
+                break;
+        }
     }
 
     public void setDrivetrain(Drivetrain drivetrain) {
