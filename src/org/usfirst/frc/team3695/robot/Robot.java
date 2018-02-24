@@ -141,6 +141,9 @@ public class Robot extends IterativeRobot {
 		if (driveChooser.getSelected() != null) {
 			SUB_DRIVE.setDrivetrain(driveChooser.getSelected());
 		}
+		if (botChooser.getSelected() != null){
+			bot = botChooser.getSelected();
+		}
 	}
 
 	
