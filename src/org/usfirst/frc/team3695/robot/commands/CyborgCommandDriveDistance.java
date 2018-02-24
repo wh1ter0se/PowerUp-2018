@@ -30,6 +30,7 @@ public class CyborgCommandDriveDistance extends Command {
     }
 
     protected boolean isFinished() {
+        DriverStation.reportWarning("DriveDistance isFinished", false);
         if(!inRange) {
             time = System.currentTimeMillis() + TIME_WAIT;
         }
