@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team3695.robot.commands.*;
 import org.usfirst.frc.team3695.robot.enumeration.Position;
@@ -22,14 +21,14 @@ public class OI {
 		/// manipulator clamp
 			Button toggleClamp = new JoystickButton(OPERATOR, Xbox.A);
 				toggleClamp.toggleWhenActive(new ButtonCommandClamp());
-        /// candy cane
-        Button toggleHook = new JoystickButton(OPERATOR, Xbox.B);
-        toggleHook.toggleWhenActive(new ButtonCommandHook());
-        /// drop the mast
-        Button dropIt = new JoystickButton(OPERATOR, Xbox.X);
-        dropIt.whenPressed(new ButtonCommandHitTheDeck());
-        /// Reversing mode
-        Button toggleReverse = new JoystickButton(DRIVER, Xbox.Y);
+		/// candy cane
+			Button toggleHook = new JoystickButton(OPERATOR, Xbox.B);
+				toggleHook.toggleWhenActive(new ButtonCommandHook());
+		/// drop the mast
+			Button dropIt = new JoystickButton(OPERATOR, Xbox.X);
+				dropIt.whenPressed(new ButtonCommandHitTheDeck());
+		/// Reversing mode
+			Button toggleReverse = new JoystickButton(DRIVER, Xbox.Y);
 				toggleReverse.toggleWhenPressed(new ButtonCommandReverse());
 		/// Docking mode
 			Button toggleDock = new JoystickButton(DRIVER, Xbox.X);
@@ -44,7 +43,6 @@ public class OI {
 			
 		/// limit switch displays
 			SmartDashboard.putBoolean("Lower Screw", true);
-	    	SmartDashboard.putBoolean("Mid Position", false);
 	    	SmartDashboard.putBoolean("Upper Screw", false);
 	    	SmartDashboard.putBoolean("Lower Pinion", true);
 	    	SmartDashboard.putBoolean("Upper Pinion", false);

@@ -103,6 +103,7 @@ public class Robot extends IterativeRobot {
 			vision.startFrameCameraThread();
 
 		SmartDashboard.putData("Commands", Scheduler.getInstance());
+		SmartDashboard.putData("Sub_Drive", SUB_DRIVE);
 		DriverStation.reportWarning("SUBSYSTEMS, CHOOSERS INSTANTIATED", false);
 	}
 
