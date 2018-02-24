@@ -74,10 +74,10 @@ public class Constants {
 	
 			HOOK_MOTOR_INVERT		  = false;
 		public static final double
-            P = 0,
+            P = 0.5,
             I = 0,
             D = 0,
-            F = 0;
+            F = 0.5;
 	}
 	
 	public static class SWISS {
@@ -94,10 +94,10 @@ public class Constants {
 	
 			HOOK_MOTOR_INVERT		  = false;
         public static final double
-                P = 0,
+                P = 0.5,
                 I = 0,
                 D = 0,
-                F = 0;
+                F = 0.5;
 	}
 	
 

@@ -5,23 +5,29 @@ import org.usfirst.frc.team3695.robot.Robot;
 
 public class CyborgCommandSpit extends Command {
 
+	Boolean isFinished;
     long runTime;
     long startTime;
+    
     public CyborgCommandSpit(long runTime) {
+    	isFinished = false;
         requires(Robot.SUB_MANIPULATOR);
         this.runTime = runTime;
     }
 
-    protected void initialize() {}
+    protected void initialize() {
+    	startTime = System.currentTimeMillis();
+    }
 
     protected void execute() {
-        startTime = System.currentTimeMillis();
-        while (startTime + runTime >= System.currentTimeMillis()){
+        if (startTime + runTime >= System.currentTimeMillis()){
             Robot.SUB_MANIPULATOR.spit();
+        } else {
+        	isFinished = true;
         }
     }
 
-    protected boolean isFinished() { return false; }
+    protected boolean isFinished() { return isFinished; }
 
     protected void end() {}
 
