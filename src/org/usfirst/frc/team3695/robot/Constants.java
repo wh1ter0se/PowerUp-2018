@@ -125,8 +125,8 @@ public class Constants {
 	}
 
 	public static class VisionConstants {
-		public static final int CAM_HEIGHT = 720;
-		public static final int CAM_WIDTH  = 1080;
+		public static final int CAM_HEIGHT = 1080;
+		public static final int CAM_WIDTH  = 1920;
 
 		public static final int SCREW_ID = 0;
 		public static final int HOOK_ID = 1;
