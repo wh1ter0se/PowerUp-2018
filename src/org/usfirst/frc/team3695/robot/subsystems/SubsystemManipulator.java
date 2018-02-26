@@ -2,14 +2,13 @@ package org.usfirst.frc.team3695.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import edu.wpi.first.wpilibj.DriverStation;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Subsystem;
+
 import org.usfirst.frc.team3695.robot.Constants;
 import org.usfirst.frc.team3695.robot.Robot;
-import org.usfirst.frc.team3695.robot.commands.ManualCommandSpin;
 import org.usfirst.frc.team3695.robot.enumeration.Bot;
-import org.usfirst.frc.team3695.robot.enumeration.Position;
 import org.usfirst.frc.team3695.robot.util.Xbox;
 
 /** VROOM VROOM */
@@ -36,9 +35,7 @@ public class SubsystemManipulator extends Subsystem {
 	}
 	
 	/** runs at robot boot */
-    public void initDefaultCommand() {
-    	setDefaultCommand(new ManualCommandSpin());
-    }
+    public void initDefaultCommand() {}
 	
 	/** gives birth to the CANTalons */
     public SubsystemManipulator(){

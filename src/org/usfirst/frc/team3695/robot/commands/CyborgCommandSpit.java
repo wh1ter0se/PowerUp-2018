@@ -29,7 +29,9 @@ public class CyborgCommandSpit extends Command {
 
     protected boolean isFinished() { return isFinished; }
 
-    protected void end() {}
+    protected void end() {
+    	Robot.SUB_MANIPULATOR.stopSpinning();
+    }
 
     protected void interrupted() {
         end();

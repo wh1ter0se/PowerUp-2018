@@ -18,6 +18,11 @@ public class OI {
 	
 	/** assigns what every SmartDash and controller button does */
 	public OI() {
+		/// manipulator wheels
+			Button spinIn = new JoystickButton(OPERATOR, Xbox.LB);
+					spinIn.whileHeld(new ButtonCommandEat());
+			Button spinOut = new JoystickButton(OPERATOR, Xbox.RB);
+					spinOut.whileHeld(new ButtonCommandSpit());
 		/// manipulator clamp
 			Button toggleClamp = new JoystickButton(OPERATOR, Xbox.A);
 				toggleClamp.toggleWhenActive(new ButtonCommandClamp());
@@ -35,6 +40,7 @@ public class OI {
 				toggleDock.toggleWhenPressed(new ButtonCommandDock());
 		/// To Compress, or Not To Compress. It is now an option.
 			SmartDashboard.putData("Disable Compressor", new ButtonCommandKillCompressor());
+			
 
 		/// PID
 			SmartDashboard.putData("Kill PID", new ButtonCommandKillPID());

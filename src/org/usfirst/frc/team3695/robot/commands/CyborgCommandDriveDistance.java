@@ -3,8 +3,8 @@ package org.usfirst.frc.team3695.robot.commands;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
+
 import org.usfirst.frc.team3695.robot.Robot;
-import org.usfirst.frc.team3695.robot.util.Util;
 
 public class CyborgCommandDriveDistance extends Command {
 
@@ -30,7 +30,6 @@ public class CyborgCommandDriveDistance extends Command {
     }
 
     protected boolean isFinished() {
-        DriverStation.reportWarning("DriveDistance isFinished", false);
         if(!inRange) {
             time = System.currentTimeMillis() + TIME_WAIT;
         }
@@ -43,7 +42,5 @@ public class CyborgCommandDriveDistance extends Command {
         Robot.SUB_DRIVE.driveDirect(0, 0);
     }
 
-    protected void interrupted() {
-        end();
-    }
+    protected void interrupted() {}
 }

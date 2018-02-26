@@ -14,6 +14,12 @@ import org.usfirst.frc.team3695.robot.enumeration.Goal;
 import org.usfirst.frc.team3695.robot.enumeration.Position;
 import org.usfirst.frc.team3695.robot.subsystems.*;
 
+//    _____   _____   ____     ______           ______                   _                                        ____             _                   
+//   |__  /  / ___/  / __ \   / ____/          / ____/  ____    _  __   (_)   ____ ___   __  __   _____          / __ \   _____   (_)   ____ ___   ___ 
+//    /_ <  / __ \  / /_/ /  /___ \           / /_     / __ \  | |/_/  / /   / __ `__ \ / / / /  / ___/         / /_/ /  / ___/  / /   / __ `__ \ / _ \
+//  ___/ / / /_/ /  \__, /  ____/ /          / __/    / /_/ / _>  <   / /   / / / / / // /_/ /  (__  )         / ____/  / /     / /   / / / / / //  __/
+// /____/  \____/  /____/  /_____/          /_/       \____/ /_/|_|  /_/   /_/ /_/ /_/ \__,_/  /____/         /_/      /_/     /_/   /_/ /_/ /_/ \___/ 
+
 /** the magic place where everything happens (where the sequence of events is controlled, top of the hierarchy) */
 public class Robot extends IterativeRobot {
 
