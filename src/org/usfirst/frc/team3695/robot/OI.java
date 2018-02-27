@@ -64,6 +64,7 @@ public class OI {
 			SmartDashboard.putData("Drive Until Error", new CyborgCommandDriveUntilError());
 			SmartDashboard.putData("Rotate Degree", new CyborgCommandRotateDegrees(Util.getAndSetDouble("Rotate Degrees", 0)));
 			SmartDashboard.putData("Spit", new CyborgCommandSpit((long)Util.getAndSetDouble("Spit Time", 500)));
+			SmartDashboard.putData("Clap", new CyborgCommandClap((long)Util.getAndSetDouble("Runtime", 200000), (long)Util.getAndSetDouble("Clap Speed", 100)));
 	}
 	
 }
