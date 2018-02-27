@@ -54,43 +54,45 @@ public class SubsystemDrive extends Subsystem {
     /**
      * converts left magnetic encoder's magic units to inches
      */
-    public static final double leftMag2in(double leftMag) {
+    public static double leftMag2in(double leftMag) {
         return leftMag / Constants.LEFT_MAGIC_PER_INCHES;
     }
 
     /**
      * converts right magnetic encoder's magic units to inches
      */
-    public static final double rightMag2in(double rightMag) {
+    public static double rightMag2in(double rightMag) {
         return rightMag / Constants.RIGHT_MAGIC_PER_INCHES;
     }
 
     /**
      * converts RPM to inches per second
      */
-    public static final double rpm2ips(double rpm) {
+    public static double rpm2ips(double rpm) {
         return rpm / 60.0 * Constants.WHEEL_DIAMETER * Math.PI;
     }
 
     /**
      * converts an inches per second number to RPM
      */
-    public static final double ips2rpm(double ips) {
+    public static double ips2rpm(double ips) {
         return ips * 60.0 / Constants.WHEEL_DIAMETER / Math.PI;
     }
 
     /**
      * converts rotations to distance traveled in inches
      */
-    public static final double rot2in(double rot) {
+    public static double rot2in(double rot) {
         return rot * Constants.WHEEL_DIAMETER * Math.PI;
     }
 
     /**
      * converts distance traveled in inches to rotations
      */
-    public static final double in2rot(double in) {
-        return in / Constants.WHEEL_DIAMETER / Math.PI;
+    public static double in2rot(double in) {
+//        return in / Constants.WHEEL_DIAMETER / Math.PI;
+    	//The following is nonsense
+    	return in;
     }
 
 
@@ -282,7 +284,7 @@ public class SubsystemDrive extends Subsystem {
     public void setPIDF(TalonSRX _talon, double p, double i, double d, double f) {
         /* first choose the sensor */
         _talon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,
-                Constants.RIGHT_PID, Constants.TIMEOUT_PID);
+                0, Constants.TIMEOUT_PID);
         _talon.setSensorPhase(true);
         _talon.setInverted(false);
         /* Set relevant frame periods to be at least as fast as periodic rate*/
@@ -296,7 +298,7 @@ public class SubsystemDrive extends Subsystem {
         _talon.configPeakOutputForward(1, Constants.TIMEOUT_PID);
         _talon.configPeakOutputReverse(-1, Constants.TIMEOUT_PID);
         /* set closed loop gains in slot0 - see documentation */
-        _talon.selectProfileSlot(Constants.RIGHT_PID, Constants.TIMEOUT_PID);
+        _talon.selectProfileSlot(0, Constants.RIGHT_PID);
         _talon.config_kF(0, 0.2, Constants.TIMEOUT_PID);
         _talon.config_kP(0, 0.2, Constants.TIMEOUT_PID);
         _talon.config_kI(0, 0, Constants.TIMEOUT_PID);
@@ -305,14 +307,12 @@ public class SubsystemDrive extends Subsystem {
         _talon.configMotionCruiseVelocity(15000, Constants.TIMEOUT_PID);
         _talon.configMotionAcceleration(6000, Constants.TIMEOUT_PID);
         /* zero the sensor */
-        _talon.setSelectedSensorPosition(0, Constants.RIGHT_PID, Constants.TIMEOUT_PID);
+        _talon.setSelectedSensorPosition(0, 0, Constants.TIMEOUT_PID);
     }
     
     public void setPIDF(double p, double i, double d, double f) {
     	setPIDF(leftMaster, p, i, d, f);
-    		setPIDF(leftSlave, p, i, d, f);
     	setPIDF(rightMaster, p, i, d, f);
-    		setPIDF(rightSlave, p, i, d, f);
     }
 
     public void reset() {

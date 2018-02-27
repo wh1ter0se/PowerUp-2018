@@ -70,6 +70,9 @@ public class Robot extends IterativeRobot {
 			SUB_CLAMP = new SubsystemClamp();
 			SUB_COMPRESSOR = new SubsystemCompressor();
 			SUB_DRIVE = new SubsystemDrive();
+			
+			SUB_DRIVE.setPIDF(.2, 0, 0, 0);
+			
 			SUB_HOOK = new SubsystemHook();
 			SUB_MAST = new SubsystemMast();
 			vision = new Vision();

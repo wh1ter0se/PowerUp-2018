@@ -77,7 +77,7 @@ public class Constants {
             P = 0.5,
             I = 0,
             D = 0,
-            F = 0.5;
+            F = 0;
 	}
 	
 	public static class SWISS {
@@ -97,7 +97,7 @@ public class Constants {
                 P = 0.5,
                 I = 0,
                 D = 0,
-                F = 0.5;
+                F = 0;
 	}
 	
 
