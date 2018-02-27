@@ -9,7 +9,7 @@ import org.usfirst.frc.team3695.robot.util.Util;
 public class CyborgCommandDriveDirect extends Command {
 
     public static final long TIME_WAIT = 1000;
-    public final double percent;
+    public double percent;
     private long time;
     private boolean inRange;
 
@@ -26,6 +26,7 @@ public class CyborgCommandDriveDirect extends Command {
     }
 
     protected void execute() {
+    	percent = Util.getAndSetDouble("Drive Direct Power", 0);
         Robot.SUB_DRIVE.driveDirect(percent, percent);
     }
 

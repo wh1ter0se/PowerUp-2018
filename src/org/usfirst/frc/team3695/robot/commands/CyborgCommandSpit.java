@@ -31,6 +31,7 @@ public class CyborgCommandSpit extends Command {
 
     protected void end() {
     	Robot.SUB_MANIPULATOR.stopSpinning();
+    	isFinished = false;
     }
 
     protected void interrupted() {

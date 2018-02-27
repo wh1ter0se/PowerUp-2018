@@ -266,8 +266,8 @@ public class SubsystemDrive extends Subsystem {
         double leftGoal = in2rot(leftIn);
         double rightGoal = in2rot(rightIn);
 
-        leftMaster.set(ControlMode.Position, leftGoal);
-        rightMaster.set(ControlMode.Position, rightGoal);
+        leftMaster.set(ControlMode.MotionMagic, leftGoal);
+        rightMaster.set(ControlMode.MotionMagic, rightGoal);
 
         boolean leftInRange =
                 getLeftPos() > leftify(leftGoal) - DISTANCE_ALLOWABLE_ERROR &&
@@ -301,6 +301,13 @@ public class SubsystemDrive extends Subsystem {
         talon.config_kD(0, d, Constants.TIMEOUT_PID);
         //Start the relative sensor at the same point as absolute
         talon.setSelectedSensorPosition(talon.getSensorCollection().getPulseWidthPosition(), 0, 10);
+    }
+    
+    public void setPIDF(double p, double i, double d, double f) {
+    	setPIDF(leftMaster, p, i, d, f);
+    		setPIDF(leftSlave, p, i, d, f);
+    	setPIDF(rightMaster, p, i, d, f);
+    		setPIDF(rightSlave, p, i, d, f);
     }
 
     public void reset() {
