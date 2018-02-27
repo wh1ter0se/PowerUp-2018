@@ -261,8 +261,8 @@ public class SubsystemDrive extends Subsystem {
         double leftGoal = in2rot(leftIn);
         double rightGoal = in2rot(rightIn);
 
-        leftMaster.set(ControlMode.MotionMagic, leftGoal);
-        rightMaster.set(ControlMode.MotionMagic, rightGoal);
+        leftMaster.set(ControlMode.MotionMagic, leftify(leftGoal));
+        rightMaster.set(ControlMode.MotionMagic, rightify(rightGoal));
 
         boolean leftInRange =
                 getLeftPos() > leftify(leftGoal) - DISTANCE_ALLOWABLE_ERROR &&
@@ -299,10 +299,10 @@ public class SubsystemDrive extends Subsystem {
         _talon.configPeakOutputReverse(-1, Constants.TIMEOUT_PID);
         /* set closed loop gains in slot0 - see documentation */
         _talon.selectProfileSlot(0, Constants.RIGHT_PID);
-        _talon.config_kF(0, 0.2, Constants.TIMEOUT_PID);
-        _talon.config_kP(0, 0.2, Constants.TIMEOUT_PID);
-        _talon.config_kI(0, 0, Constants.TIMEOUT_PID);
-        _talon.config_kD(0, 0, Constants.TIMEOUT_PID);
+        _talon.config_kP(0, p, Constants.TIMEOUT_PID);
+        _talon.config_kI(0, i, Constants.TIMEOUT_PID);
+        _talon.config_kD(0, d, Constants.TIMEOUT_PID);
+        _talon.config_kF(0, f, Constants.TIMEOUT_PID);
         /* set acceleration and vcruise velocity - see documentation */
         _talon.configMotionCruiseVelocity(15000, Constants.TIMEOUT_PID);
         _talon.configMotionAcceleration(6000, Constants.TIMEOUT_PID);
