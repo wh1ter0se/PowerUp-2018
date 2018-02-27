@@ -26,14 +26,11 @@ public class CyborgCommandDriveDirect extends Command {
     }
 
     protected void execute() {
-        inRange = Robot.SUB_DRIVE.driveDistance(percent, percent);
+        Robot.SUB_DRIVE.driveDirect(percent, percent);
     }
 
     protected boolean isFinished() {
-        if(!inRange) {
-            time = System.currentTimeMillis() + TIME_WAIT;
-        }
-        return time < System.currentTimeMillis();
+        return false;
     }
 
     protected void end() {
