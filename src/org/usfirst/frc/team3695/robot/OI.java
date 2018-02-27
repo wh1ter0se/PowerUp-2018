@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team3695.robot.commands.*;
+import org.usfirst.frc.team3695.robot.enumeration.Mast;
 import org.usfirst.frc.team3695.robot.enumeration.Position;
 import org.usfirst.frc.team3695.robot.util.Util;
 import org.usfirst.frc.team3695.robot.util.Xbox;
@@ -65,6 +66,10 @@ public class OI {
 			SmartDashboard.putData("Rotate Degree", new CyborgCommandRotateDegrees(Util.getAndSetDouble("Rotate Degrees", 0)));
 			SmartDashboard.putData("Spit", new CyborgCommandSpit((long)Util.getAndSetDouble("Spit Time", 500)));
 			SmartDashboard.putData("Clap", new CyborgCommandClap((long)Util.getAndSetDouble("Runtime", 200000), (long)Util.getAndSetDouble("Clap Speed", 100)));
+			SmartDashboard.putData("Raise to Position: Pinion Up", new CyborgCommandRaiseToPosition(Mast.PINION_UP));
+			SmartDashboard.putData("Raise to Position: Pinion Down", new CyborgCommandRaiseToPosition(Mast.PINION_DOWN));
+			SmartDashboard.putData("Raise to Position: Screw Up", new CyborgCommandRaiseToPosition(Mast.SCREW_UP));
+			SmartDashboard.putData("Raise to Position: Screw Down", new CyborgCommandRaiseToPosition(Mast.SCREW_DOWN));
 	}
 	
 }
