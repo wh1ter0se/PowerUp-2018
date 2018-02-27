@@ -19,7 +19,6 @@ public class CyborgCommandDriveUntilError extends Command {
 
     protected void initialize() {
         time = System.currentTimeMillis() + ERROR_TIME;
-        Robot.SUB_DRIVE.setOverride(true);
     }
 
     protected void execute() {
@@ -37,7 +36,6 @@ public class CyborgCommandDriveUntilError extends Command {
 
     protected void end() {
         DriverStation.reportWarning("CyborgCommandDriveUntilError finished", false);
-        Robot.SUB_DRIVE.setOverride(false);
         Robot.SUB_DRIVE.driveDirect(0, 0);
     }
 
