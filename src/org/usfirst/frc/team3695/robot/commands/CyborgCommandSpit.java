@@ -2,7 +2,6 @@ package org.usfirst.frc.team3695.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3695.robot.Robot;
-import org.usfirst.frc.team3695.robot.util.Util;
 
 public class CyborgCommandSpit extends Command {
 
@@ -11,14 +10,13 @@ public class CyborgCommandSpit extends Command {
     long startTime;
     
     public CyborgCommandSpit(long runTime) {
+    	isFinished = false;
         requires(Robot.SUB_MANIPULATOR);
-        isFinished = false;
         this.runTime = runTime;
     }
 
     protected void initialize() {
-        startTime = System.currentTimeMillis();
-        runTime = (long) Util.getAndSetDouble("Spit Time", 500);
+    	startTime = System.currentTimeMillis();
     }
 
     protected void execute() {
@@ -33,7 +31,6 @@ public class CyborgCommandSpit extends Command {
 
     protected void end() {
     	Robot.SUB_MANIPULATOR.stopSpinning();
-    	isFinished = false;
     }
 
     protected void interrupted() {
