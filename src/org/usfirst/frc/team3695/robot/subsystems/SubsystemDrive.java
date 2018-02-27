@@ -97,7 +97,6 @@ public class SubsystemDrive extends Subsystem {
      * apply left motor invert
      */
     public static final double leftify(double left) {
-        left = (left > 1.0 ? 1.0 : (left < -1.0 ? -1.0 : left));
         Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.LEFT_MOTOR_INVERT : Constants.SWISS.LEFT_MOTOR_INVERT;
         return left * (invert ? -1.0 : 1.0) * (docking ? dockInhibitor : 1);
     }
@@ -106,7 +105,6 @@ public class SubsystemDrive extends Subsystem {
      * apply right motor invert
      */
     public static final double rightify(double right) {
-        right = (right > 1.0 ? 1.0 : (right < -1.0 ? -1.0 : right));
         Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_MOTOR_INVERT : Constants.SWISS.RIGHT_MOTOR_INVERT;
         return right * (invert ? -1.0 : 1.0) * (docking ? dockInhibitor : 1);
     }
@@ -180,7 +178,8 @@ public class SubsystemDrive extends Subsystem {
         double adder = Xbox.RT(joy) - Xbox.LT(joy);
         double left = adder + (Xbox.LEFT_X(joy) / 1.333333);
         double right = adder - (Xbox.LEFT_X(joy) / 1.333333);
-
+        left = (left > 1.0 ? 1.0 : (left < -1.0 ? -1.0 : left));
+        right = (right > 1.0 ? 1.0 : (right < -1.0 ? -1.0 : right));
         setRamps(ramp);
 
 //        if (getYAngle() > Constants.TILT_ANGLE ) {
@@ -226,7 +225,8 @@ public class SubsystemDrive extends Subsystem {
                 right = acceleration;
             }
 //        }
-
+        left = (left > 1.0 ? 1.0 : (left < -1.0 ? -1.0 : left));
+        right = (right > 1.0 ? 1.0 : (right < -1.0 ? -1.0 : right));
         leftMaster.set(ControlMode.PercentOutput, leftify(left) * inhibitor * (reversing ? -1.0 : 1.0));
         rightMaster.set(ControlMode.PercentOutput, rightify(right) * inhibitor * (reversing ? -1.0 : 1.0));
         
@@ -280,6 +280,8 @@ public class SubsystemDrive extends Subsystem {
     }
 
     public void driveDirect(double left, double right) {
+        left = (left > 1.0 ? 1.0 : (left < -1.0 ? -1.0 : left));
+        right = (right > 1.0 ? 1.0 : (right < -1.0 ? -1.0 : right));
         leftMaster.set(ControlMode.PercentOutput, leftify(left));
         rightMaster.set(ControlMode.PercentOutput, rightify(right));
     }
