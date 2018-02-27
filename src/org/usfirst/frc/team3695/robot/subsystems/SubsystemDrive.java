@@ -136,18 +136,16 @@ public class SubsystemDrive extends Subsystem {
 
         // slaves
         leftSlave = new TalonSRX(Constants.LEFT_SLAVE);
-        leftSlave.follow(leftMaster);
+        	leftSlave.follow(leftMaster);
         rightSlave = new TalonSRX(Constants.RIGHT_SLAVE);
-        rightSlave.follow(rightMaster);
+        	rightSlave.follow(rightMaster);
 
         switch (Robot.bot){
             case SWISS:
-                setPIDF(leftMaster, Constants.SWISS.P, Constants.SWISS.I, Constants.SWISS.D, Constants.SWISS.F);
-                setPIDF(rightMaster, Constants.SWISS.P, Constants.SWISS.I, Constants.SWISS.D, Constants.SWISS.F);
+                setPIDF(Constants.SWISS.P, Constants.SWISS.I, Constants.SWISS.D, Constants.SWISS.F);
                 break;
             case OOF:
-                setPIDF(leftMaster, Constants.OOF.P, Constants.OOF.I, Constants.OOF.D, Constants.OOF.F);
-                setPIDF(rightMaster, Constants.OOF.P, Constants.OOF.I, Constants.OOF.D, Constants.OOF.F);
+                setPIDF(Constants.OOF.P, Constants.OOF.I, Constants.OOF.D, Constants.OOF.F);
                 break;
         }
     }
@@ -257,12 +255,15 @@ public class SubsystemDrive extends Subsystem {
         return leftMag2in(leftMaster.getSelectedSensorPosition(Constants.LEFT_PID));
     }
 
-    public boolean driveDistance(double leftIn, double rightIn) {
-        double leftGoal = in2rot(leftIn);
-        double rightGoal = in2rot(rightIn);
-
+    public boolean driveDistance(double leftGoal, double rightGoal) {
+        //double leftGoal = in2rot(leftIn);
+        //double rightGoal = in2rot(rightIn);
+    		// change for test
+    		// the params should be leftIn and rightIn
         leftMaster.set(ControlMode.MotionMagic, leftify(leftGoal));
+    		leftSlave.follow(leftMaster);
         rightMaster.set(ControlMode.MotionMagic, rightify(rightGoal));
+    		rightSlave.follow(leftMaster);
 
         boolean leftInRange =
                 getLeftPos() > leftify(leftGoal) - DISTANCE_ALLOWABLE_ERROR &&
@@ -270,7 +271,6 @@ public class SubsystemDrive extends Subsystem {
         boolean rightInRange =
                 getRightPos() > rightify(rightGoal) - DISTANCE_ALLOWABLE_ERROR &&
                         getRightPos() < rightify(rightGoal) + DISTANCE_ALLOWABLE_ERROR;
-
         return leftInRange && rightInRange;
     }
 
@@ -281,12 +281,12 @@ public class SubsystemDrive extends Subsystem {
         rightMaster.set(ControlMode.PercentOutput, rightify(right));
     }
 
-    public void setPIDF(TalonSRX _talon, double p, double i, double d, double f) {
+    public void setPIDF(TalonSRX _talon, Boolean invert, double p, double i, double d, double f) {
         /* first choose the sensor */
         _talon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,
                 0, Constants.TIMEOUT_PID);
         _talon.setSensorPhase(true);
-        _talon.setInverted(false);
+        _talon.setInverted(invert);
         /* Set relevant frame periods to be at least as fast as periodic rate*/
         _talon.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10,
                 Constants.TIMEOUT_PID);
@@ -306,13 +306,16 @@ public class SubsystemDrive extends Subsystem {
         /* set acceleration and vcruise velocity - see documentation */
         _talon.configMotionCruiseVelocity(15000, Constants.TIMEOUT_PID);
         _talon.configMotionAcceleration(6000, Constants.TIMEOUT_PID);
-        /* zero the sensor */
-        _talon.setSelectedSensorPosition(0, 0, Constants.TIMEOUT_PID);
+    }
+    
+    public void zeroEncoders() {
+    	leftMaster.setSelectedSensorPosition(0, 0, Constants.TIMEOUT_PID);
+    	rightMaster.setSelectedSensorPosition(0, 0, Constants.TIMEOUT_PID);
     }
     
     public void setPIDF(double p, double i, double d, double f) {
-    	setPIDF(leftMaster, p, i, d, f);
-    	setPIDF(rightMaster, p, i, d, f);
+    	setPIDF(leftMaster, false, p, i, d, f);
+    	setPIDF(rightMaster, true, p, i, d, f);
     }
 
     public void reset() {

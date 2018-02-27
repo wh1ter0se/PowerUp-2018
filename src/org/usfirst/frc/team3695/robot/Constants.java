@@ -22,7 +22,7 @@ public class Constants {
 			RIGHT_MAGIC_PER_INCHES = 208.847,
 		///SAFETY
 			RECOVERY_SPEED = 0,
-			DOCK_INHIBITOR = 0.5,
+			DOCK_INHIBITOR = 1,
 			TILT_ANGLE = 10;
 
 
@@ -42,7 +42,7 @@ public class Constants {
 		/// PID
 			RIGHT_PID = 0,
 			LEFT_PID = 0,
-			TIMEOUT_PID = 10;
+			TIMEOUT_PID = 10000;
 
 	public static final int
 		/// I2C
