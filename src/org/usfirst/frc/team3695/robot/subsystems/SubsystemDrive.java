@@ -2,6 +2,7 @@ package org.usfirst.frc.team3695.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -229,7 +230,7 @@ public class SubsystemDrive extends Subsystem {
         right = (right > 1.0 ? 1.0 : (right < -1.0 ? -1.0 : right));
         leftMaster.set(ControlMode.PercentOutput, leftify(left) * inhibitor * (reversing ? -1.0 : 1.0));
         rightMaster.set(ControlMode.PercentOutput, rightify(right) * inhibitor * (reversing ? -1.0 : 1.0));
-        
+
         SmartDashboard.putString("Left Master", "Left Master Voltage: " + leftMaster.getBusVoltage());
         SmartDashboard.putString("Right Master", "Right Master Voltage: " + rightMaster.getBusVoltage());
 
@@ -240,14 +241,6 @@ public class SubsystemDrive extends Subsystem {
         leftSlave.configOpenloopRamp(ramp, 10);
         rightMaster.configOpenloopRamp(ramp, 10);
         rightSlave.configOpenloopRamp(ramp, 10);
-    }
-
-
-    public void setOverride(boolean override){
-        this.override = override;
-        if (override) {
-        	
-        }
     }
 
     public double getError() {
@@ -286,21 +279,33 @@ public class SubsystemDrive extends Subsystem {
         rightMaster.set(ControlMode.PercentOutput, rightify(right));
     }
 
-    public void setPIDF(TalonSRX talon, double p, double i, double d, double f) {
-        talon.configNominalOutputForward(0, 10);
-        talon.configNominalOutputReverse(0, 10);
-        talon.configPeakOutputForward(1, 10);
-        talon.configPeakOutputReverse(-1, 10);
-
-        talon.configAllowableClosedloopError(0, 0, 10);
-
-        talon.selectProfileSlot(0, 0);
-        talon.config_kF(0, f, Constants.TIMEOUT_PID);
-        talon.config_kP(0, p, Constants.TIMEOUT_PID);
-        talon.config_kI(0, i, Constants.TIMEOUT_PID);
-        talon.config_kD(0, d, Constants.TIMEOUT_PID);
-        //Start the relative sensor at the same point as absolute
-        talon.setSelectedSensorPosition(talon.getSensorCollection().getPulseWidthPosition(), 0, 10);
+    public void setPIDF(TalonSRX _talon, double p, double i, double d, double f) {
+        /* first choose the sensor */
+        _talon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,
+                Constants.RIGHT_PID, Constants.TIMEOUT_PID);
+        _talon.setSensorPhase(true);
+        _talon.setInverted(false);
+        /* Set relevant frame periods to be at least as fast as periodic rate*/
+        _talon.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10,
+                Constants.TIMEOUT_PID);
+        _talon.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10,
+                Constants.TIMEOUT_PID);
+        /* set the peak and nominal outputs */
+        _talon.configNominalOutputForward(0, Constants.TIMEOUT_PID);
+        _talon.configNominalOutputReverse(0, Constants.TIMEOUT_PID);
+        _talon.configPeakOutputForward(1, Constants.TIMEOUT_PID);
+        _talon.configPeakOutputReverse(-1, Constants.TIMEOUT_PID);
+        /* set closed loop gains in slot0 - see documentation */
+        _talon.selectProfileSlot(Constants.RIGHT_PID, Constants.TIMEOUT_PID);
+        _talon.config_kF(0, 0.2, Constants.TIMEOUT_PID);
+        _talon.config_kP(0, 0.2, Constants.TIMEOUT_PID);
+        _talon.config_kI(0, 0, Constants.TIMEOUT_PID);
+        _talon.config_kD(0, 0, Constants.TIMEOUT_PID);
+        /* set acceleration and vcruise velocity - see documentation */
+        _talon.configMotionCruiseVelocity(15000, Constants.TIMEOUT_PID);
+        _talon.configMotionAcceleration(6000, Constants.TIMEOUT_PID);
+        /* zero the sensor */
+        _talon.setSelectedSensorPosition(0, Constants.RIGHT_PID, Constants.TIMEOUT_PID);
     }
     
     public void setPIDF(double p, double i, double d, double f) {

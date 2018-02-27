@@ -21,9 +21,8 @@ public class CyborgCommandDriveDistance extends Command {
     protected void initialize() {
     	DriverStation.reportWarning("DRIVING " + inches + " INCHES", false);
     	inRange = false;
-        Robot.SUB_DRIVE.setOverride(true);
-        Robot.SUB_DRIVE.reset();
-        time = System.currentTimeMillis() + TIME_WAIT;
+      Robot.SUB_DRIVE.reset();
+      time = System.currentTimeMillis() + TIME_WAIT;
     }
 
     protected void execute() {
@@ -39,7 +38,6 @@ public class CyborgCommandDriveDistance extends Command {
 
     protected void end() {
         DriverStation.reportWarning("CyborgCommandDriveDistance finished", false);
-        Robot.SUB_DRIVE.setOverride(false);
         Robot.SUB_DRIVE.driveDirect(0, 0);
     }
 
