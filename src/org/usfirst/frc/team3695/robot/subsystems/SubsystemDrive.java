@@ -242,14 +242,6 @@ public class SubsystemDrive extends Subsystem {
         rightSlave.configOpenloopRamp(ramp, 10);
     }
 
-
-    public void setOverride(boolean override){
-        this.override = override;
-        if (override) {
-        	
-        }
-    }
-
     public double getError() {
         return (leftify(leftMaster.getErrorDerivative(Constants.LEFT_PID)) + rightify(rightMaster.getErrorDerivative(Constants.RIGHT_PID))) / 2.0;
     }
