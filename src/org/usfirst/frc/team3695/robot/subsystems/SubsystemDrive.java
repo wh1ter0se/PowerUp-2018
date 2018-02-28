@@ -90,9 +90,7 @@ public class SubsystemDrive extends Subsystem {
      * converts distance traveled in inches to rotations
      */
     public static double in2rot(double in) {
-//        return in / Constants.WHEEL_DIAMETER / Math.PI;
-    	//The following is nonsense
-    	return in;
+        return in / Constants.WHEEL_DIAMETER / Math.PI;
     }
 
 

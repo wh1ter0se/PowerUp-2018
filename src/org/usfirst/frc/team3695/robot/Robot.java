@@ -160,11 +160,6 @@ public class Robot extends IterativeRobot {
 	
 	/** runs at ~50hz when in teleop mode */
 	public void teleopPeriodic() {
-		Robot.SUB_DRIVE.setPIDF(Util.getAndSetDouble("P", .5),
-								Util.getAndSetDouble("I", 0),
-								Util.getAndSetDouble("D", 0),
-								Util.getAndSetDouble("F", 0));
-		
 		Scheduler.getInstance().run();
 		if (driveChooser.getSelected() != null) {
 			SUB_DRIVE.setDrivetrain(driveChooser.getSelected());
