@@ -311,6 +311,8 @@ public class SubsystemDrive extends Subsystem {
     public void zeroEncoders() {
     	leftMaster.setSelectedSensorPosition(0, 0, Constants.TIMEOUT_PID);
     	rightMaster.setSelectedSensorPosition(0, 0, Constants.TIMEOUT_PID);
+    	leftMaster.setIntegralAccumulator(0,0, Constants.TIMEOUT_PID);
+    	rightMaster.setIntegralAccumulator(0,0, Constants.TIMEOUT_PID);
     }
     
     public void setPIDF(double p, double i, double d, double f) {
