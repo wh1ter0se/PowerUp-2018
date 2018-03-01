@@ -32,7 +32,7 @@ public class OI {
 				toggleHook.toggleWhenActive(new ButtonCommandHook());
 		/// drop the mast
 			Button dropIt = new JoystickButton(OPERATOR, Xbox.X);
-				dropIt.whenPressed(new ButtonCommandHitTheDeck());
+				dropIt.toggleWhenPressed(new ButtonCommandHitTheDeck());
 		/// Reversing mode
 			Button toggleReverse = new JoystickButton(DRIVER, Xbox.Y);
 				toggleReverse.toggleWhenPressed(new ButtonCommandReverse());

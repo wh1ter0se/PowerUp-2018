@@ -91,22 +91,22 @@ public class SubsystemMast extends Subsystem {
     	}
     }
     
-    public Boolean dropIt() {
-    	if (lowerPinionLimit.get() && upperPinionLimit.get()) {
-	    	leftPinion.set(ControlMode.PercentOutput, leftPinionate(-1));
-	    	rightPinion.set(ControlMode.PercentOutput, rightPinionate(-1));
+    public Boolean dropIt(double speed) {
+    	if (lowerPinionLimit.get()) {
+	    	leftPinion.set(ControlMode.PercentOutput, leftPinionate(speed));
+	    	rightPinion.set(ControlMode.PercentOutput, rightPinionate(speed));
     	} else {
     		leftPinion.set(ControlMode.PercentOutput, 0);
 	    	rightPinion.set(ControlMode.PercentOutput, 0);
     	}
     	
-    	if (lowerScrewLimit.get() && upperScrewLimit.get()) {
-    		screw.set(ControlMode.PercentOutput, screwify(1));
+    	if (lowerScrewLimit.get()) {
+    		screw.set(ControlMode.PercentOutput, screwify(speed));
     	} else {
     		screw.set(ControlMode.PercentOutput, 0);
     	}
     	
-    	return (!lowerPinionLimit.get() || !upperPinionLimit.get()) && (!lowerScrewLimit.get() || !upperScrewLimit.get());
+    	return (!lowerPinionLimit.get()) && (!lowerScrewLimit.get());
     }
 
     public void adjustPinion(Position direction){

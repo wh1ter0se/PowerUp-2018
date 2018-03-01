@@ -20,18 +20,14 @@ public class ButtonCommandHitTheDeck extends Command {
     }
 
     protected void execute() {
-    	isFinished = Robot.SUB_MAST.dropIt();
-    	if (isFinished) 
-			end();
+    	isFinished = Robot.SUB_MAST.dropIt(1);
     }
 
     protected boolean isFinished() { return isFinished; }
 
     protected void end() {
-    	
+    	Robot.SUB_MAST.setOverride(false);
     }
 
-    protected void interrupted() {
-    	end();
-    }
+    protected void interrupted() {}
 }
