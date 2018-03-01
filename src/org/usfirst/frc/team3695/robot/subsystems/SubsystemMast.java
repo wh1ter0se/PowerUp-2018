@@ -36,7 +36,7 @@ public class SubsystemMast extends Subsystem {
 	
 	/** gives birth to the CANTalons */
     public SubsystemMast(){
-    	lowerPinionLimit = new DigitalInput(1);
+    	lowerPinionLimit = new DigitalInput(0);
         upperPinionLimit = new DigitalInput(2);
         lowerScrewLimit  = new DigitalInput(3);
         upperScrewLimit  = new DigitalInput(4);

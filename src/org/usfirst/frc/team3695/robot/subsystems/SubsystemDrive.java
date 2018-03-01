@@ -258,10 +258,10 @@ public class SubsystemDrive extends Subsystem {
         //double rightGoal = in2rot(rightIn);
     		// change for test
     		// the params should be leftIn and rightIn
-        leftMaster.set(ControlMode.MotionMagic, leftify(leftGoal));
+        leftMaster.set(ControlMode.Position, leftify(leftGoal));
     		leftSlave.follow(leftMaster);
-        rightMaster.set(ControlMode.MotionMagic, rightify(rightGoal));
-    		rightSlave.follow(leftMaster);
+        rightMaster.set(ControlMode.Position, rightify(rightGoal));
+    		rightSlave.follow(rightMaster);
 
         boolean leftInRange =
                 getLeftPos() > leftify(leftGoal) - DISTANCE_ALLOWABLE_ERROR &&
@@ -284,7 +284,7 @@ public class SubsystemDrive extends Subsystem {
         _talon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,
                 0, Constants.TIMEOUT_PID);
         _talon.setSensorPhase(true);
-        _talon.setInverted(invert);
+//        _talon.setInverted(invert);
         /* Set relevant frame periods to be at least as fast as periodic rate*/
         _talon.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10,
                 Constants.TIMEOUT_PID);
