@@ -6,20 +6,23 @@ import org.usfirst.frc.team3695.robot.Robot;
 /** toggles the state of the clamp */
 public class ButtonCommandReverse extends Command {
 
+    boolean isFinished;
     public ButtonCommandReverse() {
         requires(Robot.SUB_DRIVE);
+        isFinished = false;
     }
 
-    protected void initialize() {
-        Robot.SUB_DRIVE.isReversing(true);
+    protected void initialize() {}
+
+    protected void execute() {
+        Robot.SUB_DRIVE.toggleReverse();
+        isFinished = true;
     }
 
-    protected void execute() {}
-
-    protected boolean isFinished() { return false; }
+    protected boolean isFinished() { return isFinished; }
 
     protected void end() {
-        Robot.SUB_DRIVE.isReversing(false);
+        isFinished = false;
     }
 
     protected void interrupted() {

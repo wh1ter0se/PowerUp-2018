@@ -20,7 +20,7 @@ public class CyborgCommandDriveDirect extends Command {
 
     protected void initialize() {
     	DriverStation.reportWarning("DRIVING BY POWER", false);
-        Robot.SUB_DRIVE.reset();
+        Robot.SUB_DRIVE.pid.reset();
         time = System.currentTimeMillis() + TIME_WAIT;
     }
 

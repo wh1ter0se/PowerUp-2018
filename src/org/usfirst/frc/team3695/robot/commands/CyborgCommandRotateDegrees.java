@@ -22,7 +22,7 @@ public class CyborgCommandRotateDegrees extends Command {
     protected void initialize() {
     	DriverStation.reportWarning("ROTATING " + (inches / SCALAR) + " DEGREES" + ((inches > 0) ? "CW" : "CCW"), false);
         time = System.currentTimeMillis() + TIME_WAIT;
-        Robot.SUB_DRIVE.reset();
+        Robot.SUB_DRIVE.pid.reset();
     }
 
     protected void execute() {
