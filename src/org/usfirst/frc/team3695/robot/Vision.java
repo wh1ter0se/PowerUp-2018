@@ -29,9 +29,8 @@ public class Vision extends IterativeRobot {
     private Mat failImage;
 
     public Vision(){
-        failImage = new Mat();
         Size camSize = new Size(VisionConstants.CAM_WIDTH, VisionConstants.CAM_HEIGHT);
-        failImage.zeros(camSize, 0);
+        failImage = Mat.zeros(camSize, 0);
     }
 
     void startConcatCameraThread(){
@@ -97,7 +96,7 @@ public class Vision extends IterativeRobot {
      * to an output stream titled Concat.
      * This method should only be used for starting the camera stream.
      */
-        private void concatCameraStream() {
+    private void concatCameraStream() {
         cameraLeft = CameraServer.getInstance().startAutomaticCapture("Left", VisionConstants.LEFT_ID);
         cameraRight = CameraServer.getInstance().startAutomaticCapture("Right", VisionConstants.RIGHT_ID);
 
