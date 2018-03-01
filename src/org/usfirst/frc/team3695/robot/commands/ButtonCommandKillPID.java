@@ -12,7 +12,7 @@ public class ButtonCommandKillPID extends Command {
     }
 
     protected void initialize() {
-        Robot.SUB_DRIVE.setPIDF(0,0,0,0);
+        Robot.SUB_DRIVE.pid.setPIDF(0,0,0,0);
     }
 
     protected void execute() { }
@@ -22,7 +22,7 @@ public class ButtonCommandKillPID extends Command {
     }
 
     protected void end() {
-        Robot.SUB_DRIVE.setPIDF(Util.getAndSetDouble("P", .5),
+        Robot.SUB_DRIVE.pid.setPIDF(Util.getAndSetDouble("P", .5),
                 Util.getAndSetDouble("I", 0),
                 Util.getAndSetDouble("D", 0),
                 Util.getAndSetDouble("F", 0));

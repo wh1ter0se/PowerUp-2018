@@ -122,8 +122,6 @@ public class SubsystemMast extends Subsystem {
 				leftPinion.set(ControlMode.PercentOutput, leftPinionate(-1));
 			}
 		}
-		rightPinion.set(ControlMode.PercentOutput, rightPinionate(0));
-    	leftPinion.set(ControlMode.PercentOutput, leftPinionate(0));
 	}
 
 	public void adjustScrew(Position direction){
@@ -136,7 +134,6 @@ public class SubsystemMast extends Subsystem {
     			screw.set(ControlMode.PercentOutput, screwify(-1));
 			}
 		}
-		screw.set(ControlMode.PercentOutput, screwify(0));
 	}
     	
     public void publishSwitches() {

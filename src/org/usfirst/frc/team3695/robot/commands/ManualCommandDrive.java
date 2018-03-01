@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team3695.robot.OI;
 import org.usfirst.frc.team3695.robot.Robot;
+import org.usfirst.frc.team3695.robot.subsystems.SubsystemDrive;
 import org.usfirst.frc.team3695.robot.util.Util;
 
 /** manually command the robot with joysticks */
@@ -20,8 +21,8 @@ public class ManualCommandDrive extends Command {
         SmartDashboard.putNumber("Tilt Angle", Robot.SUB_DRIVE.getYAngle());
         SmartDashboard.putBoolean("Docked", Robot.SUB_DRIVE.docking);
         SmartDashboard.putBoolean("Reversed", Robot.SUB_DRIVE.reversing);
-        SmartDashboard.putNumber("Right Encoder Position", Robot.SUB_DRIVE.rightMag2in(Robot.SUB_DRIVE.getRightPos()));
-        SmartDashboard.putNumber("Left Encoder Position", Robot.SUB_DRIVE.leftMag2in(Robot.SUB_DRIVE.getLeftPos()));
+        SmartDashboard.putNumber("Right Encoder Position", Robot.SUB_DRIVE.rightMag2in(Robot.SUB_DRIVE.pid.getRightPos()));
+        SmartDashboard.putNumber("Left Encoder Position", Robot.SUB_DRIVE.leftMag2in(Robot.SUB_DRIVE.pid.getLeftPos()));
 
     	switch (Robot.SUB_DRIVE.drivetrain) {
     		case ROCKET_LEAGUE:
