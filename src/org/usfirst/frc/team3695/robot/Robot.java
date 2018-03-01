@@ -25,7 +25,7 @@ import org.usfirst.frc.team3695.robot.util.Util;
 public class Robot extends IterativeRobot {
 
 		public static Bot bot;
-	
+
 	/// choosers
 		SendableChooser<Bot> botChooser;
 		SendableChooser<Goal> goalChooser;
@@ -120,6 +120,7 @@ public class Robot extends IterativeRobot {
 	/** runs when robot gets disabled */
 	public void disabledInit() { 
 		DriverStation.reportWarning("TELEOP IS DISABLED", false);
+		Scheduler.getInstance().removeAll();
 	}
 
 	

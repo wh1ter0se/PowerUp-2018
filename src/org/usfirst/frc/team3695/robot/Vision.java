@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import org.opencv.core.Core;
 import org.opencv.core.CvException;
 import org.opencv.core.Mat;
+import org.opencv.core.Size;
 import org.usfirst.frc.team3695.robot.Constants.VisionConstants;
 
 import java.util.ArrayList;
@@ -24,6 +25,14 @@ public class Vision extends IterativeRobot {
     
     private UsbCamera cameraScrew;
     private UsbCamera cameraFrame;
+
+    private Mat failImage;
+
+    public Vision(){
+        failImage = new Mat();
+        Size camSize = new Size(VisionConstants.CAM_WIDTH, VisionConstants.CAM_HEIGHT);
+        failImage.zeros(camSize, 0);
+    }
 
     void startConcatCameraThread(){
         //Places the vision in a separate thread from everything else as recommended by FIRST.
@@ -56,6 +65,7 @@ public class Vision extends IterativeRobot {
                  outputScrew.putFrame(streamImages);
              } catch (CvException cameraFail){
     	         DriverStation.reportWarning("Screw Camera: " + cameraFail.toString(), false);
+    	         outputScrew.putFrame(failImage);
              }
     	 }
     }
@@ -77,6 +87,7 @@ public class Vision extends IterativeRobot {
                  outputFrame.putFrame(streamImages);
              } catch (CvException cameraFail){
                  DriverStation.reportWarning("Frame Camera: " + cameraFail.toString(), false);
+                 outputFrame.putFrame(failImage);
              }
     	 }
     }
@@ -124,6 +135,7 @@ public class Vision extends IterativeRobot {
                 outputStream.putFrame(concat);
             } catch (CvException cameraFail){
                 DriverStation.reportWarning("Concat Cameras: " + cameraFail.toString(), false);
+                outputStream.putFrame(failImage);
             }
         }
     }
