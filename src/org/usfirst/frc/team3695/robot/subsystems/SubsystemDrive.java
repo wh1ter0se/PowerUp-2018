@@ -144,10 +144,10 @@ public class SubsystemDrive extends Subsystem {
 
         switch (Robot.bot){
             case SWISS:
-                PID.setPIDF(Constants.SWISS.P, Constants.SWISS.I, Constants.SWISS.D, Constants.SWISS.F);
+            	Robot.SUB_DRIVE.pid.setPIDF(Constants.SWISS.P, Constants.SWISS.I, Constants.SWISS.D, Constants.SWISS.F);
                 break;
             case OOF:
-                PID.setPIDF(Constants.OOF.P, Constants.OOF.I, Constants.OOF.D, Constants.OOF.F);
+            	Robot.SUB_DRIVE.pid.setPIDF(Constants.OOF.P, Constants.OOF.I, Constants.OOF.D, Constants.OOF.F);
                 break;
         }
     }
@@ -271,7 +271,7 @@ public class SubsystemDrive extends Subsystem {
 
     public static class PID {
 
-        public static void setPIDF(double p, double i, double d, double f) {
+        public void setPIDF(double p, double i, double d, double f) {
             setPIDF(Robot.SUB_DRIVE.leftMaster, false, p, i, d, f);
             setPIDF(Robot.SUB_DRIVE.rightMaster, true, p, i, d, f);
         }
