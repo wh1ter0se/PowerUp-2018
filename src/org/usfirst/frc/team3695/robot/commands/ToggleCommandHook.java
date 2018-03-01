@@ -4,9 +4,9 @@ import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3695.robot.Robot;
 
 /** move the mast */
-public class ButtonCommandHook extends Command {
+public class ToggleCommandHook extends Command {
     
-    public ButtonCommandHook() {
+    public ToggleCommandHook() {
         requires(Robot.SUB_HOOK);
     }
 

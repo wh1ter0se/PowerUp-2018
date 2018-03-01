@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team3695.robot.OI;
 import org.usfirst.frc.team3695.robot.Robot;
-import org.usfirst.frc.team3695.robot.subsystems.SubsystemDrive;
 import org.usfirst.frc.team3695.robot.util.Util;
 
 /** manually command the robot with joysticks */
@@ -12,7 +11,6 @@ public class ManualCommandDrive extends Command {
 	
     public ManualCommandDrive() {
         requires(Robot.SUB_DRIVE);
-//        requires(Robot.SUB_MANIPULATOR);
     }
 
     protected void initialize() {}
@@ -31,8 +29,6 @@ public class ManualCommandDrive extends Command {
     		case FORZA: 
     			Robot.SUB_DRIVE.driveForza(OI.DRIVER, Util.getAndSetDouble("Forza Ramp", .75), Util.getAndSetDouble("Radius", 1), Util.getAndSetDouble("Drive Inhibitor", 1));
     			break;
-//    		case REV:
-//    			Robot.SUB_MANIPULATOR.rev(OI.DRIVER);
     	}
     }
 
@@ -42,7 +38,5 @@ public class ManualCommandDrive extends Command {
 
     protected void end() {}
 
-    protected void interrupted() {
-    	end();
-    }
+    protected void interrupted() {}
 }

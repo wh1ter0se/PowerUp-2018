@@ -54,7 +54,7 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		/// instantiate bot chooser
 		botChooser = new SendableChooser<>();
-		botChooser.addDefault(Bot.SWISS.toString(), Bot.SWISS);
+		botChooser.addDefault(Bot.TEUFELSKIND.toString(), Bot.TEUFELSKIND);
 		botChooser.addObject(Bot.OOF.toString(), Bot.OOF);
 		SmartDashboard.putData("Bot", botChooser);
 
@@ -81,33 +81,37 @@ public class Robot extends IterativeRobot {
 		/// instantiate operator interface
 			oi = new OI();
 
+			
+			
 		/// instantiate drivetrain chooser
-			driveChooser = new SendableChooser<>();
-			driveChooser.addDefault(Drivetrain.ROCKET_LEAGUE.toString(), Drivetrain.ROCKET_LEAGUE); // set default to RL drive
-			for(int i = 1; i < Drivetrain.values().length; i++) { 
-				driveChooser.addObject(Drivetrain.values()[i].toString(), Drivetrain.values()[i]); } // add each drivetrain enum value to chooser
-			SmartDashboard.putData("Drivetrain", driveChooser); //display the chooser on the dash
+				driveChooser = new SendableChooser<>();
+				driveChooser.addDefault(Drivetrain.ROCKET_LEAGUE.toString(), Drivetrain.ROCKET_LEAGUE); // set default to RL drive
+				for(int i = 1; i < Drivetrain.values().length; i++) { 
+					driveChooser.addObject(Drivetrain.values()[i].toString(), Drivetrain.values()[i]); } // add each drivetrain enum value to chooser
+				SmartDashboard.putData("Drivetrain", driveChooser); //display the chooser on the dash
 			
 		/// instantiate position chooser
-			positionChooser = new SendableChooser<>();
-			positionChooser.addDefault(Position.CENTER.toString(), Position.CENTER); // set default to nothing
-			for(int i = 1; i < Position.values().length; i++) { 
-				positionChooser.addObject(Position.values()[i].toString(), Position.values()[i]); } // add each autonomous enum value to chooser
-			SmartDashboard.putData("Position", positionChooser); //display the chooser on the dash
+				positionChooser = new SendableChooser<>();
+				positionChooser.addDefault(Position.CENTER.toString(), Position.CENTER); // set default to center
+				for(int i = 1; i < Position.values().length; i++) { 
+					positionChooser.addObject(Position.values()[i].toString(), Position.values()[i]); } // add each position enum value to chooser
+				SmartDashboard.putData("Position", positionChooser); //display the chooser on the dash
 
 		/// instantiate goal chooser
-			goalChooser = new SendableChooser<>();
-			goalChooser.addDefault(Goal.NOTHING.toString(), Goal.NOTHING); // set default to nothing
-			for(int i = 1; i < Goal.values().length; i++) { 
-				goalChooser.addObject(Goal.values()[i].toString(), Goal.values()[i]); } // add each autonomous enum value to chooser
-			SmartDashboard.putData("Goal", goalChooser); //display the chooser on the dash
+				goalChooser = new SendableChooser<>();
+				goalChooser.addDefault(Goal.NOTHING.toString(), Goal.NOTHING); // set default to nothing
+				for(int i = 1; i < Goal.values().length; i++) { 
+					goalChooser.addObject(Goal.values()[i].toString(), Goal.values()[i]); } // add each autonomous goal to chooser
+				SmartDashboard.putData("Goal", goalChooser); //display the chooser on the dash
 			
 		/// instantiate bot chooser
-			botChooser = new SendableChooser<>();
-			botChooser.addDefault(Bot.SWISS.toString(), Bot.SWISS);
-				botChooser.addObject(Bot.OOF.toString(), Bot.OOF); 
-			SmartDashboard.putData("Bot", botChooser);
-			
+				botChooser = new SendableChooser<>();
+				botChooser.addDefault(Bot.TEUFELSKIND.toString(), Bot.TEUFELSKIND);
+					botChooser.addObject(Bot.OOF.toString(), Bot.OOF); 
+				SmartDashboard.putData("Bot", botChooser);
+				
+				
+				
 		/// instantiate cameras
 			vision.startScrewCameraThread();
 			vision.startFrameCameraThread();
@@ -141,13 +145,8 @@ public class Robot extends IterativeRobot {
 
 	/** runs at 50hz when in autonomous */
 	public void autonomousPeriodic() {
-		Robot.SUB_DRIVE.pid.setPIDF(Util.getAndSetDouble("P", .5),
-								Util.getAndSetDouble("I", 0),
-								Util.getAndSetDouble("D", 0),
-								Util.getAndSetDouble("F", 0));
-		
 		Scheduler.getInstance().run(); 
-		bot = botChooser.getSelected(); // update motor inverts
+		bot = (botChooser.getSelected() != null) ? botChooser.getSelected() : bot; // update motor inverts
 	}
 
 	
@@ -162,12 +161,12 @@ public class Robot extends IterativeRobot {
 	/** runs at ~50hz when in teleop mode */
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		
 		if (driveChooser.getSelected() != null) {
 			SUB_DRIVE.setDrivetrain(driveChooser.getSelected());
 		}
-		if (botChooser.getSelected() != null){
-			bot = botChooser.getSelected();
-		}
+		
+		bot = (botChooser.getSelected() != null) ? botChooser.getSelected() : bot; // update motor inverts
 	}
 
 	
