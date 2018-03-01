@@ -11,7 +11,7 @@ public class ButtonCommandReverse extends Command {
     }
 
     protected void initialize() {
-        Robot.SUB_DRIVE.isReversing(true);
+        Robot.SUB_DRIVE.reversing = true;
     }
 
     protected void execute() {}
@@ -19,7 +19,7 @@ public class ButtonCommandReverse extends Command {
     protected boolean isFinished() { return false; }
 
     protected void end() {
-        Robot.SUB_DRIVE.isReversing(false);
+        Robot.SUB_DRIVE.reversing = false;
     }
 
     protected void interrupted() {

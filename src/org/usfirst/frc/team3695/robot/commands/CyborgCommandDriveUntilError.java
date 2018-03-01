@@ -27,7 +27,7 @@ public class CyborgCommandDriveUntilError extends Command {
     }
 
     protected boolean isFinished() {
-        if(Math.abs(Robot.SUB_DRIVE.getError()) < TARGET_ERROR) {
+        if(Math.abs(Robot.SUB_DRIVE.pid.getError()) < TARGET_ERROR) {
             time = System.currentTimeMillis() + ERROR_TIME;
         }
         boolean toReturn = time < System.currentTimeMillis();

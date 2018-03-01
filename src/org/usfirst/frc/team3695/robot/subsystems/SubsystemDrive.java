@@ -32,11 +32,13 @@ public class SubsystemDrive extends Subsystem {
     public static boolean reversing;
 
     public static boolean docking;
-    private static double dockInhibitor;
+    public static double dockInhibitor;
 
     public static boolean override;
 
     private Accelerometer accel;
+
+    public PID pid;
 
     /**
      * Allowable tolerance to be considered in range when driving a distance, in rotations
@@ -126,6 +128,8 @@ public class SubsystemDrive extends Subsystem {
 
         override = false;
 
+        pid = new PID();
+
         // masters
         leftMaster = new TalonSRX(Constants.LEFT_MASTER);
         leftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.LEFT_PID, Constants.TIMEOUT_PID);
@@ -140,10 +144,10 @@ public class SubsystemDrive extends Subsystem {
 
         switch (Robot.bot){
             case SWISS:
-                setPIDF(Constants.SWISS.P, Constants.SWISS.I, Constants.SWISS.D, Constants.SWISS.F);
+                PID.setPIDF(Constants.SWISS.P, Constants.SWISS.I, Constants.SWISS.D, Constants.SWISS.F);
                 break;
             case OOF:
-                setPIDF(Constants.OOF.P, Constants.OOF.I, Constants.OOF.D, Constants.OOF.F);
+                PID.setPIDF(Constants.OOF.P, Constants.OOF.I, Constants.OOF.D, Constants.OOF.F);
                 break;
         }
     }
@@ -157,15 +161,6 @@ public class SubsystemDrive extends Subsystem {
         //Formula for getting the angle through the accelerometer
         //arctan returns in radians so we convert to degrees.
         return Math.atan(accel.getY() / Math.sqrt(Math.pow(accel.getX(), 2) + Math.pow(accel.getZ(), 2))) * 180 / Math.PI;
-    }
-
-    public void isDocking(boolean docking, double dockInhibitor) {
-        this.docking = docking;
-        this.dockInhibitor = dockInhibitor;
-    }
-
-    public void isReversing(boolean reversing) {
-        this.reversing = reversing;
     }
 
     /**
@@ -231,7 +226,6 @@ public class SubsystemDrive extends Subsystem {
 
         SmartDashboard.putString("Left Master", "Left Master Voltage: " + leftMaster.getBusVoltage());
         SmartDashboard.putString("Right Master", "Right Master Voltage: " + rightMaster.getBusVoltage());
-
     }
 
     public void setRamps(double ramp) {
@@ -239,18 +233,6 @@ public class SubsystemDrive extends Subsystem {
         leftSlave.configOpenloopRamp(ramp, 10);
         rightMaster.configOpenloopRamp(ramp, 10);
         rightSlave.configOpenloopRamp(ramp, 10);
-    }
-
-    public double getError() {
-        return (leftify(leftMaster.getErrorDerivative(Constants.LEFT_PID)) + rightify(rightMaster.getErrorDerivative(Constants.RIGHT_PID))) / 2.0;
-    }
-
-    public double getRightPos() {
-        return rightMag2in(rightMaster.getSelectedSensorPosition(Constants.RIGHT_PID));
-    }
-
-    public double getLeftPos() {
-        return leftMag2in(leftMaster.getSelectedSensorPosition(Constants.LEFT_PID));
     }
 
     public boolean driveDistance(double leftGoal, double rightGoal) {
@@ -264,11 +246,11 @@ public class SubsystemDrive extends Subsystem {
     		rightSlave.follow(rightMaster);
 
         boolean leftInRange =
-                getLeftPos() > leftify(leftGoal) - DISTANCE_ALLOWABLE_ERROR &&
-                        getLeftPos() < leftify(leftGoal) + DISTANCE_ALLOWABLE_ERROR;
+                PID.getLeftPos() > leftify(leftGoal) - DISTANCE_ALLOWABLE_ERROR &&
+                        PID.getLeftPos() < leftify(leftGoal) + DISTANCE_ALLOWABLE_ERROR;
         boolean rightInRange =
-                getRightPos() > rightify(rightGoal) - DISTANCE_ALLOWABLE_ERROR &&
-                        getRightPos() < rightify(rightGoal) + DISTANCE_ALLOWABLE_ERROR;
+                PID.getRightPos() > rightify(rightGoal) - DISTANCE_ALLOWABLE_ERROR &&
+                        PID.getRightPos() < rightify(rightGoal) + DISTANCE_ALLOWABLE_ERROR;
         return leftInRange && rightInRange;
     }
 
@@ -279,47 +261,62 @@ public class SubsystemDrive extends Subsystem {
         rightMaster.set(ControlMode.PercentOutput, rightify(right));
     }
 
-    public void setPIDF(TalonSRX _talon, Boolean invert, double p, double i, double d, double f) {
-        /* first choose the sensor */
-        _talon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,
-                0, Constants.TIMEOUT_PID);
-        _talon.setSensorPhase(true);
-//        _talon.setInverted(invert);
-        /* Set relevant frame periods to be at least as fast as periodic rate*/
-        _talon.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10,
-                Constants.TIMEOUT_PID);
-        _talon.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10,
-                Constants.TIMEOUT_PID);
-        /* set the peak and nominal outputs */
-        _talon.configNominalOutputForward(0, Constants.TIMEOUT_PID);
-        _talon.configNominalOutputReverse(0, Constants.TIMEOUT_PID);
-        _talon.configPeakOutputForward(1, Constants.TIMEOUT_PID);
-        _talon.configPeakOutputReverse(-1, Constants.TIMEOUT_PID);
-        /* set closed loop gains in slot0 - see documentation */
-        _talon.selectProfileSlot(0, Constants.RIGHT_PID);
-        _talon.config_kP(0, p, Constants.TIMEOUT_PID);
-        _talon.config_kI(0, i, Constants.TIMEOUT_PID);
-        _talon.config_kD(0, d, Constants.TIMEOUT_PID);
-        _talon.config_kF(0, f, Constants.TIMEOUT_PID);
-        /* set acceleration and vcruise velocity - see documentation */
-        _talon.configMotionCruiseVelocity(15000, Constants.TIMEOUT_PID);
-        _talon.configMotionAcceleration(6000, Constants.TIMEOUT_PID);
-    }
-    
-    public void zeroEncoders() {
-    	leftMaster.setSelectedSensorPosition(0, 0, Constants.TIMEOUT_PID);
-    	rightMaster.setSelectedSensorPosition(0, 0, Constants.TIMEOUT_PID);
-    	leftMaster.setIntegralAccumulator(0,0, Constants.TIMEOUT_PID);
-    	rightMaster.setIntegralAccumulator(0,0, Constants.TIMEOUT_PID);
-    }
-    
-    public void setPIDF(double p, double i, double d, double f) {
-    	setPIDF(leftMaster, false, p, i, d, f);
-    	setPIDF(rightMaster, true, p, i, d, f);
-    }
+    public static class PID {
 
-    public void reset() {
-        leftMaster.setSelectedSensorPosition(0, Constants.LEFT_PID, Constants.TIMEOUT_PID);
-        rightMaster.setSelectedSensorPosition(0, Constants.RIGHT_PID, Constants.TIMEOUT_PID);
+        public static void setPIDF(double p, double i, double d, double f) {
+            setPIDF(Robot.SUB_DRIVE.leftMaster, false, p, i, d, f);
+            setPIDF(Robot.SUB_DRIVE.rightMaster, true, p, i, d, f);
+        }
+
+        public static void setPIDF(TalonSRX _talon, Boolean invert, double p, double i, double d, double f) {
+            /* first choose the sensor */
+            _talon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,
+                    0, Constants.TIMEOUT_PID);
+            _talon.setSensorPhase(true);
+            _talon.setInverted(invert);
+            /* Set relevant frame periods to be at least as fast as periodic rate*/
+            _talon.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10,
+                    Constants.TIMEOUT_PID);
+            _talon.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10,
+                    Constants.TIMEOUT_PID);
+            /* set the peak and nominal outputs */
+            _talon.configNominalOutputForward(0, Constants.TIMEOUT_PID);
+            _talon.configNominalOutputReverse(0, Constants.TIMEOUT_PID);
+            _talon.configPeakOutputForward(1, Constants.TIMEOUT_PID);
+            _talon.configPeakOutputReverse(-1, Constants.TIMEOUT_PID);
+            /* set closed loop gains in slot0 - see documentation */
+            _talon.selectProfileSlot(0, Constants.RIGHT_PID);
+            _talon.config_kP(0, p, Constants.TIMEOUT_PID);
+            _talon.config_kI(0, i, Constants.TIMEOUT_PID);
+            _talon.config_kD(0, d, Constants.TIMEOUT_PID);
+            _talon.config_kF(0, f, Constants.TIMEOUT_PID);
+            /* set acceleration and vcruise velocity - see documentation */
+            _talon.configMotionCruiseVelocity(15000, Constants.TIMEOUT_PID);
+            _talon.configMotionAcceleration(6000, Constants.TIMEOUT_PID);
+        }
+
+        public static void zeroEncoders() {
+            Robot.SUB_DRIVE.leftMaster.setSelectedSensorPosition(0, 0, Constants.TIMEOUT_PID);
+            Robot.SUB_DRIVE.rightMaster.setSelectedSensorPosition(0, 0, Constants.TIMEOUT_PID);
+            Robot.SUB_DRIVE.leftMaster.setIntegralAccumulator(0,0, Constants.TIMEOUT_PID);
+            Robot.SUB_DRIVE.rightMaster.setIntegralAccumulator(0,0, Constants.TIMEOUT_PID);
+        }
+
+        public static double getError() {
+            return (leftify(Robot.SUB_DRIVE.leftMaster.getErrorDerivative(Constants.LEFT_PID)) + rightify(Robot.SUB_DRIVE.rightMaster.getErrorDerivative(Constants.RIGHT_PID))) / 2.0;
+        }
+
+        public static double getRightPos() {
+            return rightMag2in(Robot.SUB_DRIVE.rightMaster.getSelectedSensorPosition(Constants.RIGHT_PID));
+        }
+
+        public static double getLeftPos() {
+            return leftMag2in(Robot.SUB_DRIVE.leftMaster.getSelectedSensorPosition(Constants.LEFT_PID));
+        }
+
+        public static void reset() {
+            Robot.SUB_DRIVE.leftMaster.setSelectedSensorPosition(0, Constants.LEFT_PID, Constants.TIMEOUT_PID);
+            Robot.SUB_DRIVE.rightMaster.setSelectedSensorPosition(0, Constants.RIGHT_PID, Constants.TIMEOUT_PID);
+        }
     }
 }

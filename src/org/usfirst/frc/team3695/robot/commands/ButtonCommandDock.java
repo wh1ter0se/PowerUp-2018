@@ -11,7 +11,8 @@ public class ButtonCommandDock extends Command {
     }
 
     protected void initialize() {
-        Robot.SUB_DRIVE.isDocking(true, 0.5d);
+        Robot.SUB_DRIVE.docking = true;
+        Robot.SUB_DRIVE.dockInhibitor = 0.5d;
     }
 
     protected void execute() {}
@@ -19,7 +20,8 @@ public class ButtonCommandDock extends Command {
     protected boolean isFinished() { return false; }
 
     protected void end() {
-        Robot.SUB_DRIVE.isDocking(false, 0.5d);
+        Robot.SUB_DRIVE.docking = false;
+        Robot.SUB_DRIVE.dockInhibitor = 1;
     }
 
     protected void interrupted() {
