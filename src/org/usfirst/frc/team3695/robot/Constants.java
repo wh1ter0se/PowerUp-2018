@@ -23,7 +23,8 @@ public class Constants {
 		///SAFETY
 			RECOVERY_SPEED = 0,
 			DOCK_INHIBITOR = 1,
-			TILT_ANGLE = 10;
+			TILT_ANGLE = 10,
+			MAST_TIMEOUT = 3000; // timeout for HitTheDick in ms
 
 
 	public static final int
