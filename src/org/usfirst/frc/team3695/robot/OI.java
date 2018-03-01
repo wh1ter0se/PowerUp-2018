@@ -66,10 +66,10 @@ public class OI {
 			SmartDashboard.putData("Rotate Degree", new CyborgCommandRotateDegrees(Util.getAndSetDouble("Rotate Degrees", 0)));
 			SmartDashboard.putData("Spit", new CyborgCommandSpit((long)Util.getAndSetDouble("Spit Time", 500)));
 			SmartDashboard.putData("Clap", new CyborgCommandClap((long)Util.getAndSetDouble("Runtime", 200000), (long)Util.getAndSetDouble("Clap Speed", 100)));
-			SmartDashboard.putData("Raise to Position: Pinion Up", new CyborgCommandRaiseToPosition(Mast.PINION_UP));
-			SmartDashboard.putData("Raise to Position: Pinion Down", new CyborgCommandRaiseToPosition(Mast.PINION_DOWN));
-			SmartDashboard.putData("Raise to Position: Screw Up", new CyborgCommandRaiseToPosition(Mast.SCREW_UP));
-			SmartDashboard.putData("Raise to Position: Screw Down", new CyborgCommandRaiseToPosition(Mast.SCREW_DOWN));
+			SmartDashboard.putData("Raise to Position: Pinion Up", new CyborgCommandGrow(Mast.PINION_UP));
+			SmartDashboard.putData("Raise to Position: Pinion Down", new CyborgCommandGrow(Mast.PINION_DOWN));
+			SmartDashboard.putData("Raise to Position: Screw Up", new CyborgCommandGrow(Mast.SCREW_UP));
+			SmartDashboard.putData("Raise to Position: Screw Down", new CyborgCommandGrow(Mast.SCREW_DOWN));
 	}
 	
 }
