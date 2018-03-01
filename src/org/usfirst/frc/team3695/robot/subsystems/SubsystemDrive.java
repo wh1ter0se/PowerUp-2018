@@ -237,10 +237,12 @@ public class SubsystemDrive extends Subsystem {
     }
 
     public void setRamps(double ramp) {
-        leftMaster.configOpenloopRamp(ramp, 10);
-        leftSlave.configOpenloopRamp(ramp, 10);
-        rightMaster.configOpenloopRamp(ramp, 10);
-        rightSlave.configOpenloopRamp(ramp, 10);
+        if (leftMaster == null || rightMaster == null || leftSlave == null || rightSlave == null) {
+            leftMaster.configOpenloopRamp(ramp, 10);
+            leftSlave.configOpenloopRamp(ramp, 10);
+            rightMaster.configOpenloopRamp(ramp, 10);
+            rightSlave.configOpenloopRamp(ramp, 10);
+        }
     }
 
     public boolean driveDistance(double leftGoal, double rightGoal) {
