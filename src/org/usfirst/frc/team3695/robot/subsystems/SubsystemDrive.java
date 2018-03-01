@@ -156,6 +156,15 @@ public class SubsystemDrive extends Subsystem {
         this.drivetrain = drivetrain;
     }
 
+    public void toggleDocking(double dockInhibitor){
+        this.dockInhibitor = dockInhibitor;
+        docking = !docking;
+    }
+
+    public void toggleReverse(){
+        reversing = !reversing;
+    }
+
     public double getYAngle() {
         //http://www.hobbytronics.co.uk/accelerometer-info
         //Formula for getting the angle through the accelerometer
@@ -186,7 +195,6 @@ public class SubsystemDrive extends Subsystem {
             leftMaster.set(ControlMode.PercentOutput, leftify(left)* (reversing ? -1.0 : 1.0));
             rightMaster.set(ControlMode.PercentOutput, rightify(right)* (reversing ? -1.0 : 1.0));
 //        }
-
     }
 
     /**
