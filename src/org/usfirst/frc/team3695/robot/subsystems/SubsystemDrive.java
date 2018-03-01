@@ -22,10 +22,10 @@ import org.usfirst.frc.team3695.robot.util.Xbox;
 public class SubsystemDrive extends Subsystem {
 
 
-    private TalonSRX leftMaster;
-    private TalonSRX leftSlave;
-    private TalonSRX rightMaster;
-    private TalonSRX rightSlave;
+    private static TalonSRX leftMaster;
+    private static TalonSRX leftSlave;
+    private static TalonSRX rightMaster;
+    private static TalonSRX rightSlave;
 
     public Drivetrain drivetrain;
 
