@@ -25,7 +25,7 @@ import org.usfirst.frc.team3695.robot.util.Util;
 public class Robot extends IterativeRobot {
 
 		public static Bot bot;
-	
+
 	/// choosers
 		SendableChooser<Bot> botChooser;
 		SendableChooser<Goal> goalChooser;
@@ -72,7 +72,7 @@ public class Robot extends IterativeRobot {
 			SUB_COMPRESSOR = new SubsystemCompressor();
 			SUB_DRIVE = new SubsystemDrive();
 			
-			SUB_DRIVE.setPIDF(.5, 0, 0, 0);
+			SUB_DRIVE.pid.setPIDF(.5, 0, 0, 0);
 			
 			SUB_HOOK = new SubsystemHook();
 			SUB_MAST = new SubsystemMast();
@@ -120,6 +120,7 @@ public class Robot extends IterativeRobot {
 	/** runs when robot gets disabled */
 	public void disabledInit() { 
 		DriverStation.reportWarning("TELEOP IS DISABLED", false);
+		Scheduler.getInstance().removeAll();
 	}
 
 	
@@ -140,7 +141,7 @@ public class Robot extends IterativeRobot {
 
 	/** runs at 50hz when in autonomous */
 	public void autonomousPeriodic() {
-		Robot.SUB_DRIVE.setPIDF(Util.getAndSetDouble("P", .5),
+		Robot.SUB_DRIVE.pid.setPIDF(Util.getAndSetDouble("P", .5),
 								Util.getAndSetDouble("I", 0),
 								Util.getAndSetDouble("D", 0),
 								Util.getAndSetDouble("F", 0));
