@@ -74,6 +74,10 @@ public class Constants {
 			RIGHT_ARM_MOTOR_INVERT    = false,
 	
 			HOOK_MOTOR_INVERT		  = false;
+
+			SCREW_CAM_FLIP = false;
+			FRAME_CAM_FLIP = false;
+
 		public static final double
             P = 0.5,
             I = 0,
@@ -94,6 +98,10 @@ public class Constants {
 			RIGHT_ARM_MOTOR_INVERT    = false,
 	
 			HOOK_MOTOR_INVERT		  = false;
+
+			SCREW_CAM_FLIP = false;
+			FRAME_CAM_FLIP = false;
+
         public static final double
                 P = 0.5,
                 I = 0,
