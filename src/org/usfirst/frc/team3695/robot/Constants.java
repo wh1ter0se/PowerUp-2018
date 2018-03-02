@@ -73,7 +73,16 @@ public class Constants {
 			LEFT_ARM_MOTOR_INVERT     = true,
 			RIGHT_ARM_MOTOR_INVERT    = false,
 	
-			HOOK_MOTOR_INVERT		  = false;
+			HOOK_MOTOR_INVERT		  = false,
+
+			SCREW_CAM_FLIP = false,
+			FRAME_CAM_FLIP = false,
+
+            LEFT_MASTER_INVERT = false,
+            RIGHT_MASTER_INVERT = false,
+            LEFT_SLAVE_INVERT = false,
+            RIGHT_SLAVE_INVERT = false;
+
 		public static final double
             P = 0.5,
             I = 0,
@@ -93,7 +102,16 @@ public class Constants {
 			LEFT_ARM_MOTOR_INVERT     = true,
 			RIGHT_ARM_MOTOR_INVERT    = false,
 	
-			HOOK_MOTOR_INVERT		  = false;
+			HOOK_MOTOR_INVERT		  = false,
+
+			SCREW_CAM_FLIP = false,
+			FRAME_CAM_FLIP = false,
+
+			LEFT_MASTER_INVERT = false,
+            RIGHT_MASTER_INVERT = false,
+            LEFT_SLAVE_INVERT = false,
+            RIGHT_SLAVE_INVERT = false;
+
         public static final double
                 P = 0.5,
                 I = 0,

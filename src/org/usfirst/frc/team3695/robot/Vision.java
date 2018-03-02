@@ -60,7 +60,10 @@ public class Vision extends IterativeRobot {
     	 while (!Thread.interrupted()){
     	     try {
                  cvsinkScrew.grabFrame(streamImages);
-                 Core.rotate(streamImages, streamImages, Core.ROTATE_180);
+                 if ((Robot.bot == Bot.TEUFELSKIND && Constants.SWISS.SCREW_CAM_FLIP)
+                         || (Robot.bot == Bot.OOF && Constants.OOF.SCREW_CAM_FLIP)) {
+                     Core.rotate(streamImages, streamImages, Core.ROTATE_180);
+                 }
                  outputScrew.putFrame(streamImages);
              } catch (CvException cameraFail){
     	         DriverStation.reportWarning("Screw Camera: " + cameraFail.toString(), false);
@@ -82,7 +85,10 @@ public class Vision extends IterativeRobot {
     	 while (!Thread.interrupted()){
              try {
                  cvsinkFrame.grabFrame(streamImages);
-                 Core.rotate(streamImages, streamImages, Core.ROTATE_180);
+                 if ((Robot.bot == Bot.TEUFELSKIND && Constants.SWISS.FRAME_CAM_FLIP)
+                         || (Robot.bot == Bot.OOF && Constants.OOF.FRAME_CAM_FLIP)) {
+                     Core.rotate(streamImages, streamImages, Core.ROTATE_180);
+                 }
                  outputFrame.putFrame(streamImages);
              } catch (CvException cameraFail){
                  DriverStation.reportWarning("Frame Camera: " + cameraFail.toString(), false);
