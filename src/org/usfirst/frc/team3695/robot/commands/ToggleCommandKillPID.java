@@ -5,9 +5,9 @@ import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.util.Util;
 
 /** Toggle PID */
-public class ButtonCommandKillPID extends Command {
+public class ToggleCommandKillPID extends Command {
 
-    public ButtonCommandKillPID() {
+    public ToggleCommandKillPID() {
         requires(Robot.SUB_DRIVE);
     }
 

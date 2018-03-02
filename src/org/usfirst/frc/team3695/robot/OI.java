@@ -26,25 +26,25 @@ public class OI {
 					spinOut.whileHeld(new ButtonCommandSpit());
 		/// manipulator clamp
 			Button toggleClamp = new JoystickButton(OPERATOR, Xbox.A);
-				toggleClamp.toggleWhenActive(new ButtonCommandClamp());
+				toggleClamp.toggleWhenActive(new ToggleCommandClamp());
 		/// candy cane
 			Button toggleHook = new JoystickButton(OPERATOR, Xbox.B);
-				toggleHook.toggleWhenActive(new ButtonCommandHook());
+				toggleHook.toggleWhenActive(new ToggleCommandHook());
 		/// drop the mast
 			Button dropIt = new JoystickButton(OPERATOR, Xbox.X);
 				dropIt.toggleWhenPressed(new ButtonCommandHitTheDeck());
 		/// Reversing mode
 			Button toggleReverse = new JoystickButton(DRIVER, Xbox.Y);
-				toggleReverse.toggleWhenPressed(new ButtonCommandReverse());
+				toggleReverse.toggleWhenPressed(new ToggleCommandReverse());
 		/// Docking mode
 			Button toggleDock = new JoystickButton(DRIVER, Xbox.X);
-				toggleDock.toggleWhenPressed(new ButtonCommandDock());
+				toggleDock.toggleWhenPressed(new ToggleCommandDock());
 		/// To Compress, or Not To Compress. It is now an option.
-			SmartDashboard.putData("Disable Compressor", new ButtonCommandKillCompressor());
+			SmartDashboard.putData("Disable Compressor", new ToggleCommandKillCompressor());
 			
 
 		/// PID
-			SmartDashboard.putData("Kill PID", new ButtonCommandKillPID());
+			SmartDashboard.putData("Kill PID", new ToggleCommandKillPID());
 			SmartDashboard.putNumber("Right Encoder Position", 0);
 			SmartDashboard.putNumber("Left Encoder Position", 0);
 			
@@ -65,7 +65,6 @@ public class OI {
 			SmartDashboard.putData("Drive Until Error", new CyborgCommandDriveUntilError());
 			SmartDashboard.putData("Rotate Degree", new CyborgCommandRotateDegrees(Util.getAndSetDouble("Rotate Degrees", 0)));
 			SmartDashboard.putData("Spit", new CyborgCommandSpit((long)Util.getAndSetDouble("Spit Time", 500)));
-			SmartDashboard.putData("Clap", new CyborgCommandClap((long)Util.getAndSetDouble("Runtime", 200000), (long)Util.getAndSetDouble("Clap Speed", 100)));
 			SmartDashboard.putData("Raise to Position: Pinion Up", new CyborgCommandGrow(Mast.PINION_UP));
 			SmartDashboard.putData("Raise to Position: Pinion Down", new CyborgCommandGrow(Mast.PINION_DOWN));
 			SmartDashboard.putData("Raise to Position: Screw Up", new CyborgCommandGrow(Mast.SCREW_UP));

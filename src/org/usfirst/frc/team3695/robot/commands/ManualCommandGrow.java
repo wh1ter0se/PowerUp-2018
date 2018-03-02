@@ -13,8 +13,7 @@ public class ManualCommandGrow extends Command {
         requires(Robot.SUB_MAST);
     }
 
-    protected void initialize() {
-    }
+    protected void initialize() {}
 
     protected void execute() {
     	Robot.SUB_MAST.moveBySpeed(OI.OPERATOR, Util.getAndSetDouble("Screw Inhibitor", 1));

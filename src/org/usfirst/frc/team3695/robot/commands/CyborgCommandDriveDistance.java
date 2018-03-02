@@ -28,7 +28,7 @@ public class CyborgCommandDriveDistance extends Command {
     	time = System.currentTimeMillis() + TIME_WAIT;
     	inches = Util.getAndSetDouble("Drive Distance Inches", 10); // take out in final version
     	inRange = Robot.SUB_DRIVE.driveDistance(inches, inches);
-    	Robot.SUB_DRIVE.setPIDF(Util.getAndSetDouble("P", .5),
+    	Robot.SUB_DRIVE.pid.setPIDF(Util.getAndSetDouble("P", .5),
 				Util.getAndSetDouble("I", 0),
 				Util.getAndSetDouble("D", 0),
 				Util.getAndSetDouble("F", 0));

@@ -107,17 +107,7 @@ public class SubsystemManipulator extends Subsystem {
     	y += mid * ((x * (x - 1))/(-.25));
     	y += end * ((x * (x-.5))/(.5));
     	return y;
-    }
-
-    /** configures the voltage of each CANTalon */
-    private void voltage(TalonSRX talon) {
-    	// talon.configNominalOutputVoltage(0f, 0f);
-    	// talon.configPeakOutputVoltage(12.0f, -12.0f);
-    	// talon.enableCurrentLimit(true);
-    	// talon.configContinuousCurrentLimit(30, 3000);
-    }
-    
-    
+    }  
 
 }
 

@@ -6,9 +6,9 @@ import org.usfirst.frc.team3695.robot.Robot;
 /**
  * Code that kills compressor until interruption
  */
-public class ButtonCommandKillCompressor extends Command {
+public class ToggleCommandKillCompressor extends Command {
 
-    public ButtonCommandKillCompressor() {
+    public ToggleCommandKillCompressor() {
         requires(Robot.SUB_COMPRESSOR);
     }
 
