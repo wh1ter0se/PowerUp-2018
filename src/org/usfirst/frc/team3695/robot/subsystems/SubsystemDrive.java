@@ -252,13 +252,22 @@ public class SubsystemDrive extends Subsystem {
         rightMaster.set(ControlMode.PercentOutput, rightify(right));
     }
 
+    public void setInverts() {
+        rightMaster.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_MASTER_INVERT : Constants.SWISS.RIGHT_MASTER_INVERT);
+        rightSlave.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_SLAVE_INVERT : Constants.SWISS.RIGHT_SLAVE_INVERT);
+        leftMaster.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.LEFT_MASTER_INVERT : Constants.SWISS.LEFT_MASTER_INVERT);
+        leftSlave.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.LEFT_SLAVE_INVERT : Constants.SWISS.LEFT_SLAVE_INVERT);
+    }
     
     
     public static class PID {
 
         public void setPIDF(double p, double i, double d, double f) {
+            //For future reference: Inverts must be applied individually
             setPIDF(Robot.SUB_DRIVE.leftMaster, false, p, i, d, f);
+            setPIDF(Robot.SUB_DRIVE.leftSlave, false, p, i, d, f);
             setPIDF(Robot.SUB_DRIVE.rightMaster, true, p, i, d, f);
+            setPIDF(Robot.SUB_DRIVE.rightSlave, true, p, i, d, f);
         }
 
         public void setPIDF(TalonSRX _talon, Boolean invert, double p, double i, double d, double f) {
