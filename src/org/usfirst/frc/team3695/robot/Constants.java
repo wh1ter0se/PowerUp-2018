@@ -81,7 +81,7 @@ public class Constants {
             F = 0;
 	}
 	
-	public static class SWISS {
+	public static class TEUFELSKIND {
 		public static final boolean
 			LEFT_MOTOR_INVERT         = false,
 			RIGHT_MOTOR_INVERT        = false,

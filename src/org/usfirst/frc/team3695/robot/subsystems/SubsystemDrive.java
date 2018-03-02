@@ -82,13 +82,13 @@ public class SubsystemDrive extends Subsystem {
 
     /* apply left motor invert */
     public static final double leftify(double left) {
-        Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.LEFT_MOTOR_INVERT : Constants.SWISS.LEFT_MOTOR_INVERT;
+        Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.LEFT_MOTOR_INVERT : Constants.TEUFELSKIND.LEFT_MOTOR_INVERT;
         return left * (invert ? -1.0 : 1.0) * (docking ? dockInhibitor : 1);
     }
 
     /* apply right motor invert */
     public static final double rightify(double right) {
-        Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_MOTOR_INVERT : Constants.SWISS.RIGHT_MOTOR_INVERT;
+        Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_MOTOR_INVERT : Constants.TEUFELSKIND.RIGHT_MOTOR_INVERT;
         return right * (invert ? -1.0 : 1.0) * (docking ? dockInhibitor : 1);
     }
 
@@ -123,10 +123,10 @@ public class SubsystemDrive extends Subsystem {
 
         switch (Robot.bot){
             case TEUFELSKIND:
-            	Robot.SUB_DRIVE.pid.setPIDF(Constants.SWISS.P, Constants.SWISS.I, Constants.SWISS.D, Constants.SWISS.F);
+            	PID.setPIDF(Constants.TEUFELSKIND.P, Constants.TEUFELSKIND.I, Constants.TEUFELSKIND.D, Constants.TEUFELSKIND.F);
                 break;
             case OOF:
-            	Robot.SUB_DRIVE.pid.setPIDF(Constants.OOF.P, Constants.OOF.I, Constants.OOF.D, Constants.OOF.F);
+            	PID.setPIDF(Constants.OOF.P, Constants.OOF.I, Constants.OOF.D, Constants.OOF.F);
                 break;
         }
     }
@@ -136,8 +136,8 @@ public class SubsystemDrive extends Subsystem {
     }
 
     public void toggleDocking(double dockInhibitor){
-        this.dockInhibitor = dockInhibitor;
         docking = !docking;
+        this.dockInhibitor = dockInhibitor;
     }
 
     public void toggleReversing(){
@@ -218,12 +218,14 @@ public class SubsystemDrive extends Subsystem {
     
     
     public void setRamps(double ramp) {
-        if (leftMaster == null || rightMaster == null || leftSlave == null || rightSlave == null) {
-            leftMaster.configOpenloopRamp(ramp, 10);
-            leftSlave.configOpenloopRamp(ramp, 10);
-            rightMaster.configOpenloopRamp(ramp, 10);
-            rightSlave.configOpenloopRamp(ramp, 10);
-        }
+        if (leftMaster != null)
+        	leftMaster.configOpenloopRamp(ramp, 10);
+        if (leftSlave != null)
+        	leftSlave.configOpenloopRamp(ramp, 10);
+        if (rightMaster != null)
+        	rightMaster.configOpenloopRamp(ramp, 10);
+        if (rightSlave != null)
+        	rightSlave.configOpenloopRamp(ramp, 10);
     }
 
     
@@ -255,13 +257,17 @@ public class SubsystemDrive extends Subsystem {
     
     
     public static class PID {
-
-        public void setPIDF(double p, double i, double d, double f) {
+    	Boolean enabled;
+    	
+    	public PID() {
+    		enabled = true;
+    	}
+        public static void setPIDF(double p, double i, double d, double f) {
             setPIDF(Robot.SUB_DRIVE.leftMaster, false, p, i, d, f);
             setPIDF(Robot.SUB_DRIVE.rightMaster, true, p, i, d, f);
         }
 
-        public void setPIDF(TalonSRX _talon, Boolean invert, double p, double i, double d, double f) {
+        public static void setPIDF(TalonSRX _talon, Boolean invert, double p, double i, double d, double f) {
             /* first choose the sensor */
             _talon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,
                     0, Constants.TIMEOUT_PID);
@@ -284,8 +290,8 @@ public class SubsystemDrive extends Subsystem {
             _talon.config_kD(0, d, Constants.TIMEOUT_PID);
             _talon.config_kF(0, f, Constants.TIMEOUT_PID);
             /* set acceleration and vcruise velocity - see documentation */
-            _talon.configMotionCruiseVelocity(15000, Constants.TIMEOUT_PID);
-            _talon.configMotionAcceleration(6000, Constants.TIMEOUT_PID);
+            //_talon.configMotionCruiseVelocity(15000, Constants.TIMEOUT_PID);
+            //_talon.configMotionAcceleration(6000, Constants.TIMEOUT_PID);
         }
 
         public void zeroEncoders() {
