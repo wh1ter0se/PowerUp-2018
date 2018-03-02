@@ -172,8 +172,8 @@ public class SubsystemDrive extends Subsystem {
 //            leftMaster.set(ControlMode.PercentOutput, Constants.RECOVERY_SPEED);
 //            rightMaster.set(ControlMode.PercentOutput, Constants.RECOVERY_SPEED);
 //        } else {
-            leftMaster.set(ControlMode.PercentOutput, leftify(left)* (reversing ? -1.0 : 1.0));
-            rightMaster.set(ControlMode.PercentOutput, rightify(right)* (reversing ? -1.0 : 1.0));
+            leftMaster.set(ControlMode.PercentOutput, leftify(left));
+            rightMaster.set(ControlMode.PercentOutput, rightify(right));
 //        }
     }
 
@@ -195,17 +195,17 @@ public class SubsystemDrive extends Subsystem {
 //            rightMaster.set(ControlMode.PercentOutput, Constants.RECOVERY_SPEED);
 //        } else {
 
-            if (Xbox.LEFT_X(joy) < 0) {
+            if (!reversing ? Xbox.LEFT_X(joy) < 0 : Xbox.LEFT_X(joy) > 0) {
                 right = acceleration;
                 left = (acceleration * ((2 * (1 - Math.abs(Xbox.LEFT_X(joy)))) - 1)) / radius;
-            } else if (Xbox.LEFT_X(joy) > 0) {
+            } else if (!reversing ? Xbox.LEFT_X(joy) > 0 : Xbox.LEFT_X(joy) < 0) {
                 left = acceleration;
                 right = (acceleration * ((2 * (1 - Math.abs(Xbox.LEFT_X(joy)))) - 1)) / radius;
             } else {
                 left = acceleration;
                 right = acceleration;
             }
-//        }
+//        }][\
         left = (left > 1.0 ? 1.0 : (left < -1.0 ? -1.0 : left));
         right = (right > 1.0 ? 1.0 : (right < -1.0 ? -1.0 : right));
         leftMaster.set(ControlMode.PercentOutput, leftify(left) * inhibitor * (reversing ? -1.0 : 1.0));
@@ -255,10 +255,10 @@ public class SubsystemDrive extends Subsystem {
     }
 
     public void setInverts() {
-        rightMaster.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_MASTER_INVERT : Constants.SWISS.RIGHT_MASTER_INVERT);
-        rightSlave.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_SLAVE_INVERT : Constants.SWISS.RIGHT_SLAVE_INVERT);
-        leftMaster.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.LEFT_MASTER_INVERT : Constants.SWISS.LEFT_MASTER_INVERT);
-        leftSlave.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.LEFT_SLAVE_INVERT : Constants.SWISS.LEFT_SLAVE_INVERT);
+        rightMaster.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_MASTER_INVERT : Constants.TEUFELSKIND.RIGHT_MASTER_INVERT);
+        rightSlave.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_SLAVE_INVERT : Constants.TEUFELSKIND.RIGHT_SLAVE_INVERT);
+        leftMaster.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.LEFT_MASTER_INVERT : Constants.TEUFELSKIND.LEFT_MASTER_INVERT);
+        leftSlave.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.LEFT_SLAVE_INVERT : Constants.TEUFELSKIND.LEFT_SLAVE_INVERT);
     }
     
     

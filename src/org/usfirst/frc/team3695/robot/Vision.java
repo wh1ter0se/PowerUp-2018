@@ -11,6 +11,7 @@ import org.opencv.core.CvException;
 import org.opencv.core.Mat;
 import org.opencv.core.Size;
 import org.usfirst.frc.team3695.robot.Constants.VisionConstants;
+import org.usfirst.frc.team3695.robot.enumeration.Bot;
 
 import java.util.ArrayList;
 
@@ -60,7 +61,7 @@ public class Vision extends IterativeRobot {
     	 while (!Thread.interrupted()){
     	     try {
                  cvsinkScrew.grabFrame(streamImages);
-                 if ((Robot.bot == Bot.TEUFELSKIND && Constants.SWISS.SCREW_CAM_FLIP)
+                 if ((Robot.bot == Bot.TEUFELSKIND && Constants.TEUFELSKIND.SCREW_CAM_FLIP)
                          || (Robot.bot == Bot.OOF && Constants.OOF.SCREW_CAM_FLIP)) {
                      Core.rotate(streamImages, streamImages, Core.ROTATE_180);
                  }
@@ -85,7 +86,7 @@ public class Vision extends IterativeRobot {
     	 while (!Thread.interrupted()){
              try {
                  cvsinkFrame.grabFrame(streamImages);
-                 if ((Robot.bot == Bot.TEUFELSKIND && Constants.SWISS.FRAME_CAM_FLIP)
+                 if ((Robot.bot == Bot.TEUFELSKIND && Constants.TEUFELSKIND.FRAME_CAM_FLIP)
                          || (Robot.bot == Bot.OOF && Constants.OOF.FRAME_CAM_FLIP)) {
                      Core.rotate(streamImages, streamImages, Core.ROTATE_180);
                  }
