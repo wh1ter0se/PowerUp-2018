@@ -9,17 +9,19 @@ public class CyborgCommandGrow extends Command {
 
     private Mast position;
 
+    boolean isFinished;
     public CyborgCommandGrow(Mast position) {
         requires(Robot.SUB_MAST);
         this.position = position;
+        isFinished = false;
     }
 
-    protected boolean isFinished() { return false; }
+    protected boolean isFinished() {
+        return isFinished;
+    }
 
-    protected void initialize() {}
-
-    protected void execute() {
-        switch (position){
+    protected void initialize() {
+        switch (position) {
             case PINION_UP:
                 Robot.SUB_MAST.adjustPinion(Position.UP);
                 break;
@@ -33,9 +35,14 @@ public class CyborgCommandGrow extends Command {
                 Robot.SUB_MAST.adjustScrew(Position.DOWN);
                 break;
         }
+        isFinished = true;
     }
 
-    protected void end() {}
+    protected void execute() {}
+
+    protected void end() {
+        isFinished = false;
+    }
 
     protected void interrupted() {
         end();
