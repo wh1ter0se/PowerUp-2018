@@ -19,8 +19,8 @@ public class ManualCommandDrive extends Command {
         SmartDashboard.putNumber("Tilt Angle", Robot.SUB_DRIVE.getYAngle());
         SmartDashboard.putBoolean("Docked", Robot.SUB_DRIVE.docking);
         SmartDashboard.putBoolean("Reversed", Robot.SUB_DRIVE.reversing);
-        SmartDashboard.putNumber("Right Encoder Position", Robot.SUB_DRIVE.rightMag2in(Robot.SUB_DRIVE.pid.getRightPos()));
-        SmartDashboard.putNumber("Left Encoder Position", Robot.SUB_DRIVE.leftMag2in(Robot.SUB_DRIVE.pid.getLeftPos()));
+        SmartDashboard.putNumber("Right Encoder Inches", Robot.SUB_DRIVE.pid.getRightInches());
+        SmartDashboard.putNumber("Left Encoder Inches", Robot.SUB_DRIVE.pid.getLeftInches());
 
     	switch (Robot.SUB_DRIVE.drivetrain) {
     		case ROCKET_LEAGUE:

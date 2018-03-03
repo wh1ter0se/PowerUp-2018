@@ -68,7 +68,7 @@ public class Constants {
 	
 			LEFT_PINION_MOTOR_INVERT  = false,
 			RIGHT_PINION_MOTOR_INVERT = true,
-			SCREW_MOTOR_INVERT        = true,
+			SCREW_MOTOR_INVERT        = false,
 	
 			LEFT_ARM_MOTOR_INVERT     = true,
 			RIGHT_ARM_MOTOR_INVERT    = false,
