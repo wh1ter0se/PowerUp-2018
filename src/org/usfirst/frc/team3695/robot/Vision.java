@@ -34,16 +34,14 @@ public class Vision extends IterativeRobot {
         failImage = Mat.zeros(camSize, 0);
     }
 
-    void startConcatCameraThread(){
-        //Places the vision in a separate thread from everything else as recommended by FIRST.
-        new Thread(this::concatCameraStream).start();
-    }
+    //Places the vision in a separate thread from everything else as recommended by FIRST.
+    public void startConcatCameraThread(){ new Thread(this::concatCameraStream).start(); }
     
-    void startScrewCameraThread(){
+    public void startScrewCameraThread(){
     	new Thread(this::screwCameraStream).start();
     }
-    
-    void startFrameCameraThread(){
+
+    public void startFrameCameraThread(){
     	new Thread(this::frameCameraStream).start();
     }
     
