@@ -44,19 +44,27 @@ public class SubsystemDrive extends Subsystem {
         setDefaultCommand(new ManualCommandDrive());
     }
 
-    
-    
-
     /* converts left magnetic encoder's magic units to inches */
-    public static double leftMag2in(double leftMag) {
-        return leftMag / Constants.LEFT_MAGIC_PER_INCHES;
+    public static double leftMag2In(double leftMag) {
+        return leftMag / 212;
     }
 
     /* converts right magnetic encoder's magic units to inches */
-    public static double rightMag2in(double rightMag) {
-        return rightMag / Constants.RIGHT_MAGIC_PER_INCHES;
+    public static double rightMag2In(double rightMag) {
+        return rightMag / 212;
     }
 
+    /* converts left magnetic encoder's magic units to inches */
+    public static double leftIn2Mag(double leftMag) {
+        return leftMag * 212;
+    }
+
+    /* converts right magnetic encoder's magic units to inches */
+    public static double rightIn2Mag(double rightMag) {
+//        return rightMag * Constants.RIGHT_MAGIC_PER_INCHES;
+        return rightMag * 212;
+    }
+    
     /* converts RPM to inches per second */
     public static double rpm2ips(double rpm) {
         return rpm / 60.0 * Constants.WHEEL_DIAMETER * Math.PI;
@@ -82,13 +90,13 @@ public class SubsystemDrive extends Subsystem {
 
     /* apply left motor invert */
     public static final double leftify(double left) {
-        Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.LEFT_MOTOR_INVERT : Constants.SWISS.LEFT_MOTOR_INVERT;
+        Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.LEFT_MOTOR_INVERT : Constants.TEUFELSKIND.LEFT_MOTOR_INVERT;
         return left * (invert ? -1.0 : 1.0) * (docking ? dockInhibitor : 1);
     }
 
     /* apply right motor invert */
     public static final double rightify(double right) {
-        Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_MOTOR_INVERT : Constants.SWISS.RIGHT_MOTOR_INVERT;
+        Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_MOTOR_INVERT : Constants.TEUFELSKIND.RIGHT_MOTOR_INVERT;
         return right * (invert ? -1.0 : 1.0) * (docking ? dockInhibitor : 1);
     }
 
@@ -123,10 +131,10 @@ public class SubsystemDrive extends Subsystem {
 
         switch (Robot.bot){
             case TEUFELSKIND:
-            	Robot.SUB_DRIVE.pid.setPIDF(Constants.SWISS.P, Constants.SWISS.I, Constants.SWISS.D, Constants.SWISS.F);
+            	PID.setPIDF(Constants.TEUFELSKIND.P, Constants.TEUFELSKIND.I, Constants.TEUFELSKIND.D, Constants.TEUFELSKIND.F);
                 break;
             case OOF:
-            	Robot.SUB_DRIVE.pid.setPIDF(Constants.OOF.P, Constants.OOF.I, Constants.OOF.D, Constants.OOF.F);
+            	PID.setPIDF(Constants.OOF.P, Constants.OOF.I, Constants.OOF.D, Constants.OOF.F);
                 break;
         }
     }
@@ -136,8 +144,8 @@ public class SubsystemDrive extends Subsystem {
     }
 
     public void toggleDocking(double dockInhibitor){
-        this.dockInhibitor = dockInhibitor;
         docking = !docking;
+        this.dockInhibitor = dockInhibitor;
     }
 
     public void toggleReversing(){
@@ -172,8 +180,8 @@ public class SubsystemDrive extends Subsystem {
 //            leftMaster.set(ControlMode.PercentOutput, Constants.RECOVERY_SPEED);
 //            rightMaster.set(ControlMode.PercentOutput, Constants.RECOVERY_SPEED);
 //        } else {
-            leftMaster.set(ControlMode.PercentOutput, leftify(left)* (reversing ? -1.0 : 1.0));
-            rightMaster.set(ControlMode.PercentOutput, rightify(right)* (reversing ? -1.0 : 1.0));
+            leftMaster.set(ControlMode.PercentOutput, leftify(left));
+            rightMaster.set(ControlMode.PercentOutput, rightify(right));
 //        }
     }
 
@@ -195,17 +203,17 @@ public class SubsystemDrive extends Subsystem {
 //            rightMaster.set(ControlMode.PercentOutput, Constants.RECOVERY_SPEED);
 //        } else {
 
-            if (Xbox.LEFT_X(joy) < 0) {
+            if (!reversing ? Xbox.LEFT_X(joy) < 0 : Xbox.LEFT_X(joy) > 0) {
                 right = acceleration;
                 left = (acceleration * ((2 * (1 - Math.abs(Xbox.LEFT_X(joy)))) - 1)) / radius;
-            } else if (Xbox.LEFT_X(joy) > 0) {
+            } else if (!reversing ? Xbox.LEFT_X(joy) > 0 : Xbox.LEFT_X(joy) < 0) {
                 left = acceleration;
                 right = (acceleration * ((2 * (1 - Math.abs(Xbox.LEFT_X(joy)))) - 1)) / radius;
             } else {
                 left = acceleration;
                 right = acceleration;
             }
-//        }
+//        }][\
         left = (left > 1.0 ? 1.0 : (left < -1.0 ? -1.0 : left));
         right = (right > 1.0 ? 1.0 : (right < -1.0 ? -1.0 : right));
         leftMaster.set(ControlMode.PercentOutput, leftify(left) * inhibitor * (reversing ? -1.0 : 1.0));
@@ -218,30 +226,32 @@ public class SubsystemDrive extends Subsystem {
     
     
     public void setRamps(double ramp) {
-        if (leftMaster == null || rightMaster == null || leftSlave == null || rightSlave == null) {
-            leftMaster.configOpenloopRamp(ramp, 10);
-            leftSlave.configOpenloopRamp(ramp, 10);
-            rightMaster.configOpenloopRamp(ramp, 10);
-            rightSlave.configOpenloopRamp(ramp, 10);
-        }
+        if (leftMaster != null)
+        	leftMaster.configOpenloopRamp(ramp, 10);
+        if (leftSlave != null)
+        	leftSlave.configOpenloopRamp(ramp, 10);
+        if (rightMaster != null)
+        	rightMaster.configOpenloopRamp(ramp, 10);
+        if (rightSlave != null)
+        	rightSlave.configOpenloopRamp(ramp, 10);
     }
 
     
     
     public boolean driveDistance(double leftIn, double rightIn) {
-        double leftGoal = in2rot(leftIn);
-        double rightGoal = in2rot(rightIn);
+        double leftGoal = (leftIn2Mag(leftIn));
+        double rightGoal = (rightIn2Mag(rightIn));
         leftMaster.set(ControlMode.Position, leftify(leftGoal));
     		leftSlave.follow(leftMaster);
         rightMaster.set(ControlMode.Position, rightify(rightGoal));
     		rightSlave.follow(rightMaster);
 
         boolean leftInRange =
-                pid.getLeftPos() > leftify(leftGoal) - DISTANCE_ALLOWABLE_ERROR &&
-                        pid.getLeftPos() < leftify(leftGoal) + DISTANCE_ALLOWABLE_ERROR;
+                pid.getLeftInches() > leftify(leftGoal) - DISTANCE_ALLOWABLE_ERROR &&
+                        pid.getLeftInches() < leftify(leftGoal) + DISTANCE_ALLOWABLE_ERROR;
         boolean rightInRange =
-                pid.getRightPos() > rightify(rightGoal) - DISTANCE_ALLOWABLE_ERROR &&
-                        pid.getRightPos() < rightify(rightGoal) + DISTANCE_ALLOWABLE_ERROR;
+                pid.getRightInches() > rightify(rightGoal) - DISTANCE_ALLOWABLE_ERROR &&
+                        pid.getRightInches() < rightify(rightGoal) + DISTANCE_ALLOWABLE_ERROR;
         return leftInRange && rightInRange;
     }
 
@@ -253,16 +263,20 @@ public class SubsystemDrive extends Subsystem {
     }
 
     public void setInverts() {
-        rightMaster.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_MASTER_INVERT : Constants.SWISS.RIGHT_MASTER_INVERT);
-        rightSlave.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_SLAVE_INVERT : Constants.SWISS.RIGHT_SLAVE_INVERT);
-        leftMaster.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.LEFT_MASTER_INVERT : Constants.SWISS.LEFT_MASTER_INVERT);
-        leftSlave.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.LEFT_SLAVE_INVERT : Constants.SWISS.LEFT_SLAVE_INVERT);
+        rightMaster.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_MASTER_INVERT : Constants.TEUFELSKIND.RIGHT_MASTER_INVERT);
+        rightSlave.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_SLAVE_INVERT : Constants.TEUFELSKIND.RIGHT_SLAVE_INVERT);
+        leftMaster.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.LEFT_MASTER_INVERT : Constants.TEUFELSKIND.LEFT_MASTER_INVERT);
+        leftSlave.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.LEFT_SLAVE_INVERT : Constants.TEUFELSKIND.LEFT_SLAVE_INVERT);
     }
     
     
     public static class PID {
-
-        public void setPIDF(double p, double i, double d, double f) {
+    	Boolean enabled;
+    	
+    	public PID() {
+    		enabled = true;
+    	}
+        public static void setPIDF(double p, double i, double d, double f) {
             //For future reference: Inverts must be applied individually
             setPIDF(Robot.SUB_DRIVE.leftMaster, false, p, i, d, f);
             setPIDF(Robot.SUB_DRIVE.leftSlave, false, p, i, d, f);
@@ -270,7 +284,7 @@ public class SubsystemDrive extends Subsystem {
             setPIDF(Robot.SUB_DRIVE.rightSlave, true, p, i, d, f);
         }
 
-        public void setPIDF(TalonSRX _talon, Boolean invert, double p, double i, double d, double f) {
+        public static void setPIDF(TalonSRX _talon, Boolean invert, double p, double i, double d, double f) {
             /* first choose the sensor */
             _talon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,
                     0, Constants.TIMEOUT_PID);
@@ -308,12 +322,12 @@ public class SubsystemDrive extends Subsystem {
             return (leftify(Robot.SUB_DRIVE.leftMaster.getErrorDerivative(Constants.LEFT_PID)) + rightify(Robot.SUB_DRIVE.rightMaster.getErrorDerivative(Constants.RIGHT_PID))) / 2.0;
         }
 
-        public double getRightPos() {
-            return rightMag2in(Robot.SUB_DRIVE.rightMaster.getSelectedSensorPosition(Constants.RIGHT_PID));
+        public double getRightInches() {
+            return rightMag2In(Robot.SUB_DRIVE.rightMaster.getSelectedSensorPosition(Constants.RIGHT_PID));
         }
 
-        public double getLeftPos() {
-            return leftMag2in(Robot.SUB_DRIVE.leftMaster.getSelectedSensorPosition(Constants.LEFT_PID));
+        public double getLeftInches() {
+            return leftMag2In(Robot.SUB_DRIVE.leftMaster.getSelectedSensorPosition(Constants.LEFT_PID));
         }
 
         public void reset() {

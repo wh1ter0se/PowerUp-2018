@@ -64,11 +64,11 @@ public class Constants {
 	public static class OOF {
 		public static final boolean
 			LEFT_MOTOR_INVERT         = false,
-			RIGHT_MOTOR_INVERT        = true, 
+			RIGHT_MOTOR_INVERT        = false, 
 	
 			LEFT_PINION_MOTOR_INVERT  = false,
 			RIGHT_PINION_MOTOR_INVERT = true,
-			SCREW_MOTOR_INVERT        = true,
+			SCREW_MOTOR_INVERT        = false,
 	
 			LEFT_ARM_MOTOR_INVERT     = true,
 			RIGHT_ARM_MOTOR_INVERT    = false,
@@ -90,10 +90,10 @@ public class Constants {
             F = 0;
 	}
 	
-	public static class SWISS {
+	public static class TEUFELSKIND {
 		public static final boolean
 			LEFT_MOTOR_INVERT         = false,
-			RIGHT_MOTOR_INVERT        = false,
+			RIGHT_MOTOR_INVERT        = true,
 	
 			LEFT_PINION_MOTOR_INVERT  = false,
 			RIGHT_PINION_MOTOR_INVERT = true,

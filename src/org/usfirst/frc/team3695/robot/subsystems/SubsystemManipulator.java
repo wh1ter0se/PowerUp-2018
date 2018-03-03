@@ -24,13 +24,13 @@ public class SubsystemManipulator extends Subsystem {
 	
 	/** applies left arm motor invert */
 	public static final double leftArmify(double left) {
-		Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.LEFT_ARM_MOTOR_INVERT : Constants.SWISS.LEFT_ARM_MOTOR_INVERT;
+		Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.LEFT_ARM_MOTOR_INVERT : Constants.TEUFELSKIND.LEFT_ARM_MOTOR_INVERT;
 		return left * (invert ? -1.0 : 1.0);
 	}
 	
 	/** applies right arm motor invert */
 	public static final double rightArmify(double right) {
-		Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_ARM_MOTOR_INVERT : Constants.SWISS.RIGHT_ARM_MOTOR_INVERT;
+		Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_ARM_MOTOR_INVERT : Constants.TEUFELSKIND.RIGHT_ARM_MOTOR_INVERT;
 		return right * (invert ? -1.0 : 1.0);
 	}
 	

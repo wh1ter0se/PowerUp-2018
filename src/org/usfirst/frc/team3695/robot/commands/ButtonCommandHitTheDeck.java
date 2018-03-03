@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 import org.usfirst.frc.team3695.robot.Constants;
 import org.usfirst.frc.team3695.robot.Robot;
+import org.usfirst.frc.team3695.robot.util.Util;
 
 /**
  * toggles the state of the clamp
@@ -24,7 +25,7 @@ public class ButtonCommandHitTheDeck extends Command {
     }
 
     protected void execute() {
-    	isFinished = Robot.SUB_MAST.dropIt(1) ||  (startTime + Constants.MAST_TIMEOUT >= System.currentTimeMillis());
+    	isFinished = Robot.SUB_MAST.dropIt(Util.getAndSetDouble("Drop Speed", .5)) ||  (startTime + Constants.MAST_TIMEOUT >= System.currentTimeMillis());
     }
 
     protected boolean isFinished() { return isFinished; }

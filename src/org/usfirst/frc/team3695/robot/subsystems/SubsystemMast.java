@@ -36,6 +36,8 @@ public class SubsystemMast extends Subsystem {
 	
 	/** gives birth to the CANTalons */
     public SubsystemMast(){
+    	/** Does it make sense to move the limit switch IDs to Constants? **/
+    	//no because they could be moved due to various electrical reasons-nate
     	lowerPinionLimit = new DigitalInput(6);
         upperPinionLimit = new DigitalInput(7);
         lowerScrewLimit  = new DigitalInput(3);
@@ -57,18 +59,18 @@ public class SubsystemMast extends Subsystem {
 
    	/** apply pinion motor invert */
    	public static final double leftPinionate(double left) {
-   		Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.LEFT_PINION_MOTOR_INVERT : Constants.SWISS.LEFT_PINION_MOTOR_INVERT;
+   		Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.LEFT_PINION_MOTOR_INVERT : Constants.TEUFELSKIND.LEFT_PINION_MOTOR_INVERT;
    		return left * (invert ? -1.0 : 1.0);
    	}
    	
    	/** apply screw motor invert */
    	public static final double rightPinionate(double right) {
-   		Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_PINION_MOTOR_INVERT : Constants.SWISS.RIGHT_PINION_MOTOR_INVERT;
+   		Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_PINION_MOTOR_INVERT : Constants.TEUFELSKIND.RIGHT_PINION_MOTOR_INVERT;
    		return right * (invert ? -1.0 : 1.0);
    	}
    	
    	public static final double screwify(double screw) {
-   		Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.SCREW_MOTOR_INVERT : Constants.SWISS.SCREW_MOTOR_INVERT;
+   		Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.SCREW_MOTOR_INVERT : Constants.TEUFELSKIND.SCREW_MOTOR_INVERT;
    		return screw * (invert ? -1.0 : 1.0);
    	}
     
@@ -151,8 +153,5 @@ public class SubsystemMast extends Subsystem {
     	talon.configContinuousCurrentLimit(60, 300);
     	talon.configPeakCurrentDuration(500, 10);
     }
-    
-    
-
 }
 
