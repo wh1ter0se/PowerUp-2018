@@ -1,6 +1,5 @@
 ![logo](https://github.com/wh1ter0se/PowerUp-2018/blob/master/banner.png?raw=true)
 [![Join the chat at https://gitter.im/3695-Progarm-Team/general](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/3695-Progarm-Team/general)
-[![Waffle.io - Columns and their card count](https://badge.waffle.io/wh1ter0se/PowerUp-2018.svg?columns=all)](https://waffle.io/wh1ter0se/PowerUp-2018)
 [![Code Climate](https://codeclimate.com/github/wh1ter0se/PowerUp-2018.svg)](https://codeclimate.com/github/wh1ter0se/PowerUp-2018)
 [![Build Status](https://scrutinizer-ci.com/g/wh1ter0se/PowerUp-2018/badges/build.png?b=master)](https://scrutinizer-ci.com/g/wh1ter0se/PowerUp-2018/build-status/master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/wh1ter0se/PowerUp-2018/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/wh1ter0se/PowerUp-2018/?branch=master)

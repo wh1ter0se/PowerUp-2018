@@ -4,9 +4,9 @@ import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3695.robot.Robot;
 
 /** toggles the state of the clamp */
-public class ButtonCommandClamp extends Command {
+public class ToggleCommandClamp extends Command {
 	
-    public ButtonCommandClamp() {
+    public ToggleCommandClamp() {
         requires(Robot.SUB_CLAMP);
     }
 

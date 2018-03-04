@@ -2,14 +2,13 @@ package org.usfirst.frc.team3695.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import edu.wpi.first.wpilibj.DriverStation;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Subsystem;
+
 import org.usfirst.frc.team3695.robot.Constants;
 import org.usfirst.frc.team3695.robot.Robot;
-import org.usfirst.frc.team3695.robot.commands.ManualCommandSpin;
 import org.usfirst.frc.team3695.robot.enumeration.Bot;
-import org.usfirst.frc.team3695.robot.enumeration.Position;
 import org.usfirst.frc.team3695.robot.util.Xbox;
 
 /** VROOM VROOM */
@@ -25,20 +24,18 @@ public class SubsystemManipulator extends Subsystem {
 	
 	/** applies left arm motor invert */
 	public static final double leftArmify(double left) {
-		Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.LEFT_ARM_MOTOR_INVERT : Constants.SWISS.LEFT_ARM_MOTOR_INVERT;
+		Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.LEFT_ARM_MOTOR_INVERT : Constants.TEUFELSKIND.LEFT_ARM_MOTOR_INVERT;
 		return left * (invert ? -1.0 : 1.0);
 	}
 	
 	/** applies right arm motor invert */
 	public static final double rightArmify(double right) {
-		Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_ARM_MOTOR_INVERT : Constants.SWISS.RIGHT_ARM_MOTOR_INVERT;
+		Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_ARM_MOTOR_INVERT : Constants.TEUFELSKIND.RIGHT_ARM_MOTOR_INVERT;
 		return right * (invert ? -1.0 : 1.0);
 	}
 	
 	/** runs at robot boot */
-    public void initDefaultCommand() {
-    	setDefaultCommand(new ManualCommandSpin());
-    }
+    public void initDefaultCommand() {}
 	
 	/** gives birth to the CANTalons */
     public SubsystemManipulator(){
@@ -110,17 +107,7 @@ public class SubsystemManipulator extends Subsystem {
     	y += mid * ((x * (x - 1))/(-.25));
     	y += end * ((x * (x-.5))/(.5));
     	return y;
-    }
-
-    /** configures the voltage of each CANTalon */
-    private void voltage(TalonSRX talon) {
-    	// talon.configNominalOutputVoltage(0f, 0f);
-    	// talon.configPeakOutputVoltage(12.0f, -12.0f);
-    	// talon.enableCurrentLimit(true);
-    	// talon.configContinuousCurrentLimit(30, 3000);
-    }
-    
-    
+    }  
 
 }
 

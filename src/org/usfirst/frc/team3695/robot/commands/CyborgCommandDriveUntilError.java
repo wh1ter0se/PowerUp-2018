@@ -3,8 +3,6 @@ package org.usfirst.frc.team3695.robot.commands;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3695.robot.Robot;
-import org.usfirst.frc.team3695.robot.enumeration.Position;
-import org.usfirst.frc.team3695.robot.subsystems.SubsystemDrive;
 import org.usfirst.frc.team3695.robot.util.Util;
 
 public class CyborgCommandDriveUntilError extends Command {
@@ -19,7 +17,6 @@ public class CyborgCommandDriveUntilError extends Command {
 
     protected void initialize() {
         time = System.currentTimeMillis() + ERROR_TIME;
-        Robot.SUB_DRIVE.setOverride(true);
     }
 
     protected void execute() {
@@ -28,16 +25,14 @@ public class CyborgCommandDriveUntilError extends Command {
     }
 
     protected boolean isFinished() {
-        if(Math.abs(Robot.SUB_DRIVE.getError()) < TARGET_ERROR) {
+        if(Math.abs(Robot.SUB_DRIVE.pid.getError()) < TARGET_ERROR) {
             time = System.currentTimeMillis() + ERROR_TIME;
         }
-        boolean toReturn = time < System.currentTimeMillis();
         return time < System.currentTimeMillis();
     }
 
     protected void end() {
         DriverStation.reportWarning("CyborgCommandDriveUntilError finished", false);
-        Robot.SUB_DRIVE.setOverride(false);
         Robot.SUB_DRIVE.driveDirect(0, 0);
     }
 

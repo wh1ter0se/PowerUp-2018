@@ -9,7 +9,7 @@ import org.usfirst.frc.team3695.robot.util.Util;
 public class CyborgCommandDriveDirect extends Command {
 
     public static final long TIME_WAIT = 1000;
-    public final double percent;
+    public double percent;
     private long time;
     private boolean inRange;
 
@@ -20,24 +20,20 @@ public class CyborgCommandDriveDirect extends Command {
 
     protected void initialize() {
     	DriverStation.reportWarning("DRIVING BY POWER", false);
-    	Robot.SUB_DRIVE.setOverride(true);
-        Robot.SUB_DRIVE.reset();
+        Robot.SUB_DRIVE.pid.reset();
         time = System.currentTimeMillis() + TIME_WAIT;
     }
 
     protected void execute() {
-        inRange = Robot.SUB_DRIVE.driveDistance(percent, percent);
+    	percent = Util.getAndSetDouble("Drive Direct Power", 0);
+        Robot.SUB_DRIVE.driveDirect(percent, percent);
     }
 
     protected boolean isFinished() {
-        if(!inRange) {
-            time = System.currentTimeMillis() + TIME_WAIT;
-        }
-        return time < System.currentTimeMillis();
+        return false;
     }
 
     protected void end() {
-        Robot.SUB_DRIVE.setOverride(false);
         DriverStation.reportWarning("CyborgCommandDriveDirect finished", false);
         Robot.SUB_DRIVE.driveDirect(0, 0);
     }

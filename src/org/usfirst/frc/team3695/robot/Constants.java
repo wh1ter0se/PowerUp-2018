@@ -22,8 +22,9 @@ public class Constants {
 			RIGHT_MAGIC_PER_INCHES = 208.847,
 		///SAFETY
 			RECOVERY_SPEED = 0,
-			DOCK_INHIBITOR = 0.5,
-			TILT_ANGLE = 10;
+			DOCK_INHIBITOR = 1,
+			TILT_ANGLE = 10,
+			MAST_TIMEOUT = 3000; // timeout for HitTheDick in ms
 
 
 	public static final int
@@ -42,7 +43,7 @@ public class Constants {
 		/// PID
 			RIGHT_PID = 0,
 			LEFT_PID = 0,
-			TIMEOUT_PID = 10;
+			TIMEOUT_PID = 10000;
 
 	public static final int
 		/// I2C
@@ -63,7 +64,7 @@ public class Constants {
 	public static class OOF {
 		public static final boolean
 			LEFT_MOTOR_INVERT         = false,
-			RIGHT_MOTOR_INVERT        = true, 
+			RIGHT_MOTOR_INVERT        = false, 
 	
 			LEFT_PINION_MOTOR_INVERT  = false,
 			RIGHT_PINION_MOTOR_INVERT = true,
@@ -72,18 +73,27 @@ public class Constants {
 			LEFT_ARM_MOTOR_INVERT     = true,
 			RIGHT_ARM_MOTOR_INVERT    = false,
 	
-			HOOK_MOTOR_INVERT		  = false;
-		public static final int
-            P = 0,
+			HOOK_MOTOR_INVERT		  = false,
+
+			SCREW_CAM_FLIP = false,
+			FRAME_CAM_FLIP = false,
+
+            LEFT_MASTER_INVERT = false,
+            RIGHT_MASTER_INVERT = false,
+            LEFT_SLAVE_INVERT = false,
+            RIGHT_SLAVE_INVERT = false;
+
+		public static final double
+            P = 0.5,
             I = 0,
             D = 0,
             F = 0;
 	}
 	
-	public static class SWISS {
+	public static class TEUFELSKIND {
 		public static final boolean
 			LEFT_MOTOR_INVERT         = false,
-			RIGHT_MOTOR_INVERT        = false,
+			RIGHT_MOTOR_INVERT        = true,
 	
 			LEFT_PINION_MOTOR_INVERT  = false,
 			RIGHT_PINION_MOTOR_INVERT = true,
@@ -92,9 +102,18 @@ public class Constants {
 			LEFT_ARM_MOTOR_INVERT     = true,
 			RIGHT_ARM_MOTOR_INVERT    = false,
 	
-			HOOK_MOTOR_INVERT		  = false;
-        public static final int
-                P = 0,
+			HOOK_MOTOR_INVERT		  = false,
+
+			SCREW_CAM_FLIP = false,
+			FRAME_CAM_FLIP = false,
+
+			LEFT_MASTER_INVERT = false,
+            RIGHT_MASTER_INVERT = false,
+            LEFT_SLAVE_INVERT = false,
+            RIGHT_SLAVE_INVERT = false;
+
+        public static final double
+                P = 0.5,
                 I = 0,
                 D = 0,
                 F = 0;
@@ -119,6 +138,9 @@ public class Constants {
 		public static final int ROT_90_CLOCKWISE = 90;
 		public static final int ROT_90_COUNTERCLOCKWISE = -90;
 		public static final int ROT_180 = 180;
+
+		public static final int SPIT_LENGTH = 500;
+		public static final int WAIT_TO_ADJUST_MAST = 300;
 	}
 
 	public static class VisionConstants {

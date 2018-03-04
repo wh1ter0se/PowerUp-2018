@@ -11,7 +11,6 @@ public class ManualCommandDrive extends Command {
 	
     public ManualCommandDrive() {
         requires(Robot.SUB_DRIVE);
-        requires(Robot.SUB_MANIPULATOR);
     }
 
     protected void initialize() {}
@@ -20,18 +19,16 @@ public class ManualCommandDrive extends Command {
         SmartDashboard.putNumber("Tilt Angle", Robot.SUB_DRIVE.getYAngle());
         SmartDashboard.putBoolean("Docked", Robot.SUB_DRIVE.docking);
         SmartDashboard.putBoolean("Reversed", Robot.SUB_DRIVE.reversing);
-        SmartDashboard.putNumber("Right Encoder Position", Robot.SUB_DRIVE.rightMag2in(Robot.SUB_DRIVE.getRightPos()));
-        SmartDashboard.putNumber("Left Encoder Position", Robot.SUB_DRIVE.leftMag2in(Robot.SUB_DRIVE.getLeftPos()));
+        SmartDashboard.putNumber("Right Encoder Inches", Robot.SUB_DRIVE.pid.getRightInches());
+        SmartDashboard.putNumber("Left Encoder Inches", Robot.SUB_DRIVE.pid.getLeftInches());
 
     	switch (Robot.SUB_DRIVE.drivetrain) {
     		case ROCKET_LEAGUE:
-    			Robot.SUB_DRIVE.driveRLTank(OI.DRIVER, Util.getAndSetDouble("Ramp", .75), Util.getAndSetDouble("Drive Inhibitor", 1));
+    			Robot.SUB_DRIVE.driveRLTank(OI.DRIVER, Util.getAndSetDouble("Rocket Ramp", .75), Util.getAndSetDouble("Drive Inhibitor", 1));
     			break;
     		case FORZA: 
-    			Robot.SUB_DRIVE.driveForza(OI.DRIVER, Util.getAndSetDouble("Ramp", .75), Util.getAndSetDouble("Radius", 1), Util.getAndSetDouble("Drive Inhibitor", 1));
+    			Robot.SUB_DRIVE.driveForza(OI.DRIVER, Util.getAndSetDouble("Forza Ramp", .75), Util.getAndSetDouble("Radius", 1), Util.getAndSetDouble("Drive Inhibitor", 1));
     			break;
-    		case REV:
-    			Robot.SUB_MANIPULATOR.rev(OI.DRIVER);
     	}
     }
 
