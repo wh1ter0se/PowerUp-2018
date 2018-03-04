@@ -31,7 +31,7 @@ public class CyborgCommandRotateDegrees extends Command {
                 Util.getAndSetDouble("I", 0),
                 Util.getAndSetDouble("D", 0),
                 Util.getAndSetDouble("F", 0));
-        inRange = Robot.SUB_DRIVE.driveDistance(inches, -1* inches);
+        Robot.SUB_DRIVE.driveDistance(inches, -1 * inches);
     }
 
     protected void execute() {
@@ -42,11 +42,13 @@ public class CyborgCommandRotateDegrees extends Command {
     }
 
     protected boolean isFinished() {
-    	DriverStation.reportWarning("DONE ROTATING", false);
-        if(!inRange) {
-            time = System.currentTimeMillis() + TIME_WAIT;
-        }
-        return time < System.currentTimeMillis();
+        boolean leftInRange =
+        		Robot.SUB_DRIVE.pid.getLeftInches() > Robot.SUB_DRIVE.leftify(inches) - Robot.SUB_DRIVE.leftify(2) &&
+        		Robot.SUB_DRIVE.pid.getLeftInches() < Robot.SUB_DRIVE.leftify(inches) + Robot.SUB_DRIVE.leftify(2);
+        boolean rightInRange =
+        		Robot.SUB_DRIVE.pid.getRightInches() > Robot.SUB_DRIVE.rightify(inches) - Robot.SUB_DRIVE.rightify(2) &&
+        		Robot.SUB_DRIVE.pid.getRightInches() < Robot.SUB_DRIVE.rightify(inches) + Robot.SUB_DRIVE.rightify(2);
+        return leftInRange && rightInRange;
     }
 
     protected void end() {
@@ -54,7 +56,5 @@ public class CyborgCommandRotateDegrees extends Command {
         Robot.SUB_DRIVE.driveDirect(0, 0);
     }
 
-    protected void interrupted() {
-        end();
-    }
+    protected void interrupted() {}
 }

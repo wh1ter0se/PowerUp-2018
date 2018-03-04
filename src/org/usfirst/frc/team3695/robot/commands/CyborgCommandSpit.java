@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3695.robot.commands;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3695.robot.Robot;
 
@@ -20,6 +21,7 @@ public class CyborgCommandSpit extends Command {
     }
 
     protected void execute() {
+    	DriverStation.reportError("Start + Run:" + (startTime+runTime) + " Current Time:" + System.currentTimeMillis(), false);
         if (startTime + runTime >= System.currentTimeMillis()){
             Robot.SUB_MANIPULATOR.spit();
         } else {
@@ -34,7 +36,5 @@ public class CyborgCommandSpit extends Command {
     	isFinished = false;
     }
 
-    protected void interrupted() {
-        end();
-    }
+    protected void interrupted() {}
 }

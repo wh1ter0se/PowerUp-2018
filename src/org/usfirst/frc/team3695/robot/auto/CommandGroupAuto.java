@@ -6,6 +6,7 @@ import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.commands.CyborgCommandDriveDistance;
 import org.usfirst.frc.team3695.robot.commands.CyborgCommandDriveUntilError;
 import org.usfirst.frc.team3695.robot.commands.CyborgCommandRotateDegrees;
+import org.usfirst.frc.team3695.robot.commands.CyborgCommandSpit;
 import org.usfirst.frc.team3695.robot.enumeration.Goal;
 import org.usfirst.frc.team3695.robot.enumeration.Position;
 
@@ -36,7 +37,7 @@ public class CommandGroupAuto extends CommandGroup {
 						if (gameData.charAt(0) == 'L'){ //When the switch is on the left
 							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_TO_SWITCH_FROM_SIDE));
 							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CLOCKWISE));
-							Robot.SUB_MANIPULATOR.spit();
+							addSequential(new CyborgCommandSpit(500));
 						} else { //When the switch is on the right
 
 						}

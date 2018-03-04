@@ -13,7 +13,6 @@ public class CyborgCommandDriveDistance extends Command {
     public static final long TIME_WAIT = 1000;
     public double inches;
     private long time;
-    private boolean inRange;
 
     public CyborgCommandDriveDistance(double inches) {
         this.inches = inches;
@@ -23,7 +22,6 @@ public class CyborgCommandDriveDistance extends Command {
 
     protected void initialize() {
 //    	Robot.SUB_DRIVE.pid.zeroEncoders(); Reset does this
-    	inRange = false;
     	Robot.SUB_DRIVE.pid.reset();
     	time = System.currentTimeMillis() + TIME_WAIT;
     	inches = Util.getAndSetDouble("Drive Distance Inches", 10); 
@@ -31,7 +29,7 @@ public class CyborgCommandDriveDistance extends Command {
 				Util.getAndSetDouble("I", 0),
 				Util.getAndSetDouble("D", 0),
 				Util.getAndSetDouble("F", 0));
-    	inRange = Robot.SUB_DRIVE.driveDistance(inches, inches);
+    	Robot.SUB_DRIVE.driveDistance(inches, inches);
 
     }
 
@@ -44,10 +42,13 @@ public class CyborgCommandDriveDistance extends Command {
     }
 
     protected boolean isFinished() {
-        if(!inRange) {
-            time = System.currentTimeMillis() + TIME_WAIT;
-        }
-        return time < System.currentTimeMillis();
+        boolean leftInRange =
+        		Robot.SUB_DRIVE.pid.getLeftInches() > Robot.SUB_DRIVE.leftify(inches) - Robot.SUB_DRIVE.leftify(2) &&
+        		Robot.SUB_DRIVE.pid.getLeftInches() < Robot.SUB_DRIVE.leftify(inches) + Robot.SUB_DRIVE.leftify(2);
+        boolean rightInRange =
+        		Robot.SUB_DRIVE.pid.getRightInches() > Robot.SUB_DRIVE.rightify(inches) - Robot.SUB_DRIVE.rightify(2) &&
+        		Robot.SUB_DRIVE.pid.getRightInches() < Robot.SUB_DRIVE.rightify(inches) + Robot.SUB_DRIVE.rightify(2);
+        return leftInRange && rightInRange;
     }
 
     protected void end() {
