@@ -36,6 +36,8 @@ public class SubsystemMast extends Subsystem {
 	
 	/** gives birth to the CANTalons */
     public SubsystemMast(){
+    	/** Does it make sense to move the limit switch IDs to Constants? **/
+    	//no because they could be moved due to various electrical reasons-nate
     	lowerPinionLimit = new DigitalInput(6);
         upperPinionLimit = new DigitalInput(7);
         lowerScrewLimit  = new DigitalInput(3);
@@ -151,8 +153,5 @@ public class SubsystemMast extends Subsystem {
     	talon.configContinuousCurrentLimit(60, 300);
     	talon.configPeakCurrentDuration(500, 10);
     }
-    
-    
-
 }
 

@@ -11,7 +11,7 @@ import org.usfirst.frc.team3695.robot.enumeration.Position;
 import org.usfirst.frc.team3695.robot.util.Util;
 import org.usfirst.frc.team3695.robot.util.Xbox;
 
-/** the output/input setup */
+/** the Operator Interface setup */
 public class OI {
 	
 	public static final Joystick DRIVER = new Joystick(0);

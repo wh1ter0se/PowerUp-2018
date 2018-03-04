@@ -2,6 +2,7 @@ package org.usfirst.frc.team3695.robot.commands;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team3695.robot.Constants;
 import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.util.Util;
@@ -12,7 +13,7 @@ public class CyborgCommandRotateDegrees extends Command {
 
     private boolean inRange;
     private long time;
-    public final double inches;
+    public double inches;
 
     public CyborgCommandRotateDegrees(double degrees) {
         inches = degrees * SCALAR;
@@ -22,11 +23,22 @@ public class CyborgCommandRotateDegrees extends Command {
     protected void initialize() {
     	DriverStation.reportWarning("ROTATING " + (inches / SCALAR) + " DEGREES" + ((inches > 0) ? "CW" : "CCW"), false);
         time = System.currentTimeMillis() + TIME_WAIT;
+        inRange = false;
         Robot.SUB_DRIVE.pid.reset();
+        time = System.currentTimeMillis() + TIME_WAIT;
+        inches = Util.getAndSetDouble("Rotate Degrees", 0) * SCALAR;
+        Robot.SUB_DRIVE.pid.setPIDF(Util.getAndSetDouble("P", .11),
+                Util.getAndSetDouble("I", 0),
+                Util.getAndSetDouble("D", 0),
+                Util.getAndSetDouble("F", 0));
+        inRange = Robot.SUB_DRIVE.driveDistance(inches, -1* inches);
     }
 
     protected void execute() {
-        inRange = Robot.SUB_DRIVE.driveDistance(inches, -inches);
+        DriverStation.reportWarning("ROTATING " + (inches / SCALAR) + " DEGREES" + ((inches > 0) ? "CW" : "CCW"), false);
+        SmartDashboard.putNumber("Left Encoder Inches", Robot.SUB_DRIVE.pid.getLeftInches());
+        SmartDashboard.putNumber("Right Encoder Inches", Robot.SUB_DRIVE.pid.getRightInches());
+        SmartDashboard.putNumber("Error", Robot.SUB_DRIVE.pid.getError());
     }
 
     protected boolean isFinished() {

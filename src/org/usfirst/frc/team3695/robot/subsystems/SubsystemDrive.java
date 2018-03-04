@@ -44,19 +44,27 @@ public class SubsystemDrive extends Subsystem {
         setDefaultCommand(new ManualCommandDrive());
     }
 
-    
-    
-
     /* converts left magnetic encoder's magic units to inches */
-    public static double leftMag2in(double leftMag) {
-        return leftMag / Constants.LEFT_MAGIC_PER_INCHES;
+    public static double leftMag2In(double leftMag) {
+        return leftMag / 212;
     }
 
     /* converts right magnetic encoder's magic units to inches */
-    public static double rightMag2in(double rightMag) {
-        return rightMag / Constants.RIGHT_MAGIC_PER_INCHES;
+    public static double rightMag2In(double rightMag) {
+        return rightMag / 212;
     }
 
+    /* converts left magnetic encoder's magic units to inches */
+    public static double leftIn2Mag(double leftMag) {
+        return leftMag * 212;
+    }
+
+    /* converts right magnetic encoder's magic units to inches */
+    public static double rightIn2Mag(double rightMag) {
+//        return rightMag * Constants.RIGHT_MAGIC_PER_INCHES;
+        return rightMag * 212;
+    }
+    
     /* converts RPM to inches per second */
     public static double rpm2ips(double rpm) {
         return rpm / 60.0 * Constants.WHEEL_DIAMETER * Math.PI;
@@ -231,19 +239,19 @@ public class SubsystemDrive extends Subsystem {
     
     
     public boolean driveDistance(double leftIn, double rightIn) {
-        double leftGoal = in2rot(leftIn);
-        double rightGoal = in2rot(rightIn);
+        double leftGoal = (leftIn2Mag(leftIn));
+        double rightGoal = (rightIn2Mag(rightIn));
         leftMaster.set(ControlMode.Position, leftify(leftGoal));
     		leftSlave.follow(leftMaster);
         rightMaster.set(ControlMode.Position, rightify(rightGoal));
     		rightSlave.follow(rightMaster);
 
         boolean leftInRange =
-                pid.getLeftPos() > leftify(leftGoal) - DISTANCE_ALLOWABLE_ERROR &&
-                        pid.getLeftPos() < leftify(leftGoal) + DISTANCE_ALLOWABLE_ERROR;
+                pid.getLeftInches() > leftify(leftGoal) - DISTANCE_ALLOWABLE_ERROR &&
+                        pid.getLeftInches() < leftify(leftGoal) + DISTANCE_ALLOWABLE_ERROR;
         boolean rightInRange =
-                pid.getRightPos() > rightify(rightGoal) - DISTANCE_ALLOWABLE_ERROR &&
-                        pid.getRightPos() < rightify(rightGoal) + DISTANCE_ALLOWABLE_ERROR;
+                pid.getRightInches() > rightify(rightGoal) - DISTANCE_ALLOWABLE_ERROR &&
+                        pid.getRightInches() < rightify(rightGoal) + DISTANCE_ALLOWABLE_ERROR;
         return leftInRange && rightInRange;
     }
 
@@ -299,8 +307,8 @@ public class SubsystemDrive extends Subsystem {
             _talon.config_kD(0, d, Constants.TIMEOUT_PID);
             _talon.config_kF(0, f, Constants.TIMEOUT_PID);
             /* set acceleration and vcruise velocity - see documentation */
-            //_talon.configMotionCruiseVelocity(15000, Constants.TIMEOUT_PID);
-            //_talon.configMotionAcceleration(6000, Constants.TIMEOUT_PID);
+            _talon.configMotionCruiseVelocity(15000, Constants.TIMEOUT_PID);
+            _talon.configMotionAcceleration(6000, Constants.TIMEOUT_PID);
         }
 
         public void zeroEncoders() {
@@ -314,12 +322,12 @@ public class SubsystemDrive extends Subsystem {
             return (leftify(Robot.SUB_DRIVE.leftMaster.getErrorDerivative(Constants.LEFT_PID)) + rightify(Robot.SUB_DRIVE.rightMaster.getErrorDerivative(Constants.RIGHT_PID))) / 2.0;
         }
 
-        public double getRightPos() {
-            return rightMag2in(Robot.SUB_DRIVE.rightMaster.getSelectedSensorPosition(Constants.RIGHT_PID));
+        public double getRightInches() {
+            return rightMag2In(Robot.SUB_DRIVE.rightMaster.getSelectedSensorPosition(Constants.RIGHT_PID));
         }
 
-        public double getLeftPos() {
-            return leftMag2in(Robot.SUB_DRIVE.leftMaster.getSelectedSensorPosition(Constants.LEFT_PID));
+        public double getLeftInches() {
+            return leftMag2In(Robot.SUB_DRIVE.leftMaster.getSelectedSensorPosition(Constants.LEFT_PID));
         }
 
         public void reset() {

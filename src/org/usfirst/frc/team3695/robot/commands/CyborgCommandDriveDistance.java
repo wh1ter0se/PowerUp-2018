@@ -23,20 +23,24 @@ public class CyborgCommandDriveDistance extends Command {
     }
 
     protected void initialize() {
-    	Robot.SUB_DRIVE.pid.zeroEncoders();
+//    	Robot.SUB_DRIVE.pid.zeroEncoders(); Reset does this
     	inRange = false;
     	Robot.SUB_DRIVE.pid.reset();
     	time = System.currentTimeMillis() + TIME_WAIT;
     	inches = Util.getAndSetDouble("Drive Distance Inches", 10); // take out in final version
-    	inRange = Robot.SUB_DRIVE.driveDistance(inches, inches);
     	PID.setPIDF(Util.getAndSetDouble("P", .5),
 				Util.getAndSetDouble("I", 0),
 				Util.getAndSetDouble("D", 0),
 				Util.getAndSetDouble("F", 0));
+    	inRange = Robot.SUB_DRIVE.driveDistance(inches, inches);
+
     }
 
     protected void execute() {
     	DriverStation.reportWarning("DRIVING " + inches + " INCHES", false);
+    	SmartDashboard.putNumber("Left Encoder Inches", Robot.SUB_DRIVE.pid.getLeftInches());
+    	SmartDashboard.putNumber("Right Encoder Inches", Robot.SUB_DRIVE.pid.getRightInches());
+
         SmartDashboard.putNumber("Error", Robot.SUB_DRIVE.pid.getError());
     }
 
