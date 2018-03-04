@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team3695.robot.Robot;
+import org.usfirst.frc.team3695.robot.subsystems.SubsystemDrive.PID;
 import org.usfirst.frc.team3695.robot.util.Util;
 
 public class CyborgCommandDriveDistance extends Command {
@@ -28,7 +29,7 @@ public class CyborgCommandDriveDistance extends Command {
     	time = System.currentTimeMillis() + TIME_WAIT;
     	inches = Util.getAndSetDouble("Drive Distance Inches", 10); // take out in final version
     	inRange = Robot.SUB_DRIVE.driveDistance(inches, inches);
-    	Robot.SUB_DRIVE.pid.setPIDF(Util.getAndSetDouble("P", .5),
+    	PID.setPIDF(Util.getAndSetDouble("P", .5),
 				Util.getAndSetDouble("I", 0),
 				Util.getAndSetDouble("D", 0),
 				Util.getAndSetDouble("F", 0));
