@@ -131,10 +131,12 @@ public class SubsystemDrive extends Subsystem {
 
         switch (Robot.bot){
             case TEUFELSKIND:
-            	PID.setPIDF(Constants.TEUFELSKIND.P, Constants.TEUFELSKIND.I, Constants.TEUFELSKIND.D, Constants.TEUFELSKIND.F);
+            	PID.setPIDF(0, Constants.TEUFELSKIND.P, Constants.TEUFELSKIND.I, Constants.TEUFELSKIND.D, Constants.TEUFELSKIND.F);
+            	PID.setPIDF(1, Constants.TEUFELSKIND.P, Constants.TEUFELSKIND.I, Constants.TEUFELSKIND.D, Constants.TEUFELSKIND.F);
                 break;
             case OOF:
-            	PID.setPIDF(Constants.OOF.P, Constants.OOF.I, Constants.OOF.D, Constants.OOF.F);
+            	PID.setPIDF(0, Constants.OOF.P, Constants.OOF.I, Constants.OOF.D, Constants.OOF.F);
+            	PID.setPIDF(1, Constants.OOF.P, Constants.OOF.I, Constants.OOF.D, Constants.OOF.F);
                 break;
         }
     }
@@ -268,15 +270,22 @@ public class SubsystemDrive extends Subsystem {
     	public PID() {
     		enabled = true;
     	}
-        public static void setPIDF(double p, double i, double d, double f) {
+        public static void setPIDF(int slot, double p, double i, double d, double f) {
             //For future reference: Inverts must be applied individually
-            setPIDF(Robot.SUB_DRIVE.leftMaster, false, p, i, d, f);
-            setPIDF(Robot.SUB_DRIVE.leftSlave, false, p, i, d, f);
-            setPIDF(Robot.SUB_DRIVE.rightMaster, true, p, i, d, f);
-            setPIDF(Robot.SUB_DRIVE.rightSlave, true, p, i, d, f);
+        	if (Robot.bot == Bot.OOF) {
+	            setPIDF(Robot.SUB_DRIVE.leftMaster, false, p, i, d, f, slot);
+	            setPIDF(Robot.SUB_DRIVE.leftSlave, false, p, i, d, f, slot);
+	            setPIDF(Robot.SUB_DRIVE.rightMaster, true, p, i, d, f, slot);
+	            setPIDF(Robot.SUB_DRIVE.rightSlave, true, p, i, d, f, slot);
+        	} else {
+        		setPIDF(Robot.SUB_DRIVE.leftMaster, false, p, i, d, f, slot);
+	            setPIDF(Robot.SUB_DRIVE.leftSlave, false, p, i, d, f, slot);
+	            setPIDF(Robot.SUB_DRIVE.rightMaster, false, p, i, d, f, slot);
+	            setPIDF(Robot.SUB_DRIVE.rightSlave, false, p, i, d, f, slot);
+        	}
         }
 
-        public static void setPIDF(TalonSRX _talon, Boolean invert, double p, double i, double d, double f) {
+        public static void setPIDF(TalonSRX _talon, Boolean invert, double p, double i, double d, double f, int slot) {
             /* first choose the sensor */
             _talon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,
                     0, Constants.TIMEOUT_PID);
@@ -294,10 +303,10 @@ public class SubsystemDrive extends Subsystem {
             _talon.configPeakOutputReverse(-1, Constants.TIMEOUT_PID);
             /* set closed loop gains in slot0 - see documentation */
             _talon.selectProfileSlot(0, Constants.RIGHT_PID);
-            _talon.config_kP(0, p, Constants.TIMEOUT_PID);
-            _talon.config_kI(0, i, Constants.TIMEOUT_PID);
-            _talon.config_kD(0, d, Constants.TIMEOUT_PID);
-            _talon.config_kF(0, f, Constants.TIMEOUT_PID);
+            _talon.config_kP(slot, p, Constants.TIMEOUT_PID);
+            _talon.config_kI(slot, i, Constants.TIMEOUT_PID);
+            _talon.config_kD(slot, d, Constants.TIMEOUT_PID);
+            _talon.config_kF(slot, f, Constants.TIMEOUT_PID);
             /* set acceleration and vcruise velocity - see documentation */
             _talon.configMotionCruiseVelocity(15000, Constants.TIMEOUT_PID);
             _talon.configMotionAcceleration(6000, Constants.TIMEOUT_PID);

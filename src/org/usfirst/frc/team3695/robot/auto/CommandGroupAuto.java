@@ -5,9 +5,11 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.commands.CyborgCommandDriveDistance;
 import org.usfirst.frc.team3695.robot.commands.CyborgCommandDriveUntilError;
+import org.usfirst.frc.team3695.robot.commands.CyborgCommandGrow;
 import org.usfirst.frc.team3695.robot.commands.CyborgCommandRotateDegrees;
 import org.usfirst.frc.team3695.robot.commands.CyborgCommandSpit;
 import org.usfirst.frc.team3695.robot.enumeration.Goal;
+import org.usfirst.frc.team3695.robot.enumeration.Mast;
 import org.usfirst.frc.team3695.robot.enumeration.Position;
 
 import static org.usfirst.frc.team3695.robot.Constants.AutonomousConstants;
@@ -36,8 +38,9 @@ public class CommandGroupAuto extends CommandGroup {
 					case SWITCH:
 						if (gameData.charAt(0) == 'L'){ //When the switch is on the left
 							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_TO_SWITCH_FROM_SIDE));
+							addSequential(new CyborgCommandGrow(Mast.SCREW_UP));
 							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CLOCKWISE));
-							addSequential(new CyborgCommandSpit(500));
+							addSequential(new CyborgCommandSpit(500L));
 						} else { //When the switch is on the right
 
 						}
@@ -104,8 +107,10 @@ public class CommandGroupAuto extends CommandGroup {
 						break;
 					case SWITCH:
 						if (gameData.charAt(0) == 'R'){ //When the switch is on the right
-							addParallel(new CyborgCommandDriveDistance(AutonomousConstants.DIST_TO_SWITCH_FROM_SIDE));
+							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_TO_SWITCH_FROM_SIDE));
+							addSequential(new CyborgCommandGrow(Mast.SCREW_UP));
 							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_COUNTERCLOCKWISE));
+							addSequential(new CyborgCommandSpit(500L));
 						} else { //When the switch is on the left
 
 						}

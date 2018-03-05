@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team3695.robot.Constants;
 import org.usfirst.frc.team3695.robot.Robot;
+import org.usfirst.frc.team3695.robot.subsystems.SubsystemDrive.PID;
 import org.usfirst.frc.team3695.robot.util.Util;
 
 public class CyborgCommandRotateDegrees extends Command {
@@ -26,12 +27,13 @@ public class CyborgCommandRotateDegrees extends Command {
         inRange = false;
         Robot.SUB_DRIVE.pid.reset();
         time = System.currentTimeMillis() + TIME_WAIT;
-        inches = Util.getAndSetDouble("Rotate Degrees", 0) * SCALAR;
-        Robot.SUB_DRIVE.pid.setPIDF(Util.getAndSetDouble("P", .11),
-                Util.getAndSetDouble("I", 0),
-                Util.getAndSetDouble("D", 0),
-                Util.getAndSetDouble("F", 0));
-        Robot.SUB_DRIVE.driveDistance(inches, -1 * inches);
+//      inches = Util.getAndSetDouble("Rotate Degrees", 0) * SCALAR; // take out in final version
+        PID.setPIDF(1,
+        		Util.getAndSetDouble("Rotation-P", .11),
+                Util.getAndSetDouble("Rotation-I", 0),
+                Util.getAndSetDouble("Rotation-D", 0),
+                Util.getAndSetDouble("Rotation-F", 0));
+        Robot.SUB_DRIVE.driveDistance(inches, -1* inches);
     }
 
     protected void execute() {
