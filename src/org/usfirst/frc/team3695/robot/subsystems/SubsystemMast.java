@@ -111,31 +111,37 @@ public class SubsystemMast extends Subsystem {
     	return (!lowerPinionLimit.get()) && (!lowerScrewLimit.get());
     }
 
-    public void adjustPinion(Position direction){
+    public Boolean adjustPinion(Position direction){
 
     	if (direction == Position.UP) {
-			while (!upperPinionLimit.get()) {
+			if (!upperPinionLimit.get()) {
 				rightPinion.set(ControlMode.PercentOutput, rightPinionate(1));
 				leftPinion.set(ControlMode.PercentOutput, leftPinionate(1));
+				return false;
 			}
-		} else if (direction == Position.DOWN) {
-			while (!lowerPinionLimit.get()) {
+		} else {
+			if (!lowerPinionLimit.get()) {
 				rightPinion.set(ControlMode.PercentOutput, rightPinionate(-1));
 				leftPinion.set(ControlMode.PercentOutput, leftPinionate(-1));
+				return false;
 			}
 		}
+    	return true;
 	}
 
-	public void adjustScrew(Position direction){
+	public Boolean adjustScrew(Position direction){
     	if (direction == Position.UP){
-    		while (!upperScrewLimit.get()){
+    		if (!upperScrewLimit.get()){
     			screw.set(ControlMode.PercentOutput, screwify(1));
+    			return false;
 			}
-		} else if (direction == Position.DOWN){
-    		while (!lowerScrewLimit.get()){
+		} else {
+    		if (!lowerScrewLimit.get()){
     			screw.set(ControlMode.PercentOutput, screwify(-1));
+    			return false;
 			}
 		}
+    	return true;
 	}
     	
     public void publishSwitches() {
