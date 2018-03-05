@@ -119,24 +119,30 @@ public class Constants {
 
 	public static class AutonomousConstants {
 		//Save distances in inches
-		public static final int DIST_TO_SWITCH_FROM_SIDE = 160;
-		public static final int DIST_PASS_PORTAL = 36;
-		public static final int DIST_CENTER_LINE_SWITCH_ALIGN = 48;
-		public static final int DIST_BLOCKS_TO_SWITCH = 42;
-		public static final int DIST_WALL_TO_LINE = 120;
-		public static final int DIST_WALL_TO_BLOCKS = 98;
-		public static final int DIST_BLOCK_TO_MIDDLE_OF_SWITCH = 28;
-		public static final int DIST_WALL_TO_ENEMY_BLOCKS = 463;
-		public static final int DIST_WALL_TO_SWITCH_BLOCKS = 196;
-		public static final int DIST_SWITCH_BLOCK_TO_SCALE = 128;
-		public static final int DIST_WALL_TO_SCALE = 324; //Goes right in front of the scale
-		public static final double DIST_WALL_TO_SWITCH_BLOCK_MID = 228.74;
 
+		//Distance from the side positions to the middle of the switch on the side
+		public static final int DIST_TO_SWITCH_FROM_SIDE = 168;
+		//Distance to drive forward so we don't run into the portal when in the middle
+		public static final int DIST_PASS_PORTAL = 36;
+		//The center line of the field to the middle of the switch
+		public static final int DIST_CENTER_LINE_SWITCH_ALIGN = 48;
+		//From the farthest protrusion of the blocks to the switch
+		public static final int DIST_BLOCKS_TO_SWITCH = 42;
+		//Distance of line we need to pass for points
+		public static final int DIST_WALL_TO_LINE = 120;
+		//Distance from the wall to the farthest protrusion of blocks
+		public static final int DIST_ALLIANCE_WALL_TO_BLOCKS = 98;
+
+		//Rotations
 		public static final int ROT_90_CLOCKWISE = 90;
 		public static final int ROT_90_COUNTERCLOCKWISE = -90;
 		public static final int ROT_180 = 180;
 
+
+		//Time to run the manipulator for
 		public static final int SPIT_LENGTH = 500;
+		//Time to wait before we can move the mast
+		//Blame colton. He wants things to be "safe"
 		public static final int WAIT_TO_ADJUST_MAST = 300;
 	}
 

@@ -60,7 +60,7 @@ public class CommandGroupAuto extends CommandGroup {
 
 						}
 						break;
-					
+
 					case BEST_OPTION:
 						break;
 				}
@@ -77,7 +77,7 @@ public class CommandGroupAuto extends CommandGroup {
 							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_COUNTERCLOCKWISE));
 							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_CENTER_LINE_SWITCH_ALIGN));
 							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CLOCKWISE));
-							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_WALL_TO_BLOCKS
+							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_ALLIANCE_WALL_TO_BLOCKS
 																				+ AutonomousConstants.DIST_BLOCKS_TO_SWITCH
 																				- AutonomousConstants.DIST_PASS_PORTAL));
 
@@ -86,7 +86,7 @@ public class CommandGroupAuto extends CommandGroup {
 							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_CENTER_LINE_SWITCH_ALIGN));
 							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_COUNTERCLOCKWISE));
 				//			addParallel(new CyborgCommandGoToMid());
-							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_WALL_TO_BLOCKS
+							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_ALLIANCE_WALL_TO_BLOCKS
 																				+ AutonomousConstants.DIST_BLOCKS_TO_SWITCH
 																				- AutonomousConstants.DIST_PASS_PORTAL));
 						}
@@ -99,7 +99,7 @@ public class CommandGroupAuto extends CommandGroup {
 						break;
 			}
 				break;
-				
+
 			case RIGHT:
 				switch (goal) {
 					case RUN_FOR_IT:
@@ -129,6 +129,6 @@ public class CommandGroupAuto extends CommandGroup {
 						break;
 				}
 			break;
-		}	
+		}
 	}
 }
