@@ -41,6 +41,7 @@ public class SubsystemManipulator extends Subsystem {
     public SubsystemManipulator(){
 		armLeft = new TalonSRX(Constants.LEFT_FLYWHEEL);
     	armRight = new TalonSRX(Constants.RIGHT_FLYWHEEL);
+    	stopSpinning();
     }
     
     /** eat the power cube */

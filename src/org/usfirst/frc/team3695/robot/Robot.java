@@ -114,7 +114,12 @@ public class Robot extends IterativeRobot {
 			vision.startScrewCameraThread();
 			vision.startFrameCameraThread();
 
+		SmartDashboard.putData("Sub_Clamp", SUB_CLAMP);
+		SmartDashboard.putData("Sub_Compressor", SUB_COMPRESSOR);
 		SmartDashboard.putData("Sub_Drive", SUB_DRIVE);
+		SmartDashboard.putData("Sub_Hook", SUB_HOOK);
+		SmartDashboard.putData("Sub_Manipulator", SUB_MANIPULATOR);
+		SmartDashboard.putData("Sub_Mast", SUB_MAST);
 		DriverStation.reportWarning("SUBSYSTEMS, CHOOSERS INSTANTIATED", false);
 	}
 
