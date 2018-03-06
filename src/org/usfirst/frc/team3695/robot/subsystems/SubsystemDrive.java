@@ -37,7 +37,7 @@ public class SubsystemDrive extends Subsystem {
     public PID pid; // instantiate innerclass
 
     /* Allowable tolerance to be considered in range when driving a distance, in rotations */
-    public static final double DISTANCE_ALLOWABLE_ERROR = 2.0;
+    public static final double DISTANCE_ALLOWABLE_ERROR = 8.0;
 
     /* runs at robot boot */
     public void initDefaultCommand() {
@@ -46,7 +46,7 @@ public class SubsystemDrive extends Subsystem {
 
     /* converts left magnetic encoder's magic units to inches */
     public static double leftMag2In(double leftMag) {
-        return leftMag / 210;
+        return leftMag / 200;
     }
 
     /* converts right magnetic encoder's magic units to inches */
@@ -56,7 +56,7 @@ public class SubsystemDrive extends Subsystem {
 
     /* converts left magnetic encoder's magic units to inches */
     public static double leftIn2Mag(double leftMag) {
-        return leftMag * 212;
+        return leftMag * 200;
     }
 
     /* converts right magnetic encoder's magic units to inches */

@@ -13,6 +13,7 @@ public class CyborgCommandDriveDistance extends Command {
 
     public static final long TIME_WAIT = 1000;
     public double inches;
+    public static final int ALLOWABLE_ERROR = 8;
     private long time;
 
     public CyborgCommandDriveDistance(double inches) {
@@ -44,11 +45,11 @@ public class CyborgCommandDriveDistance extends Command {
 
     protected boolean isFinished() {
         boolean leftInRange =
-        		Robot.SUB_DRIVE.pid.getLeftInches() > Robot.SUB_DRIVE.leftify(inches) - Robot.SUB_DRIVE.leftify(2) &&
-        		Robot.SUB_DRIVE.pid.getLeftInches() < Robot.SUB_DRIVE.leftify(inches) + Robot.SUB_DRIVE.leftify(2);
+        		Robot.SUB_DRIVE.pid.getLeftInches() > (inches) - ALLOWABLE_ERROR &&
+        		Robot.SUB_DRIVE.pid.getLeftInches() < (inches) + ALLOWABLE_ERROR;
         boolean rightInRange =
-        		Robot.SUB_DRIVE.pid.getRightInches() > Robot.SUB_DRIVE.rightify(inches) - Robot.SUB_DRIVE.rightify(2) &&
-        		Robot.SUB_DRIVE.pid.getRightInches() < Robot.SUB_DRIVE.rightify(inches) + Robot.SUB_DRIVE.rightify(2);
+        		Robot.SUB_DRIVE.pid.getRightInches() > inches - ALLOWABLE_ERROR &&
+        		Robot.SUB_DRIVE.pid.getRightInches() < inches + ALLOWABLE_ERROR;
         return leftInRange && rightInRange;
     }
 
