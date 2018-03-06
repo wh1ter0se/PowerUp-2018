@@ -31,11 +31,11 @@ public class CyborgCommandRotateDegrees extends Command {
         Robot.SUB_DRIVE.pid.reset();
 //      inches = Util.getAndSetDouble("Rotate Degrees", 0) * SCALAR; // take out in final version
         PID.setPIDF(1,
-        		Util.getAndSetDouble("Rotation-P", .11),
+        		Util.getAndSetDouble("Rotation-P", 0.585),
                 Util.getAndSetDouble("Rotation-I", 0),
-                Util.getAndSetDouble("Rotation-D", 0),
+                Util.getAndSetDouble("Rotation-D", 0.001),
                 Util.getAndSetDouble("Rotation-F", 0));
-        Robot.SUB_DRIVE.driveDistance(inches, -1* inches);
+        Robot.SUB_DRIVE.driveDistance(inches, -1 * inches);
     }
 
     protected void execute() {
