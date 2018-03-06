@@ -10,23 +10,23 @@ import org.usfirst.frc.team3695.robot.util.Util;
 
 public class CyborgCommandRotateDegrees extends Command {
     public static final double SCALAR = (Constants.DISTANCE_BETWEEN_WHEELS * Math.PI) / 360;
-    public static final long TIME_WAIT = 500;
+    public static long RUN_TIME = 3000; //lol parametrics
+    private static long startTime;
 
-    private boolean inRange;
-    private long time;
+    private boolean isFinished;
     public double inches;
 
-    public CyborgCommandRotateDegrees(double degrees) {
+    public CyborgCommandRotateDegrees(double degrees, long timeout) {
         inches = degrees * SCALAR;
+        startTime = System.currentTimeMillis();
+        RUN_TIME = timeout;
         requires(Robot.SUB_DRIVE);
     }
 
     protected void initialize() {
     	DriverStation.reportWarning("ROTATING " + (inches / SCALAR) + " DEGREES" + ((inches > 0) ? "CW" : "CCW"), false);
-        time = System.currentTimeMillis() + TIME_WAIT;
-        inRange = false;
+        isFinished = false;
         Robot.SUB_DRIVE.pid.reset();
-        time = System.currentTimeMillis() + TIME_WAIT;
 //      inches = Util.getAndSetDouble("Rotate Degrees", 0) * SCALAR; // take out in final version
         PID.setPIDF(1,
         		Util.getAndSetDouble("Rotation-P", .11),
@@ -44,18 +44,25 @@ public class CyborgCommandRotateDegrees extends Command {
     }
 
     protected boolean isFinished() {
+        if (startTime + RUN_TIME >= System.currentTimeMillis()){
+            Robot.SUB_MANIPULATOR.spit();
+        } else {
+            isFinished = true;
+        }
+
         boolean leftInRange =
         		Robot.SUB_DRIVE.pid.getLeftInches() > Robot.SUB_DRIVE.leftify(inches) - Robot.SUB_DRIVE.leftify(2) &&
         		Robot.SUB_DRIVE.pid.getLeftInches() < Robot.SUB_DRIVE.leftify(inches) + Robot.SUB_DRIVE.leftify(2);
         boolean rightInRange =
         		Robot.SUB_DRIVE.pid.getRightInches() > Robot.SUB_DRIVE.rightify(inches) - Robot.SUB_DRIVE.rightify(2) &&
         		Robot.SUB_DRIVE.pid.getRightInches() < Robot.SUB_DRIVE.rightify(inches) + Robot.SUB_DRIVE.rightify(2);
-        return leftInRange && rightInRange;
+        return leftInRange && rightInRange || isFinished;
     }
 
     protected void end() {
         DriverStation.reportWarning("CyborgCommandRotateDegrees finished", false);
         Robot.SUB_DRIVE.driveDirect(0, 0);
+        isFinished = false;
     }
 
     protected void interrupted() {}

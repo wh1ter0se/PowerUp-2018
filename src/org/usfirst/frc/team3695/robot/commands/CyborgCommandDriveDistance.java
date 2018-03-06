@@ -11,7 +11,7 @@ import org.usfirst.frc.team3695.robot.util.Util;
 
 public class CyborgCommandDriveDistance extends Command {
 
-    public static final long TIME_WAIT = 1000;
+    public static final long TIME_WAIT = 3000;
     public double inches;
     private long time;
 
@@ -28,7 +28,7 @@ public class CyborgCommandDriveDistance extends Command {
     	PID.setPIDF(0,
     			Util.getAndSetDouble("Distance-P", .5),
 				Util.getAndSetDouble("Distance-I", 0),
-				Util.getAndSetDouble("Distance-D", 0),
+                Util.getAndSetDouble("Distance-D", 0),
 				Util.getAndSetDouble("Distance-F", 0));
     	Robot.SUB_DRIVE.driveDistance(inches, inches);
 
