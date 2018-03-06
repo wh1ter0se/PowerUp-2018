@@ -18,7 +18,7 @@ public class CyborgCommandDriveDistance extends Command {
     public CyborgCommandDriveDistance(double inches) {
         this.inches = inches;
         requires(Robot.SUB_DRIVE);
-        
+        Robot.SUB_DRIVE.pid.reset();
     }
 
     protected void initialize() {
