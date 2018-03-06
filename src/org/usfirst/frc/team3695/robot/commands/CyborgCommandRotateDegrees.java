@@ -10,15 +10,16 @@ import org.usfirst.frc.team3695.robot.util.Util;
 
 public class CyborgCommandRotateDegrees extends Command {
     public static final double SCALAR = (Constants.DISTANCE_BETWEEN_WHEELS * Math.PI) / 360;
-    public static final long RUN_TIME = 3000;
+    public static long RUN_TIME = 3000; //lol parametrics
     private static long startTime;
 
     private boolean isFinished;
     public double inches;
 
-    public CyborgCommandRotateDegrees(double degrees) {
+    public CyborgCommandRotateDegrees(double degrees, long timeout) {
         inches = degrees * SCALAR;
         startTime = System.currentTimeMillis();
+        RUN_TIME = timeout;
         requires(Robot.SUB_DRIVE);
     }
 
