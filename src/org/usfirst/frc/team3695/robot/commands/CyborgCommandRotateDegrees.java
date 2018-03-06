@@ -11,6 +11,7 @@ import org.usfirst.frc.team3695.robot.util.Util;
 public class CyborgCommandRotateDegrees extends Command {
     public static final double SCALAR = (Constants.DISTANCE_BETWEEN_WHEELS * Math.PI) / 360;
     public static long RUN_TIME = 3000; //lol parametrics
+    public static int ALLOWABLE_ERROR = 8;
     private static long startTime;
 
     private boolean isFinished;
@@ -21,6 +22,7 @@ public class CyborgCommandRotateDegrees extends Command {
         startTime = System.currentTimeMillis();
         RUN_TIME = timeout;
         requires(Robot.SUB_DRIVE);
+        Robot.SUB_DRIVE.pid.reset();
     }
 
     protected void initialize() {
@@ -45,17 +47,17 @@ public class CyborgCommandRotateDegrees extends Command {
 
     protected boolean isFinished() {
         if (startTime + RUN_TIME >= System.currentTimeMillis()){
-            Robot.SUB_MANIPULATOR.spit();
+            isFinished = false;
         } else {
             isFinished = true;
         }
 
         boolean leftInRange =
-        		Robot.SUB_DRIVE.pid.getLeftInches() > Robot.SUB_DRIVE.leftify(inches) - Robot.SUB_DRIVE.leftify(2) &&
-        		Robot.SUB_DRIVE.pid.getLeftInches() < Robot.SUB_DRIVE.leftify(inches) + Robot.SUB_DRIVE.leftify(2);
+        		Robot.SUB_DRIVE.pid.getLeftInches() > (inches) - ALLOWABLE_ERROR &&
+        		Robot.SUB_DRIVE.pid.getLeftInches() < (inches) + ALLOWABLE_ERROR;
         boolean rightInRange =
-        		Robot.SUB_DRIVE.pid.getRightInches() > Robot.SUB_DRIVE.rightify(inches) - Robot.SUB_DRIVE.rightify(2) &&
-        		Robot.SUB_DRIVE.pid.getRightInches() < Robot.SUB_DRIVE.rightify(inches) + Robot.SUB_DRIVE.rightify(2);
+        		Robot.SUB_DRIVE.pid.getRightInches() > (inches) - ALLOWABLE_ERROR &&
+        		Robot.SUB_DRIVE.pid.getRightInches() < (inches) + ALLOWABLE_ERROR;
         return leftInRange && rightInRange || isFinished;
     }
 

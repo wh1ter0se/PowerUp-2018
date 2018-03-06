@@ -11,9 +11,10 @@ import org.usfirst.frc.team3695.robot.util.Util;
 
 public class CyborgCommandDriveDistance extends Command {
 
+    public static final long TIME_WAIT = 3000;
     public double inches;
     public static final int ALLOWABLE_ERROR = 8;
-    
+
     Boolean isFinished;
     long runTime;
     long startTime;
@@ -21,6 +22,7 @@ public class CyborgCommandDriveDistance extends Command {
     public CyborgCommandDriveDistance(double inches, int timeoutms) {
         this.inches = inches;
         requires(Robot.SUB_DRIVE);
+        Robot.SUB_DRIVE.pid.reset();
         runTime = timeoutms;
     }
 
@@ -37,8 +39,8 @@ public class CyborgCommandDriveDistance extends Command {
     }
 
     protected void execute() {
-    	if (startTime + runTime >= System.currentTimeMillis()) { 
-    		isFinished = true; 
+    	if (startTime + runTime >= System.currentTimeMillis()) {
+    		isFinished = true;
     	}
     	DriverStation.reportWarning("DRIVING " + inches + " INCHES", false);
     	SmartDashboard.putNumber("Left Encoder Inches", Robot.SUB_DRIVE.pid.getLeftInches());
