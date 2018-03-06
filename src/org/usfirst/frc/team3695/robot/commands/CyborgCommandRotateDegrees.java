@@ -20,7 +20,6 @@ public class CyborgCommandRotateDegrees extends Command {
     public CyborgCommandRotateDegrees(double degrees, long timeout) {
         isFinished = false;
         inches = degrees * SCALAR;
-        startTime = System.currentTimeMillis();
         runTime = timeout;
         requires(Robot.SUB_DRIVE);
         Robot.SUB_DRIVE.pid.reset();
@@ -36,6 +35,7 @@ public class CyborgCommandRotateDegrees extends Command {
                 Util.getAndSetDouble("Rotation-D", 0.001),
                 Util.getAndSetDouble("Rotation-F", 0));
         Robot.SUB_DRIVE.driveDistance(inches, -1 * inches);
+        startTime = System.currentTimeMillis();
     }
 
     protected void execute() {
@@ -53,10 +53,10 @@ public class CyborgCommandRotateDegrees extends Command {
         }
         boolean leftInRange =
                 Robot.SUB_DRIVE.pid.getLeftInches() > (inches) - ALLOWABLE_ERROR &&
-                        Robot.SUB_DRIVE.pid.getLeftInches() < (inches) + ALLOWABLE_ERROR;
+                Robot.SUB_DRIVE.pid.getLeftInches() < (inches) + ALLOWABLE_ERROR;
         boolean rightInRange =
                 Robot.SUB_DRIVE.pid.getRightInches() > inches - ALLOWABLE_ERROR &&
-                        Robot.SUB_DRIVE.pid.getRightInches() < inches + ALLOWABLE_ERROR;
+                Robot.SUB_DRIVE.pid.getRightInches() < inches + ALLOWABLE_ERROR;
         return (leftInRange && rightInRange) || isFinished;
     }
 

@@ -302,7 +302,7 @@ public class SubsystemDrive extends Subsystem {
             _talon.configPeakOutputForward(1, Constants.TIMEOUT_PID);
             _talon.configPeakOutputReverse(-1, Constants.TIMEOUT_PID);
             /* set closed loop gains in slot0 - see documentation */
-            _talon.selectProfileSlot(0, Constants.RIGHT_PID);
+            _talon.selectProfileSlot(slot, Constants.RIGHT_PID);
             _talon.config_kP(slot, p, Constants.TIMEOUT_PID);
             _talon.config_kI(slot, i, Constants.TIMEOUT_PID);
             _talon.config_kD(slot, d, Constants.TIMEOUT_PID);
