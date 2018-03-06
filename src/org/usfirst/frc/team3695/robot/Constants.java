@@ -144,6 +144,8 @@ public class Constants {
 		//Time to wait before we can move the mast
 		//Blame colton. He wants things to be "safe"
 		public static final int WAIT_TO_ADJUST_MAST = 300;
+		//Time before commands stop running. Some are just too time greedy
+		public static final int STOP_COMMAND = 3000;
 	}
 
 	public static class VisionConstants {
