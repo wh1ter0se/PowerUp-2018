@@ -10,7 +10,7 @@ import org.usfirst.frc.team3695.robot.util.Util;
 
 public class CyborgCommandRotateDegrees extends Command {
     public static final double SCALAR = (Constants.DISTANCE_BETWEEN_WHEELS * Math.PI) / 360;
-    public static long RUN_TIME = 3000; //lol parametrics
+    public static long runTime = 3000; //lol parametric parameters
     public static int ALLOWABLE_ERROR = 8;
     private static long startTime;
 
@@ -21,7 +21,7 @@ public class CyborgCommandRotateDegrees extends Command {
         isFinished = false;
         inches = degrees * SCALAR;
         startTime = System.currentTimeMillis();
-        RUN_TIME = timeout;
+        runTime = timeout;
         requires(Robot.SUB_DRIVE);
         Robot.SUB_DRIVE.pid.reset();
     }
@@ -46,7 +46,7 @@ public class CyborgCommandRotateDegrees extends Command {
     }
 
     protected boolean isFinished() {
-        if (startTime + RUN_TIME >= System.currentTimeMillis()) {
+        if (startTime + runTime >= System.currentTimeMillis()) {
             isFinished = false;
         } else {
             isFinished = true;
