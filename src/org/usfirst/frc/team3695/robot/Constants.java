@@ -44,6 +44,7 @@ public class Constants {
 
 	public static final int
 		/// I2C
+            //rip arduino
 			I2C_DEVICE_ADDRESS = 4,
 		/// RPM'S
 			REDLINE = 6000,
@@ -132,6 +133,8 @@ public class Constants {
 		public static final int DIST_WALL_TO_LINE = 120;
 		//Distance from the wall to the farthest protrusion of blocks
 		public static final int DIST_ALLIANCE_WALL_TO_BLOCKS = 98;
+		//Distance from a side to the enemy switch
+		public static final int DIST_SIDE_TO_ENEMY_SWITCH = 360;
 
 		//Rotations
 		public static final int ROT_90_CLOCKWISE = 90;
