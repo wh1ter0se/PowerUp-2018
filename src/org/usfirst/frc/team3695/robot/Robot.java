@@ -91,8 +91,8 @@ public class Robot extends IterativeRobot {
 		/// instantiate position chooser
 				positionChooser = new SendableChooser<>();
 				positionChooser.addDefault(Position.CENTER.toString(), Position.CENTER); // set default to center
-				for(int i = 1; i < Position.values().length; i++) { 
-					positionChooser.addObject(Position.values()[i].toString(), Position.values()[i]); } // add each position enum value to chooser
+					positionChooser.addObject(Position.LEFT.toString(), Position.LEFT);
+					positionChooser.addObject(Position.RIGHT.toString(), Position.RIGHT);
 				SmartDashboard.putData("Position", positionChooser); //display the chooser on the dash
 
 		/// instantiate goal chooser
