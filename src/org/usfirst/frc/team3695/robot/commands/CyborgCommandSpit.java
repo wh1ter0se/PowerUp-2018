@@ -36,5 +36,7 @@ public class CyborgCommandSpit extends Command {
     	isFinished = false;
     }
 
-    protected void interrupted() {}
+    protected void interrupted() {
+    	end();
+    }
 }
