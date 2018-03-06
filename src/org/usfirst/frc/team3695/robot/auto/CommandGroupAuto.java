@@ -37,9 +37,9 @@ public class CommandGroupAuto extends CommandGroup {
 						break;
 					case SWITCH:
 						if (gameData.charAt(0) == 'L'){ //When the switch is on the left
-							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_TO_SWITCH_FROM_SIDE, 3000));
-//							addSequential(new CyborgCommandGrow(Mast.SCREW_UP));
-							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CLOCKWISE), 1500);
+							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_TO_SWITCH_FROM_SIDE));
+							addSequential(new CyborgCommandGrow(Mast.SCREW_UP));
+							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CLOCKWISE));
 							addSequential(new CyborgCommandSpit(500L));
 						} else { //When the switch is on the right
 
@@ -60,7 +60,7 @@ public class CommandGroupAuto extends CommandGroup {
 
 						}
 						break;
-					
+
 					case BEST_OPTION:
 						break;
 				}
@@ -77,7 +77,7 @@ public class CommandGroupAuto extends CommandGroup {
 							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_COUNTERCLOCKWISE));
 							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_CENTER_LINE_SWITCH_ALIGN, 5000));
 							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CLOCKWISE));
-							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_WALL_TO_BLOCKS
+							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_ALLIANCE_WALL_TO_BLOCKS
 																				+ AutonomousConstants.DIST_BLOCKS_TO_SWITCH
 																				- AutonomousConstants.DIST_PASS_PORTAL, 5000));
 
@@ -86,7 +86,7 @@ public class CommandGroupAuto extends CommandGroup {
 							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_CENTER_LINE_SWITCH_ALIGN, 5000));
 							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_COUNTERCLOCKWISE));
 				//			addParallel(new CyborgCommandGoToMid());
-							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_WALL_TO_BLOCKS
+							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_ALLIANCE_WALL_TO_BLOCKS
 																				+ AutonomousConstants.DIST_BLOCKS_TO_SWITCH
 																				- AutonomousConstants.DIST_PASS_PORTAL, 5000));
 						}
@@ -99,7 +99,7 @@ public class CommandGroupAuto extends CommandGroup {
 						break;
 			}
 				break;
-				
+
 			case RIGHT:
 				switch (goal) {
 					case RUN_FOR_IT:
@@ -108,7 +108,7 @@ public class CommandGroupAuto extends CommandGroup {
 					case SWITCH:
 						if (gameData.charAt(0) == 'R'){ //When the switch is on the right
 							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_TO_SWITCH_FROM_SIDE, 5000));
-//							addSequential(new CyborgCommandGrow(Mast.SCREW_UP));
+							addSequential(new CyborgCommandGrow(Mast.SCREW_UP));
 							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_COUNTERCLOCKWISE), 1500);
 							addSequential(new CyborgCommandSpit(500L));
 						} else { //When the switch is on the left
@@ -129,6 +129,6 @@ public class CommandGroupAuto extends CommandGroup {
 						break;
 				}
 			break;
-		}	
+		}
 	}
 }
