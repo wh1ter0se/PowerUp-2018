@@ -18,6 +18,7 @@ public class CyborgCommandRotateDegrees extends Command {
     public double inches;
 
     public CyborgCommandRotateDegrees(double degrees, long timeout) {
+        isFinished = false;
         inches = degrees * SCALAR;
         startTime = System.currentTimeMillis();
         RUN_TIME = timeout;
@@ -26,16 +27,15 @@ public class CyborgCommandRotateDegrees extends Command {
     }
 
     protected void initialize() {
-    	DriverStation.reportWarning("ROTATING " + (inches / SCALAR) + " DEGREES" + ((inches > 0) ? "CW" : "CCW"), false);
-        isFinished = false;
         Robot.SUB_DRIVE.pid.reset();
+        DriverStation.reportWarning("ROTATING " + (inches / SCALAR) + " DEGREES" + ((inches > 0) ? "CW" : "CCW"), false);
 //      inches = Util.getAndSetDouble("Rotate Degrees", 0) * SCALAR; // take out in final version
         PID.setPIDF(1,
-        		Util.getAndSetDouble("Rotation-P", .11),
+                Util.getAndSetDouble("Rotation-P", .11),
                 Util.getAndSetDouble("Rotation-I", 0),
                 Util.getAndSetDouble("Rotation-D", 0),
                 Util.getAndSetDouble("Rotation-F", 0));
-        Robot.SUB_DRIVE.driveDistance(inches, -1* inches);
+        Robot.SUB_DRIVE.driveDistance(inches, -1 * inches);
     }
 
     protected void execute() {
@@ -46,19 +46,18 @@ public class CyborgCommandRotateDegrees extends Command {
     }
 
     protected boolean isFinished() {
-        if (startTime + RUN_TIME >= System.currentTimeMillis()){
+        if (startTime + RUN_TIME >= System.currentTimeMillis()) {
             isFinished = false;
         } else {
             isFinished = true;
         }
-
         boolean leftInRange =
-        		Robot.SUB_DRIVE.pid.getLeftInches() > (inches) - ALLOWABLE_ERROR &&
-        		Robot.SUB_DRIVE.pid.getLeftInches() < (inches) + ALLOWABLE_ERROR;
+                Robot.SUB_DRIVE.pid.getLeftInches() > (inches) - ALLOWABLE_ERROR &&
+                        Robot.SUB_DRIVE.pid.getLeftInches() < (inches) + ALLOWABLE_ERROR;
         boolean rightInRange =
-        		Robot.SUB_DRIVE.pid.getRightInches() > (inches) - ALLOWABLE_ERROR &&
-        		Robot.SUB_DRIVE.pid.getRightInches() < (inches) + ALLOWABLE_ERROR;
-        return leftInRange && rightInRange || isFinished;
+                Robot.SUB_DRIVE.pid.getRightInches() > inches - ALLOWABLE_ERROR &&
+                        Robot.SUB_DRIVE.pid.getRightInches() < inches + ALLOWABLE_ERROR;
+        return (leftInRange && rightInRange) || isFinished;
     }
 
     protected void end() {
@@ -67,5 +66,6 @@ public class CyborgCommandRotateDegrees extends Command {
         isFinished = false;
     }
 
-    protected void interrupted() {}
+    protected void interrupted() {
+    }
 }
