@@ -3,6 +3,7 @@ package org.usfirst.frc.team3695.robot.auto;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import org.usfirst.frc.team3695.robot.Robot;
+import org.usfirst.frc.team3695.robot.commands.CommandWait;
 import org.usfirst.frc.team3695.robot.commands.CyborgCommandDriveDistance;
 import org.usfirst.frc.team3695.robot.commands.CyborgCommandDriveUntilError;
 import org.usfirst.frc.team3695.robot.commands.CyborgCommandGrow;
@@ -39,10 +40,11 @@ public class CommandGroupAuto extends CommandGroup {
 						if (gameData.charAt(0) == 'L'){ //When the switch is on the left
 							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_TO_SWITCH_FROM_SIDE, 5000));
 							addSequential(new CyborgCommandGrow(Mast.SCREW_UP));
+							addSequential(new CommandWait(500));
 							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CLOCKWISE, 5000));
-							addSequential(new CyborgCommandSpit(500L));
-						} else { //When the switch is on the right
-
+							addSequential(new CyborgCommandSpit(500));
+						} else if (gameData.charAt(0) == 'R'){ //When the switch is on the right
+							
 						}
 						break;
 					case ENEMY_SWITCH:
