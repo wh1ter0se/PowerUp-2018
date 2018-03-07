@@ -29,6 +29,8 @@ public class ManualCommandDrive extends Command {
     		case FORZA: 
     			Robot.SUB_DRIVE.driveForza(OI.DRIVER, Util.getAndSetDouble("Forza Ramp", .75), Util.getAndSetDouble("Radius", 1), Util.getAndSetDouble("Drive Inhibitor", 1));
     			break;
+            case BROGAN:
+                Robot.SUB_DRIVE.driveBrogan(OI.DRIVER, Util.getAndSetDouble("Brogan Ramp", .35), Util.getAndSetDouble("Drive Inhibitor", 1));
     	}
     }
 
