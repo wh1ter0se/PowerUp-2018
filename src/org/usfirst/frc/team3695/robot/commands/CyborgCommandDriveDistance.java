@@ -71,5 +71,7 @@ public class CyborgCommandDriveDistance extends Command {
         isFinished = false;
     }
 
-    protected void interrupted() {}
+    protected void interrupted() {
+    	end();
+    }
 }

@@ -17,15 +17,15 @@ import org.usfirst.frc.team3695.robot.util.Xbox;
 public class SubsystemMast extends Subsystem {
 	
 	
-	private TalonSRX leftPinion;
-	private TalonSRX rightPinion;
-	private TalonSRX screw;
+	public TalonSRX leftPinion;
+	public TalonSRX rightPinion;
+	public TalonSRX screw;
 	
-	DigitalInput lowerPinionLimit;
-    DigitalInput upperPinionLimit;
-    DigitalInput lowerScrewLimit;
-    DigitalInput midScrewLimit;
-    DigitalInput upperScrewLimit;
+	public DigitalInput lowerPinionLimit;
+	public DigitalInput upperPinionLimit;
+	public DigitalInput lowerScrewLimit;
+	public DigitalInput midScrewLimit;
+	public DigitalInput upperScrewLimit;
 
     private Boolean override;
 
@@ -110,39 +110,6 @@ public class SubsystemMast extends Subsystem {
     	
     	return (!lowerPinionLimit.get()) && (!lowerScrewLimit.get());
     }
-
-    public Boolean adjustPinion(Position direction){
-
-    	if (direction == Position.UP) {
-			if (!upperPinionLimit.get()) {
-				rightPinion.set(ControlMode.PercentOutput, rightPinionate(1));
-				leftPinion.set(ControlMode.PercentOutput, leftPinionate(1));
-				return false;
-			}
-		} else {
-			if (!lowerPinionLimit.get()) {
-				rightPinion.set(ControlMode.PercentOutput, rightPinionate(-1));
-				leftPinion.set(ControlMode.PercentOutput, leftPinionate(-1));
-				return false;
-			}
-		}
-    	return true;
-	}
-
-	public Boolean adjustScrew(Position direction){
-    	if (direction == Position.UP){
-    		if (!upperScrewLimit.get()){
-    			screw.set(ControlMode.PercentOutput, screwify(1));
-    			return false;
-			}
-		} else {
-    		if (!lowerScrewLimit.get()){
-    			screw.set(ControlMode.PercentOutput, screwify(-1));
-    			return false;
-			}
-		}
-    	return true;
-	}
     	
     public void publishSwitches() {
     	SmartDashboard.putBoolean("Lower Screw", !lowerScrewLimit.get());

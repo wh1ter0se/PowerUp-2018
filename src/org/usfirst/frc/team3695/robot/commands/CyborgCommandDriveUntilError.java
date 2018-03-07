@@ -8,7 +8,9 @@ import org.usfirst.frc.team3695.robot.util.Util;
 public class CyborgCommandDriveUntilError extends Command {
     public static final long ERROR_TIME = 500;
     public static final int TARGET_ERROR = 500;
-
+    
+    
+    
     private long time = 0;
 
     public CyborgCommandDriveUntilError() {
@@ -25,10 +27,10 @@ public class CyborgCommandDriveUntilError extends Command {
     }
 
     protected boolean isFinished() {
-        if(Math.abs(Robot.SUB_DRIVE.pid.getError()) < TARGET_ERROR) {
-            time = System.currentTimeMillis() + ERROR_TIME;
-        }
-        return time < System.currentTimeMillis();
+    	if (true) {
+    		
+    	}
+    	return false;
     }
 
     protected void end() {

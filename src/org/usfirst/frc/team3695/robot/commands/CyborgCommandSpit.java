@@ -21,7 +21,6 @@ public class CyborgCommandSpit extends Command {
     }
 
     protected void execute() {
-    	DriverStation.reportError("Start + Run:" + (startTime+runTime) + " Current Time:" + System.currentTimeMillis(), false);
         if (startTime + runTime >= System.currentTimeMillis()){
             Robot.SUB_MANIPULATOR.spit();
         } else {

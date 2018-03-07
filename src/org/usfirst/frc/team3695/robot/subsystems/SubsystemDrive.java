@@ -301,8 +301,8 @@ public class SubsystemDrive extends Subsystem {
             _talon.configNominalOutputReverse(0, Constants.TIMEOUT_PID);
             _talon.configPeakOutputForward(1, Constants.TIMEOUT_PID);
             _talon.configPeakOutputReverse(-1, Constants.TIMEOUT_PID);
-            /* set closed loop gains in slot0 - see documentation */
-            _talon.selectProfileSlot(0, Constants.RIGHT_PID);
+            /* set closed loop gains in slot */
+            _talon.selectProfileSlot(slot, Constants.RIGHT_PID);
             _talon.config_kP(slot, p, Constants.TIMEOUT_PID);
             _talon.config_kI(slot, i, Constants.TIMEOUT_PID);
             _talon.config_kD(slot, d, Constants.TIMEOUT_PID);
@@ -312,17 +312,11 @@ public class SubsystemDrive extends Subsystem {
             _talon.configMotionAcceleration(6000, Constants.TIMEOUT_PID);
         }
 
-        public void zeroEncoders() {
-            Robot.SUB_DRIVE.leftMaster.setSelectedSensorPosition(0, 0, Constants.TIMEOUT_PID);
-            Robot.SUB_DRIVE.rightMaster.setSelectedSensorPosition(0, 0, Constants.TIMEOUT_PID);
-            Robot.SUB_DRIVE.leftMaster.setIntegralAccumulator(0,0, Constants.TIMEOUT_PID);
-            Robot.SUB_DRIVE.rightMaster.setIntegralAccumulator(0,0, Constants.TIMEOUT_PID);
-        }
 
         public double getError() {
             return (leftify(Robot.SUB_DRIVE.leftMaster.getErrorDerivative(Constants.LEFT_PID)) + rightify(Robot.SUB_DRIVE.rightMaster.getErrorDerivative(Constants.RIGHT_PID))) / 2.0;
         }
-
+        
         public double getRightInches() {
             return rightMag2In(Robot.SUB_DRIVE.rightMaster.getSelectedSensorPosition(Constants.RIGHT_PID));
         }
@@ -334,6 +328,8 @@ public class SubsystemDrive extends Subsystem {
         public void reset() {
             Robot.SUB_DRIVE.leftMaster.setSelectedSensorPosition(0, Constants.LEFT_PID, Constants.TIMEOUT_PID);
             Robot.SUB_DRIVE.rightMaster.setSelectedSensorPosition(0, Constants.RIGHT_PID, Constants.TIMEOUT_PID);
+            Robot.SUB_DRIVE.leftMaster.setIntegralAccumulator(0,0, Constants.TIMEOUT_PID);
+            Robot.SUB_DRIVE.rightMaster.setIntegralAccumulator(0,0, Constants.TIMEOUT_PID);
         }
     }
 }

@@ -5,6 +5,8 @@ import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.enumeration.Mast;
 import org.usfirst.frc.team3695.robot.enumeration.Position;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 public class CyborgCommandGrow extends Command {
 
     private Mast position;
@@ -21,26 +23,48 @@ public class CyborgCommandGrow extends Command {
     }
 
     protected void initialize() {
-        switch (position) {
-            case PINION_UP:
-                Robot.SUB_MAST.adjustPinion(Position.UP);
-                break;
-            case PINION_DOWN:
-                Robot.SUB_MAST.adjustPinion(Position.DOWN);
-                break;
-            case SCREW_UP:
-                Robot.SUB_MAST.adjustScrew(Position.UP);
-                break;
-            case SCREW_DOWN:
-                Robot.SUB_MAST.adjustScrew(Position.DOWN);
-                break;
-        }
-        isFinished = true;
+        isFinished = false;
     }
 
-    protected void execute() {}
+    protected void execute() {
+    	switch (position) {
+	        case PINION_UP:
+				if (!Robot.SUB_MAST.upperPinionLimit.get()) {
+					Robot.SUB_MAST.rightPinion.set(ControlMode.PercentOutput, Robot.SUB_MAST.rightPinionate(-1));
+					Robot.SUB_MAST.leftPinion.set(ControlMode.PercentOutput, Robot.SUB_MAST.leftPinionate(-1));
+				} else {
+					isFinished = true;
+				}
+	            break;
+	        case PINION_DOWN:
+				if (!Robot.SUB_MAST.lowerPinionLimit.get()) {
+					Robot.SUB_MAST.rightPinion.set(ControlMode.PercentOutput, Robot.SUB_MAST.rightPinionate(1));
+					Robot.SUB_MAST.leftPinion.set(ControlMode.PercentOutput, Robot.SUB_MAST.leftPinionate(1));
+				} else {
+					isFinished = true;
+				}
+	            break;
+	        case SCREW_UP:
+	    		if (!Robot.SUB_MAST.upperScrewLimit.get()){
+	    			Robot.SUB_MAST.screw.set(ControlMode.PercentOutput, Robot.SUB_MAST.screwify(-1));
+				} else {
+					isFinished = true;
+				}
+	            break;
+	        case SCREW_DOWN:
+	    		if (!Robot.SUB_MAST.lowerScrewLimit.get()){
+	    			Robot.SUB_MAST.screw.set(ControlMode.PercentOutput, Robot.SUB_MAST.screwify(1));
+				} else {
+					isFinished = true;
+				}
+	    		break;
+    	}
+    }
 
     protected void end() {
+    	Robot.SUB_MAST.leftPinion.set(ControlMode.PercentOutput, 0);
+    	Robot.SUB_MAST.rightPinion.set(ControlMode.PercentOutput, 0);
+    	Robot.SUB_MAST.screw.set(ControlMode.PercentOutput, 0);
         isFinished = false;
     }
 
