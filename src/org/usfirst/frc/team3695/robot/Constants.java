@@ -61,12 +61,10 @@ public class Constants {
 	
 	public static class OOF {
 		public static final boolean
-			LEFT_MOTOR_INVERT         = false,
-			RIGHT_MOTOR_INVERT        = false, 
 	
 			LEFT_PINION_MOTOR_INVERT  = false,
 			RIGHT_PINION_MOTOR_INVERT = true,
-			SCREW_MOTOR_INVERT        = false,
+			SCREW_MOTOR_INVERT        = true,
 	
 			LEFT_ARM_MOTOR_INVERT     = true,
 			RIGHT_ARM_MOTOR_INVERT    = false,
@@ -77,9 +75,9 @@ public class Constants {
 			FRAME_CAM_FLIP = false,
 
             LEFT_MASTER_INVERT = false,
-            RIGHT_MASTER_INVERT = false,
-            LEFT_SLAVE_INVERT = false,
-            RIGHT_SLAVE_INVERT = false;
+    		LEFT_SLAVE_INVERT = false,
+            RIGHT_MASTER_INVERT = true,
+            RIGHT_SLAVE_INVERT = true;
 
 		public static final double
             P = 0.5,
@@ -90,8 +88,6 @@ public class Constants {
 	
 	public static class TEUFELSKIND {
 		public static final boolean
-			LEFT_MOTOR_INVERT         = false,
-			RIGHT_MOTOR_INVERT        = true,
 	
 			LEFT_PINION_MOTOR_INVERT  = false,
 			RIGHT_PINION_MOTOR_INVERT = true,
@@ -106,8 +102,8 @@ public class Constants {
 			FRAME_CAM_FLIP = false,
 
 			LEFT_MASTER_INVERT = false,
-            RIGHT_MASTER_INVERT = false,
             LEFT_SLAVE_INVERT = false,
+            RIGHT_MASTER_INVERT = false,
             RIGHT_SLAVE_INVERT = false;
 
         public static final double
@@ -122,7 +118,7 @@ public class Constants {
 		//Save distances in inches
 
 		//Distance from the side positions to the middle of the switch on the side
-		public static final int DIST_TO_SWITCH_FROM_SIDE = 168;
+		public static final int DIST_TO_SWITCH_FROM_SIDE = 148;
 		//Distance to drive forward so we don't run into the portal when in the middle
 		public static final int DIST_PASS_PORTAL = 36;
 		//The center line of the field to the middle of the switch

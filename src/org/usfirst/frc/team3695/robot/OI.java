@@ -54,9 +54,6 @@ public class OI {
 	    	SmartDashboard.putBoolean("Lower Pinion", true);
 	    	SmartDashboard.putBoolean("Upper Pinion", false);
 	    	
-	    	SmartDashboard.putNumber("Left inches", 0);
-	    	SmartDashboard.putNumber("Right inches", 0);
-	    	
 	    	DriverStation.reportWarning("OI IS INSTANTIATED", false);
 
 	    /// Cyborg command testers
