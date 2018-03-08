@@ -120,9 +120,9 @@ public class Constants {
 		//Distance from the side positions to the middle of the switch on the side
 		public static final int DIST_TO_SWITCH = 148;
 		//Distance rom the side positions to the middle of the scale on the side
-		public static final int DIST_TO_SCALE = 300;
+		public static final int DIST_TO_SCALE = 324;
 		//Distance from a side to the enemy switch
-		public static final int DIST_TO_ENEMY_SWITCH = 360;
+		public static final int DIST_TO_ENEMY_SWITCH = 480;
 				
 		
 		//Distance to drive forward so we don't run into the portal when in the middle
@@ -139,7 +139,7 @@ public class Constants {
 		// the distance to pass the switch before traveling to the foreign home switch
 		public static final double DIST_PAST_SWITCH = 228.735;
 		
-		public static final int DIST_TO_FOREIGN_SWITCH = 480;
+		public static final double DIST_TO_FOREIGN_SWITCH = 178.75;
 		
 		//Rotations
 		public static final int ROT_90_CW = 90;

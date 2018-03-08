@@ -50,17 +50,17 @@ public class SubsystemDrive extends Subsystem {
 
     /* converts left magnetic encoder's magic units to inches */
     public static double leftMag2In(double leftMag) {
-        return leftMag / 200;
+        return leftMag / 212; // 204
     }
 
-    /* converts right magnetic encoder's magic units to inches */
+    /* converts right magnetic encoder's magic unit to inches */
     public static double rightMag2In(double rightMag) {
         return rightMag / 212;
     }
 
     /* converts left magnetic encoder's magic units to inches */
     public static double leftIn2Mag(double leftMag) {
-        return leftMag * 206;
+        return leftMag * 212; // 204
     }
 
     /* converts right magnetic encoder's magic units to inches */
@@ -267,9 +267,9 @@ public class SubsystemDrive extends Subsystem {
     public void driveDistance(double leftIn, double rightIn) {
         double leftGoal = (leftIn2Mag(leftIn));
         double rightGoal = (rightIn2Mag(rightIn));
-        leftMaster.set(ControlMode.Position, leftify(leftGoal));
+        leftMaster.set(ControlMode.MotionMagic, leftify(leftGoal));
     		leftSlave.follow(leftMaster);
-        rightMaster.set(ControlMode.Position, rightify(rightGoal));
+        rightMaster.set(ControlMode.MotionMagic, rightify(rightGoal));
     		rightSlave.follow(rightMaster);
     }
 
