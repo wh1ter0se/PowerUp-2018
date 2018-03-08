@@ -41,7 +41,7 @@ public class CommandGroupAuto extends CommandGroup {
 							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_TO_SWITCH_FROM_SIDE, 3500));
 							addSequential(new CyborgCommandGrow(Mast.SCREW_UP, 1500));
 							addSequential(new CommandWait(250));
-							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CLOCKWISE, 1250));
+							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CW, 1250));
 							addSequential(new CyborgCommandSpit(500));
 						} else if (gameData.charAt(0) == 'R'){ //When the switch is on the right
 							
@@ -58,7 +58,12 @@ public class CommandGroupAuto extends CommandGroup {
 						if (gameData.charAt(1) == 'L'){ //When scale is on the left
 
 						} else { //When scale is on the right
-
+							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_TO_SCALE_FROM_SIDE, 3500));
+							addSequential(new CyborgCommandGrow(Mast.SCREW_UP, 1500));
+							addSequential(new CyborgCommandGrow(Mast.PINION_UP, 1500));
+							addSequential(new CommandWait(250));
+							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CW, 1250));
+							addSequential(new CyborgCommandSpit(500));
 						}
 						break;
 
@@ -75,17 +80,17 @@ public class CommandGroupAuto extends CommandGroup {
 					case SWITCH:
 						addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_PASS_PORTAL, 5000));
 						if (gameData.charAt(0) == 'L'){ //When the switch is on the left
-							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_COUNTERCLOCKWISE, 5000));
+							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CCW, 5000));
 							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_CENTER_LINE_SWITCH_ALIGN, 5000));
-							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CLOCKWISE, 5000));
+							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CW, 5000));
 							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_ALLIANCE_WALL_TO_BLOCKS
 																				+ AutonomousConstants.DIST_BLOCKS_TO_SWITCH
 																				- AutonomousConstants.DIST_PASS_PORTAL, 5000));
 
 						} else { //When the switch is on the right
-							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CLOCKWISE, 5000));
+							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CW, 5000));
 							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_CENTER_LINE_SWITCH_ALIGN, 5000));
-							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_COUNTERCLOCKWISE, 5000));
+							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CCW, 5000));
 				//			addParallel(new CyborgCommandGoToMid());
 							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_ALLIANCE_WALL_TO_BLOCKS
 																				+ AutonomousConstants.DIST_BLOCKS_TO_SWITCH
@@ -111,7 +116,7 @@ public class CommandGroupAuto extends CommandGroup {
 							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_TO_SWITCH_FROM_SIDE, 3500));
 							addSequential(new CyborgCommandGrow(Mast.SCREW_UP, 1500));
 							addSequential(new CommandWait(250));
-							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_COUNTERCLOCKWISE, 1250), 1500);
+							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CCW, 1250), 1500);
 							addSequential(new CyborgCommandSpit(500L)); 
 						} else { //When the switch is on the left
 
@@ -122,7 +127,12 @@ public class CommandGroupAuto extends CommandGroup {
 						break;
 					case SCALE:
 						if (gameData.charAt(1) == 'R'){ //When scale is on the right
-
+							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_TO_SCALE_FROM_SIDE, 3500));
+							addSequential(new CyborgCommandGrow(Mast.SCREW_UP, 1500));
+							addSequential(new CyborgCommandGrow(Mast.PINION_UP, 1500));
+							addSequential(new CommandWait(250));
+							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CCW, 1250));
+							addSequential(new CyborgCommandSpit(500));
 						} else { //When scale is on the left
 
 						}

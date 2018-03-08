@@ -119,6 +119,8 @@ public class Constants {
 
 		//Distance from the side positions to the middle of the switch on the side
 		public static final int DIST_TO_SWITCH_FROM_SIDE = 148;
+		//Distance rom the side positions to the middle of the scale on the side
+		public static final int DIST_TO_SCALE_FROM_SIDE = 300;
 		//Distance to drive forward so we don't run into the portal when in the middle
 		public static final int DIST_PASS_PORTAL = 36;
 		//The center line of the field to the middle of the switch
@@ -133,8 +135,8 @@ public class Constants {
 		public static final int DIST_SIDE_TO_ENEMY_SWITCH = 360;
 
 		//Rotations
-		public static final int ROT_90_CLOCKWISE = 90;
-		public static final int ROT_90_COUNTERCLOCKWISE = -90;
+		public static final int ROT_90_CW = 90;
+		public static final int ROT_90_CCW = -90;
 		public static final int ROT_180 = 180;
 
 
