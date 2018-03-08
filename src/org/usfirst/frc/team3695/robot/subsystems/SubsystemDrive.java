@@ -230,9 +230,6 @@ public class SubsystemDrive extends Subsystem {
         right = (right > 1.0 ? 1.0 : (right < -1.0 ? -1.0 : right));
         leftMaster.set(ControlMode.PercentOutput, leftify(left) * inhibitor * (reversing ? -1.0 : 1.0));
         rightMaster.set(ControlMode.PercentOutput, rightify(right) * inhibitor * (reversing ? -1.0 : 1.0));
-
-        SmartDashboard.putString("Left Master", "Left Master Voltage: " + leftMaster.getBusVoltage());
-        SmartDashboard.putString("Right Master", "Right Master Voltage: " + rightMaster.getBusVoltage());
     }
 
     public void driveBrogan(Joystick joy, double ramp, double inhibitor) {
@@ -266,8 +263,6 @@ public class SubsystemDrive extends Subsystem {
         if (rightSlave != null)
         	rightSlave.configOpenloopRamp(ramp, 10);
     }
-
-    
     
     public void driveDistance(double leftIn, double rightIn) {
         double leftGoal = (leftIn2Mag(leftIn));
