@@ -6,20 +6,25 @@ import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.util.Util;
 
 public class CyborgCommandDriveUntilError extends Command {
-    public static final long ERROR_TIME = 500;
-    public static final int TARGET_ERROR = 500;
-    
-    
+    public long errorTime;
+    public long runTime;
+
+    final double ERROR_DISTANCE_MARGIN = 2;
+
+    double currentPosLeft;
+    double currentPosRight;
     
     private long time = 0;
 
-    public CyborgCommandDriveUntilError() {
+    public CyborgCommandDriveUntilError(long errorTime) {
+        this.errorTime = errorTime;
+        runTime = System.currentTimeMillis();
         requires(Robot.SUB_DRIVE);
+        currentPosLeft = Robot.SUB_DRIVE.pid.getLeftInches();
+        currentPosRight = Robot.SUB_DRIVE.pid.getRightInches();
     }
 
-    protected void initialize() {
-        time = System.currentTimeMillis() + ERROR_TIME;
-    }
+    protected void initialize() {}
 
     protected void execute() {
         double speed = Util.getAndSetDouble("SPEED ERROR: Forward", -0.25);
@@ -27,10 +32,14 @@ public class CyborgCommandDriveUntilError extends Command {
     }
 
     protected boolean isFinished() {
-    	if (true) {
-    		
-    	}
-    	return false;
+        if (((currentPosLeft + ERROR_DISTANCE_MARGIN) > Robot.SUB_DRIVE.pid.getLeftInches() && (currentPosLeft - ERROR_DISTANCE_MARGIN) < Robot.SUB_DRIVE.pid.getLeftInches())
+                || ((currentPosRight + ERROR_DISTANCE_MARGIN) > Robot.SUB_DRIVE.pid.getRightInches() && (currentPosRight - ERROR_DISTANCE_MARGIN) < Robot.SUB_DRIVE.pid.getRightInches())){
+            currentPosLeft = Robot.SUB_DRIVE.pid.getLeftInches();
+            currentPosRight = Robot.SUB_DRIVE.pid.getRightInches();
+            runTime = System.currentTimeMillis();
+            return false;
+        }
+        return errorTime + runTime < System.currentTimeMillis();
     }
 
     protected void end() {
