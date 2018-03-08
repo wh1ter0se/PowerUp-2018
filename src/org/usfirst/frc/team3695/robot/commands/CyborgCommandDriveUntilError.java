@@ -9,15 +9,16 @@ public class CyborgCommandDriveUntilError extends Command {
     public long errorTime;
     public long runTime;
 
-    final double ERROR_DISTANCE_MARGIN = 2;
+    double allowableError = 2;
 
     double currentPosLeft;
     double currentPosRight;
     
     private long time = 0;
 
-    public CyborgCommandDriveUntilError(long errorTime) {
+    public CyborgCommandDriveUntilError(long errorTime, double allowableError) {
         this.errorTime = errorTime;
+        this.allowableError = allowableError;
         runTime = System.currentTimeMillis();
         requires(Robot.SUB_DRIVE);
         currentPosLeft = Robot.SUB_DRIVE.pid.getLeftInches();
@@ -32,8 +33,8 @@ public class CyborgCommandDriveUntilError extends Command {
     }
 
     protected boolean isFinished() {
-        if (((currentPosLeft + ERROR_DISTANCE_MARGIN) > Robot.SUB_DRIVE.pid.getLeftInches() && (currentPosLeft - ERROR_DISTANCE_MARGIN) < Robot.SUB_DRIVE.pid.getLeftInches())
-                || ((currentPosRight + ERROR_DISTANCE_MARGIN) > Robot.SUB_DRIVE.pid.getRightInches() && (currentPosRight - ERROR_DISTANCE_MARGIN) < Robot.SUB_DRIVE.pid.getRightInches())){
+        if (((currentPosLeft + allowableError) > Robot.SUB_DRIVE.pid.getLeftInches() && (currentPosLeft - allowableError) < Robot.SUB_DRIVE.pid.getLeftInches())
+                || ((currentPosRight + allowableError) > Robot.SUB_DRIVE.pid.getRightInches() && (currentPosRight - allowableError) < Robot.SUB_DRIVE.pid.getRightInches())){
             currentPosLeft = Robot.SUB_DRIVE.pid.getLeftInches();
             currentPosRight = Robot.SUB_DRIVE.pid.getRightInches();
             runTime = System.currentTimeMillis();
