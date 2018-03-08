@@ -36,7 +36,7 @@ public class CyborgCommandGrow extends Command {
     	DriverStation.reportWarning("RAISING " + position, false);
     	switch (position) {
 	        case PINION_UP:
-				if (Robot.SUB_MAST.upperPinionLimit.get()) {
+				if (!Robot.SUB_MAST.upperPinionLimit.get()) {
 					Robot.SUB_MAST.rightPinion.set(ControlMode.PercentOutput, Robot.SUB_MAST.rightPinionate(1));
 					Robot.SUB_MAST.leftPinion.set(ControlMode.PercentOutput, Robot.SUB_MAST.leftPinionate(1));
 				} else {
