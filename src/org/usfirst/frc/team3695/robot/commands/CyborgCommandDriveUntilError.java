@@ -25,7 +25,9 @@ public class CyborgCommandDriveUntilError extends Command {
         currentPosRight = Robot.SUB_DRIVE.pid.getRightInches();
     }
 
-    protected void initialize() {}
+    protected void initialize() {
+        runTime = System.currentTimeMillis();
+    }
 
     protected void execute() {
         double speed = Util.getAndSetDouble("SPEED ERROR: Forward", -0.25);
@@ -33,8 +35,8 @@ public class CyborgCommandDriveUntilError extends Command {
     }
 
     protected boolean isFinished() {
-        if (((currentPosLeft + allowableError) > Robot.SUB_DRIVE.pid.getLeftInches() && (currentPosLeft - allowableError) < Robot.SUB_DRIVE.pid.getLeftInches())
-                || ((currentPosRight + allowableError) > Robot.SUB_DRIVE.pid.getRightInches() && (currentPosRight - allowableError) < Robot.SUB_DRIVE.pid.getRightInches())){
+        if (!((currentPosLeft + allowableError) > Robot.SUB_DRIVE.pid.getLeftInches() && (currentPosLeft - allowableError) < Robot.SUB_DRIVE.pid.getLeftInches())
+                || !((currentPosRight + allowableError) > Robot.SUB_DRIVE.pid.getRightInches() && (currentPosRight - allowableError) < Robot.SUB_DRIVE.pid.getRightInches())){
             currentPosLeft = Robot.SUB_DRIVE.pid.getLeftInches();
             currentPosRight = Robot.SUB_DRIVE.pid.getRightInches();
             runTime = System.currentTimeMillis();
@@ -45,6 +47,7 @@ public class CyborgCommandDriveUntilError extends Command {
 
     protected void end() {
         DriverStation.reportWarning("CyborgCommandDriveUntilError finished", false);
+        runTime = Long.MAX_VALUE;
         Robot.SUB_DRIVE.driveDirect(0, 0);
     }
 
