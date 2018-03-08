@@ -90,14 +90,12 @@ public class SubsystemDrive extends Subsystem {
 
     /* apply left motor invert */
     public static final double leftify(double left) {
-        Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.LEFT_MOTOR_INVERT : Constants.TEUFELSKIND.LEFT_MOTOR_INVERT;
-        return left * (invert ? -1.0 : 1.0) * (docking ? dockInhibitor : 1);
+        return left * (docking ? dockInhibitor : 1);
     }
 
     /* apply right motor invert */
     public static final double rightify(double right) {
-        Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_MOTOR_INVERT : Constants.TEUFELSKIND.RIGHT_MOTOR_INVERT;
-        return right * (invert ? -1.0 : 1.0) * (docking ? dockInhibitor : 1);
+        return right * (docking ? dockInhibitor : 1);
     }
 
     
@@ -273,24 +271,23 @@ public class SubsystemDrive extends Subsystem {
         public static void setPIDF(int slot, double p, double i, double d, double f) {
             //For future reference: Inverts must be applied individually
         	if (Robot.bot == Bot.OOF) {
-	            setPIDF(Robot.SUB_DRIVE.leftMaster, false, p, i, d, f, slot);
-	            setPIDF(Robot.SUB_DRIVE.leftSlave, false, p, i, d, f, slot);
-	            setPIDF(Robot.SUB_DRIVE.rightMaster, true, p, i, d, f, slot);
-	            setPIDF(Robot.SUB_DRIVE.rightSlave, true, p, i, d, f, slot);
+	            setPIDF(Robot.SUB_DRIVE.leftMaster, p, i, d, f, slot);
+	            setPIDF(Robot.SUB_DRIVE.leftSlave, p, i, d, f, slot);
+	            setPIDF(Robot.SUB_DRIVE.rightMaster, p, i, d, f, slot);
+	            setPIDF(Robot.SUB_DRIVE.rightSlave, p, i, d, f, slot);
         	} else {
-        		setPIDF(Robot.SUB_DRIVE.leftMaster, false, p, i, d, f, slot);
-	            setPIDF(Robot.SUB_DRIVE.leftSlave, false, p, i, d, f, slot);
-	            setPIDF(Robot.SUB_DRIVE.rightMaster, false, p, i, d, f, slot);
-	            setPIDF(Robot.SUB_DRIVE.rightSlave, false, p, i, d, f, slot);
+        		setPIDF(Robot.SUB_DRIVE.leftMaster, p, i, d, f, slot);
+	            setPIDF(Robot.SUB_DRIVE.leftSlave, p, i, d, f, slot);
+	            setPIDF(Robot.SUB_DRIVE.rightMaster, p, i, d, f, slot);
+	            setPIDF(Robot.SUB_DRIVE.rightSlave, p, i, d, f, slot);
         	}
         }
 
-        public static void setPIDF(TalonSRX _talon, Boolean invert, double p, double i, double d, double f, int slot) {
+        public static void setPIDF(TalonSRX _talon, double p, double i, double d, double f, int slot) {
             /* first choose the sensor */
             _talon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,
                     0, Constants.TIMEOUT_PID);
             _talon.setSensorPhase(true);
-            _talon.setInverted(invert);
             /* Set relevant frame periods to be at least as fast as periodic rate*/
             _talon.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10,
                     Constants.TIMEOUT_PID);

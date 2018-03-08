@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3695.robot.commands;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.enumeration.Mast;
@@ -23,37 +24,39 @@ public class CyborgCommandGrow extends Command {
     }
 
     protected void initialize() {
+    	DriverStation.reportWarning("RAISING INIT", false);
         isFinished = false;
     }
 
     protected void execute() {
+    	DriverStation.reportWarning("RAISING " + position, false);
     	switch (position) {
 	        case PINION_UP:
-				if (!Robot.SUB_MAST.upperPinionLimit.get()) {
-					Robot.SUB_MAST.rightPinion.set(ControlMode.PercentOutput, Robot.SUB_MAST.rightPinionate(-1));
-					Robot.SUB_MAST.leftPinion.set(ControlMode.PercentOutput, Robot.SUB_MAST.leftPinionate(-1));
-				} else {
-					isFinished = true;
-				}
-	            break;
-	        case PINION_DOWN:
-				if (!Robot.SUB_MAST.lowerPinionLimit.get()) {
+				if (Robot.SUB_MAST.upperPinionLimit.get()) {
 					Robot.SUB_MAST.rightPinion.set(ControlMode.PercentOutput, Robot.SUB_MAST.rightPinionate(1));
 					Robot.SUB_MAST.leftPinion.set(ControlMode.PercentOutput, Robot.SUB_MAST.leftPinionate(1));
 				} else {
 					isFinished = true;
 				}
 	            break;
+	        case PINION_DOWN:
+				if (Robot.SUB_MAST.lowerPinionLimit.get()) {
+					Robot.SUB_MAST.rightPinion.set(ControlMode.PercentOutput, Robot.SUB_MAST.rightPinionate(-1));
+					Robot.SUB_MAST.leftPinion.set(ControlMode.PercentOutput, Robot.SUB_MAST.leftPinionate(-1));
+				} else {
+					isFinished = true;
+				}
+	            break;
 	        case SCREW_UP:
-	    		if (!Robot.SUB_MAST.upperScrewLimit.get()){
-	    			Robot.SUB_MAST.screw.set(ControlMode.PercentOutput, Robot.SUB_MAST.screwify(-1));
+	    		if (Robot.SUB_MAST.upperScrewLimit.get()){
+	    			Robot.SUB_MAST.screw.set(ControlMode.PercentOutput, Robot.SUB_MAST.screwify(1));
 				} else {
 					isFinished = true;
 				}
 	            break;
 	        case SCREW_DOWN:
-	    		if (!Robot.SUB_MAST.lowerScrewLimit.get()){
-	    			Robot.SUB_MAST.screw.set(ControlMode.PercentOutput, Robot.SUB_MAST.screwify(1));
+	    		if (Robot.SUB_MAST.lowerScrewLimit.get()){
+	    			Robot.SUB_MAST.screw.set(ControlMode.PercentOutput, Robot.SUB_MAST.screwify(-1));
 				} else {
 					isFinished = true;
 				}
@@ -62,6 +65,7 @@ public class CyborgCommandGrow extends Command {
     }
 
     protected void end() {
+    	DriverStation.reportWarning("DONE RAISING", false);
     	Robot.SUB_MAST.leftPinion.set(ControlMode.PercentOutput, 0);
     	Robot.SUB_MAST.rightPinion.set(ControlMode.PercentOutput, 0);
     	Robot.SUB_MAST.screw.set(ControlMode.PercentOutput, 0);

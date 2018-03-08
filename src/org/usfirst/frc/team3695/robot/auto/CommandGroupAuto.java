@@ -27,7 +27,7 @@ public class CommandGroupAuto extends CommandGroup {
 
 		// make sure everything is in the right state/position up here
 		Robot.SUB_CLAMP.closeArms();
-
+		Robot.SUB_DRIVE.setInverts();
 
 		// EX: making sure flap is closed before auto starts
 		switch (position) {
@@ -38,10 +38,10 @@ public class CommandGroupAuto extends CommandGroup {
 						break;
 					case SWITCH:
 						if (gameData.charAt(0) == 'L'){ //When the switch is on the left
-							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_TO_SWITCH_FROM_SIDE, 5000));
+							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_TO_SWITCH_FROM_SIDE, 3500));
 							addSequential(new CyborgCommandGrow(Mast.SCREW_UP));
-							addSequential(new CommandWait(500));
-							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CLOCKWISE, 5000));
+							addSequential(new CommandWait(250));
+							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CLOCKWISE, 1250));
 							addSequential(new CyborgCommandSpit(500));
 						} else if (gameData.charAt(0) == 'R'){ //When the switch is on the right
 							
@@ -108,11 +108,11 @@ public class CommandGroupAuto extends CommandGroup {
 						break;
 					case SWITCH:
 						if (gameData.charAt(0) == 'R'){ //When the switch is on the right
-							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_TO_SWITCH_FROM_SIDE, 5000));
+							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_TO_SWITCH_FROM_SIDE, 3500));
 							addSequential(new CyborgCommandGrow(Mast.SCREW_UP));
-							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_COUNTERCLOCKWISE, 5000), 1500);
-							addSequential(new CyborgCommandSpit(500L));
-						} else { //When the switch is on the left
+							addSequential(new CommandWait(250));
+							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_COUNTERCLOCKWISE, 1250), 1500);
+							addSequential(new CyborgCommandSpit(500L)); 
 
 						}
 						break;

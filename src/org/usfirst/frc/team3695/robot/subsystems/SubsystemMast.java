@@ -41,7 +41,7 @@ public class SubsystemMast extends Subsystem {
     	lowerPinionLimit = new DigitalInput(6);
         upperPinionLimit = new DigitalInput(7);
         lowerScrewLimit  = new DigitalInput(3);
-        upperScrewLimit  = new DigitalInput(4);
+        upperScrewLimit  = new DigitalInput(5);
     	
     	leftPinion = new TalonSRX(Constants.LEFT_PINION_MOTOR);
     	rightPinion = new TalonSRX(Constants.RIGHT_PINION_MOTOR);
@@ -86,11 +86,10 @@ public class SubsystemMast extends Subsystem {
 		if (!upperScrewLimit.get()  && screwSpeed  < 0)   { screwSpeed = 0;  }
 			
     	publishSwitches();
-    	if (!override) {
-    		leftPinion.set(ControlMode.PercentOutput, leftPinionate(pinionSpeed));
-        	rightPinion.set(ControlMode.PercentOutput, rightPinionate(pinionSpeed));
-        	screw.set(ControlMode.PercentOutput, inhibitor * screwify(screwSpeed));
-    	}
+    	
+		leftPinion.set(ControlMode.PercentOutput, leftPinionate(pinionSpeed));
+    	rightPinion.set(ControlMode.PercentOutput, rightPinionate(pinionSpeed));
+    	screw.set(ControlMode.PercentOutput, inhibitor * screwify(screwSpeed));
     }
     
     public Boolean dropIt(double speed) {

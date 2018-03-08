@@ -16,6 +16,9 @@ public class ManualCommandDrive extends Command {
     protected void initialize() {}
 
     protected void execute() {
+    	
+    	Robot.SUB_DRIVE.setInverts();
+    	
         SmartDashboard.putNumber("Tilt Angle", Robot.SUB_DRIVE.getYAngle());
         SmartDashboard.putBoolean("Docked", Robot.SUB_DRIVE.docking);
         SmartDashboard.putBoolean("Reversed", Robot.SUB_DRIVE.reversing);
