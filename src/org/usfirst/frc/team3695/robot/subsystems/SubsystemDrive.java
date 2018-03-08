@@ -29,8 +29,12 @@ public class SubsystemDrive extends Subsystem {
     public Drivetrain drivetrain;
 
     public static boolean reversing;
+    
     public static boolean docking;
     private static double dockInhibitor;
+    
+    public static boolean narrowing;
+    private static double narrower;
 
     private Accelerometer accel;
 
@@ -147,6 +151,11 @@ public class SubsystemDrive extends Subsystem {
         docking = !docking;
         this.dockInhibitor = dockInhibitor;
     }
+    
+    public void toggleNarrowing(double narrower){
+        narrowing = !narrowing;
+        this.narrower = narrower;
+    }
 
     public void toggleReversing(){
         reversing = !reversing;
@@ -190,6 +199,9 @@ public class SubsystemDrive extends Subsystem {
      * @param radius 0.00-1.00, 1 being zero radius and 0 being driving in a line
      */
     public void driveForza(Joystick joy, double ramp, double radius, double inhibitor) {
+    	
+    	if (narrowing) { radius *= narrower; }
+    	
         double left = 0,
                 right = 0;
         double acceleration = Xbox.RT(joy) - Xbox.LT(joy);
@@ -218,9 +230,6 @@ public class SubsystemDrive extends Subsystem {
         right = (right > 1.0 ? 1.0 : (right < -1.0 ? -1.0 : right));
         leftMaster.set(ControlMode.PercentOutput, leftify(left) * inhibitor * (reversing ? -1.0 : 1.0));
         rightMaster.set(ControlMode.PercentOutput, rightify(right) * inhibitor * (reversing ? -1.0 : 1.0));
-
-        SmartDashboard.putString("Left Master", "Left Master Voltage: " + leftMaster.getBusVoltage());
-        SmartDashboard.putString("Right Master", "Right Master Voltage: " + rightMaster.getBusVoltage());
     }
 
     public void driveBrogan(Joystick joy, double ramp, double inhibitor) {
@@ -254,8 +263,6 @@ public class SubsystemDrive extends Subsystem {
         if (rightSlave != null)
         	rightSlave.configOpenloopRamp(ramp, 10);
     }
-
-    
     
     public void driveDistance(double leftIn, double rightIn) {
         double leftGoal = (leftIn2Mag(leftIn));
