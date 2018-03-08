@@ -118,7 +118,13 @@ public class Constants {
 		//Save distances in inches
 
 		//Distance from the side positions to the middle of the switch on the side
-		public static final int DIST_TO_SWITCH_FROM_SIDE = 148;
+		public static final int DIST_TO_SWITCH = 148;
+		//Distance rom the side positions to the middle of the scale on the side
+		public static final int DIST_TO_SCALE = 300;
+		//Distance from a side to the enemy switch
+		public static final int DIST_TO_ENEMY_SWITCH = 360;
+				
+		
 		//Distance to drive forward so we don't run into the portal when in the middle
 		public static final int DIST_PASS_PORTAL = 36;
 		//The center line of the field to the middle of the switch
@@ -129,25 +135,24 @@ public class Constants {
 		public static final int DIST_WALL_TO_LINE = 120;
 		//Distance from the wall to the farthest protrusion of blocks
 		public static final int DIST_ALLIANCE_WALL_TO_BLOCKS = 98;
-		//Distance from a side to the enemy switch
-		public static final int DIST_SIDE_TO_ENEMY_SWITCH = 360;
-
+		
+		// the distance to pass the switch before traveling to the foreign home switch
+		public static final int DIST_PAST_SWITCH = 0;
+		
+		public static final int DIST_TO_FOREIGN_SWITCH = 0;
+		
 		//Rotations
-		public static final int ROT_90_CLOCKWISE = 90;
-		public static final int ROT_90_COUNTERCLOCKWISE = -90;
+		public static final int ROT_90_CW = 90;
+		public static final int ROT_90_CCW = -90;
 		public static final int ROT_180 = 180;
 
 
 		//Time to run the manipulator for
 		public static final int SPIT_LENGTH = 500;
-		//Time to wait before we can move the mast
-		//Blame colton. He wants things to be "safe"
-		public static final int WAIT_TO_ADJUST_MAST = 300;
-		//Time before commands stop running. Some are just too time greedy
-		public static final int STOP_COMMAND = 3000;
 	}
 
 	public static class VisionConstants {
+		
 		public static final int CAM_HEIGHT = 1080;
 		public static final int CAM_WIDTH  = 1920;
 

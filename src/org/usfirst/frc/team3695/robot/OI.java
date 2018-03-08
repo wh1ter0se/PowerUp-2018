@@ -39,6 +39,9 @@ public class OI {
 		/// Docking mode
 			Button toggleDock = new JoystickButton(DRIVER, Xbox.X);
 				toggleDock.toggleWhenPressed(new ToggleCommandDock());
+		/// Docking mode
+			Button toggleNarrow = new JoystickButton(DRIVER, Xbox.B);
+				toggleNarrow.toggleWhenPressed(new ToggleCommandNarrow());
 		/// To Compress, or Not To Compress. It is now an option.
 			SmartDashboard.putData("Disable Compressor", new ToggleCommandKillCompressor());
 			
@@ -61,11 +64,6 @@ public class OI {
 			SmartDashboard.putData("Drive Distance", new CyborgCommandDriveDistance(Util.getAndSetDouble("Drive Distance Inches", 0), (int) Util.getAndSetDouble("Drive Distance Timeout", 5000)));
 			SmartDashboard.putData("Drive Until Error", new CyborgCommandDriveUntilError(500,2));
 			SmartDashboard.putData("Rotate Degree", new CyborgCommandRotateDegrees(Util.getAndSetDouble("Rotate Degrees", 0), (int) Util.getAndSetDouble("Rotate Timeout", 5000)));
-			SmartDashboard.putData("Spit", new CyborgCommandSpit((long)Util.getAndSetDouble("Spit Time", 500)));
-			SmartDashboard.putData("Raise to Position: Pinion Up", new CyborgCommandGrow(Mast.PINION_UP, 1500));
-			SmartDashboard.putData("Raise to Position: Pinion Down", new CyborgCommandGrow(Mast.PINION_DOWN, 1500));
-			SmartDashboard.putData("Raise to Position: Screw Up", new CyborgCommandGrow(Mast.SCREW_UP, 1500));
-			SmartDashboard.putData("Raise to Position: Screw Down", new CyborgCommandGrow(Mast.SCREW_DOWN, 1500));
 	}
 	
 }
