@@ -143,7 +143,8 @@ public class Robot extends IterativeRobot {
 		if(goalChooser.getSelected() != null) {
 			auto = new CommandGroupAuto(positionChooser.getSelected(), goalChooser.getSelected());
 			auto.start(); 
-		} 
+		}
+		bot = (botChooser.getSelected() != null) ? botChooser.getSelected() : bot; // update motor inverts
 	}
 
 	/** runs at 50hz when in autonomous */

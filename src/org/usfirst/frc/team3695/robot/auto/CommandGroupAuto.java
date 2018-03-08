@@ -28,7 +28,9 @@ public class CommandGroupAuto extends CommandGroup {
 
 		// make sure everything is in the right state/position up here
 		Robot.SUB_CLAMP.closeArms();
+
 		Robot.SUB_DRIVE.setInverts();
+		addSequential(new CommandWait(250)); // for the inverts
 
 		// EX: making sure flap is closed before auto starts
 		switch (position) {
@@ -72,10 +74,10 @@ public class CommandGroupAuto extends CommandGroup {
 						break;
 					case SCALE:
 						if (gameData.charAt(1) == 'L'){ //When scale is on the left
+							addParallel(new CyborgCommandGrow(Mast.SCREW_UP, 2500));
 							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_TO_SCALE, 4000));
-							addSequential(new CyborgCommandGrow(Mast.SCREW_UP, 1500));
 							addSequential(new CommandWait(250));
-							addSequential(new CyborgCommandGrow(Mast.PINION_UP, 2000));
+							addSequential(new CyborgCommandGrow(Mast.PINION_UP, 3000));
 							addSequential(new CommandWait(250));
 							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CW, 1250));
 							addSequential(new CyborgCommandSpit(500));

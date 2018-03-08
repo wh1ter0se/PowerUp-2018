@@ -60,7 +60,7 @@ public class SubsystemDrive extends Subsystem {
 
     /* converts left magnetic encoder's magic units to inches */
     public static double leftIn2Mag(double leftMag) {
-        return leftMag * 200;
+        return leftMag * 206;
     }
 
     /* converts right magnetic encoder's magic units to inches */
