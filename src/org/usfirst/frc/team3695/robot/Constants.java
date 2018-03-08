@@ -137,9 +137,9 @@ public class Constants {
 		public static final int DIST_ALLIANCE_WALL_TO_BLOCKS = 98;
 		
 		// the distance to pass the switch before traveling to the foreign home switch
-		public static final int DIST_PAST_SWITCH = 0;
+		public static final double DIST_PAST_SWITCH = 228.735;
 		
-		public static final int DIST_TO_FOREIGN_SWITCH = 0;
+		public static final int DIST_TO_FOREIGN_SWITCH = 480;
 		
 		//Rotations
 		public static final int ROT_90_CW = 90;
