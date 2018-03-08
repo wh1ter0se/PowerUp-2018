@@ -233,24 +233,17 @@ public class SubsystemDrive extends Subsystem {
     }
 
     public void driveBrogan(Joystick joy, double ramp, double inhibitor) {
-        double adder = Xbox.RIGHT_X(joy) - Xbox.LEFT_X(joy);
-        double left = adder + Xbox.LT(joy);
-        double right = adder - Xbox.RT(joy);
+        double power = Xbox.LEFT_Y(joy);
+        double left  = power + (Xbox.LT(joy) / (4/3));
+        double right = power + (Xbox.RT(joy) / (4/3));
+
         //Truncate. We can't run greater than 100% because Caleb won't let me
         left = (left > 1.0 ? 1.0 : (left < -1.0 ? -1.0 : left));
         right = (right > 1.0 ? 1.0 : (right < -1.0 ? -1.0 : right));
         setRamps(ramp);
 
-//        if (getYAngle() > Constants.TILT_ANGLE ) {
-//            leftMaster.set(ControlMode.PercentOutput, -1*Constants.RECOVERY_SPEED);
-//            rightMaster.set(ControlMode.PercentOutput, -1*Constants.RECOVERY_SPEED);
-//        } else if (getYAngle() < -1*Constants.TILT_ANGLE){
-//            leftMaster.set(ControlMode.PercentOutput, Constants.RECOVERY_SPEED);
-//            rightMaster.set(ControlMode.PercentOutput, Constants.RECOVERY_SPEED);
-//        } else {
         leftMaster.set(ControlMode.PercentOutput, leftify(left));
         rightMaster.set(ControlMode.PercentOutput, rightify(right));
-//        }
     }
     
     public void setRamps(double ramp) {
