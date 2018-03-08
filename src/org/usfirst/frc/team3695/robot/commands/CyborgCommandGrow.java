@@ -11,16 +11,20 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 public class CyborgCommandGrow extends Command {
 
     private Mast position;
+    long startTime;
+    long timeout;
 
     boolean isFinished;
-    public CyborgCommandGrow(Mast position) {
+    public CyborgCommandGrow(Mast position, long timeout) {
         requires(Robot.SUB_MAST);
         this.position = position;
         isFinished = false;
+        this.timeout = timeout;
+        startTime = System.currentTimeMillis();
     }
 
     protected boolean isFinished() {
-        return isFinished;
+    	return isFinished || (startTime + timeout < System.currentTimeMillis());
     }
 
     protected void initialize() {

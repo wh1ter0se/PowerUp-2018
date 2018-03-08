@@ -92,7 +92,7 @@ public class SubsystemMast extends Subsystem {
     	screw.set(ControlMode.PercentOutput, inhibitor * screwify(screwSpeed));
     }
     
-    public Boolean dropIt(double speed) {
+    public void dropIt(double speed) {
     	if (lowerPinionLimit.get()) {
 	    	leftPinion.set(ControlMode.PercentOutput, leftPinionate(speed));
 	    	rightPinion.set(ControlMode.PercentOutput, rightPinionate(speed));
@@ -107,7 +107,7 @@ public class SubsystemMast extends Subsystem {
     		screw.set(ControlMode.PercentOutput, 0);
     	}
     	
-    	return (!lowerPinionLimit.get()) && (!lowerScrewLimit.get());
+//    	return (!lowerPinionLimit.get()) && (!lowerScrewLimit.get());
     }
     	
     public void publishSwitches() {

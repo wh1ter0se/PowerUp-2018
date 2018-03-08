@@ -113,6 +113,7 @@ public class CommandGroupAuto extends CommandGroup {
 							addSequential(new CommandWait(250));
 							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_COUNTERCLOCKWISE, 1250), 1500);
 							addSequential(new CyborgCommandSpit(500L)); 
+						} else { //When the switch is on the left
 
 						}
 						break;

@@ -10,9 +10,7 @@ import org.usfirst.frc.team3695.robot.util.Util;
  * toggles the state of the clamp
  */
 public class ButtonCommandHitTheDeck extends Command {
-	
-	Boolean isFinished;
-	
+
 	long startTime;
 	
     public ButtonCommandHitTheDeck() {
@@ -24,14 +22,16 @@ public class ButtonCommandHitTheDeck extends Command {
     }
 
     protected void execute() {
-    	isFinished = Robot.SUB_MAST.dropIt(Util.getAndSetDouble("Drop Speed", .5)) ||  (startTime + Constants.MAST_TIMEOUT >= System.currentTimeMillis());
+    	Robot.SUB_MAST.dropIt(Util.getAndSetDouble("Drop Speed", .5));
     }
 
-    protected boolean isFinished() { return isFinished; }
-
-    protected void end() {
-    	isFinished = false;
+    protected boolean isFinished() {
+        if (startTime + Constants.MAST_TIMEOUT > System.currentTimeMillis()) return true;
+        if (!Robot.SUB_MAST.lowerScrewLimit.get() && !Robot.SUB_MAST.lowerPinionLimit.get()) return true;
+        return false;
     }
+
+    protected void end() {}
 
     protected void interrupted() {}
 }
