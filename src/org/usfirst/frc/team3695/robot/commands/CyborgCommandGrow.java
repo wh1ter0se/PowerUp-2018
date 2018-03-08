@@ -20,7 +20,6 @@ public class CyborgCommandGrow extends Command {
         this.position = position;
         isFinished = false;
         this.timeout = timeout;
-        startTime = System.currentTimeMillis();
     }
 
     protected boolean isFinished() {
@@ -28,6 +27,7 @@ public class CyborgCommandGrow extends Command {
     }
 
     protected void initialize() {
+        startTime = System.currentTimeMillis();
     	DriverStation.reportWarning("RAISING INIT", false);
         isFinished = false;
     }
@@ -37,16 +37,16 @@ public class CyborgCommandGrow extends Command {
     	switch (position) {
 	        case PINION_UP:
 				if (Robot.SUB_MAST.upperPinionLimit.get()) {
-					Robot.SUB_MAST.rightPinion.set(ControlMode.PercentOutput, Robot.SUB_MAST.rightPinionate(1));
-					Robot.SUB_MAST.leftPinion.set(ControlMode.PercentOutput, Robot.SUB_MAST.leftPinionate(1));
+					Robot.SUB_MAST.rightPinion.set(ControlMode.PercentOutput, Robot.SUB_MAST.rightPinionate(-1));
+					Robot.SUB_MAST.leftPinion.set(ControlMode.PercentOutput, Robot.SUB_MAST.leftPinionate(-1));
 				} else {
 					isFinished = true;
 				}
 	            break;
 	        case PINION_DOWN:
 				if (Robot.SUB_MAST.lowerPinionLimit.get()) {
-					Robot.SUB_MAST.rightPinion.set(ControlMode.PercentOutput, Robot.SUB_MAST.rightPinionate(-1));
-					Robot.SUB_MAST.leftPinion.set(ControlMode.PercentOutput, Robot.SUB_MAST.leftPinionate(-1));
+					Robot.SUB_MAST.rightPinion.set(ControlMode.PercentOutput, Robot.SUB_MAST.rightPinionate(1));
+					Robot.SUB_MAST.leftPinion.set(ControlMode.PercentOutput, Robot.SUB_MAST.leftPinionate(1));
 				} else {
 					isFinished = true;
 				}
