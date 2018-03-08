@@ -49,11 +49,7 @@ public class CyborgCommandDriveDistance extends Command {
     }
 
     protected boolean isFinished() {
-        if (startTime + runTime >= System.currentTimeMillis()) {
-            isFinished = false;
-        } else {
-            isFinished = true;
-        }
+        isFinished = startTime + runTime < System.currentTimeMillis();
         boolean leftInRange =
         		Robot.SUB_DRIVE.pid.getLeftInches() > (inches) - ALLOWABLE_ERROR &&
         		Robot.SUB_DRIVE.pid.getLeftInches() < (inches) + ALLOWABLE_ERROR;
