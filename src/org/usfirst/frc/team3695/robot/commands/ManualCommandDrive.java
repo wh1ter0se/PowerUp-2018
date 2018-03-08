@@ -1,10 +1,14 @@
 package org.usfirst.frc.team3695.robot.commands;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team3695.robot.OI;
 import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.util.Util;
+
+import javax.swing.*;
+import java.sql.Driver;
 
 /** manually command the robot with joysticks */
 public class ManualCommandDrive extends Command {
@@ -24,6 +28,7 @@ public class ManualCommandDrive extends Command {
         SmartDashboard.putBoolean("Reversed", Robot.SUB_DRIVE.reversing);
         SmartDashboard.putNumber("Right Encoder Inches", Robot.SUB_DRIVE.pid.getRightInches());
         SmartDashboard.putNumber("Left Encoder Inches", Robot.SUB_DRIVE.pid.getLeftInches());
+        SmartDashboard.putNumber("Match Time", DriverStation.getInstance().getMatchTime());
 
     	switch (Robot.SUB_DRIVE.drivetrain) {
     		case ROCKET_LEAGUE:
