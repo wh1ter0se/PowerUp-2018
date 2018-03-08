@@ -90,6 +90,7 @@ public class CommandGroupAuto extends CommandGroup {
                         rightSwitch();
                         break;
                     case BEST_OPTION:
+                        robotChoice();
                         break;
                 }
             }
