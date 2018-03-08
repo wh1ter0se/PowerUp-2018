@@ -29,8 +29,12 @@ public class SubsystemDrive extends Subsystem {
     public Drivetrain drivetrain;
 
     public static boolean reversing;
+    
     public static boolean docking;
     private static double dockInhibitor;
+    
+    public static boolean narrowing;
+    private static double narrower;
 
     private Accelerometer accel;
 
@@ -147,6 +151,11 @@ public class SubsystemDrive extends Subsystem {
         docking = !docking;
         this.dockInhibitor = dockInhibitor;
     }
+    
+    public void toggleNarrowing(double narrower){
+        narrowing = !narrowing;
+        this.narrower = narrower;
+    }
 
     public void toggleReversing(){
         reversing = !reversing;
@@ -190,6 +199,9 @@ public class SubsystemDrive extends Subsystem {
      * @param radius 0.00-1.00, 1 being zero radius and 0 being driving in a line
      */
     public void driveForza(Joystick joy, double ramp, double radius, double inhibitor) {
+    	
+    	if (narrowing) { radius *= narrower; }
+    	
         double left = 0,
                 right = 0;
         double acceleration = Xbox.RT(joy) - Xbox.LT(joy);
