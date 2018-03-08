@@ -39,7 +39,7 @@ public class CommandGroupAuto extends CommandGroup {
 					case SWITCH:
 						if (gameData.charAt(0) == 'L'){ //When the switch is on the left
 							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_TO_SWITCH_FROM_SIDE, 3500));
-							addSequential(new CyborgCommandGrow(Mast.SCREW_UP));
+							addSequential(new CyborgCommandGrow(Mast.SCREW_UP, 1500));
 							addSequential(new CommandWait(250));
 							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CLOCKWISE, 1250));
 							addSequential(new CyborgCommandSpit(500));
@@ -109,7 +109,7 @@ public class CommandGroupAuto extends CommandGroup {
 					case SWITCH:
 						if (gameData.charAt(0) == 'R'){ //When the switch is on the right
 							addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_TO_SWITCH_FROM_SIDE, 3500));
-							addSequential(new CyborgCommandGrow(Mast.SCREW_UP));
+							addSequential(new CyborgCommandGrow(Mast.SCREW_UP, 1500));
 							addSequential(new CommandWait(250));
 							addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_COUNTERCLOCKWISE, 1250), 1500);
 							addSequential(new CyborgCommandSpit(500L)); 
