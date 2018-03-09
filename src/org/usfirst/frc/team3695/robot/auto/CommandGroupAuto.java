@@ -102,6 +102,8 @@ public class CommandGroupAuto extends CommandGroup {
             addSequential(new CyborgCommandGrow(Mast.SCREW_UP, 1500));
             addSequential(new CommandWait(250));
             addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CW, 1250));
+            addSequential(new CommandWait(250));
+            addSequential(new CyborgCommandDriveUntilError(500, 2));
             addSequential(new CyborgCommandSpit(500));
         } else if (gameData.charAt(0) == 'R') { //When the switch is on the right
             addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_PAST_SWITCH, 4000));
@@ -124,6 +126,8 @@ public class CommandGroupAuto extends CommandGroup {
             addSequential(new CyborgCommandGrow(Mast.SCREW_UP, 1500));
             addSequential(new CommandWait(250));
             addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CCW, 1250), 1500);
+            addSequential(new CommandWait(250));
+            addSequential(new CyborgCommandDriveUntilError(500, 2));
             addSequential(new CyborgCommandSpit(500L));
         } else { //When the switch is on the left
             addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_PAST_SWITCH, 4000));
