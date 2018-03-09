@@ -138,7 +138,6 @@ public class Constants {
 		
 		// the distance to pass the switch before traveling to the foreign home switch
 		public static final double DIST_PAST_SWITCH = 228.735;
-		
 		public static final int DIST_TO_FOREIGN_SWITCH = 480;
 		
 		//Rotations
