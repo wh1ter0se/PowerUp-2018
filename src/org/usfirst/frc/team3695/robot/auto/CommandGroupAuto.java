@@ -233,6 +233,24 @@ public class CommandGroupAuto extends CommandGroup {
     }
 
     private void robotChoice() {
-
+        switch (position){
+            case LEFT:
+                if (gameData.charAt(0) == 'L' || gameData.charAt(1) != 'L') {
+                    leftSwitch();
+                } else {
+                    leftScale();
+                }
+                break;
+            case CENTER:
+                centerSwitch();
+                break;
+            case RIGHT:
+                if (gameData.charAt(0) == 'R' || gameData.charAt(1) != 'R'){
+                    rightSwitch();
+                } else {
+                    rightScale();
+                }
+                break;
+        }
     }
 }
