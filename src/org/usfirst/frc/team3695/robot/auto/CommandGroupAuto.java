@@ -189,7 +189,22 @@ public class CommandGroupAuto extends CommandGroup {
             addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CCW, 1250));
             addSequential(new CyborgCommandSpit(500));
         } else { //When scale is on the left
-
+        	addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_PAST_SWITCH, 4000));
+            addSequential(new CommandWait(250));
+            addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CCW, 1250));
+            addSequential(new CommandWait(250));
+            addParallel(new CyborgCommandGrow(Mast.SCREW_UP, 1500));
+            addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_PAST_SCALE, 4000));
+            addSequential(new CommandWait(250));
+            addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CW, 1250));
+            addSequential(new CommandWait(250));
+            addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_SCALE_LINEUP, 4000));
+            addSequential(new CyborgCommandGrow(Mast.PINION_UP, 3500));
+            addSequential(new CommandWait(250));
+            addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CW, 1250));
+            addSequential(new CommandWait(250));
+            addSequential(new CyborgCommandDriveUntilError(500, 2));
+            addSequential(new CyborgCommandSpit(500));
         }
     }
 

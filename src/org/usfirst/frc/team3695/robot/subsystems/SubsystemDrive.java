@@ -324,8 +324,8 @@ public class SubsystemDrive extends Subsystem {
             _talon.config_kD(slot, d, Constants.TIMEOUT_PID);
             _talon.config_kF(slot, f, Constants.TIMEOUT_PID);
             /* set acceleration and vcruise velocity - see documentation */
-            //_talon.configMotionCruiseVelocity(15000, Constants.TIMEOUT_PID);
-            //_talon.configMotionAcceleration(6000, Constants.TIMEOUT_PID);
+            _talon.configMotionCruiseVelocity(15000, Constants.TIMEOUT_PID);
+            _talon.configMotionAcceleration(6000, Constants.TIMEOUT_PID);
         }
 
 

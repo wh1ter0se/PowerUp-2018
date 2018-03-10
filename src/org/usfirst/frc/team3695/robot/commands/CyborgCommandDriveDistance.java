@@ -13,7 +13,7 @@ public class CyborgCommandDriveDistance extends Command {
 
     public static final long TIME_WAIT = 3000;
     public double inches;
-    public static final int ALLOWABLE_ERROR = 8;
+    public static final int ALLOWABLE_ERROR = 1;
 
     Boolean isFinished;
     long runTime;
