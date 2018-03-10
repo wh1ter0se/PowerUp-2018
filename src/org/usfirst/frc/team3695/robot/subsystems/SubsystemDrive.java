@@ -167,8 +167,6 @@ public class SubsystemDrive extends Subsystem {
         //arctan returns in radians so we convert to degrees.
         return Math.atan(accel.getY() / Math.sqrt(Math.pow(accel.getX(), 2) + Math.pow(accel.getZ(), 2))) * 180 / Math.PI;
     }
-
-    
     
     /**
      * simple rocket league drive code (not actually rocket league)
@@ -234,8 +232,8 @@ public class SubsystemDrive extends Subsystem {
 
     public void driveBrogan(Joystick joy, double ramp, double inhibitor) {
         double power = Xbox.LEFT_Y(joy);
-        double left  = power + (Xbox.LT(joy) / (4/3));
-        double right = power + (Xbox.RT(joy) / (4/3));
+        double left  = power + (Xbox.LT(joy) / (4/3)) - (Xbox.RT(joy) / (4/3));
+        double right = power + (Xbox.RT(joy) / (4/3)) - (Xbox.LT(joy) / (4/3));
 
         //Truncate. We can't run greater than 100% because Caleb won't let me
         left = (left > 1.0 ? 1.0 : (left < -1.0 ? -1.0 : left));
