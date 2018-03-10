@@ -167,8 +167,6 @@ public class SubsystemDrive extends Subsystem {
         //arctan returns in radians so we convert to degrees.
         return Math.atan(accel.getY() / Math.sqrt(Math.pow(accel.getX(), 2) + Math.pow(accel.getZ(), 2))) * 180 / Math.PI;
     }
-
-    
     
     /**
      * simple rocket league drive code (not actually rocket league)
