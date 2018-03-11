@@ -29,6 +29,7 @@ public class Robot extends IterativeRobot {
 	/// choosers
 		SendableChooser<Bot> botChooser;
 		SendableChooser<Goal> goalChooser;
+		SendableChooser<Goal> thirdPriorityChooser;
 		SendableChooser<Drivetrain> driveChooser;
 		SendableChooser<Position>  positionChooser;
 		// add choosers as needed, these put drop down options in the smart dash
@@ -83,25 +84,32 @@ public class Robot extends IterativeRobot {
 			
 		/// instantiate drivetrain chooser
 				driveChooser = new SendableChooser<>();
-				driveChooser.addDefault(Drivetrain.ROCKET_LEAGUE.toString(), Drivetrain.ROCKET_LEAGUE); // set default to RL drive
+				driveChooser.addDefault(Drivetrain.ROCKET_LEAGUE.toString(), Drivetrain.ROCKET_LEAGUE);
 				for(int i = 1; i < Drivetrain.values().length; i++) { 
-					driveChooser.addObject(Drivetrain.values()[i].toString(), Drivetrain.values()[i]); } // add each drivetrain enum value to chooser
-				SmartDashboard.putData("Drivetrain", driveChooser); //display the chooser on the dash
+					driveChooser.addObject(Drivetrain.values()[i].toString(), Drivetrain.values()[i]); }
+				SmartDashboard.putData("Drivetrain", driveChooser);
 			
 		/// instantiate position chooser
 				positionChooser = new SendableChooser<>();
-				positionChooser.addDefault(Position.CENTER.toString(), Position.CENTER); // set default to center
+				positionChooser.addDefault(Position.CENTER.toString(), Position.CENTER);
 					positionChooser.addObject(Position.LEFT.toString(), Position.LEFT);
 					positionChooser.addObject(Position.RIGHT.toString(), Position.RIGHT);
-				SmartDashboard.putData("Position", positionChooser); //display the chooser on the dash
+				SmartDashboard.putData("Position", positionChooser);
 
 		/// instantiate goal chooser
 				goalChooser = new SendableChooser<>();
-				goalChooser.addDefault(Goal.NOTHING.toString(), Goal.NOTHING); // set default to nothing
+				goalChooser.addDefault(Goal.BEST_OPTION.toString(), Goal.BEST_OPTION);
 				for(int i = 1; i < Goal.values().length; i++) { 
-					goalChooser.addObject(Goal.values()[i].toString(), Goal.values()[i]); } // add each autonomous goal to chooser
-				SmartDashboard.putData("Goal", goalChooser); //display the chooser on the dash
+					goalChooser.addObject(Goal.values()[i - 1].toString(), Goal.values()[i - 1]); }
+				SmartDashboard.putData("Goal", goalChooser);
 			
+		/// instantiate third priority chooser
+				thirdPriorityChooser = new SendableChooser<>();
+				thirdPriorityChooser.addDefault(Goal.SWITCH.toString(), Goal.SWITCH);
+					goalChooser.addObject(Goal.SCALE.toString(), Goal.SCALE);
+					goalChooser.addObject(Goal.ENEMY_SWITCH.toString(), Goal.ENEMY_SWITCH);
+				SmartDashboard.putData("Third Priority", thirdPriorityChooser);
+				
 		/// instantiate bot chooser
 				botChooser = new SendableChooser<>();
 				botChooser.addDefault(Bot.TEUFELSKIND.toString(), Bot.TEUFELSKIND);
@@ -141,7 +149,7 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		DriverStation.reportWarning("AUTONOMOUS IS STARTING...", false);
 		if(goalChooser.getSelected() != null) {
-			auto = new CommandGroupAuto(positionChooser.getSelected(), goalChooser.getSelected());
+			auto = new CommandGroupAuto(positionChooser.getSelected(), goalChooser.getSelected(), thirdPriorityChooser.getSelected());
 			auto.start(); 
 		}
 		bot = (botChooser.getSelected() != null) ? botChooser.getSelected() : bot; // update motor inverts

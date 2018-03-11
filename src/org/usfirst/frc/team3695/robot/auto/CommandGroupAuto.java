@@ -24,10 +24,12 @@ public class CommandGroupAuto extends CommandGroup {
     String gameData;
     Position position;
     Goal goal;
+    Goal thirdPriority;
 
-    public CommandGroupAuto(Position position, Goal goal) {
+    public CommandGroupAuto(Position position, Goal goal, Goal thirdPriority) {
         this.position = position;
         this.goal = goal;
+        this.thirdPriority = thirdPriority;
         //Get the state of the switches and scale for each round
         gameData = DriverStation.getInstance().getGameSpecificMessage();
 
@@ -260,10 +262,18 @@ public class CommandGroupAuto extends CommandGroup {
                     leftSwitch();
                 } else if (gameData.charAt(1) == 'L') {
                     leftScale();
-                } else if (gameData.charAt(2) == 'L') {
-                	leftEnemySwitch();
                 } else {
-                	runForIt();
+                	switch (thirdPriority) {
+                		case SWITCH:
+                			leftSwitch();
+                			break;
+                		case SCALE:
+                			leftScale();
+                			break;
+                		case ENEMY_SWITCH:
+                			leftEnemySwitch();
+                			break;
+                	}
                 }
                 break;
             case CENTER:
@@ -274,10 +284,18 @@ public class CommandGroupAuto extends CommandGroup {
                     rightSwitch();
                 } else if (gameData.charAt(1) == 'R') {
                     rightScale();
-                } else if (gameData.charAt(2) == 'R') {
-                	rightEnemySwitch();
                 } else {
-                	runForIt();
+                	switch (thirdPriority) {
+	            		case SWITCH:
+	            			rightSwitch();
+	            			break;
+	            		case SCALE:
+	            			rightScale();
+	            			break;
+	            		case ENEMY_SWITCH:
+	            			rightEnemySwitch();
+	            			break;
+                	}
                 }
                 break;
         }
