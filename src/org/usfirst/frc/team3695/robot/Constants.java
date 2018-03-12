@@ -38,9 +38,9 @@ public class Constants {
 			RIGHT_PINION_MOTOR = 4,
 			SCREW_MOTOR        = 5,
 		/// PID
-			RIGHT_PID = 0,
+			PIDF_LOOP_ID = 0,
 			LEFT_PID = 0,
-			TIMEOUT_PID = 10000;
+			PIDF_TIMEOUT = 10000;
 
 	public static final int
 		/// I2C

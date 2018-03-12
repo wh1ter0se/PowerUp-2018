@@ -15,6 +15,8 @@ import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.commands.ManualCommandDrive;
 import org.usfirst.frc.team3695.robot.enumeration.Bot;
 import org.usfirst.frc.team3695.robot.enumeration.Drivetrain;
+import org.usfirst.frc.team3695.robot.subsystems.SubsystemDrive.PIDF;
+import org.usfirst.frc.team3695.robot.util.Util;
 import org.usfirst.frc.team3695.robot.util.Xbox;
 
 /** VROOM VROOM */
@@ -38,7 +40,7 @@ public class SubsystemDrive extends Subsystem {
 
     private Accelerometer accel;
 
-    public PID pid; // instantiate innerclass
+    public PIDF pidf; // instantiate innerclass
 
     /* Allowable tolerance to be considered in range when driving a distance, in rotations */
     public static final double DISTANCE_ALLOWABLE_ERROR = 8.0;
@@ -117,13 +119,13 @@ public class SubsystemDrive extends Subsystem {
         docking = false;
         dockInhibitor = 0.5d;
 
-        pid = new PID();
+        pidf = new PIDF();
 
         // masters
         leftMaster = new TalonSRX(Constants.LEFT_MASTER);
-        	leftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.LEFT_PID, Constants.TIMEOUT_PID);
+        	leftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.LEFT_PID, Constants.PIDF_TIMEOUT);
         rightMaster = new TalonSRX(Constants.RIGHT_MASTER);
-        	rightMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.RIGHT_PID, Constants.TIMEOUT_PID);
+        	rightMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.PIDF_LOOP_ID, Constants.PIDF_TIMEOUT);
 
         // slaves
         leftSlave = new TalonSRX(Constants.LEFT_SLAVE);
@@ -131,16 +133,7 @@ public class SubsystemDrive extends Subsystem {
         rightSlave = new TalonSRX(Constants.RIGHT_SLAVE);
         	rightSlave.follow(rightMaster);
 
-        switch (Robot.bot){
-            case TEUFELSKIND:
-            	PID.setPIDF(0, Constants.TEUFELSKIND.P, Constants.TEUFELSKIND.I, Constants.TEUFELSKIND.D, Constants.TEUFELSKIND.F);
-            	PID.setPIDF(1, Constants.TEUFELSKIND.P, Constants.TEUFELSKIND.I, Constants.TEUFELSKIND.D, Constants.TEUFELSKIND.F);
-                break;
-            case OOF:
-            	PID.setPIDF(0, Constants.OOF.P, Constants.OOF.I, Constants.OOF.D, Constants.OOF.F);
-            	PID.setPIDF(1, Constants.OOF.P, Constants.OOF.I, Constants.OOF.D, Constants.OOF.F);
-                break;
-        }
+        PIDF.setPIDF();
     }
 
     public void setDrivetrain(Drivetrain drivetrain) {
@@ -179,17 +172,9 @@ public class SubsystemDrive extends Subsystem {
         left = (left > 1.0 ? 1.0 : (left < -1.0 ? -1.0 : left));
         right = (right > 1.0 ? 1.0 : (right < -1.0 ? -1.0 : right));
         setRamps(ramp);
-
-//        if (getYAngle() > Constants.TILT_ANGLE ) {
-//            leftMaster.set(ControlMode.PercentOutput, -1*Constants.RECOVERY_SPEED);
-//            rightMaster.set(ControlMode.PercentOutput, -1*Constants.RECOVERY_SPEED);
-//        } else if (getYAngle() < -1*Constants.TILT_ANGLE){
-//            leftMaster.set(ControlMode.PercentOutput, Constants.RECOVERY_SPEED);
-//            rightMaster.set(ControlMode.PercentOutput, Constants.RECOVERY_SPEED);
-//        } else {
-            leftMaster.set(ControlMode.PercentOutput, leftify(left));
-            rightMaster.set(ControlMode.PercentOutput, rightify(right));
-//        }
+        
+        leftMaster.set(ControlMode.PercentOutput, leftify(left));
+        rightMaster.set(ControlMode.PercentOutput, rightify(right));
     }
 
     /**
@@ -205,14 +190,7 @@ public class SubsystemDrive extends Subsystem {
         double acceleration = Xbox.RT(joy) - Xbox.LT(joy);
 
         setRamps(ramp);
-//        if (getYAngle() > Constants.TILT_ANGLE ) {
-//            leftMaster.set(ControlMode.PercentOutput, -1 * Constants.RECOVERY_SPEED);
-//            rightMaster.set(ControlMode.PercentOutput, -1 * Constants.RECOVERY_SPEED);
-//        } else if (getYAngle() < -1 * Constants.TILT_ANGLE){
-//            leftMaster.set(ControlMode.PercentOutput, Constants.RECOVERY_SPEED);
-//            rightMaster.set(ControlMode.PercentOutput, Constants.RECOVERY_SPEED);
-//        } else {
-
+        
             if (!reversing ? Xbox.LEFT_X(joy) < 0 : Xbox.LEFT_X(joy) > 0) {
                 right = acceleration;
                 left = (acceleration * ((2 * (1 - Math.abs(Xbox.LEFT_X(joy)))) - 1)) / radius;
@@ -223,9 +201,10 @@ public class SubsystemDrive extends Subsystem {
                 left = acceleration;
                 right = acceleration;
             }
-//        }][\
+            
         left = (left > 1.0 ? 1.0 : (left < -1.0 ? -1.0 : left));
         right = (right > 1.0 ? 1.0 : (right < -1.0 ? -1.0 : right));
+        
         leftMaster.set(ControlMode.PercentOutput, leftify(left) * inhibitor * (reversing ? -1.0 : 1.0));
         rightMaster.set(ControlMode.PercentOutput, rightify(right) * inhibitor * (reversing ? -1.0 : 1.0));
     }
@@ -279,60 +258,81 @@ public class SubsystemDrive extends Subsystem {
     }
     
     
-    public static class PID {
+    public static class PIDF {
     	Boolean enabled;
     	
-    	public PID() {
+    	public PIDF() {
     		enabled = true;
     	}
-        public static void setPIDF(int slot, double p, double i, double d, double f) {
+    	
+    	public static void setPIDF() {
+    		double[] leftDistPIDF = {
+        			Util.getAndSetDouble("LeftDistance-P", .5),
+    				Util.getAndSetDouble("LeftDistance-I", 0),
+    				Util.getAndSetDouble("LeftDistance-D", 0),
+    				Util.getAndSetDouble("LeftDistance-F", 0)};
+        	double[] rightDistPIDF = {
+        			Util.getAndSetDouble("RightDistancen-P", .5),
+    				Util.getAndSetDouble("RightDistance-I", 0),
+    				Util.getAndSetDouble("RightDistance-D", 0),
+    				Util.getAndSetDouble("RightDistance-F", 0)};
+        	double[] leftRotPIDF = {
+        			Util.getAndSetDouble("LeftRotation-P", .5),
+    				Util.getAndSetDouble("LeftRotation-I", 0),
+    				Util.getAndSetDouble("LeftRotation-D", 0),
+    				Util.getAndSetDouble("LeftRotation-F", 0)};
+        	double[] rightRotPIDF = {
+        			Util.getAndSetDouble("RightRotation-P", .5),
+    				Util.getAndSetDouble("RightRotation-I", 0),
+    				Util.getAndSetDouble("RightRotation-D", 0),
+    				Util.getAndSetDouble("RightRotation-F", 0)};
+        	
+        	PIDF.setPIDF(0, leftDistPIDF, rightDistPIDF);
+    		PIDF.setPIDF(1, leftRotPIDF, rightRotPIDF);
+    	}
+    	
+        public static void setPIDF(int slot, double[] leftPIDF, double[] rightPIDF) {
             //For future reference: Inverts must be applied individually
-        	if (Robot.bot == Bot.OOF) {
-	            setPIDF(Robot.SUB_DRIVE.leftMaster, p, i, d, f, slot);
-	            setPIDF(Robot.SUB_DRIVE.leftSlave, p, i, d, f, slot);
-	            setPIDF(Robot.SUB_DRIVE.rightMaster, p, i, d, f, slot);
-	            setPIDF(Robot.SUB_DRIVE.rightSlave, p, i, d, f, slot);
-        	} else {
-        		setPIDF(Robot.SUB_DRIVE.leftMaster, p, i, d, f, slot);
-	            setPIDF(Robot.SUB_DRIVE.leftSlave, p, i, d, f, slot);
-	            setPIDF(Robot.SUB_DRIVE.rightMaster, p, i, d, f, slot);
-	            setPIDF(Robot.SUB_DRIVE.rightSlave, p, i, d, f, slot);
-        	}
+            setPIDF(Robot.SUB_DRIVE.leftMaster, leftPIDF, slot);
+            setPIDF(Robot.SUB_DRIVE.leftSlave, leftPIDF, slot);
+            setPIDF(Robot.SUB_DRIVE.rightMaster, rightPIDF, slot);
+            setPIDF(Robot.SUB_DRIVE.rightSlave, rightPIDF, slot);
         }
 
-        public static void setPIDF(TalonSRX _talon, double p, double i, double d, double f, int slot) {
+        //
+        public static void setPIDF(TalonSRX _talon, double[] PIDF, int slot) {
             /* first choose the sensor */
             _talon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,
-                    0, Constants.TIMEOUT_PID);
+                    0, Constants.PIDF_TIMEOUT);
             _talon.setSensorPhase(true);
             /* Set relevant frame periods to be at least as fast as periodic rate*/
             _talon.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10,
-                    Constants.TIMEOUT_PID);
+                    Constants.PIDF_TIMEOUT);
             _talon.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10,
-                    Constants.TIMEOUT_PID);
+                    Constants.PIDF_TIMEOUT);
             /* set the peak and nominal outputs */
-            _talon.configNominalOutputForward(0, Constants.TIMEOUT_PID);
-            _talon.configNominalOutputReverse(0, Constants.TIMEOUT_PID);
-            _talon.configPeakOutputForward(1, Constants.TIMEOUT_PID);
-            _talon.configPeakOutputReverse(-1, Constants.TIMEOUT_PID);
+            _talon.configNominalOutputForward(0, Constants.PIDF_TIMEOUT);
+            _talon.configNominalOutputReverse(0, Constants.PIDF_TIMEOUT);
+            _talon.configPeakOutputForward(1, Constants.PIDF_TIMEOUT);
+            _talon.configPeakOutputReverse(-1, Constants.PIDF_TIMEOUT);
             /* set closed loop gains in slot */
-            _talon.selectProfileSlot(slot, Constants.RIGHT_PID);
-            _talon.config_kP(slot, p, Constants.TIMEOUT_PID);
-            _talon.config_kI(slot, i, Constants.TIMEOUT_PID);
-            _talon.config_kD(slot, d, Constants.TIMEOUT_PID);
-            _talon.config_kF(slot, f, Constants.TIMEOUT_PID);
+            _talon.selectProfileSlot(slot, Constants.PIDF_LOOP_ID);
+            _talon.config_kP(slot, PIDF[0], Constants.PIDF_TIMEOUT);
+            _talon.config_kI(slot, PIDF[1], Constants.PIDF_TIMEOUT);
+            _talon.config_kD(slot, PIDF[2], Constants.PIDF_TIMEOUT);
+            _talon.config_kF(slot, PIDF[3], Constants.PIDF_TIMEOUT);
             /* set acceleration and vcruise velocity - see documentation */
-            _talon.configMotionCruiseVelocity(15000, Constants.TIMEOUT_PID);
-            _talon.configMotionAcceleration(6000, Constants.TIMEOUT_PID);
+            _talon.configMotionCruiseVelocity(15000, Constants.PIDF_TIMEOUT);
+            _talon.configMotionAcceleration(6000, Constants.PIDF_TIMEOUT);
         }
 
 
         public double getError() {
-            return (leftify(Robot.SUB_DRIVE.leftMaster.getErrorDerivative(Constants.LEFT_PID)) + rightify(Robot.SUB_DRIVE.rightMaster.getErrorDerivative(Constants.RIGHT_PID))) / 2.0;
+            return (leftify(Robot.SUB_DRIVE.leftMaster.getErrorDerivative(Constants.LEFT_PID)) + rightify(Robot.SUB_DRIVE.rightMaster.getErrorDerivative(Constants.PIDF_LOOP_ID))) / 2.0;
         }
         
         public double getRightInches() {
-            return rightMag2In(Robot.SUB_DRIVE.rightMaster.getSelectedSensorPosition(Constants.RIGHT_PID));
+            return rightMag2In(Robot.SUB_DRIVE.rightMaster.getSelectedSensorPosition(Constants.PIDF_LOOP_ID));
         }
 
         public double getLeftInches() {
@@ -340,10 +340,10 @@ public class SubsystemDrive extends Subsystem {
         }
 
         public void reset() {
-            Robot.SUB_DRIVE.leftMaster.setSelectedSensorPosition(0, Constants.LEFT_PID, Constants.TIMEOUT_PID);
-            Robot.SUB_DRIVE.rightMaster.setSelectedSensorPosition(0, Constants.RIGHT_PID, Constants.TIMEOUT_PID);
-            Robot.SUB_DRIVE.leftMaster.setIntegralAccumulator(0,0, Constants.TIMEOUT_PID);
-            Robot.SUB_DRIVE.rightMaster.setIntegralAccumulator(0,0, Constants.TIMEOUT_PID);
+            Robot.SUB_DRIVE.leftMaster.setSelectedSensorPosition(0, Constants.LEFT_PID, Constants.PIDF_TIMEOUT);
+            Robot.SUB_DRIVE.rightMaster.setSelectedSensorPosition(0, Constants.PIDF_LOOP_ID, Constants.PIDF_TIMEOUT);
+            Robot.SUB_DRIVE.leftMaster.setIntegralAccumulator(0,0, Constants.PIDF_TIMEOUT);
+            Robot.SUB_DRIVE.rightMaster.setIntegralAccumulator(0,0, Constants.PIDF_TIMEOUT);
         }
     }
 }
