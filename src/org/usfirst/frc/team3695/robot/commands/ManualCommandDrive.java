@@ -26,8 +26,8 @@ public class ManualCommandDrive extends Command {
         SmartDashboard.putBoolean("Forza Dampener (Docking mode)", Robot.SUB_DRIVE.docking);
         SmartDashboard.putBoolean("Reversing mode", Robot.SUB_DRIVE.reversing);
         SmartDashboard.putBoolean("Narrower (Turn inhibitor)", Robot.SUB_DRIVE.narrowing);
-        SmartDashboard.putNumber("Right Encoder Inches", Robot.SUB_DRIVE.pid.getRightInches());
-        SmartDashboard.putNumber("Left Encoder Inches", Robot.SUB_DRIVE.pid.getLeftInches());
+        SmartDashboard.putNumber("Right Encoder Inches", Robot.SUB_DRIVE.pidf.getRightInches());
+        SmartDashboard.putNumber("Left Encoder Inches", Robot.SUB_DRIVE.pidf.getLeftInches());
         SmartDashboard.putNumber("Match Time", DriverStation.getInstance().getMatchTime());
 
     	switch (Robot.SUB_DRIVE.drivetrain) {

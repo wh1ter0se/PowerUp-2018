@@ -21,8 +21,8 @@ public class CyborgCommandDriveUntilError extends Command {
         this.allowableError = allowableError;
         runTime = System.currentTimeMillis();
         requires(Robot.SUB_DRIVE);
-        currentPosLeft = Robot.SUB_DRIVE.pid.getLeftInches();
-        currentPosRight = Robot.SUB_DRIVE.pid.getRightInches();
+        currentPosLeft = Robot.SUB_DRIVE.pidf.getLeftInches();
+        currentPosRight = Robot.SUB_DRIVE.pidf.getRightInches();
     }
 
     protected void initialize() {
@@ -35,10 +35,10 @@ public class CyborgCommandDriveUntilError extends Command {
     }
 
     protected boolean isFinished() {
-        if (!((currentPosLeft + allowableError) > Robot.SUB_DRIVE.pid.getLeftInches() && (currentPosLeft - allowableError) < Robot.SUB_DRIVE.pid.getLeftInches())
-                || !((currentPosRight + allowableError) > Robot.SUB_DRIVE.pid.getRightInches() && (currentPosRight - allowableError) < Robot.SUB_DRIVE.pid.getRightInches())){
-            currentPosLeft = Robot.SUB_DRIVE.pid.getLeftInches();
-            currentPosRight = Robot.SUB_DRIVE.pid.getRightInches();
+        if (!((currentPosLeft + allowableError) > Robot.SUB_DRIVE.pidf.getLeftInches() && (currentPosLeft - allowableError) < Robot.SUB_DRIVE.pidf.getLeftInches())
+                || !((currentPosRight + allowableError) > Robot.SUB_DRIVE.pidf.getRightInches() && (currentPosRight - allowableError) < Robot.SUB_DRIVE.pidf.getRightInches())){
+            currentPosLeft = Robot.SUB_DRIVE.pidf.getLeftInches();
+            currentPosRight = Robot.SUB_DRIVE.pidf.getRightInches();
             runTime = System.currentTimeMillis();
             return false;
         }

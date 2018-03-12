@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team3695.robot.Robot;
-import org.usfirst.frc.team3695.robot.subsystems.SubsystemDrive.PID;
+import org.usfirst.frc.team3695.robot.subsystems.SubsystemDrive.PIDF;
 import org.usfirst.frc.team3695.robot.util.Util;
 
 public class CyborgCommandDriveDistance extends Command {
@@ -22,18 +22,14 @@ public class CyborgCommandDriveDistance extends Command {
     public CyborgCommandDriveDistance(double inches, int timeoutms) {
         this.inches = inches;
         requires(Robot.SUB_DRIVE);
-        Robot.SUB_DRIVE.pid.reset();
+        Robot.SUB_DRIVE.pidf.reset();
         runTime = timeoutms;
     }
 
     protected void initialize() {
-    	Robot.SUB_DRIVE.pid.reset();
+    	Robot.SUB_DRIVE.pidf.reset();
 //    	inches = Util.getAndSetDouble("Drive Distance Inches", 10); // take out in final version
-    	PID.setPIDF(0,
-    			Util.getAndSetDouble("Distance-P", .5),
-				Util.getAndSetDouble("Distance-I", 0),
-                Util.getAndSetDouble("Distance-D", 0),
-				Util.getAndSetDouble("Distance-F", 0));
+    	PIDF.setPIDF();
     	Robot.SUB_DRIVE.driveDistance(inches, inches);
     	startTime = System.currentTimeMillis();
     }
@@ -41,21 +37,21 @@ public class CyborgCommandDriveDistance extends Command {
     protected void execute() {
 
     	DriverStation.reportWarning("DRIVING " + inches + " INCHES", false);
-    	SmartDashboard.putNumber("Left Encoder Inches", Robot.SUB_DRIVE.pid.getLeftInches());
-    	SmartDashboard.putNumber("Right Encoder Inches", Robot.SUB_DRIVE.pid.getRightInches());
+    	SmartDashboard.putNumber("Left Encoder Inches", Robot.SUB_DRIVE.pidf.getLeftInches());
+    	SmartDashboard.putNumber("Right Encoder Inches", Robot.SUB_DRIVE.pidf.getRightInches());
 
 
-        SmartDashboard.putNumber("Error", Robot.SUB_DRIVE.pid.getError());
+        SmartDashboard.putNumber("Error", Robot.SUB_DRIVE.pidf.getError());
     }
 
     protected boolean isFinished() {
         isFinished = startTime + runTime < System.currentTimeMillis();
         boolean leftInRange =
-        		Robot.SUB_DRIVE.pid.getLeftInches() > (inches) - ALLOWABLE_ERROR &&
-        		Robot.SUB_DRIVE.pid.getLeftInches() < (inches) + ALLOWABLE_ERROR;
+        		Robot.SUB_DRIVE.pidf.getLeftInches() > (inches) - ALLOWABLE_ERROR &&
+        		Robot.SUB_DRIVE.pidf.getLeftInches() < (inches) + ALLOWABLE_ERROR;
         boolean rightInRange =
-        		Robot.SUB_DRIVE.pid.getRightInches() > inches - ALLOWABLE_ERROR &&
-        		Robot.SUB_DRIVE.pid.getRightInches() < inches + ALLOWABLE_ERROR;
+        		Robot.SUB_DRIVE.pidf.getRightInches() > inches - ALLOWABLE_ERROR &&
+        		Robot.SUB_DRIVE.pidf.getRightInches() < inches + ALLOWABLE_ERROR;
         return (leftInRange && rightInRange) || isFinished;
     }
 
