@@ -114,10 +114,10 @@ public class CommandGroupAuto extends CommandGroup {
         } else if (gameData.charAt(0) == 'R') { //When the switch is on the right
             addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_PAST_SWITCH, 4000));
             addSequential(new CommandWait(250));
-            addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CW, 1250));
+            addSequential(new CyborgCommandRotateDegrees(75, 750));
             addSequential(new CommandWait(250));
-            addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_TO_FOREIGN_SWITCH, 4000));
-            addSequential(new CyborgCommandGrow(Mast.SCREW_UP, 1500));
+            addParallel(new CyborgCommandGrow(Mast.SCREW_UP, 1250));
+            addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_TO_FOREIGN_SWITCH, 3500));
             addSequential(new CommandWait(250));
             addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CW, 1250));
             addSequential(new CommandWait(250));
@@ -181,6 +181,8 @@ public class CommandGroupAuto extends CommandGroup {
             addSequential(new CyborgCommandGrow(Mast.PINION_UP, 3500));
             addSequential(new CommandWait(250));
             addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CW, 1250));
+            addSequential(new CommandWait(250));
+            addSequential(new CyborgCommandDriveUntilError(500, 2));
             addSequential(new CyborgCommandSpit(500));
         } else { //When scale is on the right
         	addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_PAST_SWITCH, 4000));
@@ -210,6 +212,8 @@ public class CommandGroupAuto extends CommandGroup {
             addSequential(new CyborgCommandGrow(Mast.PINION_UP, 3500));
             addSequential(new CommandWait(250));
             addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CCW, 1250));
+            addSequential(new CommandWait(250));
+            addSequential(new CyborgCommandDriveUntilError(500, 2));
             addSequential(new CyborgCommandSpit(500));
         } else { //When scale is on the left
         	addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_PAST_SWITCH, 4000));
