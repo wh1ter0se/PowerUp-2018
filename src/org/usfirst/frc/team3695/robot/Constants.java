@@ -120,7 +120,7 @@ public class Constants {
 		//Distance from the side positions to the middle of the switch on the side
 		public static final int DIST_TO_SWITCH = 148;
 		//Distance rom the side positions to the middle of the scale on the side
-		public static final int DIST_TO_SCALE = 324;
+		public static final int DIST_TO_SCALE = (324-36-5);
 		//Distance from a side to the enemy switch
 		public static final int DIST_TO_ENEMY_SWITCH = 480;
 				

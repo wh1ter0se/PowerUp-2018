@@ -293,14 +293,14 @@ public class SubsystemDrive extends Subsystem {
     	
         public static void setPIDF(int slot, double[] leftPIDF, double[] rightPIDF) {
             //For future reference: Inverts must be applied individually
-            setPIDF(Robot.SUB_DRIVE.leftMaster, leftPIDF, slot);
-            setPIDF(Robot.SUB_DRIVE.leftSlave, leftPIDF, slot);
-            setPIDF(Robot.SUB_DRIVE.rightMaster, rightPIDF, slot);
-            setPIDF(Robot.SUB_DRIVE.rightSlave, rightPIDF, slot);
+            setPIDF(Robot.SUB_DRIVE.leftMaster, leftPIDF, slot, (int) Util.getAndSetDouble("Left Velocity", 0), (int) Util.getAndSetDouble("Left Acceleration", 0));
+            setPIDF(Robot.SUB_DRIVE.leftSlave, leftPIDF, slot, (int) Util.getAndSetDouble("Left Velocity", 0), (int) Util.getAndSetDouble("Left Acceleration", 0));
+            setPIDF(Robot.SUB_DRIVE.rightMaster, rightPIDF, slot, (int) Util.getAndSetDouble("Right Velocity", 0), (int) Util.getAndSetDouble("Right Acceleration", 0));
+            setPIDF(Robot.SUB_DRIVE.rightSlave, rightPIDF, slot, (int) Util.getAndSetDouble("Right Velocity", 0), (int) Util.getAndSetDouble("Right Acceleration", 0));
         }
 
         //
-        public static void setPIDF(TalonSRX _talon, double[] PIDF, int slot) {
+        public static void setPIDF(TalonSRX _talon, double[] PIDF, int slot, int velocity, int acceleration) {
             /* first choose the sensor */
             _talon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,
                     0, Constants.PIDF_TIMEOUT);
@@ -322,8 +322,8 @@ public class SubsystemDrive extends Subsystem {
             _talon.config_kD(slot, PIDF[2], Constants.PIDF_TIMEOUT);
             _talon.config_kF(slot, PIDF[3], Constants.PIDF_TIMEOUT);
             /* set acceleration and vcruise velocity - see documentation */
-            _talon.configMotionCruiseVelocity(15000, Constants.PIDF_TIMEOUT);
-            _talon.configMotionAcceleration(6000, Constants.PIDF_TIMEOUT);
+            _talon.configMotionCruiseVelocity(velocity, Constants.PIDF_TIMEOUT);
+            _talon.configMotionAcceleration(acceleration, Constants.PIDF_TIMEOUT);
         }
 
 
