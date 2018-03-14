@@ -19,7 +19,7 @@ public class ToggleCommandKillPID extends Command {
     	PID_ENABLED = !PID_ENABLED;
     	
     	if (PID_ENABLED) {
-    		PIDF.setPIDF();
+    		PIDF.setPIDF(0);
     	} else {
     		PIDF.setPIDF(0, new double[] {0,0,0,0}, new double[] {0,0,0,0});
     		PIDF.setPIDF(1, new double[] {0,0,0,0}, new double[] {0,0,0,0});

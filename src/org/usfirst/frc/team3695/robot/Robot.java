@@ -106,8 +106,8 @@ public class Robot extends IterativeRobot {
 		/// instantiate third priority chooser
 				thirdPriorityChooser = new SendableChooser<>();
 				thirdPriorityChooser.addDefault(Goal.SWITCH.toString(), Goal.SWITCH);
-					goalChooser.addObject(Goal.SCALE.toString(), Goal.SCALE);
-					goalChooser.addObject(Goal.ENEMY_SWITCH.toString(), Goal.ENEMY_SWITCH);
+					thirdPriorityChooser.addObject(Goal.SCALE.toString(), Goal.SCALE);
+					thirdPriorityChooser.addObject(Goal.ENEMY_SWITCH.toString(), Goal.ENEMY_SWITCH);
 				SmartDashboard.putData("Third Priority", thirdPriorityChooser);
 				
 		/// instantiate bot chooser

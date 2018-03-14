@@ -27,9 +27,9 @@ public class CyborgCommandRotateDegrees extends Command {
 
     protected void initialize() {
         Robot.SUB_DRIVE.pidf.reset();
-        DriverStation.reportWarning("ROTATING " + (inches / SCALAR) + " DEGREES" + ((inches > 0) ? "CW" : "CCW"), false);
+        DriverStation.reportWarning("ROTATING " + (inches / SCALAR) + " DEGREES" + ((inches > 0) ? "CW" : "CCW") + " AND INCHES: " +inches, false);
 //        inches = Util.getAndSetDouble("Rotate Degrees", 0) * SCALAR; // take out in final version
-        PIDF.setPIDF();
+        PIDF.setPIDF(inches > 0 ? 1 : 2);
         Robot.SUB_DRIVE.driveDistance(inches, -1 * inches);
         startTime = System.currentTimeMillis();
     }

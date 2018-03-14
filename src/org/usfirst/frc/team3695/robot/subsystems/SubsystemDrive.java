@@ -133,7 +133,7 @@ public class SubsystemDrive extends Subsystem {
         rightSlave = new TalonSRX(Constants.RIGHT_SLAVE);
         	rightSlave.follow(rightMaster);
 
-        PIDF.setPIDF();
+        PIDF.setPIDF(0);
     }
 
     public void setDrivetrain(Drivetrain drivetrain) {
@@ -265,30 +265,46 @@ public class SubsystemDrive extends Subsystem {
     		enabled = true;
     	}
     	
-    	public static void setPIDF() {
+    	public static void setPIDF(int slot) {
     		double[] leftDistPIDF = {
-        			Util.getAndSetDouble("LeftDistance-P", .5),
+        			Util.getAndSetDouble("LeftDistance-P", 0.16),
     				Util.getAndSetDouble("LeftDistance-I", 0),
-    				Util.getAndSetDouble("LeftDistance-D", 0),
-    				Util.getAndSetDouble("LeftDistance-F", 0)};
+    				Util.getAndSetDouble("LeftDistance-D", 3),
+    				Util.getAndSetDouble("LeftDistance-F", 0.30509)};
         	double[] rightDistPIDF = {
-        			Util.getAndSetDouble("RightDistancen-P", .5),
+        			Util.getAndSetDouble("RightDistance-P", 0.1655),
     				Util.getAndSetDouble("RightDistance-I", 0),
-    				Util.getAndSetDouble("RightDistance-D", 0),
-    				Util.getAndSetDouble("RightDistance-F", 0)};
-        	double[] leftRotPIDF = {
-        			Util.getAndSetDouble("LeftRotation-P", .5),
-    				Util.getAndSetDouble("LeftRotation-I", 0),
-    				Util.getAndSetDouble("LeftRotation-D", 0),
-    				Util.getAndSetDouble("LeftRotation-F", 0)};
-        	double[] rightRotPIDF = {
-        			Util.getAndSetDouble("RightRotation-P", .5),
-    				Util.getAndSetDouble("RightRotation-I", 0),
-    				Util.getAndSetDouble("RightRotation-D", 0),
-    				Util.getAndSetDouble("RightRotation-F", 0)};
+    				Util.getAndSetDouble("RightDistance-D", 1.655),
+    				Util.getAndSetDouble("RightDistance-F", 0.33355)};
+        	double[] leftCWPIDF = {
+        			Util.getAndSetDouble("LeftCW-P", 1.16013),
+    				Util.getAndSetDouble("LeftCW-I", 0),
+    				Util.getAndSetDouble("LeftCW-D", 1.60125),
+    				Util.getAndSetDouble("LeftCW-F", .30509)};
+        	double[] rightCWPIDF = {
+        			Util.getAndSetDouble("RightCW-P", 0.17514),
+    				Util.getAndSetDouble("RightCW-I", 0),
+    				Util.getAndSetDouble("RightCW-D", 1.7514),
+    				Util.getAndSetDouble("RightCW-F", 0.33355)};
+        	double[] leftCCWPIDF = {
+        			Util.getAndSetDouble("LeftCCW-P", 0.176125),
+    				Util.getAndSetDouble("LeftCCW-I", 0),
+    				Util.getAndSetDouble("LeftCCW-D", 1.60125),
+    				Util.getAndSetDouble("LeftCCW-F", .30509)};
+        	double[] rightCCWPIDF = {
+        			Util.getAndSetDouble("RightCCW-P", 1.19864),
+    				Util.getAndSetDouble("RightCCW-I", 0),
+    				Util.getAndSetDouble("RightCCW-D", 1.7514),
+    				Util.getAndSetDouble("RightCCW-F", 0.33355)};
         	
-        	PIDF.setPIDF(0, leftDistPIDF, rightDistPIDF);
-    		PIDF.setPIDF(1, leftRotPIDF, rightRotPIDF);
+        	if (slot == 0){
+        		PIDF.setPIDF(0, leftDistPIDF, rightDistPIDF);
+        	} else if (slot == 1) {
+        		PIDF.setPIDF(1, leftCWPIDF, rightCWPIDF);
+        	} else {
+        		PIDF.setPIDF(1, leftCCWPIDF, rightCCWPIDF);
+        	}
+
     	}
     	
         public static void setPIDF(int slot, double[] leftPIDF, double[] rightPIDF) {

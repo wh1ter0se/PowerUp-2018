@@ -29,7 +29,7 @@ public class CyborgCommandDriveDistance extends Command {
     protected void initialize() {
     	Robot.SUB_DRIVE.pidf.reset();
 //    	inches = Util.getAndSetDouble("Drive Distance Inches", 10); // take out in final version
-    	PIDF.setPIDF();
+    	PIDF.setPIDF(0);
     	Robot.SUB_DRIVE.driveDistance(inches, inches);
     	startTime = System.currentTimeMillis();
     }
@@ -57,7 +57,7 @@ public class CyborgCommandDriveDistance extends Command {
 
     protected void end() {
         DriverStation.reportWarning("CyborgCommandDriveDistance finished", false);
-        Robot.SUB_DRIVE.driveDirect(0, 0);
+//        Robot.SUB_DRIVE.driveDirect(0, 0);
         isFinished = false;
     }
 
