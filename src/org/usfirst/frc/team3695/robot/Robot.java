@@ -1,4 +1,3 @@
-
 package org.usfirst.frc.team3695.robot;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -187,4 +186,3 @@ public class Robot extends IterativeRobot {
 		LiveWindow.run(); 
 	}
 }
-
