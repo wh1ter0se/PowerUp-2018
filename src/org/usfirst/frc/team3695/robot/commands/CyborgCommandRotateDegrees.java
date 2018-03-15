@@ -38,7 +38,7 @@ public class CyborgCommandRotateDegrees extends Command {
         DriverStation.reportWarning("ROTATING " + (inches / SCALAR) + " DEGREES" + ((inches > 0) ? "CW" : "CCW"), false);
         SmartDashboard.putNumber("Left Encoder Inches", Robot.SUB_DRIVE.pidf.getLeftInches());
         SmartDashboard.putNumber("Right Encoder Inches", Robot.SUB_DRIVE.pidf.getRightInches());
-        SmartDashboard.putNumber("Error", Robot.SUB_DRIVE.pidf.getError());
+        Robot.SUB_DRIVE.pidf.getError();
     }
 
     protected boolean isFinished() {
