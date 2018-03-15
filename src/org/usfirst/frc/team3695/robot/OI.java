@@ -62,7 +62,7 @@ public class OI {
 	    /// Cyborg command testers
 			SmartDashboard.putData("Drive Direct", new CyborgCommandDriveDirect(Util.getAndSetDouble("Drive Direct Power", 0)));
 			SmartDashboard.putData("Drive Distance", new CyborgCommandDriveDistance(Util.getAndSetDouble("Drive Distance Inches", 0), (int) Util.getAndSetDouble("Drive Distance Timeout", 5000)));
-			SmartDashboard.putData("Drive Until Error", new CyborgCommandDriveUntilError(500,2));
+			SmartDashboard.putData("Drive Until Error", new CyborgCommandDriveUntilError(500,2,1));
 			SmartDashboard.putData("Rotate Degree", new CyborgCommandRotateDegrees(Util.getAndSetDouble("Rotate Degrees", 0), (int) Util.getAndSetDouble("Rotate Timeout", 5000)));
 	}
 	

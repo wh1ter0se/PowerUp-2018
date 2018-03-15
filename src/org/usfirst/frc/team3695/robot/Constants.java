@@ -118,7 +118,7 @@ public class Constants {
 		//Save distances in inches
 
 		//Distance from the side positions to the middle of the switch on the side
-		public static final int DIST_TO_SWITCH = 150;
+		public static final int DIST_TO_SWITCH = 150+5;
 		//Distance rom the side positions to the middle of the scale on the side
 		public static final int DIST_TO_SCALE = (260);
 		//Distance from a side to the enemy switch
@@ -137,9 +137,9 @@ public class Constants {
 		public static final int DIST_ALLIANCE_WALL_TO_BLOCKS = 98;
 		
 		// the distance to pass the switch before traveling to the foreign home switch
-		public static final double DIST_PAST_SWITCH = 220.735;
+		public static final double DIST_PAST_SWITCH = 220.735+2;
 		
-		public static final double DIST_TO_FOREIGN_SWITCH = 163.75;
+		public static final double DIST_TO_FOREIGN_SWITCH = 163.75+5;
 		
 		public static final double DIST_PAST_SCALE = 240;
 		public static final double DIST_SCALE_LINEUP = 96;

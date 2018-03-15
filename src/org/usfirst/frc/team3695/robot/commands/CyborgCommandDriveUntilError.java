@@ -15,14 +15,17 @@ public class CyborgCommandDriveUntilError extends Command {
     double currentPosRight;
     
     private long time = 0;
+    
+    double speed;
 
-    public CyborgCommandDriveUntilError(long errorTime, double allowableError) {
+    public CyborgCommandDriveUntilError(long errorTime, double allowableError, double speed) {
         this.errorTime = errorTime;
         this.allowableError = allowableError;
         runTime = System.currentTimeMillis();
         requires(Robot.SUB_DRIVE);
         currentPosLeft = Robot.SUB_DRIVE.pidf.getLeftInches();
         currentPosRight = Robot.SUB_DRIVE.pidf.getRightInches();
+        this.speed = speed;
     }
 
     protected void initialize() {
@@ -30,7 +33,7 @@ public class CyborgCommandDriveUntilError extends Command {
     }
 
     protected void execute() {
-        double speed = Util.getAndSetDouble("SPEED ERROR: Forward", -0.25);
+//        double speed = Util.getAndSetDouble("SPEED ERROR: Forward", -0.25);
         Robot.SUB_DRIVE.driveDirect(speed, speed);
     }
 
