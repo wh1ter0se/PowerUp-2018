@@ -1,69 +1,69 @@
 package org.usfirst.frc.team3695.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc.team3695.robot.commands.*;
+import org.usfirst.frc.team3695.robot.enumeration.Mast;
+import org.usfirst.frc.team3695.robot.enumeration.Position;
+import org.usfirst.frc.team3695.robot.util.Util;
+import org.usfirst.frc.team3695.robot.util.Xbox;
 
-/** the output/input setup */
+/** the Operator Interface setup */
 public class OI {
 	
 	public static final Joystick DRIVER = new Joystick(0);
 	public static final Joystick OPERATOR = new Joystick(1);
 	
-	
-	/** 
-	 * assigns what every SmartDash and controller button does
-	 * 
-	 * ye() gets called at teleop enable, assigning button values to controller input
-	 * still in ye(), below controller value assigns, place each SmartDash button
-	 * */
-	public static void ye() { // see footer for name explanation
-		
+	/** assigns what every SmartDash and controller button does */
+	public OI() {
+		/// manipulator wheels
+			Button spinIn = new JoystickButton(OPERATOR, Xbox.RB);
+					spinIn.whileHeld(new ButtonCommandEat());
+			Button spinOut = new JoystickButton(OPERATOR, Xbox.LB);
+					spinOut.whileHeld(new ButtonCommandSpit());
+		/// manipulator clamp
+			Button toggleClamp = new JoystickButton(OPERATOR, Xbox.A);
+				toggleClamp.toggleWhenActive(new ToggleCommandClamp());
+		/// candy cane
+			Button toggleHook = new JoystickButton(OPERATOR, Xbox.B);
+				toggleHook.toggleWhenActive(new ToggleCommandHook());
+		/// drop the mast
+			Button dropIt = new JoystickButton(OPERATOR, Xbox.X);
+				dropIt.toggleWhenPressed(new ButtonCommandHitTheDeck());
+		/// Reversing mode
+			Button toggleReverse = new JoystickButton(DRIVER, Xbox.Y);
+				toggleReverse.toggleWhenPressed(new ToggleCommandReverse());
+		/// Docking mode
+			Button toggleDock = new JoystickButton(DRIVER, Xbox.X);
+				toggleDock.toggleWhenPressed(new ToggleCommandDock());
+		/// Narrow mode
+			Button toggleNarrow = new JoystickButton(DRIVER, Xbox.B);
+				toggleNarrow.whileHeld(new ToggleCommandNarrow());
+		/// To Compress, or Not To Compress. It is now an option.
+			SmartDashboard.putData("Disable Compressor", new ToggleCommandKillCompressor());
+			
+
+		/// PID
+			SmartDashboard.putData("Kill PID", new ToggleCommandKillPID());
+			SmartDashboard.putNumber("Right Encoder Position", 0);
+			SmartDashboard.putNumber("Left Encoder Position", 0);
+			
+		/// limit switch displays
+			SmartDashboard.putBoolean("Lower Screw", true);
+	    	SmartDashboard.putBoolean("Upper Screw", false);
+	    	SmartDashboard.putBoolean("Lower Pinion", true);
+	    	SmartDashboard.putBoolean("Upper Pinion", false);
+	    	
+	    	DriverStation.reportWarning("OI IS INSTANTIATED", false);
+
+	    /// Cyborg command testers
+			SmartDashboard.putData("Drive Direct", new CyborgCommandDriveDirect(Util.getAndSetDouble("Drive Direct Power", 0)));
+			SmartDashboard.putData("Drive Distance", new CyborgCommandDriveDistance(Util.getAndSetDouble("Drive Distance Inches", 0), (int) Util.getAndSetDouble("Drive Distance Timeout", 5000)));
+			SmartDashboard.putData("Drive Until Error", new CyborgCommandDriveUntilError(500,2,1));
+			SmartDashboard.putData("Rotate Degree", new CyborgCommandRotateDegrees(Util.getAndSetDouble("Rotate Degrees", 0), (int) Util.getAndSetDouble("Rotate Timeout", 5000)));
 	}
+	
 }
-/************************
- * [Colton and AJ discussing why OI was instantiated but never used in 2017's Robot.java]
- * 		(it's because all of the setup was in the constructor, not a method)
- * 
- * AJ    : Yeah, so in that case just turn the constructor into a static method.
- * Colton: what if I just moved the OI constructor code to a new static method in OI, then call that method
- * AJ    : And then call that
- * Colton: okay we are on the same page
- * AJ    : ye
- * Colton: I'll call it ye 
- * AJ    : -_-
- * Colton: I'm doing it
- * 
- * TL;DR: AJ doesn't type fast enough and accidentally said it shall be named ye... AND SO IT SHALL
- ***********************/
-
-
-
-
-
-/// WPILIB comments
-		////CREATING BUTTONS
-		// One type of button is a joystick button which is any button on a
-		//// joystick.
-		// You create one by telling it which joystick it's on and which button
-		// number it is.
-		// Joystick stick = new Joystick(port);
-		// Button button = new JoystickButton(stick, buttonNumber);
-		
-		// There are a few additional built in buttons you can use. Additionally,
-		// by subclassing Button you can create custom triggers and bind those to
-		// commands the same as any other Button.
-		
-		//// TRIGGERING COMMANDS WITH BUTTONS
-		// Once you have a button, it's trivial to bind it to a button in one of
-		// three ways:
-		
-		// Start the command when the button is pressed and let it run the command
-		// until it is finished as determined by it's isFinished method.
-		// button.whenPressed(new ExampleCommand());
-		
-		// Run the command while the button is being held down and interrupt it once
-		// the button is released.
-		// button.whileHeld(new ExampleCommand());
-		
-		// Start the command when the button is released and let it run the command
-		// until it is finished as determined by it's isFinished method.
-		// button.whenReleased(new ExampleCommand());
