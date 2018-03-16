@@ -128,19 +128,20 @@ public class CommandGroupAuto extends CommandGroup {
     }
 // TODO right switch terminates early
     private void rightSwitch() {
-        if (gameData.charAt(0) == 'R') { //When the switch is on the right
+    	if (gameData.charAt(0) == 'R') { //When the switch is on the left
         	addParallel(new CyborgCommandGrow(Mast.SCREW_UP, 2000));
-        	addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_TO_SWITCH, 3500));
+            addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_TO_SWITCH, 5000)); 
+//        	addSequential(new CyborgCommandDriveDistance(36, 2000));
             addSequential(new CommandWait(350));
-            addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CCW, 1250));
+            addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CCW, 8500));            
             addSequential(new CommandWait(250));
             addSequential(new CyborgCommandDriveUntilError(500, 2, 0.5));
             addSequential(new CyborgCommandSpit(500));
-        } else { //When the switch is on the left
+        } else if (gameData.charAt(0) == 'L') { //When the switch is on the right
         	//CHECK TUNING!!!!!!!
             addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_PAST_SWITCH, 4000));
             addSequential(new CommandWait(350));
-            addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CCW, 1250));
+            addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CCW, 5000));
             addSequential(new CommandWait(250));
             addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_TO_FOREIGN_SWITCH, 4000));
             addSequential(new CyborgCommandGrow(Mast.SCREW_UP, 1500));
