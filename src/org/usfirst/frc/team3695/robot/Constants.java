@@ -53,8 +53,8 @@ public class Constants {
 	
 	public static final int
 		/// MANIPULATOR
-			OPEN_ARMS  = 5,
-			CLOSE_ARMS = 4,
+			OPEN_ARMS  = 4,
+			CLOSE_ARMS = 5,
 		/// CANDY CANE
 			RAISE_HOOK = 6,
 			LOWER_HOOK = 7;
@@ -89,8 +89,8 @@ public class Constants {
 	public static class TEUFELSKIND {
 		public static final boolean
 	
-			LEFT_PINION_MOTOR_INVERT  = false,
-			RIGHT_PINION_MOTOR_INVERT = true,
+			LEFT_PINION_MOTOR_INVERT  = true,
+			RIGHT_PINION_MOTOR_INVERT = false,
 			SCREW_MOTOR_INVERT        = false,
 	
 			LEFT_ARM_MOTOR_INVERT     = true,

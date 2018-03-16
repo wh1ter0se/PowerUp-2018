@@ -53,14 +53,14 @@ public class CyborgCommandGrow extends Command {
 	            break;
 	        case SCREW_UP:
 	    		if (Robot.SUB_MAST.upperScrewLimit.get()){
-	    			Robot.SUB_MAST.screw.set(ControlMode.PercentOutput, Robot.SUB_MAST.screwify(1));
+	    			Robot.SUB_MAST.screw.set(ControlMode.PercentOutput, Robot.SUB_MAST.screwify(-1));
 				} else {
 					isFinished = true;
 				}
 	            break;
 	        case SCREW_DOWN:
 	    		if (Robot.SUB_MAST.lowerScrewLimit.get()){
-	    			Robot.SUB_MAST.screw.set(ControlMode.PercentOutput, Robot.SUB_MAST.screwify(-1));
+	    			Robot.SUB_MAST.screw.set(ControlMode.PercentOutput, Robot.SUB_MAST.screwify(1));
 				} else {
 					isFinished = true;
 				}

@@ -38,10 +38,10 @@ public class SubsystemMast extends Subsystem {
     public SubsystemMast(){
     	/** Does it make sense to move the limit switch IDs to Constants? **/
     	//no because they could be moved due to various electrical reasons-nate
-    	lowerPinionLimit = new DigitalInput(6);
+    	lowerPinionLimit = new DigitalInput(3);
         upperPinionLimit = new DigitalInput(7);
-        lowerScrewLimit  = new DigitalInput(3);
-        upperScrewLimit  = new DigitalInput(5);
+        lowerScrewLimit  = new DigitalInput(5);
+        upperScrewLimit  = new DigitalInput(4);
     	
     	leftPinion = new TalonSRX(Constants.LEFT_PINION_MOTOR);
     	rightPinion = new TalonSRX(Constants.RIGHT_PINION_MOTOR);
@@ -87,8 +87,8 @@ public class SubsystemMast extends Subsystem {
 			
     	publishSwitches();
     	
-		leftPinion.set(ControlMode.PercentOutput, leftPinionate(pinionSpeed));
-    	rightPinion.set(ControlMode.PercentOutput, rightPinionate(pinionSpeed));
+		leftPinion.set(ControlMode.PercentOutput, leftPinionate(-1 * pinionSpeed));
+    	rightPinion.set(ControlMode.PercentOutput, rightPinionate(-1 * pinionSpeed));
     	screw.set(ControlMode.PercentOutput, inhibitor * screwify(screwSpeed));
     }
     

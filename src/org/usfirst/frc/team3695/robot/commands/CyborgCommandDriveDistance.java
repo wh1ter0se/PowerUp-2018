@@ -58,6 +58,7 @@ public class CyborgCommandDriveDistance extends Command {
     protected void end() {
         DriverStation.reportWarning("CyborgCommandDriveDistance finished", false);
 //        Robot.SUB_DRIVE.driveDirect(0, 0);
+        DriverStation.reportWarning("LEFT:" + Robot.SUB_DRIVE.pidf.getLeftInches() + ", " + "RIGHT:" + Robot.SUB_DRIVE.pidf.getRightInches(), false);
         isFinished = false;
     }
 
