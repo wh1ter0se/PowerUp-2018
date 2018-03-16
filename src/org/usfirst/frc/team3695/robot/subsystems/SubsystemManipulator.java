@@ -46,14 +46,14 @@ public class SubsystemManipulator extends Subsystem {
     
     /** eat the power cube */
     public void eat() {
-    	armLeft.set(ControlMode.PercentOutput, leftArmify(-1));
-    	armRight.set(ControlMode.PercentOutput, rightArmify(-1));
+    	armLeft.set(ControlMode.PercentOutput, leftArmify(1));
+    	armRight.set(ControlMode.PercentOutput, rightArmify(1));
     }
     
     /** spit out the power cube */
     public void spit() {
-    	armLeft.set(ControlMode.PercentOutput, leftArmify(1));
-    	armRight.set(ControlMode.PercentOutput, rightArmify(1));
+    	armLeft.set(ControlMode.PercentOutput, leftArmify(-1));
+    	armRight.set(ControlMode.PercentOutput, rightArmify(-1));
     }
     
     public void spinByJoystick(Joystick joy) {

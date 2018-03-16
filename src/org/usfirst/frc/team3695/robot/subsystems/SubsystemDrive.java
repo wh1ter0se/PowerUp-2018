@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
@@ -52,7 +53,7 @@ public class SubsystemDrive extends Subsystem {
 
     /* converts left magnetic encoder's magic units to inches */
     public static double leftMag2In(double leftMag) {
-        return leftMag / 212; // 204
+        return leftMag / 204; // 204
     }
 
     /* converts right magnetic encoder's magic unit to inches */
@@ -62,7 +63,7 @@ public class SubsystemDrive extends Subsystem {
 
     /* converts left magnetic encoder's magic units to inches */
     public static double leftIn2Mag(double leftMag) {
-        return leftMag * 212; // 204
+        return leftMag * 204; // 204
     }
 
     /* converts right magnetic encoder's magic units to inches */
@@ -304,7 +305,7 @@ public class SubsystemDrive extends Subsystem {
         	} else {
         		PIDF.setPIDF(1, leftCCWPIDF, rightCCWPIDF);
         	}
-
+        	
     	}
     	
         public static void setPIDF(int slot, double[] leftPIDF, double[] rightPIDF) {
@@ -313,6 +314,11 @@ public class SubsystemDrive extends Subsystem {
             setPIDF(Robot.SUB_DRIVE.leftSlave, leftPIDF, slot, (int) Util.getAndSetDouble("Left Velocity", 0), (int) Util.getAndSetDouble("Left Acceleration", 0));
             setPIDF(Robot.SUB_DRIVE.rightMaster, rightPIDF, slot, (int) Util.getAndSetDouble("Right Velocity", 0), (int) Util.getAndSetDouble("Right Acceleration", 0));
             setPIDF(Robot.SUB_DRIVE.rightSlave, rightPIDF, slot, (int) Util.getAndSetDouble("Right Velocity", 0), (int) Util.getAndSetDouble("Right Acceleration", 0));
+            //Do not remove. This delay may be necessary to ensure all PID loops have updated before it continues driving
+            for (int i = 0; i < 4; i++) {
+            	DriverStation.reportWarning(Double.toString(leftPIDF[i]), false);
+            	DriverStation.reportWarning(Double.toString(rightPIDF[i]), false);
+            }
         }
 
         //
