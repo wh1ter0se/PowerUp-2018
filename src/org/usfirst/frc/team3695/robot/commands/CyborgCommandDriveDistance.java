@@ -39,9 +39,7 @@ public class CyborgCommandDriveDistance extends Command {
     	DriverStation.reportWarning("DRIVING " + inches + " INCHES", false);
     	SmartDashboard.putNumber("Left Encoder Inches", Robot.SUB_DRIVE.pidf.getLeftInches());
     	SmartDashboard.putNumber("Right Encoder Inches", Robot.SUB_DRIVE.pidf.getRightInches());
-
-
-        SmartDashboard.putNumber("Error", Robot.SUB_DRIVE.pidf.getError());
+        Robot.SUB_DRIVE.pidf.getError();
     }
 
     protected boolean isFinished() {
@@ -57,7 +55,7 @@ public class CyborgCommandDriveDistance extends Command {
 
     protected void end() {
         DriverStation.reportWarning("CyborgCommandDriveDistance finished", false);
-//        Robot.SUB_DRIVE.driveDirect(0, 0);
+        Robot.SUB_DRIVE.driveDirect(0, 0);
         DriverStation.reportWarning("LEFT:" + Robot.SUB_DRIVE.pidf.getLeftInches() + ", " + "RIGHT:" + Robot.SUB_DRIVE.pidf.getRightInches(), false);
         isFinished = false;
     }

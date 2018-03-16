@@ -6,8 +6,10 @@ import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.util.Util;
 
 public class CyborgCommandDriveUntilError extends Command {
+    long masterError;
     public long errorTime;
     public long runTime;
+    public long startTime;
 
     double allowableError = 2;
 
@@ -17,11 +19,12 @@ public class CyborgCommandDriveUntilError extends Command {
     private long time = 0;
     
     double speed;
-
-    public CyborgCommandDriveUntilError(long errorTime, double allowableError, double speed) {
+    public CyborgCommandDriveUntilError(long errorTime, double allowableError, double speed, long masterError) {
         this.errorTime = errorTime;
         this.allowableError = allowableError;
+        this.masterError = masterError;
         runTime = System.currentTimeMillis();
+        startTime = System.currentTimeMillis();
         requires(Robot.SUB_DRIVE);
         currentPosLeft = Robot.SUB_DRIVE.pidf.getLeftInches();
         currentPosRight = Robot.SUB_DRIVE.pidf.getRightInches();
@@ -38,6 +41,7 @@ public class CyborgCommandDriveUntilError extends Command {
     }
 
     protected boolean isFinished() {
+//        if (masterError + startTime < System.currentTimeMillis()) return true;
         if (!((currentPosLeft + allowableError) > Robot.SUB_DRIVE.pidf.getLeftInches() && (currentPosLeft - allowableError) < Robot.SUB_DRIVE.pidf.getLeftInches())
                 || !((currentPosRight + allowableError) > Robot.SUB_DRIVE.pidf.getRightInches() && (currentPosRight - allowableError) < Robot.SUB_DRIVE.pidf.getRightInches())){
             currentPosLeft = Robot.SUB_DRIVE.pidf.getLeftInches();
@@ -45,7 +49,7 @@ public class CyborgCommandDriveUntilError extends Command {
             runTime = System.currentTimeMillis();
             return false;
         }
-        return errorTime + runTime < System.currentTimeMillis();
+        return runTime + errorTime < System.currentTimeMillis();
     }
 
     protected void end() {
