@@ -41,7 +41,7 @@ public class CyborgCommandDriveUntilError extends Command {
     }
 
     protected boolean isFinished() {
-        if (masterError + startTime > System.currentTimeMillis()) return true;
+//        if (masterError + startTime < System.currentTimeMillis()) return true;
         if (!((currentPosLeft + allowableError) > Robot.SUB_DRIVE.pidf.getLeftInches() && (currentPosLeft - allowableError) < Robot.SUB_DRIVE.pidf.getLeftInches())
                 || !((currentPosRight + allowableError) > Robot.SUB_DRIVE.pidf.getRightInches() && (currentPosRight - allowableError) < Robot.SUB_DRIVE.pidf.getRightInches())){
             currentPosLeft = Robot.SUB_DRIVE.pidf.getLeftInches();
@@ -49,7 +49,7 @@ public class CyborgCommandDriveUntilError extends Command {
             runTime = System.currentTimeMillis();
             return false;
         }
-        return true;
+        return runTime + errorTime < System.currentTimeMillis();
     }
 
     protected void end() {

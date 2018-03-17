@@ -299,8 +299,8 @@ public class SubsystemDrive extends Subsystem {
         		PIDF.setPIDF(0, leftDistPIDF, rightDistPIDF);
         	} else if (slot == 1) {
         		PIDF.setPIDF(1, leftCWPIDF, rightCWPIDF);
-        	} else {
-        		PIDF.setPIDF(1, leftCCWPIDF, rightCCWPIDF);
+        	} else if (slot == 2) {
+        		PIDF.setPIDF(2, leftCCWPIDF, rightCCWPIDF);
         	}
         	
     	}
@@ -347,8 +347,8 @@ public class SubsystemDrive extends Subsystem {
 
 
         public void getError() {
-            SmartDashboard.putNumber("Right Error", Robot.SUB_DRIVE.rightMaster.getErrorDerivative(0));
-            SmartDashboard.putNumber("Left Error", Robot.SUB_DRIVE.leftMaster.getErrorDerivative(0));
+        	SmartDashboard.putNumber("Right Error:", Robot.SUB_DRIVE.rightMaster.getErrorDerivative(0));
+        	SmartDashboard.putNumber("Left Error:", Robot.SUB_DRIVE.leftMaster.getErrorDerivative(0));
         }
         
         public double getRightInches() {
