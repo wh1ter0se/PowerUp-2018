@@ -111,25 +111,20 @@ public class CommandGroupAuto extends CommandGroup {
             addSequential(new CommandWait(250));
             addSequential(new CyborgCommandDriveUntilError(500, 2, 0.5, 3));
             addSequential(new CyborgCommandSpit(500));
+        } else if (gameData.charAt(0) == 'R') { //When the switch is on the right
+        	//CHECK TUNING!!!!!!!
+            addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_PAST_SWITCH, 4000));
+            addSequential(new CommandWait(350));
+            addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CW, 5000));
+            addSequential(new CommandWait(250));
+            addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_TO_FOREIGN_SWITCH, 4000));
+            addSequential(new CyborgCommandGrow(Mast.SCREW_UP, 1500));
+            addSequential(new CommandWait(350));
+            addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CW, 1250));
+            addSequential(new CommandWait(250));
+            addSequential(new CyborgCommandDriveUntilError(500, 2, 0.5,3));
+            addSequential(new CyborgCommandSpit(500));
         } 
-    	else {
-        	addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_TO_SWITCH, 5000)); 
-//        	addSequential(new CyborgCommandDriveDistance(46, 2000));
-        }
-//        else if (gameData.charAt(0) == 'R') { //When the switch is on the right
-//        	//CHECK TUNING!!!!!!!
-//            addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_PAST_SWITCH, 4000));
-//            addSequential(new CommandWait(350));
-//            addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CW, 5000));
-//            addSequential(new CommandWait(250));
-//            addSequential(new CyborgCommandDriveDistance(AutonomousConstants.DIST_TO_FOREIGN_SWITCH, 4000));
-//            addSequential(new CyborgCommandGrow(Mast.SCREW_UP, 1500));
-//            addSequential(new CommandWait(350));
-//            addSequential(new CyborgCommandRotateDegrees(AutonomousConstants.ROT_90_CW, 1250));
-//            addSequential(new CommandWait(250));
-//            addSequential(new CyborgCommandDriveUntilError(500, 2, 0.5, 4));
-//            addSequential(new CyborgCommandSpit(500));
-//        }
     }
 // TODO right switch terminates early
     private void rightSwitch() {

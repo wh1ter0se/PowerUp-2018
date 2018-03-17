@@ -92,9 +92,6 @@ public class SubsystemDrive extends Subsystem {
         return in / Constants.WHEEL_DIAMETER / Math.PI;
     }
 
-    
-    
-
     /* apply left motor invert */
     public static final double leftify(double left) {
         return left * (docking ? dockInhibitor : 1);
