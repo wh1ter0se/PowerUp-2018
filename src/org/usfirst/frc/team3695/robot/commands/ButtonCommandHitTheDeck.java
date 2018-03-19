@@ -1,7 +1,6 @@
 package org.usfirst.frc.team3695.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-
 import org.usfirst.frc.team3695.robot.Constants;
 import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.util.Util;
@@ -11,7 +10,7 @@ import org.usfirst.frc.team3695.robot.util.Util;
  */
 public class ButtonCommandHitTheDeck extends Command {
 
-	long startTime;
+    private long startTime;
 	
     public ButtonCommandHitTheDeck() {
         requires(Robot.SUB_MAST);

@@ -5,19 +5,20 @@ import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3695.robot.Robot;
 
 public class CyborgCommandDriveUntilError extends Command {
-    long masterError;
-    public long errorTime;
-    public long runTime;
-    public long startTime;
+    private long masterError;
+    private long errorTime;
+    private long runTime;
+    private long startTime;
 
-    double allowableError;
+    private double allowableError;
 
-    double currentPosLeft;
-    double currentPosRight;
+    private double currentPosLeft;
+    private double currentPosRight;
     
     private long time = 0;
     
-    double speed;
+    private double speed;
+
     public CyborgCommandDriveUntilError(long errorTime, double allowableError, double speed, long masterError) {
         this.errorTime = errorTime;
         this.allowableError = allowableError;

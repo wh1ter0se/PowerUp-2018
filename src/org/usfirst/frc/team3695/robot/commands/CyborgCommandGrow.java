@@ -1,19 +1,20 @@
 package org.usfirst.frc.team3695.robot.commands;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.enumeration.Mast;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-
 public class CyborgCommandGrow extends Command {
-
+	//Where to go
     private Mast position;
-    long startTime;
-    long timeout;
+    //Time it starts and how long to wait before forcefully ending regardless of results
+    private long startTime;
+	private long timeout;
+	//If the command is finished
+	private boolean isFinished;
 
-    boolean isFinished;
     public CyborgCommandGrow(Mast position, long timeout) {
         requires(Robot.SUB_MAST);
         this.position = position;

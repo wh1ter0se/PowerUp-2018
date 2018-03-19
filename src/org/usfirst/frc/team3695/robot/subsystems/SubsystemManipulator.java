@@ -2,10 +2,8 @@ package org.usfirst.frc.team3695.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Subsystem;
-
 import org.usfirst.frc.team3695.robot.Constants;
 import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.enumeration.Bot;
@@ -18,19 +16,17 @@ public class SubsystemManipulator extends Subsystem {
 	private TalonSRX armLeft;
 	private TalonSRX armRight;
 	
-	public Boolean revving;
+	private Boolean revving;
 	
-	public long redlineTime;
+	private long redlineTime;
 	
 	/** applies left arm motor invert */
-	@SuppressWarnings("ConstantConditions")
 	public static double leftArmify(double left) {
 		Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.LEFT_ARM_MOTOR_INVERT : Constants.TEUFELSKIND.LEFT_ARM_MOTOR_INVERT;
 		return left * (invert ? -1.0 : 1.0);
 	}
 	
 	/** applies right arm motor invert */
-	@SuppressWarnings("ConstantConditions")
     public static double rightArmify(double right) {
 		Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_ARM_MOTOR_INVERT : Constants.TEUFELSKIND.RIGHT_ARM_MOTOR_INVERT;
 		return right * (invert ? -1.0 : 1.0);

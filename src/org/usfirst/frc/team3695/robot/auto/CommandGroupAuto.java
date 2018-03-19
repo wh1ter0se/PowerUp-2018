@@ -12,10 +12,10 @@ import org.usfirst.frc.team3695.robot.enumeration.Position;
 public class CommandGroupAuto extends CommandGroup {
 
     //Stores the states of the switches and scale
-    String gameData;
-    Position position;
-    Goal goal;
-    Goal thirdPriority;
+    private String gameData;
+    private Position position;
+    private Goal goal;
+    private Goal thirdPriority;
 
     public CommandGroupAuto(Position position, Goal goal, Goal thirdPriority) {
         this.position = position;

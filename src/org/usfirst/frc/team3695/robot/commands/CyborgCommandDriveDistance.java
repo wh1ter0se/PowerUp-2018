@@ -3,20 +3,17 @@ package org.usfirst.frc.team3695.robot.commands;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import org.usfirst.frc.team3695.robot.Robot;
-import org.usfirst.frc.team3695.robot.subsystems.SubsystemDrive.AutoDrive;
 
 public class CyborgCommandDriveDistance extends Command {
 
-    public static final long TIME_WAIT = 3000;
-    public double inches;
-    public static final int ALLOWABLE_ERROR = 2;
+    private static final long TIME_WAIT = 3000;
+    private double inches;
+    private static final int ALLOWABLE_ERROR = 2;
 
     Boolean isFinished;
-    long runTime;
-    long startTime;
+    private long runTime;
+    private long startTime;
 
     public CyborgCommandDriveDistance(double inches, int timeoutms) {
         this.inches = inches;

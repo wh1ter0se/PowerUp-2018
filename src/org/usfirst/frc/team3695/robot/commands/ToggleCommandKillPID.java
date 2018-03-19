@@ -2,13 +2,12 @@ package org.usfirst.frc.team3695.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3695.robot.Robot;
-import org.usfirst.frc.team3695.robot.subsystems.SubsystemDrive.AutoDrive;
 
 /** Toggle PID */
 
 public class ToggleCommandKillPID extends Command {
 
-	public static Boolean PID_ENABLED;
+	private static Boolean PID_ENABLED;
 
     public ToggleCommandKillPID() {
         requires(Robot.SUB_DRIVE);

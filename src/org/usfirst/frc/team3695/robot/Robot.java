@@ -3,7 +3,6 @@ package org.usfirst.frc.team3695.robot;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team3695.robot.auto.CommandGroupAuto;
@@ -25,11 +24,11 @@ public class Robot extends IterativeRobot {
 		public static Bot bot;
 
 	/// choosers
-		SendableChooser<Bot> botChooser;
-		SendableChooser<Goal> goalChooser;
-		SendableChooser<Goal> thirdPriorityChooser;
-		SendableChooser<Drivetrain> driveChooser;
-		SendableChooser<Position>  positionChooser;
+		private SendableChooser<Bot> botChooser;
+		private SendableChooser<Goal> goalChooser;
+		private SendableChooser<Goal> thirdPriorityChooser;
+		private SendableChooser<Drivetrain> driveChooser;
+		private SendableChooser<Position>  positionChooser;
 		// add choosers as needed, these put drop down options in the smart dash
 		
 		

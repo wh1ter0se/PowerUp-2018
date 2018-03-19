@@ -2,19 +2,17 @@ package org.usfirst.frc.team3695.robot.commands;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team3695.robot.Constants;
 import org.usfirst.frc.team3695.robot.Robot;
-import org.usfirst.frc.team3695.robot.subsystems.SubsystemDrive.AutoDrive;
 
 public class CyborgCommandRotateDegrees extends Command {
-    public static final double SCALAR = (Constants.DISTANCE_BETWEEN_WHEELS * Math.PI) / 360;
-    public static long runTime = 3000; //lol parametric parameters
-    public static int ALLOWABLE_ERROR = 2;
+    private static final double SCALAR = (Constants.DISTANCE_BETWEEN_WHEELS * Math.PI) / 360;
+    private static long runTime = 3000; //lol parametric parameters
+    private static int ALLOWABLE_ERROR = 2;
     private static long startTime;
 
     private boolean isFinished;
-    public double inches;
+    private double inches;
 
     public CyborgCommandRotateDegrees(double degrees, long timeout) {
         isFinished = false;

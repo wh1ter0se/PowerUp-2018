@@ -8,8 +8,8 @@ import org.usfirst.frc.team3695.robot.util.Util;
 
 public class CyborgCommandDriveDirect extends Command {
 
-    public static final long TIME_WAIT = 1000;
-    public double percent;
+    private static final long TIME_WAIT = 1000;
+    private double percent;
     private boolean inRange;
 
     public CyborgCommandDriveDirect(double percent) {
