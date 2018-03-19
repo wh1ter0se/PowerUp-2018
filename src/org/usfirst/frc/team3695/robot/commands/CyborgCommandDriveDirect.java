@@ -10,7 +10,6 @@ public class CyborgCommandDriveDirect extends Command {
 
     public static final long TIME_WAIT = 1000;
     public double percent;
-    private long time;
     private boolean inRange;
 
     public CyborgCommandDriveDirect(double percent) {
@@ -20,8 +19,8 @@ public class CyborgCommandDriveDirect extends Command {
 
     protected void initialize() {
     	DriverStation.reportWarning("DRIVING BY POWER", false);
-        Robot.SUB_DRIVE.pidf.reset();
-        time = System.currentTimeMillis() + TIME_WAIT;
+    	//Reset PID?
+        long time = System.currentTimeMillis() + TIME_WAIT;
     }
 
     protected void execute() {

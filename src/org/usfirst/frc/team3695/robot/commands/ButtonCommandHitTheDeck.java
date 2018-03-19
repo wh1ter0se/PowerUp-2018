@@ -26,8 +26,8 @@ public class ButtonCommandHitTheDeck extends Command {
     }
 
     protected boolean isFinished() {
-        if (startTime + Constants.MAST_TIMEOUT > System.currentTimeMillis()) return true;
-        return !Robot.SUB_MAST.lowerScrewLimit.get() && !Robot.SUB_MAST.lowerPinionLimit.get();
+        return startTime + Constants.MAST_TIMEOUT > System.currentTimeMillis()
+                || !Robot.SUB_MAST.lowerScrewLimit.get() && !Robot.SUB_MAST.lowerPinionLimit.get();
     }
 
     protected void end() {}

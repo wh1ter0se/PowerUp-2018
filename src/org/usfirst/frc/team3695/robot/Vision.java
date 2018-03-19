@@ -20,13 +20,6 @@ import java.util.ArrayList;
  */
 public class Vision extends IterativeRobot {
 
-    /// Two cameras for double FOV
-    private UsbCamera cameraLeft;
-    private UsbCamera cameraRight;
-    
-    private UsbCamera cameraScrew;
-    private UsbCamera cameraFrame;
-
     private Mat failImage;
 
     public Vision(){
@@ -47,7 +40,7 @@ public class Vision extends IterativeRobot {
     
     private void screwCameraStream(){
 
-    	cameraScrew = CameraServer.getInstance().startAutomaticCapture("Screw", VisionConstants.SCREW_ID);
+        UsbCamera cameraScrew = CameraServer.getInstance().startAutomaticCapture("Screw", VisionConstants.SCREW_ID);
     	
     	CvSink cvsinkScrew = new CvSink("screwSink");
     	cvsinkScrew.setSource(cameraScrew);
@@ -72,7 +65,7 @@ public class Vision extends IterativeRobot {
     }
     
     private void frameCameraStream(){
-    	cameraFrame = CameraServer.getInstance().startAutomaticCapture("Frame", VisionConstants.HOOK_ID);
+        UsbCamera cameraFrame = CameraServer.getInstance().startAutomaticCapture("Frame", VisionConstants.HOOK_ID);
     	
     	CvSink cvsinkFrame = new CvSink("frameSink");
     	cvsinkFrame.setSource(cameraFrame);
@@ -102,8 +95,8 @@ public class Vision extends IterativeRobot {
      * This method should only be used for starting the camera stream.
      */
     private void concatCameraStream() {
-        cameraLeft = CameraServer.getInstance().startAutomaticCapture("Left", VisionConstants.LEFT_ID);
-        cameraRight = CameraServer.getInstance().startAutomaticCapture("Right", VisionConstants.RIGHT_ID);
+        UsbCamera cameraLeft = CameraServer.getInstance().startAutomaticCapture("Left", VisionConstants.LEFT_ID);
+        UsbCamera cameraRight = CameraServer.getInstance().startAutomaticCapture("Right", VisionConstants.RIGHT_ID);
 
         /// Dummy sinks to keep camera connections open.
         CvSink cvsinkLeft = new CvSink("leftSink");

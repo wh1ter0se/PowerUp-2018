@@ -7,9 +7,6 @@ import org.usfirst.frc.team3695.robot.OI;
 import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.util.Util;
 
-import javax.swing.*;
-import java.sql.Driver;
-
 /** manually command the robot with joysticks */
 public class ManualCommandDrive extends Command {
 	
@@ -26,8 +23,7 @@ public class ManualCommandDrive extends Command {
         SmartDashboard.putBoolean("Forza Dampener (Docking mode)", Robot.SUB_DRIVE.docking);
         SmartDashboard.putBoolean("Reversing mode", Robot.SUB_DRIVE.reversing);
         SmartDashboard.putBoolean("Narrower (Turn inhibitor)", Robot.SUB_DRIVE.narrowing);
-        SmartDashboard.putNumber("Right Encoder Inches", Robot.SUB_DRIVE.pidf.getRightInches());
-        SmartDashboard.putNumber("Left Encoder Inches", Robot.SUB_DRIVE.pidf.getLeftInches());
+        //Print PID values to smartdash?
         SmartDashboard.putNumber("Match Time", DriverStation.getInstance().getMatchTime());
 
     	switch (Robot.SUB_DRIVE.drivetrain) {

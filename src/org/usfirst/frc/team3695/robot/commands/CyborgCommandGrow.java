@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.enumeration.Mast;
-import org.usfirst.frc.team3695.robot.enumeration.Position;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 

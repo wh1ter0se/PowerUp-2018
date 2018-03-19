@@ -2,22 +2,17 @@ package org.usfirst.frc.team3695.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team3695.robot.Constants;
 import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.commands.ManualCommandDrive;
 import org.usfirst.frc.team3695.robot.enumeration.Bot;
 import org.usfirst.frc.team3695.robot.enumeration.Drivetrain;
-import org.usfirst.frc.team3695.robot.subsystems.SubsystemDrive.PIDF;
-import org.usfirst.frc.team3695.robot.util.Util;
 import org.usfirst.frc.team3695.robot.util.Xbox;
 
 /** VROOM VROOM */
@@ -41,7 +36,7 @@ public class SubsystemDrive extends Subsystem {
 
     private Accelerometer accel;
 
-    public PIDF pidf; // instantiate innerclass
+    public AutoDrive pidf; // instantiate innerclass
 
     /* Allowable tolerance to be considered in range when driving a distance, in rotations */
     public static final double DISTANCE_ALLOWABLE_ERROR = 8.0;
@@ -93,12 +88,12 @@ public class SubsystemDrive extends Subsystem {
     }
 
     /* apply left motor invert */
-    public static final double leftify(double left) {
+    public static double leftify(double left) {
         return left * (docking ? dockInhibitor : 1);
     }
 
     /* apply right motor invert */
-    public static final double rightify(double right) {
+    public static double rightify(double right) {
         return right * (docking ? dockInhibitor : 1);
     }
 
@@ -117,7 +112,7 @@ public class SubsystemDrive extends Subsystem {
         docking = false;
         dockInhibitor = 0.5d;
 
-        pidf = new PIDF();
+        pidf = new AutoDrive();
 
         // masters
         leftMaster = new TalonSRX(Constants.LEFT_MASTER);
@@ -130,8 +125,6 @@ public class SubsystemDrive extends Subsystem {
         	leftSlave.follow(leftMaster);
         rightSlave = new TalonSRX(Constants.RIGHT_SLAVE);
         	rightSlave.follow(rightMaster);
-
-        PIDF.setPIDF(0);
     }
 
     public void setDrivetrain(Drivetrain drivetrain) {
@@ -183,8 +176,7 @@ public class SubsystemDrive extends Subsystem {
     	
     	if (narrowing) { radius *= narrower; }
     	
-        double left = 0,
-                right = 0;
+        double left, right;
         double acceleration = Xbox.RT(joy) - Xbox.LT(joy);
 
         setRamps(ramp);
@@ -256,114 +248,8 @@ public class SubsystemDrive extends Subsystem {
     }
     
     
-    public static class PIDF {
-    	Boolean enabled;
-    	
-    	public PIDF() {
-    		enabled = true;
-    	}
-    	
-    	public static void setPIDF(int slot) {
-    		double[] leftDistPIDF = {
-        			Util.getAndSetDouble("LeftDistance-P", 0.16),
-    				Util.getAndSetDouble("LeftDistance-I", 0),
-    				Util.getAndSetDouble("LeftDistance-D", 3),
-    				Util.getAndSetDouble("LeftDistance-F", 0.30509)};
-        	double[] rightDistPIDF = {
-        			Util.getAndSetDouble("RightDistance-P", 0.1655),
-    				Util.getAndSetDouble("RightDistance-I", 0),
-    				Util.getAndSetDouble("RightDistance-D", 1.655),
-    				Util.getAndSetDouble("RightDistance-F", 0.33355)};
-        	double[] leftCWPIDF = {
-        			Util.getAndSetDouble("LeftCW-P", 1.16013),
-    				Util.getAndSetDouble("LeftCW-I", 0),
-    				Util.getAndSetDouble("LeftCW-D", 1.60125),
-    				Util.getAndSetDouble("LeftCW-F", .30509)};
-        	double[] rightCWPIDF = {
-        			Util.getAndSetDouble("RightCW-P", 0.17514),
-    				Util.getAndSetDouble("RightCW-I", 0),
-    				Util.getAndSetDouble("RightCW-D", 1.7514),
-    				Util.getAndSetDouble("RightCW-F", 0.33355)};
-        	double[] leftCCWPIDF = {
-        			Util.getAndSetDouble("LeftCCW-P", 0.176125),
-    				Util.getAndSetDouble("LeftCCW-I", 0),
-    				Util.getAndSetDouble("LeftCCW-D", 1.60125),
-    				Util.getAndSetDouble("LeftCCW-F", .30509)};
-        	double[] rightCCWPIDF = {
-        			Util.getAndSetDouble("RightCCW-P", 1.19864),
-    				Util.getAndSetDouble("RightCCW-I", 0),
-    				Util.getAndSetDouble("RightCCW-D", 1.7514),
-    				Util.getAndSetDouble("RightCCW-F", 0.33355)};
-        	
-        	if (slot == 0){
-        		PIDF.setPIDF(0, leftDistPIDF, rightDistPIDF);
-        	} else if (slot == 1) {
-        		PIDF.setPIDF(1, leftCWPIDF, rightCWPIDF);
-        	} else if (slot == 2) {
-        		PIDF.setPIDF(2, leftCCWPIDF, rightCCWPIDF);
-        	}
-        	
-    	}
-    	
-        public static void setPIDF(int slot, double[] leftPIDF, double[] rightPIDF) {
-            //For future reference: Inverts must be applied individually
-            setPIDF(Robot.SUB_DRIVE.leftMaster, leftPIDF, slot, (int) Util.getAndSetDouble("Left Velocity", 0), (int) Util.getAndSetDouble("Left Acceleration", 0));
-            setPIDF(Robot.SUB_DRIVE.leftSlave, leftPIDF, slot, (int) Util.getAndSetDouble("Left Velocity", 0), (int) Util.getAndSetDouble("Left Acceleration", 0));
-            setPIDF(Robot.SUB_DRIVE.rightMaster, rightPIDF, slot, (int) Util.getAndSetDouble("Right Velocity", 0), (int) Util.getAndSetDouble("Right Acceleration", 0));
-            setPIDF(Robot.SUB_DRIVE.rightSlave, rightPIDF, slot, (int) Util.getAndSetDouble("Right Velocity", 0), (int) Util.getAndSetDouble("Right Acceleration", 0));
-            //Do not remove. This delay may be necessary to ensure all PID loops have updated before it continues driving
-            for (int i = 0; i < 4; i++) {
-            	DriverStation.reportWarning(Double.toString(leftPIDF[i]), false);
-            	DriverStation.reportWarning(Double.toString(rightPIDF[i]), false);
-            }
-        }
+    public static class AutoDrive {
+    	public AutoDrive() { 	}
 
-        //
-        public static void setPIDF(TalonSRX _talon, double[] PIDF, int slot, int velocity, int acceleration) {
-            /* first choose the sensor */
-            _talon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,
-                    0, Constants.PIDF_TIMEOUT);
-            _talon.setSensorPhase(true);
-            /* Set relevant frame periods to be at least as fast as periodic rate*/
-            _talon.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10,
-                    Constants.PIDF_TIMEOUT);
-            _talon.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10,
-                    Constants.PIDF_TIMEOUT);
-            /* set the peak and nominal outputs */
-            _talon.configNominalOutputForward(0, Constants.PIDF_TIMEOUT);
-            _talon.configNominalOutputReverse(0, Constants.PIDF_TIMEOUT);
-            _talon.configPeakOutputForward(1, Constants.PIDF_TIMEOUT);
-            _talon.configPeakOutputReverse(-1, Constants.PIDF_TIMEOUT);
-            /* set closed loop gains in slot */
-            _talon.selectProfileSlot(slot, Constants.PIDF_LOOP_ID);
-            _talon.config_kP(slot, PIDF[0], Constants.PIDF_TIMEOUT);
-            _talon.config_kI(slot, PIDF[1], Constants.PIDF_TIMEOUT);
-            _talon.config_kD(slot, PIDF[2], Constants.PIDF_TIMEOUT);
-            _talon.config_kF(slot, PIDF[3], Constants.PIDF_TIMEOUT);
-            /* set acceleration and vcruise velocity - see documentation */
-            _talon.configMotionCruiseVelocity(velocity, Constants.PIDF_TIMEOUT);
-            _talon.configMotionAcceleration(acceleration, Constants.PIDF_TIMEOUT);
-        }
-
-
-        public void getError() {
-        	SmartDashboard.putNumber("Right Error:", Robot.SUB_DRIVE.rightMaster.getErrorDerivative(0));
-        	SmartDashboard.putNumber("Left Error:", Robot.SUB_DRIVE.leftMaster.getErrorDerivative(0));
-        }
-        
-        public double getRightInches() {
-            return rightMag2In(Robot.SUB_DRIVE.rightMaster.getSelectedSensorPosition(Constants.PIDF_LOOP_ID));
-        }
-
-        public double getLeftInches() {
-            return leftMag2In(Robot.SUB_DRIVE.leftMaster.getSelectedSensorPosition(Constants.LEFT_PID));
-        }
-
-        public void reset() {
-            Robot.SUB_DRIVE.leftMaster.setSelectedSensorPosition(0, Constants.LEFT_PID, Constants.PIDF_TIMEOUT);
-            Robot.SUB_DRIVE.rightMaster.setSelectedSensorPosition(0, Constants.PIDF_LOOP_ID, Constants.PIDF_TIMEOUT);
-            Robot.SUB_DRIVE.leftMaster.setIntegralAccumulator(0,0, Constants.PIDF_TIMEOUT);
-            Robot.SUB_DRIVE.rightMaster.setIntegralAccumulator(0,0, Constants.PIDF_TIMEOUT);
-        }
     }
 }

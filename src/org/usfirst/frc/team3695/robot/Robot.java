@@ -12,7 +12,6 @@ import org.usfirst.frc.team3695.robot.enumeration.Drivetrain;
 import org.usfirst.frc.team3695.robot.enumeration.Goal;
 import org.usfirst.frc.team3695.robot.enumeration.Position;
 import org.usfirst.frc.team3695.robot.subsystems.*;
-import org.usfirst.frc.team3695.robot.util.Util;
 
 //    _____   _____   ____     ______           ______                   _                                        ____             _                   
 //   |__  /  / ___/  / __ \   / ____/          / ____/  ____    _  __   (_)   ____ ___   __  __   _____          / __ \   _____   (_)   ____ ___   ___ 
@@ -183,6 +182,6 @@ public class Robot extends IterativeRobot {
 	
 	/** runs at ~50hz when in test mode */
 	public void testPeriodic() {
-		LiveWindow.run(); 
+
 	}
 }

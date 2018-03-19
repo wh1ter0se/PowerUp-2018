@@ -3,7 +3,6 @@ package org.usfirst.frc.team3695.robot.commands;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3695.robot.Robot;
-import org.usfirst.frc.team3695.robot.util.Util;
 
 public class CyborgCommandDriveUntilError extends Command {
     long masterError;
@@ -11,7 +10,7 @@ public class CyborgCommandDriveUntilError extends Command {
     public long runTime;
     public long startTime;
 
-    double allowableError = 2;
+    double allowableError;
 
     double currentPosLeft;
     double currentPosRight;
@@ -26,8 +25,7 @@ public class CyborgCommandDriveUntilError extends Command {
         runTime = System.currentTimeMillis();
         startTime = System.currentTimeMillis();
         requires(Robot.SUB_DRIVE);
-        currentPosLeft = Robot.SUB_DRIVE.pidf.getLeftInches();
-        currentPosRight = Robot.SUB_DRIVE.pidf.getRightInches();
+        //Print PID values to smartdash?
         this.speed = speed;
     }
 
@@ -41,14 +39,15 @@ public class CyborgCommandDriveUntilError extends Command {
     }
 
     protected boolean isFinished() {
-//        if (masterError + startTime < System.currentTimeMillis()) return true;
-        if (!((currentPosLeft + allowableError) > Robot.SUB_DRIVE.pidf.getLeftInches() && (currentPosLeft - allowableError) < Robot.SUB_DRIVE.pidf.getLeftInches())
-                || !((currentPosRight + allowableError) > Robot.SUB_DRIVE.pidf.getRightInches() && (currentPosRight - allowableError) < Robot.SUB_DRIVE.pidf.getRightInches())){
-            currentPosLeft = Robot.SUB_DRIVE.pidf.getLeftInches();
-            currentPosRight = Robot.SUB_DRIVE.pidf.getRightInches();
-            runTime = System.currentTimeMillis();
-            return false;
-        }
+        if ((masterError + startTime) < System.currentTimeMillis()) return true;
+        //This will all need to be rewritten for the new code.
+//        if (!((currentPosLeft + allowableError) > Robot.SUB_DRIVE.pidf.getLeftInches() && (currentPosLeft - allowableError) < Robot.SUB_DRIVE.pidf.getLeftInches())
+//                || !((currentPosRight + allowableError) > Robot.SUB_DRIVE.pidf.getRightInches() && (currentPosRight - allowableError) < Robot.SUB_DRIVE.pidf.getRightInches())){
+//            currentPosLeft = Robot.SUB_DRIVE.pidf.getLeftInches();
+//            currentPosRight = Robot.SUB_DRIVE.pidf.getRightInches();
+//            runTime = System.currentTimeMillis();
+//            return false;
+//        }
         return runTime + errorTime < System.currentTimeMillis();
     }
 

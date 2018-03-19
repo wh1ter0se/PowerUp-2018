@@ -2,12 +2,12 @@ package org.usfirst.frc.team3695.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3695.robot.Robot;
-import org.usfirst.frc.team3695.robot.subsystems.SubsystemDrive.PIDF;
-import org.usfirst.frc.team3695.robot.util.Util;
+import org.usfirst.frc.team3695.robot.subsystems.SubsystemDrive.AutoDrive;
 
 /** Toggle PID */
+
 public class ToggleCommandKillPID extends Command {
-	
+
 	public static Boolean PID_ENABLED;
 
     public ToggleCommandKillPID() {
@@ -17,13 +17,13 @@ public class ToggleCommandKillPID extends Command {
 
     protected void initialize() {
     	PID_ENABLED = !PID_ENABLED;
-    	
-    	if (PID_ENABLED) {
-    		PIDF.setPIDF(0);
-    	} else {
-    		PIDF.setPIDF(0, new double[] {0,0,0,0}, new double[] {0,0,0,0});
-    		PIDF.setPIDF(1, new double[] {0,0,0,0}, new double[] {0,0,0,0});
-    	}
+    	//Need to rewrite for new system.
+//    	if (PID_ENABLED) {
+//    		AutoDrive.setPIDF(0);
+//    	} else {
+//    		AutoDrive.setPIDF(0, new double[] {0,0,0,0}, new double[] {0,0,0,0});
+//    		AutoDrive.setPIDF(1, new double[] {0,0,0,0}, new double[] {0,0,0,0});
+//    	}
     }
 
     protected void execute() { }
