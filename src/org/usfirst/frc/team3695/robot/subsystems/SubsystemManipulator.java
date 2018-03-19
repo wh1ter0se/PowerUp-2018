@@ -87,7 +87,6 @@ public class SubsystemManipulator extends Subsystem {
     	armRight.set(ControlMode.PercentOutput, rightArmify(speed));
     }
 
-    
     /** generates a quadratic curve based on the three points in constants */
     public double generateRedlineCurve(double x) {
     	// TODO simplify this; I just plugged our variables into the equation for this
@@ -106,7 +105,6 @@ public class SubsystemManipulator extends Subsystem {
     	y += mid * ((x * (x - 1))/(-.25));
     	y += end * ((x * (x-.5))/(.5));
     	return y;
-    }  
-
+    }
 }
 

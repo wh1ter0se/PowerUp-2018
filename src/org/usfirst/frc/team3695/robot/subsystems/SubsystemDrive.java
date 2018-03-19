@@ -3,11 +3,17 @@ package org.usfirst.frc.team3695.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
-
+import jaci.pathfinder.Pathfinder;
+import jaci.pathfinder.Trajectory;
+import jaci.pathfinder.Waypoint;
+import jaci.pathfinder.followers.EncoderFollower;
+import jaci.pathfinder.modifiers.TankModifier;
 import org.usfirst.frc.team3695.robot.Constants;
 import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.commands.ManualCommandDrive;
@@ -35,6 +41,7 @@ public class SubsystemDrive extends Subsystem {
     private static double narrower;
 
     private Accelerometer accel;
+    AnalogGyro gyro;
 
     public AutoDrive pidf; // instantiate innerclass
 
@@ -113,6 +120,8 @@ public class SubsystemDrive extends Subsystem {
         dockInhibitor = 0.5d;
 
         pidf = new AutoDrive();
+
+        gyro = new AnalogGyro(1);
 
         // masters
         leftMaster = new TalonSRX(Constants.LEFT_MASTER);
@@ -249,7 +258,103 @@ public class SubsystemDrive extends Subsystem {
     
     
     public static class AutoDrive {
-    	public AutoDrive() { 	}
+        //The distance between left and right sides of the wheelbase
+        public static final double WHEELBASE_WIDTH = 0.5;
+        //The diameter of the wheels, but in meters
+        public static final double WHEEL_DIAMETER = 0.1524; //Check this number.
 
+        //Various constants needed to generate a motion profile
+        private final double TIME_STEP = .05;
+        private final double MAX_VELOCITY = .07;
+        private final double MAX_ACC = .25;
+        private final double MAX_JERK = 60.0;
+        //Allows the bot to achieve higher or lower speed quicker
+        private final double ACC_GAIN = 0;
+
+        //Good old PID values. Do not add I. Just don't
+        private final static double P_LEFT = 0.0001;
+        private final static double I_LEFT = 0.000;
+        private final static double D_LEFT = 0.000;
+
+        private final static double P_RIGHT = 0.0001;
+        private final static double I_RIGHT = 0.000;
+        private final static double D_RIGHT = 0.000;
+
+        //Configuration that stores all the values needed to configure the motion profile
+        Trajectory.Config config;
+
+        public AutoDrive() {
+            Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, TIME_STEP, MAX_VELOCITY, MAX_ACC, MAX_JERK);
+        }
+
+        //Returns a trajectory path given a set of points
+        public Trajectory generateTrajectory(Waypoint[] points){
+          return Pathfinder.generate(points, config);
+        }
+
+        //Returns a tank modifier of a given trajectory to work with the bot
+        public TankModifier generateTankMod(Trajectory trajectory){
+            return new TankModifier(trajectory).modify(WHEELBASE_WIDTH);
+        }
+
+        //Needs to be refactored to properly work with commands
+        public void autoTankDrive(Waypoint[] points){
+            TankModifier tankMod = generateTankMod(generateTrajectory(points));
+
+            EncoderFollower leftEncoder = new EncoderFollower(tankMod.getLeftTrajectory());
+            EncoderFollower rightEncoder = new EncoderFollower(tankMod.getRightTrajectory());
+
+            leftEncoder.configureEncoder(Robot.SUB_DRIVE.leftMaster.getSelectedSensorPosition(0), 1000, WHEEL_DIAMETER);
+            rightEncoder.configureEncoder(Robot.SUB_DRIVE.rightMaster.getSelectedSensorPosition(0), 1000, WHEEL_DIAMETER);
+
+            //TODO: add util getandsetdouble calls to all of the PID values so it isn't a mess to configure.
+            //I'm just lazy right now and it looks all pretty without them
+            leftEncoder.configurePIDVA(P_LEFT, I_LEFT, D_LEFT, 1/MAX_VELOCITY, ACC_GAIN);
+            rightEncoder.configurePIDVA(P_RIGHT, I_RIGHT, D_RIGHT, 1/MAX_VELOCITY, ACC_GAIN);
+            DriverStation.reportWarning("Pathfinder configuration complete", false);
+
+            //Now that we've gotten setup for this drive, it's time to roll out!
+            double leftOutput = leftEncoder.calculate((int)leftEncoderPos());
+            double rightOutput = rightEncoder.calculate((int)rightEncoderPos());
+
+            //All of this will account for any turning the robot makes when it drives
+            //Way better than what we had with
+            //Make sure gyro is in degrees!!!
+            double gyroHeading = Robot.SUB_DRIVE.gyro.getAngle();
+            //The sides of the robot are in parallel and therefore are always the same
+            //So lets just use left
+            double desiredHeading = Pathfinder.r2d(leftEncoder.getHeading());
+            //The difference in angle we want to reach
+            double angleDifference = Pathfinder.boundHalfDegrees(desiredHeading - gyroHeading);
+            double turn = 0.8 * (-1.0/80.0) * angleDifference; //Blame Jaci. Not quite sure why this is what it is.
+
+            setTalons(leftOutput + turn, rightOutput - turn);
+        }
+
+        public void setTalons(double left, double right){
+            Robot.SUB_DRIVE.leftMaster.set(ControlMode.PercentOutput, left);
+            Robot.SUB_DRIVE.rightMaster.set(ControlMode.PercentOutput, right);
+        }
+
+        public void resetEncoders(){
+            Robot.SUB_DRIVE.leftMaster.setSelectedSensorPosition(0,0,10);
+            Robot.SUB_DRIVE.rightMaster.setSelectedSensorPosition(0,0,10);
+        }
+
+        public double rightEncoderPos(){
+            return Robot.SUB_DRIVE.rightMaster.getSelectedSensorPosition(0);
+        }
+
+        public double leftEncoderPos(){
+           return Robot.SUB_DRIVE.leftMaster.getSelectedSensorPosition(0);
+        }
+
+        public double nativeToInches(double nativeUnits){
+            return 0;
+        }
+
+        public double inchesToNative(double inches){
+            return 0;
+        }
     }
 }
