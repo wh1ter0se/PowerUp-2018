@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3695.robot.Robot;
 
+@Deprecated //Can continue being used for runForIt, but should be replaced with pathfinder
 public class CyborgCommandDriveDistance extends Command {
 
     private static final long TIME_WAIT = 3000;

@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3695.robot.Robot;
 
+@Deprecated //This should never be needed again with pathfinder
 public class CyborgCommandDriveUntilError extends Command {
     private long masterError;
     private long errorTime;

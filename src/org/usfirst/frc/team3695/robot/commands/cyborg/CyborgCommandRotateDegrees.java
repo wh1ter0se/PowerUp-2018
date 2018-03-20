@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3695.robot.Constants;
 import org.usfirst.frc.team3695.robot.Robot;
 
+@Deprecated //Use pathfinder to rotate
 public class CyborgCommandRotateDegrees extends Command {
     private static final double SCALAR = (Constants.DISTANCE_BETWEEN_WHEELS * Math.PI) / 360;
     private static long runTime = 3000; //lol parametric parameters
