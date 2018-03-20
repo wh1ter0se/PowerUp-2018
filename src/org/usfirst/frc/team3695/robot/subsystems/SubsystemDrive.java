@@ -4,10 +4,8 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.AnalogGyro;
-import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Waypoint;
@@ -81,17 +79,6 @@ public class SubsystemDrive extends Subsystem {
         rightSlave.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_SLAVE_INVERT : Constants.TEUFELSKIND.RIGHT_SLAVE_INVERT);
         leftMaster.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.LEFT_MASTER_INVERT : Constants.TEUFELSKIND.LEFT_MASTER_INVERT);
         leftSlave.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.LEFT_SLAVE_INVERT : Constants.TEUFELSKIND.LEFT_SLAVE_INVERT);
-    }
-    
-    public void setRamps(double ramp) {
-        if (leftMaster != null)
-        	leftMaster.configOpenloopRamp(ramp, 10);
-        if (leftSlave != null)
-        	leftSlave.configOpenloopRamp(ramp, 10);
-        if (rightMaster != null)
-        	rightMaster.configOpenloopRamp(ramp, 10);
-        if (rightSlave != null)
-        	rightSlave.configOpenloopRamp(ramp, 10);
     }
 
     /* converts left magnetic encoder's magic units to inches
