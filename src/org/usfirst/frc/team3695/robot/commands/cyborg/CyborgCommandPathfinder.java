@@ -17,7 +17,6 @@ import static org.usfirst.frc.team3695.robot.subsystems.SubsystemDrive.AutoDrive
 public class CyborgCommandPathfinder extends Command {
 
     private Waypoint[] waypoints;
-    private TankModifier tankMod;
 
     private EncoderFollower leftEncoder;
     private EncoderFollower rightEncoder;
@@ -38,7 +37,7 @@ public class CyborgCommandPathfinder extends Command {
     }
 
     public void initialize(){
-        tankMod = Robot.SUB_DRIVE.autoDrive.generateTankMod(Robot.SUB_DRIVE.autoDrive.generateTrajectory(waypoints));
+        TankModifier tankMod = Robot.SUB_DRIVE.autoDrive.generateTankMod(Robot.SUB_DRIVE.autoDrive.generateTrajectory(waypoints));
 
         leftEncoder = new EncoderFollower(tankMod.getLeftTrajectory());
         rightEncoder = new EncoderFollower(tankMod.getRightTrajectory());
