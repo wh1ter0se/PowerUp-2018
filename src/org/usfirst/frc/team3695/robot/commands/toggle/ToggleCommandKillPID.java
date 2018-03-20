@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3695.robot.Robot;
 
 /** Toggle PID */
-
+@Deprecated //No longer using PID directly through the Talons
 public class ToggleCommandKillPID extends Command {
 
 	private static Boolean PID_ENABLED;

@@ -3,7 +3,7 @@ package org.usfirst.frc.team3695.robot.commands.toggle;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3695.robot.Robot;
 
-/** move the mast */
+/** Put the hook up and down */
 public class ToggleCommandHook extends Command {
     
     public ToggleCommandHook() {
