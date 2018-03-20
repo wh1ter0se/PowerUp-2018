@@ -4,7 +4,7 @@ public enum Drivetrain {
 	ROCKET_LEAGUE("Rocket League"),
 	FORZA("Forza (Colton)"),
 	BROGAN("Brogan Drive"),
-	REV("VROOOOOM");
+	CALEB("Caleb is illiterate");
 
 	private final String name;
 	Drivetrain(String name) {

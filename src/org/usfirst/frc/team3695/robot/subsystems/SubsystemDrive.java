@@ -39,7 +39,7 @@ public class SubsystemDrive extends Subsystem {
     public static boolean narrowing;
     private static double narrower;
 
-    private Accelerometer accel;
+
     public AnalogGyro gyro;
 
     public AutoDrive autoDrive;
@@ -47,6 +47,52 @@ public class SubsystemDrive extends Subsystem {
     /* runs at robot boot */
     public void initDefaultCommand() {
         setDefaultCommand(new ManualCommandDrive());
+    }
+    
+    /**
+     * gives birth to the talons and instantiates variables (including the Bot enum)
+     */
+    public SubsystemDrive() {
+
+        drivetrain = Drivetrain.ROCKET_LEAGUE;
+
+        reversing = false;
+        docking = false;
+        dockInhibitor = 0.5d;
+
+        autoDrive = new AutoDrive();
+
+        gyro = new AnalogGyro(1);
+
+        // masters
+        leftMaster = new TalonSRX(Constants.LEFT_MASTER);
+        	leftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.PIDF_LOOP_ID, Constants.PIDF_TIMEOUT);
+        rightMaster = new TalonSRX(Constants.RIGHT_MASTER);
+        	rightMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.PIDF_LOOP_ID, Constants.PIDF_TIMEOUT);
+
+        // slaves
+        leftSlave = new TalonSRX(Constants.LEFT_SLAVE);
+        	leftSlave.follow(leftMaster);
+        rightSlave = new TalonSRX(Constants.RIGHT_SLAVE);
+        	rightSlave.follow(rightMaster);
+    }
+    
+    public void setInverts() {
+        rightMaster.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_MASTER_INVERT : Constants.TEUFELSKIND.RIGHT_MASTER_INVERT);
+        rightSlave.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_SLAVE_INVERT : Constants.TEUFELSKIND.RIGHT_SLAVE_INVERT);
+        leftMaster.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.LEFT_MASTER_INVERT : Constants.TEUFELSKIND.LEFT_MASTER_INVERT);
+        leftSlave.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.LEFT_SLAVE_INVERT : Constants.TEUFELSKIND.LEFT_SLAVE_INVERT);
+    }
+    
+    public void setRamps(double ramp) {
+        if (leftMaster != null)
+        	leftMaster.configOpenloopRamp(ramp, 10);
+        if (leftSlave != null)
+        	leftSlave.configOpenloopRamp(ramp, 10);
+        if (rightMaster != null)
+        	rightMaster.configOpenloopRamp(ramp, 10);
+        if (rightSlave != null)
+        	rightSlave.configOpenloopRamp(ramp, 10);
     }
 
     /* converts left magnetic encoder's magic units to inches
@@ -90,36 +136,6 @@ public class SubsystemDrive extends Subsystem {
         return right * (docking ? dockInhibitor : 1);
     }
 
-    /**
-     * gives birth to the talons and instantiates variables (including the Bot enum)
-     */
-    public SubsystemDrive() {
-
-        accel = new BuiltInAccelerometer();
-
-        drivetrain = Drivetrain.ROCKET_LEAGUE;
-
-        reversing = false;
-        docking = false;
-        dockInhibitor = 0.5d;
-
-        autoDrive = new AutoDrive();
-
-        gyro = new AnalogGyro(1);
-
-        // masters
-        leftMaster = new TalonSRX(Constants.LEFT_MASTER);
-        	leftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.LEFT_PID, Constants.PIDF_TIMEOUT);
-        rightMaster = new TalonSRX(Constants.RIGHT_MASTER);
-        	rightMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.PIDF_LOOP_ID, Constants.PIDF_TIMEOUT);
-
-        // slaves
-        leftSlave = new TalonSRX(Constants.LEFT_SLAVE);
-        	leftSlave.follow(leftMaster);
-        rightSlave = new TalonSRX(Constants.RIGHT_SLAVE);
-        	rightSlave.follow(rightMaster);
-    }
-
     public void setDrivetrain(Drivetrain drivetrain) {
         this.drivetrain = drivetrain;
     }
@@ -137,13 +153,6 @@ public class SubsystemDrive extends Subsystem {
     public void toggleReversing(){
         reversing = !reversing;
     }
-
-    public double getYAngle() {
-        //http://www.hobbytronics.co.uk/accelerometer-info
-        //Formula for getting the angle through the accelerometer
-        //arctan returns in radians so we convert to degrees.
-        return Math.atan(accel.getY() / Math.sqrt(Math.pow(accel.getX(), 2) + Math.pow(accel.getZ(), 2))) * 180 / Math.PI;
-    }
     
     /**
      * simple rocket league drive code (not actually rocket league)
@@ -157,8 +166,8 @@ public class SubsystemDrive extends Subsystem {
         right = (right > 1.0 ? 1.0 : (right < -1.0 ? -1.0 : right));
         setRamps(ramp);
         
-        leftMaster.set(ControlMode.PercentOutput, leftify(left));
-        rightMaster.set(ControlMode.PercentOutput, rightify(right));
+        leftMaster.set(ControlMode.PercentOutput, left);
+        rightMaster.set(ControlMode.PercentOutput, right);
     }
 
     /**
@@ -188,8 +197,8 @@ public class SubsystemDrive extends Subsystem {
         left = (left > 1.0 ? 1.0 : (left < -1.0 ? -1.0 : left));
         right = (right > 1.0 ? 1.0 : (right < -1.0 ? -1.0 : right));
         
-        leftMaster.set(ControlMode.PercentOutput, leftify(left) * inhibitor * (reversing ? -1.0 : 1.0));
-        rightMaster.set(ControlMode.PercentOutput, rightify(right) * inhibitor * (reversing ? -1.0 : 1.0));
+        leftMaster.set(ControlMode.PercentOutput, left * inhibitor * (reversing ? -1.0 : 1.0));
+        rightMaster.set(ControlMode.PercentOutput, right * inhibitor * (reversing ? -1.0 : 1.0));
     }
 
     public void driveBrogan(Joystick joy, double ramp, double inhibitor) {
@@ -202,42 +211,24 @@ public class SubsystemDrive extends Subsystem {
         right = (right > 1.0 ? 1.0 : (right < -1.0 ? -1.0 : right));
         setRamps(ramp);
 
-        leftMaster.set(ControlMode.PercentOutput, leftify(left));
-        rightMaster.set(ControlMode.PercentOutput, rightify(right));
-    }
-    
-    public void setRamps(double ramp) {
-        if (leftMaster != null)
-        	leftMaster.configOpenloopRamp(ramp, 10);
-        if (leftSlave != null)
-        	leftSlave.configOpenloopRamp(ramp, 10);
-        if (rightMaster != null)
-        	rightMaster.configOpenloopRamp(ramp, 10);
-        if (rightSlave != null)
-        	rightSlave.configOpenloopRamp(ramp, 10);
+        leftMaster.set(ControlMode.PercentOutput, left);
+        rightMaster.set(ControlMode.PercentOutput, right);
     }
     
     public void driveDistance(double leftIn, double rightIn) {
         double leftGoal = (leftIn2Mag(leftIn));
         double rightGoal = (rightIn2Mag(rightIn));
-        leftMaster.set(ControlMode.MotionMagic, leftify(leftGoal));
+        leftMaster.set(ControlMode.MotionMagic, leftGoal);
     		leftSlave.follow(leftMaster);
-        rightMaster.set(ControlMode.MotionMagic, rightify(rightGoal));
+        rightMaster.set(ControlMode.MotionMagic, rightGoal);
     		rightSlave.follow(rightMaster);
     }
 
     public void driveDirect(double left, double right) {
         left = (left > 1.0 ? 1.0 : (left < -1.0 ? -1.0 : left));
         right = (right > 1.0 ? 1.0 : (right < -1.0 ? -1.0 : right));
-        leftMaster.set(ControlMode.PercentOutput, leftify(left));
-        rightMaster.set(ControlMode.PercentOutput, rightify(right));
-    }
-
-    public void setInverts() {
-        rightMaster.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_MASTER_INVERT : Constants.TEUFELSKIND.RIGHT_MASTER_INVERT);
-        rightSlave.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_SLAVE_INVERT : Constants.TEUFELSKIND.RIGHT_SLAVE_INVERT);
-        leftMaster.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.LEFT_MASTER_INVERT : Constants.TEUFELSKIND.LEFT_MASTER_INVERT);
-        leftSlave.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.LEFT_SLAVE_INVERT : Constants.TEUFELSKIND.LEFT_SLAVE_INVERT);
+        leftMaster.set(ControlMode.PercentOutput, left);
+        rightMaster.set(ControlMode.PercentOutput, right);
     }
     
     

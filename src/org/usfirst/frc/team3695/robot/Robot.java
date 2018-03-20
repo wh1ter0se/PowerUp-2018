@@ -20,20 +20,17 @@ import org.usfirst.frc.team3695.robot.subsystems.*;
 
 /** the magic place where everything happens (where the sequence of events is controlled, top of the hierarchy) */
 public class Robot extends IterativeRobot {
-
+	// it... it's a bot
 		public static Bot bot;
 
-	/// choosers
+	// choosers
 		private SendableChooser<Bot> botChooser;
 		private SendableChooser<Goal> goalChooser;
 		private SendableChooser<Goal> thirdPriorityChooser;
 		private SendableChooser<Drivetrain> driveChooser;
 		private SendableChooser<Position>  positionChooser;
-		// add choosers as needed, these put drop down options in the smart dash
 		
-		
-	/// subsystems
-//		public static SubsystemArduino SUB_ARDUINO;
+	// subsystems
 		public static SubsystemClamp SUB_CLAMP;
 		public static SubsystemCompressor SUB_COMPRESSOR;
 		public static SubsystemDrive SUB_DRIVE;
@@ -44,10 +41,10 @@ public class Robot extends IterativeRobot {
 
 		public static OI oi;
 
-		
 	/// autonomous
 		private CommandGroupAuto auto;
 
+		
 	/** runs when robot is turned on */
 	public void robotInit() {
 		/// instantiate bot chooser
@@ -69,7 +66,6 @@ public class Robot extends IterativeRobot {
 			SUB_CLAMP = new SubsystemClamp();
 			SUB_COMPRESSOR = new SubsystemCompressor();
 			SUB_DRIVE = new SubsystemDrive();
-				SUB_DRIVE.setInverts();
 			SUB_HOOK = new SubsystemHook();
 			SUB_MAST = new SubsystemMast();
 			SUB_VISION = new SubsystemVision();
@@ -128,7 +124,6 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Sub_Mast", SUB_MAST);
 		DriverStation.reportWarning("SUBSYSTEMS, CHOOSERS INSTANTIATED", false);
 	}
-
 	
 	/** runs when robot gets disabled */
 	public void disabledInit() { 
@@ -136,12 +131,10 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().removeAll();
 	}
 
-	
 	/** runs at 50hz when bot is disabled */
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run(); 
 	}
-
 	
 	/** runs when autonomous start */
 	public void autonomousInit() {
@@ -150,23 +143,25 @@ public class Robot extends IterativeRobot {
 			auto = new CommandGroupAuto(positionChooser.getSelected(), goalChooser.getSelected(), thirdPriorityChooser.getSelected());
 			auto.start(); 
 		}
-		bot = (botChooser.getSelected() != null) ? botChooser.getSelected() : bot; // update motor inverts
+		
+		setAllInverts();
 	}
 
 	/** runs at 50hz when in autonomous */
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run(); 
-		bot = (botChooser.getSelected() != null) ? botChooser.getSelected() : bot; // update motor inverts
+		
+		setAllInverts();
 	}
 
-	
 	/** runs when teleop starts*/
 	public void teleopInit() {
 		DriverStation.reportWarning("TELEOP IS ENABLED", false);
 		if (auto != null)
 			auto.cancel(); 
+		
+		setAllInverts();
 	}
-
 	
 	/** runs at ~50hz when in teleop mode */
 	public void teleopPeriodic() {
@@ -176,12 +171,17 @@ public class Robot extends IterativeRobot {
 			SUB_DRIVE.setDrivetrain(driveChooser.getSelected());
 		}
 		
-		bot = (botChooser.getSelected() != null) ? botChooser.getSelected() : bot; // update motor inverts
+		setAllInverts();
 	}
 
-	
 	/** runs at ~50hz when in test mode */
-	public void testPeriodic() {
-
+	public void testPeriodic() {}
+	
+	/** do you really need javadoc for this one */
+	private void setAllInverts() {
+		bot = (botChooser.getSelected() != null) ? botChooser.getSelected() : bot; // update motor inverts
+			SUB_DRIVE.setInverts();
+			SUB_MAST.setInverts();
+			SUB_MANIPULATOR.setInverts();
 	}
 }
