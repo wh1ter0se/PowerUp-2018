@@ -2,6 +2,7 @@ package org.usfirst.frc.team3695.robot.commands.toggle;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3695.robot.Robot;
+import org.usfirst.frc.team3695.robot.subsystems.SubsystemDrive;
 
 /** toggles the state of the clamp */
 public class ToggleCommandReverse extends Command {
@@ -15,7 +16,7 @@ public class ToggleCommandReverse extends Command {
     protected void initialize() {}
 
     protected void execute() {
-        Robot.SUB_DRIVE.toggleReversing();
+        SubsystemDrive.reversing = !SubsystemDrive.reversing;
         isFinished = true;
     }
 

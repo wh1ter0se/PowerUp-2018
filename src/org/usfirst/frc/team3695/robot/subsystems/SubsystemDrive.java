@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Waypoint;
-import jaci.pathfinder.followers.EncoderFollower;
 import jaci.pathfinder.modifiers.TankModifier;
 import org.usfirst.frc.team3695.robot.Constants;
 import org.usfirst.frc.team3695.robot.Robot;
@@ -134,10 +133,7 @@ public class SubsystemDrive extends Subsystem {
         SubsystemDrive.narrower = narrower;
     }
 
-    public void toggleReversing(){
-        reversing = !reversing;
-    }
-
+    @Deprecated //We're soon going to have a real gyroscope
     public double getYAngle() {
         //http://www.hobbytronics.co.uk/accelerometer-info
         //Formula for getting the angle through the accelerometer
@@ -192,20 +188,6 @@ public class SubsystemDrive extends Subsystem {
         rightMaster.set(ControlMode.PercentOutput, rightify(right) * inhibitor * (reversing ? -1.0 : 1.0));
     }
 
-    public void driveBrogan(Joystick joy, double ramp, double inhibitor) {
-        double power = Xbox.LEFT_Y(joy);
-        double left  = power + (Xbox.LT(joy) / (4/3)) - (Xbox.RT(joy) / (4/3));
-        double right = power + (Xbox.RT(joy) / (4/3)) - (Xbox.LT(joy) / (4/3));
-
-        //Truncate. We can't run greater than 100% because Caleb won't let me
-        left = (left > 1.0 ? 1.0 : (left < -1.0 ? -1.0 : left));
-        right = (right > 1.0 ? 1.0 : (right < -1.0 ? -1.0 : right));
-        setRamps(ramp);
-
-        leftMaster.set(ControlMode.PercentOutput, leftify(left));
-        rightMaster.set(ControlMode.PercentOutput, rightify(right));
-    }
-    
     public void setRamps(double ramp) {
         if (leftMaster != null)
         	leftMaster.configOpenloopRamp(ramp, 10);
@@ -216,7 +198,7 @@ public class SubsystemDrive extends Subsystem {
         if (rightSlave != null)
         	rightSlave.configOpenloopRamp(ramp, 10);
     }
-    
+    @Deprecated //Use AutoDrive and Pathfinder instead of this
     public void driveDistance(double leftIn, double rightIn) {
         double leftGoal = (leftIn2Mag(leftIn));
         double rightGoal = (rightIn2Mag(rightIn));
@@ -226,6 +208,7 @@ public class SubsystemDrive extends Subsystem {
     		rightSlave.follow(rightMaster);
     }
 
+    @Deprecated //If you really want to drive direct, AutoDrive has a method perfect for it
     public void driveDirect(double left, double right) {
         left = (left > 1.0 ? 1.0 : (left < -1.0 ? -1.0 : left));
         right = (right > 1.0 ? 1.0 : (right < -1.0 ? -1.0 : right));
@@ -272,43 +255,43 @@ public class SubsystemDrive extends Subsystem {
             return new TankModifier(trajectory).modify(WHEELBASE_WIDTH);
         }
 
-        //Needs to be refactored to properly work with commands
-        public void autoTankDrive(Waypoint[] points){
-            TankModifier tankMod = generateTankMod(generateTrajectory(points));
-
-            EncoderFollower leftEncoder = new EncoderFollower(tankMod.getLeftTrajectory());
-            EncoderFollower rightEncoder = new EncoderFollower(tankMod.getRightTrajectory());
-
-            leftEncoder.configureEncoder(leftMaster.getSelectedSensorPosition(0), 1000, WHEEL_DIAMETER);
-            rightEncoder.configureEncoder(rightMaster.getSelectedSensorPosition(0), 1000, WHEEL_DIAMETER);
-
-
-        }
-
+        //Directly send the talons a percent output
         public void setTalons(double left, double right){
             leftMaster.set(ControlMode.PercentOutput, left);
             rightMaster.set(ControlMode.PercentOutput, right);
         }
 
+        //Clear any information currently stored on the encoders
         public void resetEncoders(){
             leftMaster.setSelectedSensorPosition(0,0,10);
             rightMaster.setSelectedSensorPosition(0,0,10);
         }
 
+        //Return the current position of the right encoder in native units
         public double rightEncoderPos(){
             return rightMaster.getSelectedSensorPosition(0);
         }
 
+        //Return the current position of the right encoder in inches
+        public double rightEncoderInches() { return nativeToInches(rightEncoderPos()); }
+
+        //Return the current position of the left encoder in native units
         public double leftEncoderPos(){
            return leftMaster.getSelectedSensorPosition(0);
         }
 
+        //Return the current position of the left encoder in inches
+        public double leftEncoderInches() { return nativeToInches(leftEncoderPos()); }
+
+        //Convert from an encoder's native units to inches
+        //May have to be separated into two different methods if the right and left sides are drastically different
         public double nativeToInches(double nativeUnits){
-            return 0;
+            return nativeUnits/212;
         }
 
+        //Converts inches back to an encoder's native units
         public double inchesToNative(double inches){
-            return 0;
+            return inches*212;
         }
     }
 }
