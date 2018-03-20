@@ -34,8 +34,4 @@
 //        i2c.transaction(toSend, 1, recieved, size);
 //        return recieved;
 //    }
-//
-//    public void sendAllianceColor(DriverStation.Alliance color) {
-//        sendData(color == DriverStation.Alliance.Blue ? SOLID_BLUE : SOLID_RED);
-//    }
 //}
