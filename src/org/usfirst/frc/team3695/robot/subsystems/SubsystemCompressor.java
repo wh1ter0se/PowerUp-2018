@@ -3,11 +3,11 @@ package org.usfirst.frc.team3695.robot.subsystems;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-/** it's a compressor */
+/** Controller for the compressor */
 public class SubsystemCompressor extends Subsystem {
 	
 	
-    Compressor comp = new Compressor(); // initialize compressor
+    private Compressor comp = new Compressor(); // initialize compressor
     
     public void initDefaultCommand() {}
     

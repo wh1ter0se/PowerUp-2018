@@ -18,7 +18,7 @@ import org.usfirst.frc.team3695.robot.enumeration.Bot;
 import java.util.ArrayList;
 
 /**
- * Contains methods used for anything vision
+ * Controls the vision of the bot (cameras)
  */
 public class SubsystemVision extends Subsystem {
 
@@ -40,15 +40,17 @@ public class SubsystemVision extends Subsystem {
     public void startFrameCameraThread(){
     	new Thread(this::frameCameraStream).start();
     }
-    
-    private void screwCameraStream(){
 
+    //The startCamera methods are nearly line for line the code from WPILIB
+    private void screwCameraStream(){
         UsbCamera cameraScrew = CameraServer.getInstance().startAutomaticCapture("Screw", VisionConstants.SCREW_ID);
-    	
+
+        //The sinks do nothing except ensure the camera is never deconstructed with the garbage collector
     	CvSink cvsinkScrew = new CvSink("screwSink");
     	cvsinkScrew.setSource(cameraScrew);
     	cvsinkScrew.setEnabled(true);
-    	
+
+    	//Matrix to store
     	Mat streamImages = new Mat();
     	
     	CvSource outputScrew = CameraServer.getInstance().putVideo("Screw", VisionConstants.CAM_WIDTH, VisionConstants.CAM_HEIGHT);

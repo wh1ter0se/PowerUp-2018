@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc.team3695.robot.Constants;
 
-/** VROOM VROOM */
+/** Controls the hook, specifically if it's raised or lowered */
 public class SubsystemHook extends Subsystem {
 	
 	
@@ -15,7 +15,7 @@ public class SubsystemHook extends Subsystem {
 	/** runs at robot boot */
     public void initDefaultCommand() {}
 	
-	/** gives birth to the CANTalons */
+	/** gives birth to the solenoids */
     public SubsystemHook(){
     	raiseHook = new Solenoid(Constants.RAISE_HOOK);
 		lowerHook = new Solenoid(Constants.LOWER_HOOK);

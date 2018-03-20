@@ -17,7 +17,8 @@ import org.usfirst.frc.team3695.robot.enumeration.Bot;
 import org.usfirst.frc.team3695.robot.enumeration.Drivetrain;
 import org.usfirst.frc.team3695.robot.util.Xbox;
 
-/** VROOM VROOM */
+/** Control for the drivetrain. Both for teleop and autonomous
+ *  Autonomous code goes in the AutoDrive inner class */
 public class SubsystemDrive extends Subsystem {
 
 
@@ -47,7 +48,7 @@ public class SubsystemDrive extends Subsystem {
     }
     
     /**
-     * gives birth to the talons and instantiates variables (including the Bot enum)
+     * gives birth to the talons and instantiates variables
      */
     public SubsystemDrive() {
 

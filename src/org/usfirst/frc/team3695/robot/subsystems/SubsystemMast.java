@@ -12,7 +12,8 @@ import org.usfirst.frc.team3695.robot.commands.manual.ManualCommandGrow;
 import org.usfirst.frc.team3695.robot.enumeration.Bot;
 import org.usfirst.frc.team3695.robot.util.Xbox;
 
-/** the big, metal pole */
+/** Control both the screw and pinion
+ * 	Raises each of them up and down independently of each other */
 public class SubsystemMast extends Subsystem {
 	
 	
@@ -31,7 +32,7 @@ public class SubsystemMast extends Subsystem {
     public void initDefaultCommand() {
     	setDefaultCommand(new ManualCommandGrow()); }
 	
-	/** gives birth to the CANTalons */
+	/** gives birth to the talonSRX and limit switches */
     public SubsystemMast(){
     	lowerPinionLimit = new DigitalInput(3);
         upperPinionLimit = new DigitalInput(7);
@@ -53,14 +54,14 @@ public class SubsystemMast extends Subsystem {
     }
 
     @Deprecated
-   	/** apply pinion motor invert */
+   	// apply pinion motor invert
    	public static double leftPinionate(double left) {
    		Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.LEFT_PINION_MOTOR_INVERT : Constants.TEUFELSKIND.LEFT_PINION_MOTOR_INVERT;
    		return left * (invert ? -1.0 : 1.0);
    	}
    	
    	@Deprecated
-   	/** apply screw motor invert */
+   	// apply screw motor invert
    	public static double rightPinionate(double right) {
    		Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_PINION_MOTOR_INVERT : Constants.TEUFELSKIND.RIGHT_PINION_MOTOR_INVERT;
    		return right * (invert ? -1.0 : 1.0);

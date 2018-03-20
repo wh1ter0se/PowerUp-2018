@@ -9,7 +9,7 @@ import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.enumeration.Bot;
 import org.usfirst.frc.team3695.robot.util.Xbox;
 
-/** VROOM VROOM */
+/** Control the flywheels of the manipulator to spin in or out */
 public class SubsystemManipulator extends Subsystem {
 	
 	
@@ -17,7 +17,7 @@ public class SubsystemManipulator extends Subsystem {
 	private TalonSRX rightFlywheel;
 	
 	@Deprecated
-	/** applies left arm motor invert */
+	//applies left arm motor invert
 	public static double leftArmify(double left) {
 		Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.LEFT_FLYWHEEL_MOTOR_INVERT : Constants.TEUFELSKIND.LEFT_FLYWHEEL_MOTOR_INVERT;
 		return left * (invert ? -1.0 : 1.0);
@@ -33,7 +33,7 @@ public class SubsystemManipulator extends Subsystem {
 	/** runs at robot boot */
     public void initDefaultCommand() {}
 	
-	/** gives birth to the CANTalons */
+	/** gives birth to the talonSRX */
     public SubsystemManipulator(){
 		leftFlywheel = new TalonSRX(Constants.LEFT_FLYWHEEL);
     	rightFlywheel = new TalonSRX(Constants.RIGHT_FLYWHEEL);
