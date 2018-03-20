@@ -6,8 +6,8 @@ import org.usfirst.frc.team3695.robot.Robot;
 public class CyborgCommandSpit extends Command {
 
 	Boolean isFinished;
-    long runTime;
-    long startTime;
+    private long runTime;
+    private long startTime;
     
     public CyborgCommandSpit(long runTime) {
     	isFinished = false;

@@ -40,9 +40,9 @@ public class Robot extends IterativeRobot {
 		public static SubsystemHook SUB_HOOK;
 		public static SubsystemManipulator SUB_MANIPULATOR;
 		public static SubsystemMast SUB_MAST;
+		public static SubsystemVision SUB_VISION;
 
 		public static OI oi;
-		public static Vision vision;
 
 		
 	/// autonomous
@@ -72,7 +72,7 @@ public class Robot extends IterativeRobot {
 				SUB_DRIVE.setInverts();
 			SUB_HOOK = new SubsystemHook();
 			SUB_MAST = new SubsystemMast();
-			vision = new Vision();
+			SUB_VISION = new SubsystemVision();
 
 		/// instantiate operator interface
 			oi = new OI();
@@ -116,8 +116,9 @@ public class Robot extends IterativeRobot {
 				
 				
 		/// instantiate cameras
-			vision.startScrewCameraThread();
-			vision.startFrameCameraThread();
+			SUB_VISION.startScrewCameraThread();
+			//Likely won't be used as it's unlikely to always work
+//			SUB_VISION.startFrameCameraThread();
 
 		SmartDashboard.putData("Sub_Clamp", SUB_CLAMP);
 		SmartDashboard.putData("Sub_Compressor", SUB_COMPRESSOR);

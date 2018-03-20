@@ -11,11 +11,11 @@ import org.usfirst.frc.team3695.robot.subsystems.SubsystemDrive;
 
 public class CyborgCommandPathfinder extends Command {
 
-    Waypoint[] waypoints;
-    TankModifier tankMod;
+    private Waypoint[] waypoints;
+    private TankModifier tankMod;
 
-    EncoderFollower leftEncoder;
-    EncoderFollower rightEncoder;
+    private EncoderFollower leftEncoder;
+    private EncoderFollower rightEncoder;
 
     //Good old PID values. Do not add I. Just don't
     private final static double P_LEFT = 0.0001;
