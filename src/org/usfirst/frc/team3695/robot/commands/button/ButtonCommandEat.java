@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3695.robot.Robot;
 
 /**
- * Commands the gear flaps
+ * Bring power cubes into the manipulator
  */
 public class ButtonCommandEat extends Command {
 

@@ -11,6 +11,9 @@ import org.usfirst.frc.team3695.robot.util.Util;
 
 import static org.usfirst.frc.team3695.robot.subsystems.SubsystemDrive.AutoDrive;
 
+/**
+ * Uses Jaci's Pathfinder class to autonomously get us from one point to another by following a set of waypoints
+ */
 public class CyborgCommandPathfinder extends Command {
 
     private Waypoint[] waypoints;
