@@ -1,20 +1,19 @@
-package org.usfirst.frc.team3695.robot.commands;
-
-import org.usfirst.frc.team3695.robot.Robot;
+package org.usfirst.frc.team3695.robot.commands.button;
 
 import edu.wpi.first.wpilibj.command.Command;
+import org.usfirst.frc.team3695.robot.Robot;
 
 /**
  * Commands the gear flaps
  */
-public class ButtonCommandSpit extends Command {
+public class ButtonCommandEat extends Command {
 
-    public ButtonCommandSpit() {
+    public ButtonCommandEat() {
         requires(Robot.SUB_MANIPULATOR);
     }
 
     protected void initialize() {
-        Robot.SUB_MANIPULATOR.spit();
+        Robot.SUB_MANIPULATOR.eat();
     }
 
     protected void execute() {}

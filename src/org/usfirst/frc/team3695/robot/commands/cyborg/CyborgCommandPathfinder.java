@@ -1,4 +1,4 @@
-package org.usfirst.frc.team3695.robot.commands;
+package org.usfirst.frc.team3695.robot.commands.cyborg;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
