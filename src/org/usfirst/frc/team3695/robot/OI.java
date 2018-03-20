@@ -8,12 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team3695.robot.commands.button.ButtonCommandEat;
 import org.usfirst.frc.team3695.robot.commands.button.ButtonCommandHitTheDeck;
 import org.usfirst.frc.team3695.robot.commands.button.ButtonCommandSpit;
-import org.usfirst.frc.team3695.robot.commands.cyborg.CyborgCommandDriveDirect;
-import org.usfirst.frc.team3695.robot.commands.cyborg.CyborgCommandDriveDistance;
-import org.usfirst.frc.team3695.robot.commands.cyborg.CyborgCommandDriveUntilError;
-import org.usfirst.frc.team3695.robot.commands.cyborg.CyborgCommandRotateDegrees;
 import org.usfirst.frc.team3695.robot.commands.toggle.*;
-import org.usfirst.frc.team3695.robot.util.Util;
 import org.usfirst.frc.team3695.robot.util.Xbox;
 
 /** the Operator Interface setup */
@@ -67,10 +62,10 @@ public class OI {
 	    	DriverStation.reportWarning("OI IS INSTANTIATED", false);
 
 	    /// Cyborg command testers
-			SmartDashboard.putData("Drive Direct", new CyborgCommandDriveDirect(Util.getAndSetDouble("Drive Direct Power", 0)));
-			SmartDashboard.putData("Drive Distance", new CyborgCommandDriveDistance(Util.getAndSetDouble("Drive Distance Inches", 0), (int) Util.getAndSetDouble("Drive Distance Timeout", 5000)));
-			SmartDashboard.putData("Drive Until Error", new CyborgCommandDriveUntilError(500,2,.25, 3));
-			SmartDashboard.putData("Rotate Degree", new CyborgCommandRotateDegrees(Util.getAndSetDouble("Rotate Degrees", 0), (int) Util.getAndSetDouble("Rotate Timeout", 5000)));
+//			SmartDashboard.putData("Drive Direct", new CyborgCommandDriveDirect(Util.getAndSetDouble("Drive Direct Power", 0)));
+//			SmartDashboard.putData("Drive Distance", new CyborgCommandDriveDistance(Util.getAndSetDouble("Drive Distance Inches", 0), (int) Util.getAndSetDouble("Drive Distance Timeout", 5000)));
+//			SmartDashboard.putData("Drive Until Error", new CyborgCommandDriveUntilError(500,2,.25, 3));
+//			SmartDashboard.putData("Rotate Degree", new CyborgCommandRotateDegrees(Util.getAndSetDouble("Rotate Degrees", 0), (int) Util.getAndSetDouble("Rotate Timeout", 5000)));
 	}
 	
 }
