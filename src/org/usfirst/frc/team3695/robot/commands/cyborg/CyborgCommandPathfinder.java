@@ -7,7 +7,8 @@ import jaci.pathfinder.Waypoint;
 import jaci.pathfinder.followers.EncoderFollower;
 import jaci.pathfinder.modifiers.TankModifier;
 import org.usfirst.frc.team3695.robot.Robot;
-import org.usfirst.frc.team3695.robot.subsystems.SubsystemDrive;
+
+import static org.usfirst.frc.team3695.robot.subsystems.SubsystemDrive.AutoDrive;
 
 public class CyborgCommandPathfinder extends Command {
 
@@ -38,8 +39,8 @@ public class CyborgCommandPathfinder extends Command {
         leftEncoder = new EncoderFollower(tankMod.getLeftTrajectory());
         rightEncoder = new EncoderFollower(tankMod.getRightTrajectory());
 
-        leftEncoder.configureEncoder(SubsystemDrive.leftMaster.getSelectedSensorPosition(0), 1000, SubsystemDrive.AutoDrive.WHEEL_DIAMETER);
-        rightEncoder.configureEncoder(SubsystemDrive.rightMaster.getSelectedSensorPosition(0), 1000, SubsystemDrive.AutoDrive.WHEEL_DIAMETER);
+        leftEncoder.configureEncoder((int)Robot.SUB_DRIVE.autoDrive.leftEncoderInches(), 1000, AutoDrive.WHEEL_DIAMETER);
+        rightEncoder.configureEncoder((int)Robot.SUB_DRIVE.autoDrive.rightEncoderInches(), 1000, AutoDrive.WHEEL_DIAMETER);
 
         //TODO: add util getandsetdouble calls to all of the PID values so it isn't a mess to configure.
         //I'm just lazy right now and it looks all pretty without them
@@ -50,8 +51,8 @@ public class CyborgCommandPathfinder extends Command {
 
     protected void execute(){
         //Now that we've gotten setup for this drive, it's time to roll out!
-        double leftOutput = leftEncoder.calculate((int)Robot.SUB_DRIVE.autoDrive.leftEncoderPos());
-        double rightOutput = rightEncoder.calculate((int)Robot.SUB_DRIVE.autoDrive.rightEncoderPos());
+        double leftOutput = leftEncoder.calculate((int)Robot.SUB_DRIVE.autoDrive.leftEncoderInches());
+        double rightOutput = rightEncoder.calculate((int)Robot.SUB_DRIVE.autoDrive.rightEncoderInches());
 
         //All of this will account for any turning the robot makes when it drives
         //Way better than what we had with
