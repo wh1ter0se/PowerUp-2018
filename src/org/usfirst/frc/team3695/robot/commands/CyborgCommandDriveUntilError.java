@@ -10,6 +10,7 @@ public class CyborgCommandDriveUntilError extends Command {
     private long runTime;
     private long startTime;
 
+    @SuppressWarnings("FieldCanBeLocal") //Only needed until we fix the command
     private double allowableError;
 
     private double currentPosLeft;
@@ -42,10 +43,10 @@ public class CyborgCommandDriveUntilError extends Command {
     protected boolean isFinished() {
         if ((masterError + startTime) < System.currentTimeMillis()) return true;
         //This will all need to be rewritten for the new code.
-//        if (!((currentPosLeft + allowableError) > Robot.SUB_DRIVE.pidf.getLeftInches() && (currentPosLeft - allowableError) < Robot.SUB_DRIVE.pidf.getLeftInches())
-//                || !((currentPosRight + allowableError) > Robot.SUB_DRIVE.pidf.getRightInches() && (currentPosRight - allowableError) < Robot.SUB_DRIVE.pidf.getRightInches())){
-//            currentPosLeft = Robot.SUB_DRIVE.pidf.getLeftInches();
-//            currentPosRight = Robot.SUB_DRIVE.pidf.getRightInches();
+//        if (!((currentPosLeft + allowableError) > Robot.SUB_DRIVE.autoDrive.getLeftInches() && (currentPosLeft - allowableError) < Robot.SUB_DRIVE.autoDrive.getLeftInches())
+//                || !((currentPosRight + allowableError) > Robot.SUB_DRIVE.autoDrive.getRightInches() && (currentPosRight - allowableError) < Robot.SUB_DRIVE.autoDrive.getRightInches())){
+//            currentPosLeft = Robot.SUB_DRIVE.autoDrive.getLeftInches();
+//            currentPosRight = Robot.SUB_DRIVE.autoDrive.getRightInches();
 //            runTime = System.currentTimeMillis();
 //            return false;
 //        }

@@ -13,42 +13,39 @@
 
 <DataHBox fx:id="base" dataMode="Nested" onRegisterRequest="replaced()" xmlns:fx="http://javafx.com/fxml">
 	<fx:script>
-		var stopp = null
-		var startt = null;
-		var swapper = function(ov, old, running) {
-			stopp.setVisible(running);
-			startt.setVisible(!running);
-		};
-		var runnerVp = null;
-		function replaced()
-		{
-			/*if (runnerVp != null)
-			 {
-			 runnerVp["removeListener(javafx.beans.value.ChangeListener)"](swapper);
-			 }*/
-			runnerVp = base.getObservable("running");
-			runnerVp["addListener(javafx.beans.value.ChangeListener)"](swapper);
-			startt = start;
-			stopp = stop;
-			if (typeof runnerVp == "boolean")
-			{
-				swapper(null, null, runnerVp.getValue());
-			}
-			else
-			{
-				swapper(null, null, false);
-			}
-		}
+        var stopp = null;
+        var startt = null;
+        var swapper = function (ov, old, running) {
+            stopp.setVisible(running);
+            startt.setVisible(!running);
+        };
+        var runnerVp = null;
 
-		function run_command()
-		{
-			runnerVp.setValue(true);
-		}
-		function stop_command()
-		{
-			runnerVp.setValue(false);
-		}
-	</fx:script>
+        function replaced() {
+            /*if (runnerVp != null)
+             {
+             runnerVp["removeListener(javafx.beans.value.ChangeListener)"](swapper);
+             }*/
+            runnerVp = base.getObservable("running");
+            runnerVp["addListener(javafx.beans.value.ChangeListener)"](swapper);
+            startt = start;
+            stopp = stop;
+            if (typeof runnerVp == "boolean") {
+                swapper(null, null, runnerVp.getValue());
+            }
+            else {
+                swapper(null, null, false);
+            }
+        }
+
+        function run_command() {
+            runnerVp.setValue(true);
+        }
+
+        function stop_command() {
+            runnerVp.setValue(false);
+        }
+        	</fx:script>
 	<ui style="/*Intentionally blank*/" alignment="CENTER_LEFT" >
 		<children>
 			<dashfx.lib.controls.fxmlutils.CollapsableHBox>

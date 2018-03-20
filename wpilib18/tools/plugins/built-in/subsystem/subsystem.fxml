@@ -13,29 +13,27 @@
 
 <DataHBox dataMode="Nested" fx:id="base"  onRegisterRequest="replaced()" alignment="CENTER_LEFT" xmlns:fx="http://javafx.com/fxml">
 	<fx:script>
-		var nonelbll = null
-		var commandd = null;
-		var swapper = function(ov, old, running) {
-			commandd.setVisible(running);
-			nonelbll.setVisible(!running);
-		};
-		var runnerVp = null;
-		function replaced()
-		{
-			runnerVp = base.getObservable("hasCommand");
-			runnerVp["addListener(javafx.beans.value.ChangeListener)"](swapper);
-			nonelbll = nonelbl;
-			commandd = command;
-			if (typeof runnerVp == "boolean")
-			{
-				swapper(null, null, runnerVp.getValue());
-			}
-			else
-			{
-				swapper(null, null, false);
-			}
-		}
-	</fx:script>
+        var nonelbll = null;
+        var commandd = null;
+        var swapper = function (ov, old, running) {
+            commandd.setVisible(running);
+            nonelbll.setVisible(!running);
+        };
+        var runnerVp = null;
+
+        function replaced() {
+            runnerVp = base.getObservable("hasCommand");
+            runnerVp["addListener(javafx.beans.value.ChangeListener)"](swapper);
+            nonelbll = nonelbl;
+            commandd = command;
+            if (typeof runnerVp == "boolean") {
+                swapper(null, null, runnerVp.getValue());
+            }
+            else {
+                swapper(null, null, false);
+            }
+        }
+        	</fx:script>
 	<ui  style="/*Intentionally blank*/">
 		<children>
 			<Label text="${base.baseName}"  />

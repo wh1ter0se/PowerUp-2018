@@ -9,6 +9,7 @@ import org.usfirst.frc.team3695.robot.enumeration.Position;
 /**
  * the sequence of commands for autonomous
  */
+@SuppressWarnings("FieldCanBeLocal") //Only necessary until we reimplement robot choice and other options
 public class CommandGroupAuto extends CommandGroup {
 
     //Stores the states of the switches and scale

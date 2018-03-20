@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team3695.robot.OI;
 import org.usfirst.frc.team3695.robot.Robot;
+import org.usfirst.frc.team3695.robot.subsystems.SubsystemDrive;
 import org.usfirst.frc.team3695.robot.util.Util;
 
 /** manually command the robot with joysticks */
@@ -20,9 +21,9 @@ public class ManualCommandDrive extends Command {
     	
     	Robot.SUB_DRIVE.setInverts();
     	
-        SmartDashboard.putBoolean("Forza Dampener (Docking mode)", Robot.SUB_DRIVE.docking);
-        SmartDashboard.putBoolean("Reversing mode", Robot.SUB_DRIVE.reversing);
-        SmartDashboard.putBoolean("Narrower (Turn inhibitor)", Robot.SUB_DRIVE.narrowing);
+        SmartDashboard.putBoolean("Forza Dampener (Docking mode)", SubsystemDrive.docking);
+        SmartDashboard.putBoolean("Reversing mode", SubsystemDrive.reversing);
+        SmartDashboard.putBoolean("Narrower (Turn inhibitor)", SubsystemDrive.narrowing);
         //Print PID values to smartdash?
         SmartDashboard.putNumber("Match Time", DriverStation.getInstance().getMatchTime());
 

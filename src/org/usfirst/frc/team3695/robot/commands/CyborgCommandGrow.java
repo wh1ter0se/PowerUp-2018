@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.enumeration.Mast;
+import org.usfirst.frc.team3695.robot.subsystems.SubsystemMast;
 
 public class CyborgCommandGrow extends Command {
 	//Where to go
@@ -37,30 +38,30 @@ public class CyborgCommandGrow extends Command {
     	switch (position) {
 	        case PINION_UP:
 				if (Robot.SUB_MAST.upperPinionLimit.get()) {
-					Robot.SUB_MAST.rightPinion.set(ControlMode.PercentOutput, Robot.SUB_MAST.rightPinionate(1));
-					Robot.SUB_MAST.leftPinion.set(ControlMode.PercentOutput, Robot.SUB_MAST.leftPinionate(1));
+					Robot.SUB_MAST.rightPinion.set(ControlMode.PercentOutput, SubsystemMast.rightPinionate(1));
+					Robot.SUB_MAST.leftPinion.set(ControlMode.PercentOutput, SubsystemMast.leftPinionate(1));
 				} else {
 					isFinished = true;
 				}
 	            break;
 	        case PINION_DOWN:
 				if (Robot.SUB_MAST.lowerPinionLimit.get()) {
-					Robot.SUB_MAST.rightPinion.set(ControlMode.PercentOutput, Robot.SUB_MAST.rightPinionate(-1));
-					Robot.SUB_MAST.leftPinion.set(ControlMode.PercentOutput, Robot.SUB_MAST.leftPinionate(-1));
+					Robot.SUB_MAST.rightPinion.set(ControlMode.PercentOutput, SubsystemMast.rightPinionate(-1));
+					Robot.SUB_MAST.leftPinion.set(ControlMode.PercentOutput, SubsystemMast.leftPinionate(-1));
 				} else {
 					isFinished = true;
 				}
 	            break;
 	        case SCREW_UP:
 	    		if (Robot.SUB_MAST.upperScrewLimit.get()){
-	    			Robot.SUB_MAST.screw.set(ControlMode.PercentOutput, Robot.SUB_MAST.screwify(-1));
+	    			Robot.SUB_MAST.screw.set(ControlMode.PercentOutput, SubsystemMast.screwify(-1));
 				} else {
 					isFinished = true;
 				}
 	            break;
 	        case SCREW_DOWN:
 	    		if (Robot.SUB_MAST.lowerScrewLimit.get()){
-	    			Robot.SUB_MAST.screw.set(ControlMode.PercentOutput, Robot.SUB_MAST.screwify(1));
+	    			Robot.SUB_MAST.screw.set(ControlMode.PercentOutput, SubsystemMast.screwify(1));
 				} else {
 					isFinished = true;
 				}

@@ -5,7 +5,6 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
@@ -25,9 +24,9 @@ import org.usfirst.frc.team3695.robot.util.Xbox;
 public class SubsystemDrive extends Subsystem {
 
 
-    private static TalonSRX leftMaster;
+    public static TalonSRX leftMaster;
     private static TalonSRX leftSlave;
-    private static TalonSRX rightMaster;
+    public static TalonSRX rightMaster;
     private static TalonSRX rightSlave;
 
     public Drivetrain drivetrain;
@@ -41,71 +40,56 @@ public class SubsystemDrive extends Subsystem {
     private static double narrower;
 
     private Accelerometer accel;
-    AnalogGyro gyro;
+    public AnalogGyro gyro;
 
-    public AutoDrive pidf; // instantiate innerclass
-
-    /* Allowable tolerance to be considered in range when driving a distance, in rotations */
-    public static final double DISTANCE_ALLOWABLE_ERROR = 8.0;
+    public AutoDrive autoDrive;
 
     /* runs at robot boot */
     public void initDefaultCommand() {
         setDefaultCommand(new ManualCommandDrive());
     }
 
-    /* converts left magnetic encoder's magic units to inches */
+    /* converts left magnetic encoder's magic units to inches
+    * Use method within AutoDrive*/
+    @Deprecated
     public static double leftMag2In(double leftMag) {
         return leftMag / 204; // 204
     }
 
-    /* converts right magnetic encoder's magic unit to inches */
+    /* converts right magnetic encoder's magic unit to inches
+    * Use method within AutoDrive*/
+    @Deprecated
     public static double rightMag2In(double rightMag) {
         return rightMag / 212;
     }
 
-    /* converts left magnetic encoder's magic units to inches */
+    /* converts left magnetic encoder's magic units to inches
+    * Use method within AutoDrive*/
+    @Deprecated
     public static double leftIn2Mag(double leftMag) {
         return leftMag * 204; // 204
     }
 
-    /* converts right magnetic encoder's magic units to inches */
+    /* converts right magnetic encoder's magic units to inches
+    * Use method within AutoDrive*/
+    @Deprecated
     public static double rightIn2Mag(double rightMag) {
 //        return rightMag * Constants.RIGHT_MAGIC_PER_INCHES;
         return rightMag * 212;
     }
-    
-    /* converts RPM to inches per second */
-    public static double rpm2ips(double rpm) {
-        return rpm / 60.0 * Constants.WHEEL_DIAMETER * Math.PI;
-    }
-
-    /* converts an inches per second number to RPM */
-    public static double ips2rpm(double ips) {
-        return ips * 60.0 / Constants.WHEEL_DIAMETER / Math.PI;
-    }
-
-    /* converts rotations to distance traveled in inches */
-    public static double rot2in(double rot) {
-        return rot * Constants.WHEEL_DIAMETER * Math.PI;
-    }
-
-    /* converts distance traveled in inches to rotations */
-    public static double in2rot(double in) {
-        return in / Constants.WHEEL_DIAMETER / Math.PI;
-    }
 
     /* apply left motor invert */
+    @Deprecated
     public static double leftify(double left) {
         return left * (docking ? dockInhibitor : 1);
     }
 
     /* apply right motor invert */
+    @Deprecated
     public static double rightify(double right) {
         return right * (docking ? dockInhibitor : 1);
     }
 
-    
-    
     /**
      * gives birth to the talons and instantiates variables (including the Bot enum)
      */
@@ -119,7 +103,7 @@ public class SubsystemDrive extends Subsystem {
         docking = false;
         dockInhibitor = 0.5d;
 
-        pidf = new AutoDrive();
+        autoDrive = new AutoDrive();
 
         gyro = new AnalogGyro(1);
 
@@ -142,12 +126,12 @@ public class SubsystemDrive extends Subsystem {
 
     public void toggleDocking(double dockInhibitor){
         docking = !docking;
-        this.dockInhibitor = dockInhibitor;
+        SubsystemDrive.dockInhibitor = dockInhibitor;
     }
     
     public void toggleNarrowing(double narrower){
         narrowing = !narrowing;
-        this.narrower = narrower;
+        SubsystemDrive.narrower = narrower;
     }
 
     public void toggleReversing(){
@@ -265,20 +249,11 @@ public class SubsystemDrive extends Subsystem {
 
         //Various constants needed to generate a motion profile
         private final double TIME_STEP = .05;
-        private final double MAX_VELOCITY = .07;
+        public final double MAX_VELOCITY = .07;
         private final double MAX_ACC = .25;
         private final double MAX_JERK = 60.0;
         //Allows the bot to achieve higher or lower speed quicker
-        private final double ACC_GAIN = 0;
-
-        //Good old PID values. Do not add I. Just don't
-        private final static double P_LEFT = 0.0001;
-        private final static double I_LEFT = 0.000;
-        private final static double D_LEFT = 0.000;
-
-        private final static double P_RIGHT = 0.0001;
-        private final static double I_RIGHT = 0.000;
-        private final static double D_RIGHT = 0.000;
+        public final double ACC_GAIN = 0;
 
         //Configuration that stores all the values needed to configure the motion profile
         Trajectory.Config config;
@@ -304,49 +279,28 @@ public class SubsystemDrive extends Subsystem {
             EncoderFollower leftEncoder = new EncoderFollower(tankMod.getLeftTrajectory());
             EncoderFollower rightEncoder = new EncoderFollower(tankMod.getRightTrajectory());
 
-            leftEncoder.configureEncoder(Robot.SUB_DRIVE.leftMaster.getSelectedSensorPosition(0), 1000, WHEEL_DIAMETER);
-            rightEncoder.configureEncoder(Robot.SUB_DRIVE.rightMaster.getSelectedSensorPosition(0), 1000, WHEEL_DIAMETER);
+            leftEncoder.configureEncoder(leftMaster.getSelectedSensorPosition(0), 1000, WHEEL_DIAMETER);
+            rightEncoder.configureEncoder(rightMaster.getSelectedSensorPosition(0), 1000, WHEEL_DIAMETER);
 
-            //TODO: add util getandsetdouble calls to all of the PID values so it isn't a mess to configure.
-            //I'm just lazy right now and it looks all pretty without them
-            leftEncoder.configurePIDVA(P_LEFT, I_LEFT, D_LEFT, 1/MAX_VELOCITY, ACC_GAIN);
-            rightEncoder.configurePIDVA(P_RIGHT, I_RIGHT, D_RIGHT, 1/MAX_VELOCITY, ACC_GAIN);
-            DriverStation.reportWarning("Pathfinder configuration complete", false);
 
-            //Now that we've gotten setup for this drive, it's time to roll out!
-            double leftOutput = leftEncoder.calculate((int)leftEncoderPos());
-            double rightOutput = rightEncoder.calculate((int)rightEncoderPos());
-
-            //All of this will account for any turning the robot makes when it drives
-            //Way better than what we had with
-            //Make sure gyro is in degrees!!!
-            double gyroHeading = Robot.SUB_DRIVE.gyro.getAngle();
-            //The sides of the robot are in parallel and therefore are always the same
-            //So lets just use left
-            double desiredHeading = Pathfinder.r2d(leftEncoder.getHeading());
-            //The difference in angle we want to reach
-            double angleDifference = Pathfinder.boundHalfDegrees(desiredHeading - gyroHeading);
-            double turn = 0.8 * (-1.0/80.0) * angleDifference; //Blame Jaci. Not quite sure why this is what it is.
-
-            setTalons(leftOutput + turn, rightOutput - turn);
         }
 
         public void setTalons(double left, double right){
-            Robot.SUB_DRIVE.leftMaster.set(ControlMode.PercentOutput, left);
-            Robot.SUB_DRIVE.rightMaster.set(ControlMode.PercentOutput, right);
+            leftMaster.set(ControlMode.PercentOutput, left);
+            rightMaster.set(ControlMode.PercentOutput, right);
         }
 
         public void resetEncoders(){
-            Robot.SUB_DRIVE.leftMaster.setSelectedSensorPosition(0,0,10);
-            Robot.SUB_DRIVE.rightMaster.setSelectedSensorPosition(0,0,10);
+            leftMaster.setSelectedSensorPosition(0,0,10);
+            rightMaster.setSelectedSensorPosition(0,0,10);
         }
 
         public double rightEncoderPos(){
-            return Robot.SUB_DRIVE.rightMaster.getSelectedSensorPosition(0);
+            return rightMaster.getSelectedSensorPosition(0);
         }
 
         public double leftEncoderPos(){
-           return Robot.SUB_DRIVE.leftMaster.getSelectedSensorPosition(0);
+           return leftMaster.getSelectedSensorPosition(0);
         }
 
         public double nativeToInches(double nativeUnits){

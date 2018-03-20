@@ -3,7 +3,6 @@ package org.usfirst.frc.team3695.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3695.robot.Robot;
 
-@SuppressWarnings("WeakerAccess")
 public class CyborgCommandSpit extends Command {
 
 	Boolean isFinished;
