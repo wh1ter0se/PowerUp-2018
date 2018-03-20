@@ -50,6 +50,8 @@ public class OI {
 		/// To Compress, or Not To Compress. It is now an option.
 			SmartDashboard.putData("Disable Compressor", new ToggleCommandKillCompressor());
 			
+			
+			SmartDashboard.putBoolean("Caleb is Illiterate", true);
 
 		/// PID
 			SmartDashboard.putData("Kill PID", new ToggleCommandKillPID());

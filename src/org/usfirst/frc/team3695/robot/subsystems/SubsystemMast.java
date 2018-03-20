@@ -26,8 +26,6 @@ public class SubsystemMast extends Subsystem {
 	public DigitalInput midScrewLimit;
 	public DigitalInput upperScrewLimit;
 
-    private Boolean override;
-
 	
 	/** runs at robot boot */
     public void initDefaultCommand() {
@@ -46,26 +44,29 @@ public class SubsystemMast extends Subsystem {
     		voltage(leftPinion);
     		voltage(rightPinion);
     		voltage(screw);
-    		
-		override = false;
     }
     
-    public void setOverride(Boolean override) {
-    	this.override = override;
+    public void setInverts() {
+        leftPinion.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.LEFT_PINION_MOTOR_INVERT : Constants.TEUFELSKIND.LEFT_PINION_MOTOR_INVERT);
+        rightPinion.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_PINION_MOTOR_INVERT : Constants.TEUFELSKIND.RIGHT_PINION_MOTOR_INVERT);
+        screw.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.SCREW_MOTOR_INVERT : Constants.TEUFELSKIND.SCREW_MOTOR_INVERT);
     }
 
+    @Deprecated
    	/** apply pinion motor invert */
    	public static double leftPinionate(double left) {
    		Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.LEFT_PINION_MOTOR_INVERT : Constants.TEUFELSKIND.LEFT_PINION_MOTOR_INVERT;
    		return left * (invert ? -1.0 : 1.0);
    	}
    	
+   	@Deprecated
    	/** apply screw motor invert */
    	public static double rightPinionate(double right) {
    		Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_PINION_MOTOR_INVERT : Constants.TEUFELSKIND.RIGHT_PINION_MOTOR_INVERT;
    		return right * (invert ? -1.0 : 1.0);
    	}
    	
+   	@Deprecated
    	public static double screwify(double screw) {
    		Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.SCREW_MOTOR_INVERT : Constants.TEUFELSKIND.SCREW_MOTOR_INVERT;
    		return screw * (invert ? -1.0 : 1.0);
@@ -84,22 +85,22 @@ public class SubsystemMast extends Subsystem {
 			
     	publishSwitches();
     	
-		leftPinion.set(ControlMode.PercentOutput, leftPinionate(-1 * pinionSpeed));
-    	rightPinion.set(ControlMode.PercentOutput, rightPinionate(-1 * pinionSpeed));
-    	screw.set(ControlMode.PercentOutput, inhibitor * screwify(screwSpeed));
+		leftPinion.set(ControlMode.PercentOutput, pinionSpeed);
+    	rightPinion.set(ControlMode.PercentOutput, pinionSpeed);
+    	screw.set(ControlMode.PercentOutput, inhibitor * screwSpeed);
     }
     
     public void dropIt(double speed) {
     	if (lowerPinionLimit.get()) {
-	    	leftPinion.set(ControlMode.PercentOutput, leftPinionate(speed));
-	    	rightPinion.set(ControlMode.PercentOutput, rightPinionate(speed));
+	    	leftPinion.set(ControlMode.PercentOutput, speed);
+	    	rightPinion.set(ControlMode.PercentOutput, speed);
     	} else {
     		leftPinion.set(ControlMode.PercentOutput, 0);
 	    	rightPinion.set(ControlMode.PercentOutput, 0);
     	}
     	
     	if (lowerScrewLimit.get()) {
-    		screw.set(ControlMode.PercentOutput, screwify(speed));
+    		screw.set(ControlMode.PercentOutput, speed);
     	} else {
     		screw.set(ControlMode.PercentOutput, 0);
     	}

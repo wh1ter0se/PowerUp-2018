@@ -55,8 +55,8 @@ public class Constants {
 			RIGHT_PINION_MOTOR_INVERT = true,
 			SCREW_MOTOR_INVERT        = true,
 	
-			LEFT_ARM_MOTOR_INVERT     = true,
-			RIGHT_ARM_MOTOR_INVERT    = false,
+			LEFT_FLYWHEEL_MOTOR_INVERT     = true,
+			RIGHT_FLYWHEEL_MOTOR_INVERT    = false,
 
 			SCREW_CAM_FLIP = false,
 			FRAME_CAM_FLIP = false,
@@ -74,8 +74,8 @@ public class Constants {
 			RIGHT_PINION_MOTOR_INVERT = false,
 			SCREW_MOTOR_INVERT        = false,
 	
-			LEFT_ARM_MOTOR_INVERT     = true,
-			RIGHT_ARM_MOTOR_INVERT    = false,
+			LEFT_FLYWHEEL_MOTOR_INVERT     = true,
+			RIGHT_FLYWHEEL_MOTOR_INVERT    = false,
 
 			SCREW_CAM_FLIP = false,
 			FRAME_CAM_FLIP = false,
