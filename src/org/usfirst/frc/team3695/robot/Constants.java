@@ -7,20 +7,12 @@ public class Constants {
 		/// BOT SPECS
 			DISTANCE_BETWEEN_WHEELS = 26, // inches between wheels; used for turn calculations
 			WHEEL_DIAMETER          = 6, // wheel diameter in inches
-		/// MANIPULATOR
-			SPINNY_SPEED = 1,
-		/// RAMPS
-			DRIVETRAIN_RAMP = 1,
 		/// REDLINE CURVE POINTS
 			REDLINE_START = 0,
 			REDLINE_MID   = .125,
 			REDLINE_END   = 1;
 	
 	public static final double
-		///SAFETY
-			RECOVERY_SPEED = 0,
-			DOCK_INHIBITOR = 1,
-			TILT_ANGLE = 10,
 			MAST_TIMEOUT = 3000; // timeout for HitTheDick in ms
 
 
@@ -43,9 +35,6 @@ public class Constants {
 			PIDF_TIMEOUT = 10000;
 
 	public static final int
-		/// I2C
-            //rip arduino
-			I2C_DEVICE_ADDRESS = 4,
 		/// RPM'S
 			REDLINE = 6000,
 			IDLE    = 500;
@@ -68,8 +57,6 @@ public class Constants {
 	
 			LEFT_ARM_MOTOR_INVERT     = true,
 			RIGHT_ARM_MOTOR_INVERT    = false,
-	
-			HOOK_MOTOR_INVERT		  = false,
 
 			SCREW_CAM_FLIP = false,
 			FRAME_CAM_FLIP = false,
@@ -78,12 +65,6 @@ public class Constants {
     		LEFT_SLAVE_INVERT = false,
             RIGHT_MASTER_INVERT = true,
             RIGHT_SLAVE_INVERT = true;
-
-		public static final double
-            P = 0.5,
-            I = 0,
-            D = 0,
-            F = 0;
 	}
 	
 	public static class TEUFELSKIND {
@@ -95,8 +76,6 @@ public class Constants {
 	
 			LEFT_ARM_MOTOR_INVERT     = true,
 			RIGHT_ARM_MOTOR_INVERT    = false,
-	
-			HOOK_MOTOR_INVERT		  = false,
 
 			SCREW_CAM_FLIP = false,
 			FRAME_CAM_FLIP = false,
@@ -105,12 +84,6 @@ public class Constants {
             LEFT_SLAVE_INVERT = false,
             RIGHT_MASTER_INVERT = false,
             RIGHT_SLAVE_INVERT = false;
-
-        public static final double
-                P = 0.5,
-                I = 0,
-                D = 0,
-                F = 0;
 	}
 	
 

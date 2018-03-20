@@ -5,9 +5,14 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.usfirst.frc.team3695.robot.commands.*;
-import org.usfirst.frc.team3695.robot.enumeration.Mast;
-import org.usfirst.frc.team3695.robot.enumeration.Position;
+import org.usfirst.frc.team3695.robot.commands.button.ButtonCommandEat;
+import org.usfirst.frc.team3695.robot.commands.button.ButtonCommandHitTheDeck;
+import org.usfirst.frc.team3695.robot.commands.button.ButtonCommandSpit;
+import org.usfirst.frc.team3695.robot.commands.cyborg.CyborgCommandDriveDirect;
+import org.usfirst.frc.team3695.robot.commands.cyborg.CyborgCommandDriveDistance;
+import org.usfirst.frc.team3695.robot.commands.cyborg.CyborgCommandDriveUntilError;
+import org.usfirst.frc.team3695.robot.commands.cyborg.CyborgCommandRotateDegrees;
+import org.usfirst.frc.team3695.robot.commands.toggle.*;
 import org.usfirst.frc.team3695.robot.util.Util;
 import org.usfirst.frc.team3695.robot.util.Xbox;
 

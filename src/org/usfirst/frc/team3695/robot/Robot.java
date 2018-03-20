@@ -3,7 +3,6 @@ package org.usfirst.frc.team3695.robot;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team3695.robot.auto.CommandGroupAuto;
@@ -12,7 +11,6 @@ import org.usfirst.frc.team3695.robot.enumeration.Drivetrain;
 import org.usfirst.frc.team3695.robot.enumeration.Goal;
 import org.usfirst.frc.team3695.robot.enumeration.Position;
 import org.usfirst.frc.team3695.robot.subsystems.*;
-import org.usfirst.frc.team3695.robot.util.Util;
 
 //    _____   _____   ____     ______           ______                   _                                        ____             _                   
 //   |__  /  / ___/  / __ \   / ____/          / ____/  ____    _  __   (_)   ____ ___   __  __   _____          / __ \   _____   (_)   ____ ___   ___ 
@@ -26,11 +24,11 @@ public class Robot extends IterativeRobot {
 		public static Bot bot;
 
 	/// choosers
-		SendableChooser<Bot> botChooser;
-		SendableChooser<Goal> goalChooser;
-		SendableChooser<Goal> thirdPriorityChooser;
-		SendableChooser<Drivetrain> driveChooser;
-		SendableChooser<Position>  positionChooser;
+		private SendableChooser<Bot> botChooser;
+		private SendableChooser<Goal> goalChooser;
+		private SendableChooser<Goal> thirdPriorityChooser;
+		private SendableChooser<Drivetrain> driveChooser;
+		private SendableChooser<Position>  positionChooser;
 		// add choosers as needed, these put drop down options in the smart dash
 		
 		
@@ -42,9 +40,9 @@ public class Robot extends IterativeRobot {
 		public static SubsystemHook SUB_HOOK;
 		public static SubsystemManipulator SUB_MANIPULATOR;
 		public static SubsystemMast SUB_MAST;
+		public static SubsystemVision SUB_VISION;
 
 		public static OI oi;
-		public static Vision vision;
 
 		
 	/// autonomous
@@ -74,7 +72,7 @@ public class Robot extends IterativeRobot {
 				SUB_DRIVE.setInverts();
 			SUB_HOOK = new SubsystemHook();
 			SUB_MAST = new SubsystemMast();
-			vision = new Vision();
+			SUB_VISION = new SubsystemVision();
 
 		/// instantiate operator interface
 			oi = new OI();
@@ -118,8 +116,9 @@ public class Robot extends IterativeRobot {
 				
 				
 		/// instantiate cameras
-			vision.startScrewCameraThread();
-			vision.startFrameCameraThread();
+			SUB_VISION.startScrewCameraThread();
+			//Likely won't be used as it's unlikely to always work
+//			SUB_VISION.startFrameCameraThread();
 
 		SmartDashboard.putData("Sub_Clamp", SUB_CLAMP);
 		SmartDashboard.putData("Sub_Compressor", SUB_COMPRESSOR);
@@ -183,6 +182,6 @@ public class Robot extends IterativeRobot {
 	
 	/** runs at ~50hz when in test mode */
 	public void testPeriodic() {
-		LiveWindow.run(); 
+
 	}
 }

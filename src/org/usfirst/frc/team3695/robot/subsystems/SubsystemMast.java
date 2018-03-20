@@ -8,9 +8,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team3695.robot.Constants;
 import org.usfirst.frc.team3695.robot.Robot;
-import org.usfirst.frc.team3695.robot.commands.ManualCommandGrow;
+import org.usfirst.frc.team3695.robot.commands.manual.ManualCommandGrow;
 import org.usfirst.frc.team3695.robot.enumeration.Bot;
-import org.usfirst.frc.team3695.robot.enumeration.Position;
 import org.usfirst.frc.team3695.robot.util.Xbox;
 
 /** the big, metal pole */
@@ -36,8 +35,6 @@ public class SubsystemMast extends Subsystem {
 	
 	/** gives birth to the CANTalons */
     public SubsystemMast(){
-    	/** Does it make sense to move the limit switch IDs to Constants? **/
-    	//no because they could be moved due to various electrical reasons-nate
     	lowerPinionLimit = new DigitalInput(3);
         upperPinionLimit = new DigitalInput(7);
         lowerScrewLimit  = new DigitalInput(5);
@@ -58,18 +55,18 @@ public class SubsystemMast extends Subsystem {
     }
 
    	/** apply pinion motor invert */
-   	public static final double leftPinionate(double left) {
+   	public static double leftPinionate(double left) {
    		Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.LEFT_PINION_MOTOR_INVERT : Constants.TEUFELSKIND.LEFT_PINION_MOTOR_INVERT;
    		return left * (invert ? -1.0 : 1.0);
    	}
    	
    	/** apply screw motor invert */
-   	public static final double rightPinionate(double right) {
+   	public static double rightPinionate(double right) {
    		Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_PINION_MOTOR_INVERT : Constants.TEUFELSKIND.RIGHT_PINION_MOTOR_INVERT;
    		return right * (invert ? -1.0 : 1.0);
    	}
    	
-   	public static final double screwify(double screw) {
+   	public static double screwify(double screw) {
    		Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.SCREW_MOTOR_INVERT : Constants.TEUFELSKIND.SCREW_MOTOR_INVERT;
    		return screw * (invert ? -1.0 : 1.0);
    	}
