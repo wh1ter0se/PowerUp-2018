@@ -45,13 +45,13 @@ public class OI {
 		/// To Compress, or Not To Compress. It is now an option.
 			SmartDashboard.putData("Disable Compressor", new ToggleCommandKillCompressor());
 			
-			
+			//From Brogan: I don't know when you added this, but I love it.
 			SmartDashboard.putBoolean("Caleb is Illiterate", true);
 
 		/// PID
-			SmartDashboard.putData("Kill PID", new ToggleCommandKillPID());
-			SmartDashboard.putNumber("Right Encoder Position", 0);
-			SmartDashboard.putNumber("Left Encoder Position", 0);
+//			SmartDashboard.putData("Kill PID", new ToggleCommandKillPID());
+//			SmartDashboard.putNumber("Right Encoder Position", 0);
+//			SmartDashboard.putNumber("Left Encoder Position", 0);
 			
 		/// limit switch displays
 			SmartDashboard.putBoolean("Lower Screw", true);

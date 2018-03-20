@@ -3,6 +3,7 @@ package org.usfirst.frc.team3695.robot.util;
 import edu.wpi.first.wpilibj.DriverStation;
 import org.usfirst.frc.team3695.robot.enumeration.Position;
 
+@Deprecated //Look into deleting. None of these are used anywhere
 public class Field {
 	public static Position getOurScale() {
 		if (DriverStation.getInstance().getGameSpecificMessage().charAt(0) == 'L') {

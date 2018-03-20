@@ -85,47 +85,6 @@ public class Constants {
             RIGHT_MASTER_INVERT = false,
             RIGHT_SLAVE_INVERT = false;
 	}
-	
-
-	public static class AutonomousConstants {
-		//Save distances in inches
-
-		//Distance from the side positions to the middle of the switch on the side
-		public static final int DIST_TO_SWITCH = 150+5;
-		//Distance rom the side positions to the middle of the scale on the side
-		public static final int DIST_TO_SCALE = (260);
-		//Distance from a side to the enemy switch
-		public static final int DIST_TO_ENEMY_SWITCH = 480;
-				
-		
-		//Distance to drive forward so we don't run into the portal when in the middle
-		public static final int DIST_PASS_PORTAL = 36;
-		//The center line of the field to the middle of the switch
-		public static final int DIST_CENTER_LINE_SWITCH_ALIGN = 48;
-		//From the farthest protrusion of the blocks to the switch
-		public static final int DIST_BLOCKS_TO_SWITCH = 42;
-		//Distance of line we need to pass for points
-		public static final int DIST_WALL_TO_LINE = 120;
-		//Distance from the wall to the farthest protrusion of blocks
-		public static final int DIST_ALLIANCE_WALL_TO_BLOCKS = 98;
-		
-		// the distance to pass the switch before traveling to the foreign home switch
-		public static final double DIST_PAST_SWITCH = 220.735+2;
-		
-		public static final double DIST_TO_FOREIGN_SWITCH = 163.75+5;
-		
-		public static final double DIST_PAST_SCALE = 240;
-		public static final double DIST_SCALE_LINEUP = 96;
-		
-		//Rotations
-		public static final int ROT_90_CW = 90;
-		public static final int ROT_90_CCW = -90;
-		public static final int ROT_180 = 180;
-
-
-		//Time to run the manipulator for
-		public static final int SPIT_LENGTH = 500;
-	}
 
 	public static class VisionConstants {
 		
@@ -138,18 +97,4 @@ public class Constants {
 		public static final int RIGHT_ID = 3;
 
 	}
-
-//	/** where all the static final variables for arduino get set */
-//	public static class ArduinoPatterns {
-//
-//		public static final int
-//				SOLID_RED =         1,
-//				SOLID_BLUE =        2,
-//				RUNNING_RED =       3,
-//				RUNNING_BLUE =      4,
-//				RAINBOW_SLOW =      5,
-//				RAINBOW_FAST =      6,
-//				RAINBOW_SONIC =     7, // plz yes
-//				GOD_BLESS_AMERICA = 8;
-//	}
 }
