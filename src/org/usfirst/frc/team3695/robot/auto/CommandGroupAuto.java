@@ -91,7 +91,7 @@ public class CommandGroupAuto extends CommandGroup {
     }
     
     private void rightSwitch() {
-    	if (gameData.charAt(0) == 'L') {
+    	if (gameData.charAt(0) == 'R') {
     		addSequential(new CyborgCommandDriveByPath(new Waypoint[] {
     				new Waypoint( 1.5, 4.5, 0),
     				new Waypoint(11.5, 3.0, Pathfinder.d2r(15)),
