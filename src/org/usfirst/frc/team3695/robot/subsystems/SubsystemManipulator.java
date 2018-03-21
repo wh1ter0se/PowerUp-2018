@@ -17,14 +17,14 @@ public class SubsystemManipulator extends Subsystem {
 	private TalonSRX rightFlywheel;
 	
 	@Deprecated
-	//applies left arm motor invert
+	/* applies left arm motor invert */
 	public static double leftArmify(double left) {
 		Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.LEFT_FLYWHEEL_MOTOR_INVERT : Constants.TEUFELSKIND.LEFT_FLYWHEEL_MOTOR_INVERT;
 		return left * (invert ? -1.0 : 1.0);
 	}
 	
 	@Deprecated
-	/** applies right arm motor invert */
+	/* applies right arm motor invert */
     public static double rightArmify(double right) {
 		Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_FLYWHEEL_MOTOR_INVERT : Constants.TEUFELSKIND.RIGHT_FLYWHEEL_MOTOR_INVERT;
 		return right * (invert ? -1.0 : 1.0);
