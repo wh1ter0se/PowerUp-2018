@@ -2,7 +2,7 @@ package org.usfirst.frc.team3695.robot.util;
 
 import edu.wpi.first.wpilibj.Joystick;
 
-/** all of the stuff you need to implement X360 controllers */
+/** Mappings and returns for everything on an XBox controller */
 public class Xbox {
 	
 	public static final double DEADZONE = 0.25;
@@ -28,7 +28,8 @@ public class Xbox {
 		rawAxis *= (positive ? 1.0 : -1.0); //flip back
 		return rawAxis;
 	}
-	
+
+	//Use these methods to get the position of the joysticks and triggers
 	public static double LEFT_X(Joystick joy) {return deadzone(joy.getRawAxis(0));}
 	public static double LEFT_Y(Joystick joy) {return deadzone(joy.getRawAxis(1));}
 	public static double RIGHT_X(Joystick joy) {return deadzone(joy.getRawAxis(4));}

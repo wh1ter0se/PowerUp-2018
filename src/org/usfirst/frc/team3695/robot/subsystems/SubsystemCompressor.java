@@ -8,20 +8,33 @@ public class SubsystemCompressor extends Subsystem {
 	
 	
     private Compressor comp = new Compressor(); // initialize compressor
-    
+
+    /**
+     * Compressor is initialized by default so the constructor has nothing to do
+     */
+    public SubsystemCompressor() {}
+
     public void initDefaultCommand() {}
-    
-    /** return compressor state */
+
+    /**
+     * The state of the compressor
+     * @return Whether the compressor is on or off
+     */
     public boolean isEnabled(){
 		return comp.enabled();
     }
-    
-    /** enable/disable compressor */
+
+    /**
+     * Turns the compressor on and off
+     * @param state The state to set the projector
+     */
     public void setState(boolean state){
 		if (state) comp.start(); else comp.stop();
     }
-    
-   /** blindly change the state to !state */
+
+    /**
+     * Toggle the compressor's state
+     */
     public void toggle(){
 		setState(!isEnabled());
     }
