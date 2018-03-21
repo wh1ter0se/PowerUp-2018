@@ -35,7 +35,7 @@ public class SubsystemCompressor extends Subsystem {
     /**
      * Toggle the compressor's state
      */
-    public void toggle(){
+    public void toggle(){ //Method is never used. Look into deleting
 		setState(!isEnabled());
     }
 }

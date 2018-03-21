@@ -46,7 +46,7 @@ public class SubsystemClamp extends Subsystem {
 	 * If opened, then it will close
 	 * If closed, then it will open
 	 */
-	public void toggleArms(){
+	public void toggleArms(){ //Method is never used. Look into deleting
     	if (open) closeArms();	else openArms();
     }
 }

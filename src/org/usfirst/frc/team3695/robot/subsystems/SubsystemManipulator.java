@@ -70,7 +70,7 @@ public class SubsystemManipulator extends Subsystem {
      * Takes a joystick and uses it for manual control of the flywheels
      * @param joy The joystick to be used for controlling the wheels
      */
-    public void spinByJoystick(Joystick joy) {
+    public void spinByJoystick(Joystick joy) { //Method is never used. Look into deleting
     	int speed = 0;
     	speed += joy.getRawButton(Xbox.RB) ? 1d : 0d;
     	speed -= joy.getRawButton(Xbox.LB) ? 1d : 0d;

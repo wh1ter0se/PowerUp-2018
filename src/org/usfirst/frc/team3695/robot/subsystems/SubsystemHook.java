@@ -52,7 +52,7 @@ public class SubsystemHook extends Subsystem {
      * If it's raised, then it will lower
      * If it's lowered, then it will raise
      */
-    public void toggleHook() {
+    public void toggleHook() { //Method is never used. Look into deleting
         if (raised) lowerHook();
         else raiseHook();
     }

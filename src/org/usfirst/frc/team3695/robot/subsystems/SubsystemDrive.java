@@ -157,7 +157,7 @@ public class SubsystemDrive extends Subsystem {
     /**
      * Toggles the bot in and out of reversing mdoe
      */
-    public void toggleReversing(){
+    public void toggleReversing(){ //Method is never used. Look into deleting
         reversing = !reversing;
     }
     
@@ -172,7 +172,7 @@ public class SubsystemDrive extends Subsystem {
      *  @param ramp How long it will take for the robot to go from rest to max speed
      *  @param inhibitor The percent of max speed the bot can go at
      */
-    public void driveRLTank(Joystick joy, double ramp, double inhibitor) {
+    public void driveRLTank(Joystick joy, double ramp, double inhibitor) { //Inhibitor is never used. Look into deleting
         double adder = Xbox.RT(joy) - Xbox.LT(joy);
         double left = adder + (Xbox.LEFT_X(joy) / 1.333333);
         double right = adder - (Xbox.LEFT_X(joy) / 1.333333);

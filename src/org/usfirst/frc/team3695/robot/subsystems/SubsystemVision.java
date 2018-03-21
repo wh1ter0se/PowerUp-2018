@@ -38,7 +38,7 @@ public class SubsystemVision extends Subsystem {
     /**
      * Start the concat camera in a separate thread
      */
-    public void startConcatCameraThread(){
+    public void startConcatCameraThread(){ //Never used, but should be kept for future teams to have as a reference
         new Thread(this::concatCameraStream).start();
     }
 
@@ -52,7 +52,7 @@ public class SubsystemVision extends Subsystem {
     /**
      * Start the frame camera stream in a seperate thread
      */
-    public void startFrameCameraThread(){
+    public void startFrameCameraThread(){ //Never used, can likely be deleted if we're never going to use the frame camera
     	new Thread(this::frameCameraStream).start();
     }
 

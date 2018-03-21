@@ -4,9 +4,8 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Waypoint;
-
 import org.usfirst.frc.team3695.robot.Robot;
-import org.usfirst.frc.team3695.robot.commands.cyborg.CyborgCommandPathfinder;
+import org.usfirst.frc.team3695.robot.commands.cyborg.CyborgCommandDriveByPath;
 import org.usfirst.frc.team3695.robot.enumeration.Goal;
 import org.usfirst.frc.team3695.robot.enumeration.Position;
 
@@ -70,6 +69,7 @@ public class CommandGroupAuto extends CommandGroup {
                     case RUN_FOR_IT:
                         break;
                     case SWITCH:
+                        rightSwitch();
                         break;
                     case ENEMY_SWITCH:
                         break;
@@ -81,18 +81,18 @@ public class CommandGroupAuto extends CommandGroup {
             }
         }
     
-    public void leftSwitch() {
+    private void leftSwitch() {
     	if (gameData.charAt(0) == 'L') {
-    		addSequential(new CyborgCommandPathfinder(new Waypoint[] {
+    		addSequential(new CyborgCommandDriveByPath(new Waypoint[] {
     				new Waypoint( 1.5, 22.5, 0),
     				new Waypoint(11.5, 24.0, Pathfinder.d2r(-15)),
     				new Waypoint(14.0, 21.5, Pathfinder.d2r(90))}));
     	} 
     }
     
-    public void rightSwitch() {
+    private void rightSwitch() {
     	if (gameData.charAt(0) == 'L') {
-    		addSequential(new CyborgCommandPathfinder(new Waypoint[] {
+    		addSequential(new CyborgCommandDriveByPath(new Waypoint[] {
     				new Waypoint( 1.5, 4.5, 0),
     				new Waypoint(11.5, 3.0, Pathfinder.d2r(15)),
     				new Waypoint(14.0, 5.5, Pathfinder.d2r(-90))}));

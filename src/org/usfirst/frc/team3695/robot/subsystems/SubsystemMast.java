@@ -25,7 +25,6 @@ public class SubsystemMast extends Subsystem {
 	public DigitalInput lowerPinionLimit;
 	public DigitalInput upperPinionLimit;
 	public DigitalInput lowerScrewLimit;
-	public DigitalInput midScrewLimit;
 	public DigitalInput upperScrewLimit;
 
 	
