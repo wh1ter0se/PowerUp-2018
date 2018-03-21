@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.util.Util;
 
-/** toggles the state of the clamp */
+/** Changes the turning radius for forza drive */
 public class ToggleCommandNarrow extends Command {
 
     private boolean isFinished;

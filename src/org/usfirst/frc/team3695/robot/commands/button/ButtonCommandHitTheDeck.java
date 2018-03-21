@@ -6,7 +6,7 @@ import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.util.Util;
 
 /**
- * toggles the state of the clamp
+ * Forcefully brings the pinion and screw all the way down in the case of the bot being close to tipping
  */
 public class ButtonCommandHitTheDeck extends Command {
 

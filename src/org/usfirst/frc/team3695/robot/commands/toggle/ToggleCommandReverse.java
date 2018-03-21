@@ -4,7 +4,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.subsystems.SubsystemDrive;
 
-/** toggles the state of the clamp */
+/** Reverse the direction of all movement
+ *  It was implemented to make backing the hook into where it needs to be easier */
 public class ToggleCommandReverse extends Command {
 
     private boolean isFinished;

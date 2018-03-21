@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3695.robot.Robot;
 
 /**
- * Commands the gear flaps
+ * Spit power cubes out of the manipulator
  */
 public class ButtonCommandSpit extends Command {
 

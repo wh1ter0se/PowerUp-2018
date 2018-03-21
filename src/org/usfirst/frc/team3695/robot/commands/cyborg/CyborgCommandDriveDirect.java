@@ -5,7 +5,8 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.util.Util;
-
+@Deprecated //We shouldn't ever be driving direct.
+//If we want to continue using drive direct it should be updated to use the setTalons in AutoDrive
 public class CyborgCommandDriveDirect extends Command {
 
     private static final long TIME_WAIT = 1000;

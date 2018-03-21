@@ -7,13 +7,16 @@ import jaci.pathfinder.Waypoint;
 import jaci.pathfinder.followers.EncoderFollower;
 import jaci.pathfinder.modifiers.TankModifier;
 import org.usfirst.frc.team3695.robot.Robot;
+import org.usfirst.frc.team3695.robot.util.Util;
 
 import static org.usfirst.frc.team3695.robot.subsystems.SubsystemDrive.AutoDrive;
 
+/**
+ * Uses Jaci's Pathfinder class to autonomously get us from one point to another by following a set of waypoints
+ */
 public class CyborgCommandPathfinder extends Command {
 
     private Waypoint[] waypoints;
-    private TankModifier tankMod;
 
     private EncoderFollower leftEncoder;
     private EncoderFollower rightEncoder;
@@ -34,7 +37,7 @@ public class CyborgCommandPathfinder extends Command {
     }
 
     public void initialize(){
-        tankMod = Robot.SUB_DRIVE.autoDrive.generateTankMod(Robot.SUB_DRIVE.autoDrive.generateTrajectory(waypoints));
+        TankModifier tankMod = Robot.SUB_DRIVE.autoDrive.generateTankMod(Robot.SUB_DRIVE.autoDrive.generateTrajectory(waypoints));
 
         leftEncoder = new EncoderFollower(tankMod.getLeftTrajectory());
         rightEncoder = new EncoderFollower(tankMod.getRightTrajectory());
@@ -42,10 +45,19 @@ public class CyborgCommandPathfinder extends Command {
         leftEncoder.configureEncoder((int)Robot.SUB_DRIVE.autoDrive.leftEncoderInches(), 1000, AutoDrive.WHEEL_DIAMETER);
         rightEncoder.configureEncoder((int)Robot.SUB_DRIVE.autoDrive.rightEncoderInches(), 1000, AutoDrive.WHEEL_DIAMETER);
 
-        //TODO: add util getandsetdouble calls to all of the PID values so it isn't a mess to configure.
-        //I'm just lazy right now and it looks all pretty without them
-        leftEncoder.configurePIDVA(P_LEFT, I_LEFT, D_LEFT, 1/Robot.SUB_DRIVE.autoDrive.MAX_VELOCITY, Robot.SUB_DRIVE.autoDrive.ACC_GAIN);
-        rightEncoder.configurePIDVA(P_RIGHT, I_RIGHT, D_RIGHT, 1/Robot.SUB_DRIVE.autoDrive.MAX_VELOCITY, Robot.SUB_DRIVE.autoDrive.ACC_GAIN);
+        leftEncoder.configurePIDVA(
+                Util.getAndSetDouble("P Left", P_LEFT),
+                Util.getAndSetDouble("I Left", I_LEFT),
+                Util.getAndSetDouble("D_Left", D_LEFT),
+                Util.getAndSetDouble("Max Velocity", 1/Robot.SUB_DRIVE.autoDrive.MAX_VELOCITY),
+                Util.getAndSetDouble("Accel Gain", Robot.SUB_DRIVE.autoDrive.ACC_GAIN));
+        rightEncoder.configurePIDVA(
+                Util.getAndSetDouble("P Right", P_RIGHT),
+                Util.getAndSetDouble("I Right", I_RIGHT),
+                Util.getAndSetDouble("Right", D_RIGHT),
+                Util.getAndSetDouble("Max Velocity", 1/Robot.SUB_DRIVE.autoDrive.MAX_VELOCITY),
+                Util.getAndSetDouble("Accel Gain", Robot.SUB_DRIVE.autoDrive.ACC_GAIN));
+
         DriverStation.reportWarning("Pathfinder configuration complete", false);
     }
 

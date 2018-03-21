@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * Enables and disables the shooter
+ * Wait for the number of milliseconds passed at instantiation
  */
 public class CommandWait extends Command {
 
