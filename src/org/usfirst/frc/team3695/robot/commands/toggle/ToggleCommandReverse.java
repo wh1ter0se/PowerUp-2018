@@ -5,7 +5,8 @@ import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.subsystems.SubsystemDrive;
 
 /** Reverse the direction of all movement
- *  It was implemented to make backing the hook into where it needs to be easier */
+ *  It was implemented to make backing the hook into where it needs to be easier
+ */
 public class ToggleCommandReverse extends Command {
 
     private boolean isFinished;

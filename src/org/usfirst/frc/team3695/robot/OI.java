@@ -16,8 +16,11 @@ public class OI {
 	
 	public static final Joystick DRIVER = new Joystick(0);
 	public static final Joystick OPERATOR = new Joystick(1);
-	
-	/** assigns what every SmartDash and controller button does */
+
+	/**
+	 * Assigns some buttons on the Xbox conctrollers and places values on the SmartDashboard
+	 * Check the manual commands for controlss that are not assigned here
+	 */
 	public OI() {
 		/// manipulator wheels
 			Button spinIn = new JoystickButton(OPERATOR, Xbox.RB);
