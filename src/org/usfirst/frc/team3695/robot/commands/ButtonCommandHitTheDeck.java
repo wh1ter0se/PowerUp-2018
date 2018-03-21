@@ -20,8 +20,8 @@ public class ButtonCommandHitTheDeck extends Command {
     }
     
     protected void initialize() {
+    	isFinished = false;
     	startTime = System.currentTimeMillis();
-    	Robot.SUB_MAST.setOverride(true);
     }
 
     protected void execute() {
@@ -31,8 +31,6 @@ public class ButtonCommandHitTheDeck extends Command {
     protected boolean isFinished() { return isFinished; }
 
     protected void end() {
-    	Robot.SUB_MAST.setOverride(false);
-    	isFinished = false;
     }
 
     protected void interrupted() {}
