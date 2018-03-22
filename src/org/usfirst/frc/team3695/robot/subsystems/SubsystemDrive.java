@@ -22,7 +22,6 @@ import org.usfirst.frc.team3695.robot.util.Xbox;
  */
 public class SubsystemDrive extends Subsystem {
 
-
     public static TalonSRX leftMaster;
     private static TalonSRX leftSlave;
     public static TalonSRX rightMaster;
@@ -38,7 +37,6 @@ public class SubsystemDrive extends Subsystem {
     public static boolean narrowing;
     private static double narrower;
 
-
     public AnalogGyro gyro;
 
     public AutoDrive autoDrive;
@@ -52,7 +50,6 @@ public class SubsystemDrive extends Subsystem {
      * Instantiate everything needed for drive to work
      */
     public SubsystemDrive() {
-
         drivetrain = Drivetrain.ROCKET_LEAGUE;
 
         reversing = false;
@@ -86,48 +83,6 @@ public class SubsystemDrive extends Subsystem {
         leftSlave.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.LEFT_SLAVE_INVERT : Constants.TEUFELSKIND.LEFT_SLAVE_INVERT);
     }
 
-    /** converts left magnetic encoder's magic units to inches
-    * Use method within AutoDrive
-    */
-    @Deprecated
-    public static double leftMag2In(double leftMag) {
-        return leftMag / 204; // 204
-    }
-
-    /** converts right magnetic encoder's magic unit to inches
-    * Use method within AutoDrive*/
-    @Deprecated
-    public static double rightMag2In(double rightMag) {
-        return rightMag / 212;
-    }
-
-    /** converts left magnetic encoder's magic units to inches
-    * Use method within AutoDrive*/
-    @Deprecated
-    public static double leftIn2Mag(double leftMag) {
-        return leftMag * 204; // 204
-    }
-
-    /** converts right magnetic encoder's magic units to inches
-    * Use method within AutoDrive*/
-    @Deprecated
-    public static double rightIn2Mag(double rightMag) {
-//        return rightMag * Constants.RIGHT_MAGIC_PER_INCHES;
-        return rightMag * 212;
-    }
-
-    /** apply left motor invert */
-    @Deprecated //Move docking to the drive methods
-    public static double leftify(double left) {
-        return left * (docking ? dockInhibitor : 1);
-    }
-
-    /** apply right motor invert */
-    @Deprecated
-    public static double rightify(double right) {
-        return right * (docking ? dockInhibitor : 1);
-    }
-
     /**
      * Set the drivetrain to the one that will be used
      * @param drivetrain The drivetrain to use
@@ -152,14 +107,6 @@ public class SubsystemDrive extends Subsystem {
     public void toggleNarrowing(double narrower){
         narrowing = !narrowing;
         SubsystemDrive.narrower = narrower;
-    }
-
-    /**
-     * Toggles the bot in and out of reversing mdoe
-     */
-    @Deprecated
-    public void toggleReversing(){ //Method is never used. Look into deleting
-        reversing = !reversing;
     }
     
     /**
@@ -229,24 +176,6 @@ public class SubsystemDrive extends Subsystem {
         	rightMaster.configOpenloopRamp(ramp, 10);
         if (rightSlave != null)
         	rightSlave.configOpenloopRamp(ramp, 10);
-    }
-  
-    @Deprecated //Use AutoDrive and Pathfinder instead of this
-    public void driveDistance(double leftIn, double rightIn) {
-        double leftGoal = (leftIn2Mag(leftIn));
-        double rightGoal = (rightIn2Mag(rightIn));
-        leftMaster.set(ControlMode.MotionMagic, leftGoal);
-    		leftSlave.follow(leftMaster);
-        rightMaster.set(ControlMode.MotionMagic, rightGoal);
-    		rightSlave.follow(rightMaster);
-    }
-
-    @Deprecated //If you really want to drive direct, AutoDrive has a method perfect for it
-    public void driveDirect(double left, double right) {
-        left = (left > 1.0 ? 1.0 : (left < -1.0 ? -1.0 : left));
-        right = (right > 1.0 ? 1.0 : (right < -1.0 ? -1.0 : right));
-        leftMaster.set(ControlMode.PercentOutput, left);
-        rightMaster.set(ControlMode.PercentOutput, right);
     }
 
     /**
