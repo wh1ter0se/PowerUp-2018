@@ -18,8 +18,8 @@ public class SubsystemClamp extends Subsystem {
 	public SubsystemClamp(){
 		openArms = new Solenoid(Constants.OPEN_ARMS);
 		closeArms = new Solenoid(Constants.CLOSE_ARMS);
-		open = false;
-	} 
+		closeArms();
+	}
 
     public void initDefaultCommand() {}
 

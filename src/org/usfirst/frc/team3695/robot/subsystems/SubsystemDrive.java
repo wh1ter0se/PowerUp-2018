@@ -157,6 +157,7 @@ public class SubsystemDrive extends Subsystem {
     /**
      * Toggles the bot in and out of reversing mdoe
      */
+    @Deprecated
     public void toggleReversing(){ //Method is never used. Look into deleting
         reversing = !reversing;
     }
@@ -219,7 +220,7 @@ public class SubsystemDrive extends Subsystem {
      * Set the ramp for all talons
      * @param ramp The time to go from rest to max speed
      */
-    public void setRamps(double ramp) {
+    private void setRamps(double ramp) {
         if (leftMaster != null)
         	leftMaster.configOpenloopRamp(ramp, 10);
         if (leftSlave != null)

@@ -29,7 +29,6 @@ public class CommandGroupAuto extends CommandGroup {
         gameData = DriverStation.getInstance().getGameSpecificMessage();
 
         Robot.SUB_CLAMP.closeArms();
-        Robot.SUB_DRIVE.setInverts();
 
         // EX: making sure flap is closed before auto starts
         switch (position) {
