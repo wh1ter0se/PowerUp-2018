@@ -62,7 +62,7 @@ public class CyborgCommandDriveByPath extends Command {
     }
 
     protected void execute(){
-        //Now that we've gotten setup for this drive, it's time to roll out!
+        //Now that we have setup for this drive, it's time to roll out!
         double leftOutput = leftEncoder.calculate((int)Robot.SUB_DRIVE.autoDrive.leftEncoderInches());
         double rightOutput = rightEncoder.calculate((int)Robot.SUB_DRIVE.autoDrive.rightEncoderInches());
 
