@@ -17,6 +17,8 @@ import org.usfirst.frc.team3695.robot.enumeration.Bot;
 import org.usfirst.frc.team3695.robot.enumeration.Drivetrain;
 import org.usfirst.frc.team3695.robot.util.Xbox;
 
+import java.io.File;
+
 /** Control for the drivetrain. Both for teleop and autonomous
  *  Autonomous code goes in the AutoDrive inner class
  */
@@ -183,9 +185,9 @@ public class SubsystemDrive extends Subsystem {
      */
     public static class AutoDrive {
         //The distance between left and right sides of the wheelbase
-        public static final double WHEELBASE_WIDTH = 0.5;
+        public static final double WHEELBASE_WIDTH = 2.1666;
         //The diameter of the wheels, but in meters
-        public static final double WHEEL_DIAMETER = 0.1524; //Check this number.
+        public static final double WHEEL_DIAMETER = 6; //Check this number.
 
         //Various constants needed to generate a motion profile
         private final double TIME_STEP = .05;
@@ -212,6 +214,15 @@ public class SubsystemDrive extends Subsystem {
          */
         public Trajectory generateTrajectory(Waypoint[] points){
           return Pathfinder.generate(points, config);
+        }
+
+        /**
+         * Creates a trajectory using a pregenerated trajectory in a CSV
+         * @param csvFile CSV file containing a trajectory
+         * @return Trajectory from the CSV file
+         */
+        public Trajectory generateTrajectory(File csvFile){
+            return Pathfinder.readFromCSV(csvFile);
         }
 
         /**

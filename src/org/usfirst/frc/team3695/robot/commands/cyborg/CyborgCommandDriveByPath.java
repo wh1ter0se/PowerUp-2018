@@ -3,11 +3,11 @@ package org.usfirst.frc.team3695.robot.commands.cyborg;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 import jaci.pathfinder.Pathfinder;
-import jaci.pathfinder.Waypoint;
 import jaci.pathfinder.followers.EncoderFollower;
-import jaci.pathfinder.modifiers.TankModifier;
 import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.util.Util;
+
+import java.io.File;
 
 import static org.usfirst.frc.team3695.robot.subsystems.SubsystemDrive.AutoDrive;
 
@@ -16,7 +16,8 @@ import static org.usfirst.frc.team3695.robot.subsystems.SubsystemDrive.AutoDrive
  */
 public class CyborgCommandDriveByPath extends Command {
 
-    private Waypoint[] waypoints;
+    private File leftSide;
+    private File rightSide;
 
     private EncoderFollower leftEncoder;
     private EncoderFollower rightEncoder;
@@ -31,16 +32,15 @@ public class CyborgCommandDriveByPath extends Command {
     private final static double D_RIGHT = 0.000;
 
 
-    public CyborgCommandDriveByPath(Waypoint[] points) {
+    public CyborgCommandDriveByPath(File leftSide, File rightSide) {
         requires(Robot.SUB_DRIVE);
-        waypoints = points;
+        this.leftSide = leftSide;
+        this.rightSide = rightSide;
     }
 
     public void initialize(){
-        TankModifier tankMod = Robot.SUB_DRIVE.autoDrive.generateTankMod(Robot.SUB_DRIVE.autoDrive.generateTrajectory(waypoints));
-
-        leftEncoder = new EncoderFollower(tankMod.getLeftTrajectory());
-        rightEncoder = new EncoderFollower(tankMod.getRightTrajectory());
+        leftEncoder = new EncoderFollower(Robot.SUB_DRIVE.autoDrive.generateTrajectory(leftSide));
+        rightEncoder = new EncoderFollower(Robot.SUB_DRIVE.autoDrive.generateTrajectory(rightSide));
 
         leftEncoder.configureEncoder((int)Robot.SUB_DRIVE.autoDrive.leftEncoderInches(), 1000, AutoDrive.WHEEL_DIAMETER);
         rightEncoder.configureEncoder((int)Robot.SUB_DRIVE.autoDrive.rightEncoderInches(), 1000, AutoDrive.WHEEL_DIAMETER);
