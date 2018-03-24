@@ -3,11 +3,10 @@ package org.usfirst.frc.team3695.robot.commands.cyborg;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 import jaci.pathfinder.Pathfinder;
+import jaci.pathfinder.Waypoint;
 import jaci.pathfinder.followers.EncoderFollower;
 import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.util.Util;
-
-import java.io.File;
 
 import static org.usfirst.frc.team3695.robot.subsystems.SubsystemDrive.AutoDrive;
 
@@ -16,8 +15,7 @@ import static org.usfirst.frc.team3695.robot.subsystems.SubsystemDrive.AutoDrive
  */
 public class CyborgCommandDriveByPath extends Command {
 
-    private File leftSide;
-    private File rightSide;
+    private Waypoint[] waypoints;
 
     private EncoderFollower leftEncoder;
     private EncoderFollower rightEncoder;
@@ -32,15 +30,14 @@ public class CyborgCommandDriveByPath extends Command {
     private final static double D_RIGHT = 0.000;
 
 
-    public CyborgCommandDriveByPath(File leftSide, File rightSide) {
+    public CyborgCommandDriveByPath(Waypoint[] waypoints) {
         requires(Robot.SUB_DRIVE);
-        this.leftSide = leftSide;
-        this.rightSide = rightSide;
+        this.waypoints = waypoints;
     }
 
     public void initialize(){
-        leftEncoder = new EncoderFollower(Robot.SUB_DRIVE.autoDrive.generateTrajectory(leftSide));
-        rightEncoder = new EncoderFollower(Robot.SUB_DRIVE.autoDrive.generateTrajectory(rightSide));
+        leftEncoder = new EncoderFollower(Robot.SUB_DRIVE.autoDrive.generateTrajectory(waypoints));
+        rightEncoder = new EncoderFollower(Robot.SUB_DRIVE.autoDrive.generateTrajectory(waypoints));
 
         leftEncoder.configureEncoder((int)Robot.SUB_DRIVE.autoDrive.leftEncoderInches(), 1000, AutoDrive.WHEEL_DIAMETER);
         rightEncoder.configureEncoder((int)Robot.SUB_DRIVE.autoDrive.rightEncoderInches(), 1000, AutoDrive.WHEEL_DIAMETER);
@@ -48,13 +45,13 @@ public class CyborgCommandDriveByPath extends Command {
         leftEncoder.configurePIDVA(
                 Util.getAndSetDouble("P Left", P_LEFT),
                 Util.getAndSetDouble("I Left", I_LEFT),
-                Util.getAndSetDouble("D_Left", D_LEFT),
+                Util.getAndSetDouble("D Left", D_LEFT),
                 Util.getAndSetDouble("Max Velocity", 1/Robot.SUB_DRIVE.autoDrive.MAX_VELOCITY),
                 Util.getAndSetDouble("Accel Gain", Robot.SUB_DRIVE.autoDrive.ACC_GAIN));
         rightEncoder.configurePIDVA(
                 Util.getAndSetDouble("P Right", P_RIGHT),
                 Util.getAndSetDouble("I Right", I_RIGHT),
-                Util.getAndSetDouble("Right", D_RIGHT),
+                Util.getAndSetDouble("D Right", D_RIGHT),
                 Util.getAndSetDouble("Max Velocity", 1/Robot.SUB_DRIVE.autoDrive.MAX_VELOCITY),
                 Util.getAndSetDouble("Accel Gain", Robot.SUB_DRIVE.autoDrive.ACC_GAIN));
 

@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.AnalogGyro;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import jaci.pathfinder.Pathfinder;
@@ -18,6 +19,8 @@ import org.usfirst.frc.team3695.robot.enumeration.Drivetrain;
 import org.usfirst.frc.team3695.robot.util.Xbox;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
 
 /** Control for the drivetrain. Both for teleop and autonomous
  *  Autonomous code goes in the AutoDrive inner class
@@ -184,6 +187,10 @@ public class SubsystemDrive extends Subsystem {
      * Methods for all autonomous code
      */
     public static class AutoDrive {
+
+        private static final String path = "/home/lvuser/trajectories/";
+        private static HashMap<String, Trajectory> trajectoryFiles;
+
         //The distance between left and right sides of the wheelbase
         public static final double WHEELBASE_WIDTH = 2.1666;
         //The diameter of the wheels, but in meters
@@ -199,6 +206,21 @@ public class SubsystemDrive extends Subsystem {
 
         //Configuration that stores all the values needed to configure the motion profile
         Trajectory.Config config;
+
+        /*
+         * Load all CSV trajectories at the start of runtime
+         */
+        static {
+            File folderPath = new File(path);
+            File[] folder = folderPath.listFiles();
+            //If listFiles returns null, then there would be large problems if it goes unchecked
+            if (folder != null) {
+                for (File file : folder) {
+                    trajectoryFiles.put(file.getName(), Pathfinder.readFromCSV(file));
+                    DriverStation.reportWarning("Added trajectory: " + file.getName(), false);
+                }
+            }
+        }
 
         /**
          * Instantiate the config needed to generate trajectories
@@ -217,12 +239,24 @@ public class SubsystemDrive extends Subsystem {
         }
 
         /**
-         * Creates a trajectory using a pregenerated trajectory in a CSV
-         * @param csvFile CSV file containing a trajectory
-         * @return Trajectory from the CSV file
+         * Generates a trajectory and saves it under the given filename
+         * @param points Waypoints to turn into a trajectory
+         * @param fileName Name of the trajectory
+         * @return Generated trajectory
          */
-        public Trajectory generateTrajectory(File csvFile){
-            return Pathfinder.readFromCSV(csvFile);
+        public Trajectory generateAndSaveTrajectory(Waypoint[] points, String fileName){
+            File save = new File(path + fileName + ".csv");
+            Trajectory toSave;
+            try {
+                if (!save.createNewFile()){
+                    return Pathfinder.readFromCSV(save);
+                }
+            } catch (IOException e){
+                DriverStation.reportError("Error generating trajectory", false);
+            }
+            toSave = Pathfinder.generate(points, config);
+            Pathfinder.writeToCSV(save, toSave);
+            return toSave;
         }
 
         /**
