@@ -52,8 +52,8 @@ public class Constants {
 
             LEFT_MASTER_INVERT = false,
     		LEFT_SLAVE_INVERT = false,
-            RIGHT_MASTER_INVERT = true,
-            RIGHT_SLAVE_INVERT = true;
+            RIGHT_MASTER_INVERT = false,
+            RIGHT_SLAVE_INVERT = false;
 	}
 	
 	public static class TEUFELSKIND {

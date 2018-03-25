@@ -2,8 +2,9 @@ package org.usfirst.frc.team3695.robot.commands.cyborg;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Pathfinder;
-import jaci.pathfinder.Waypoint;
+import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.followers.EncoderFollower;
 import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.util.Util;
@@ -15,66 +16,77 @@ import static org.usfirst.frc.team3695.robot.subsystems.SubsystemDrive.AutoDrive
  */
 public class CyborgCommandDriveByPath extends Command {
 
-    private Waypoint[] waypoints;
-
+	private Trajectory tankmod;
+	
     private EncoderFollower leftEncoder;
     private EncoderFollower rightEncoder;
 
     //Good old PID values. Do not add I. Just don't
-    private final static double P_LEFT = 0.0001;
+    private final static double P_LEFT = 3.000;
     private final static double I_LEFT = 0.000;
     private final static double D_LEFT = 0.000;
 
-    private final static double P_RIGHT = 0.0001;
+    private final static double P_RIGHT = 3.000;
     private final static double I_RIGHT = 0.000;
     private final static double D_RIGHT = 0.000;
 
 
-    public CyborgCommandDriveByPath(Waypoint[] waypoints) {
+    public CyborgCommandDriveByPath(Trajectory traj) {
         requires(Robot.SUB_DRIVE);
-        this.waypoints = waypoints;
+        this.tankmod = traj;
     }
+    
+    
 
     public void initialize(){
-        leftEncoder = new EncoderFollower(Robot.SUB_DRIVE.autoDrive.generateTrajectory(waypoints));
-        rightEncoder = new EncoderFollower(Robot.SUB_DRIVE.autoDrive.generateTrajectory(waypoints));
+        leftEncoder = new EncoderFollower(tankmod);
+        rightEncoder = new EncoderFollower(tankmod);
 
-        leftEncoder.configureEncoder((int)Robot.SUB_DRIVE.autoDrive.leftEncoderInches(), 1000, AutoDrive.WHEEL_DIAMETER);
-        rightEncoder.configureEncoder((int)Robot.SUB_DRIVE.autoDrive.rightEncoderInches(), 1000, AutoDrive.WHEEL_DIAMETER);
+        Robot.SUB_DRIVE.autoDrive.resetEncoders();
+        
+        leftEncoder.configureEncoder((int)Robot.SUB_DRIVE.autoDrive.leftEncoderPos(), 4096, AutoDrive.WHEEL_DIAMETER);
+        rightEncoder.configureEncoder((int)Robot.SUB_DRIVE.autoDrive.rightEncoderPos(), 4096, AutoDrive.WHEEL_DIAMETER);
 
         leftEncoder.configurePIDVA(
-                Util.getAndSetDouble("P Left", P_LEFT),
-                Util.getAndSetDouble("I Left", I_LEFT),
-                Util.getAndSetDouble("D Left", D_LEFT),
+                Util.getAndSetDouble("Path-Left-P", P_LEFT),
+                Util.getAndSetDouble("Path-Left-I", I_LEFT),
+                Util.getAndSetDouble("Path-Left-D", D_LEFT),
                 Util.getAndSetDouble("Max Velocity", 1/Robot.SUB_DRIVE.autoDrive.MAX_VELOCITY),
                 Util.getAndSetDouble("Accel Gain", Robot.SUB_DRIVE.autoDrive.ACC_GAIN));
         rightEncoder.configurePIDVA(
-                Util.getAndSetDouble("P Right", P_RIGHT),
-                Util.getAndSetDouble("I Right", I_RIGHT),
-                Util.getAndSetDouble("D Right", D_RIGHT),
+                Util.getAndSetDouble("Path-Right-P", P_RIGHT),
+                Util.getAndSetDouble("Path-Right-I", I_RIGHT),
+                Util.getAndSetDouble("Path-Right-D", D_RIGHT),
                 Util.getAndSetDouble("Max Velocity", 1/Robot.SUB_DRIVE.autoDrive.MAX_VELOCITY),
                 Util.getAndSetDouble("Accel Gain", Robot.SUB_DRIVE.autoDrive.ACC_GAIN));
-
+        
         DriverStation.reportWarning("Pathfinder configuration complete", false);
     }
 
     protected void execute(){
         //Now that we have setup for this drive, it's time to roll out!
-        double leftOutput = leftEncoder.calculate((int)Robot.SUB_DRIVE.autoDrive.leftEncoderInches());
-        double rightOutput = rightEncoder.calculate((int)Robot.SUB_DRIVE.autoDrive.rightEncoderInches());
+        double leftOutput = leftEncoder.calculate((int)Robot.SUB_DRIVE.autoDrive.leftEncoderPos() * -1);
+        double rightOutput = rightEncoder.calculate((int)Robot.SUB_DRIVE.autoDrive.rightEncoderPos());
 
         //All of this will account for any turning the robot makes when it drives
         //Way better than what we had with
         //Make sure gyro is in degrees!!!
         double gyroHeading = Robot.SUB_DRIVE.gyro.getAngle();
+        	gyroHeading %= 360;
+//        	gyroHeading *= -1;
+        	SmartDashboard.putNumber("Gyro Heading", gyroHeading);
         //The sides of the robot are in parallel and therefore are always the same
         //So lets just use left
         double desiredHeading = Pathfinder.r2d(leftEncoder.getHeading());
+        	SmartDashboard.putNumber("Desired Heading", desiredHeading);
         //The difference in angle we want to reach
         double angleDifference = Pathfinder.boundHalfDegrees(desiredHeading - gyroHeading);
-        double turn = 0.8 * (-1.0/80.0) * angleDifference; //Blame Jaci. Not quite sure why this is what it is.
+        double turn = .4 * (-1.0/80.0) * angleDifference; //Blame Jaci. Not quite sure why this is what it is.
 
-        Robot.SUB_DRIVE.autoDrive.setTalons(leftOutput + turn, rightOutput - turn);
+//        Robot.SUB_DRIVE.autoDrive.setTalons(leftOutput + turn, rightOutput - turn);
+        Robot.SUB_DRIVE.autoDrive.setTalons(leftOutput, rightOutput);
+	        SmartDashboard.putNumber("leftOutput", leftOutput);
+	        SmartDashboard.putNumber("rightOutput", rightOutput);
     }
 
     protected boolean isFinished() {

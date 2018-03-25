@@ -3,10 +3,11 @@ package org.usfirst.frc.team3695.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import edu.wpi.first.wpilibj.AnalogGyro;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Waypoint;
@@ -16,11 +17,13 @@ import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.commands.manual.ManualCommandDrive;
 import org.usfirst.frc.team3695.robot.enumeration.Bot;
 import org.usfirst.frc.team3695.robot.enumeration.Drivetrain;
+import org.usfirst.frc.team3695.robot.enumeration.Paths;
 import org.usfirst.frc.team3695.robot.util.Xbox;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 /** Control for the drivetrain. Both for teleop and autonomous
  *  Autonomous code goes in the AutoDrive inner class
@@ -42,7 +45,7 @@ public class SubsystemDrive extends Subsystem {
     public static boolean narrowing;
     private static double narrower;
 
-    public AnalogGyro gyro;
+    public ADXRS450_Gyro gyro;
 
     public AutoDrive autoDrive;
 
@@ -63,7 +66,7 @@ public class SubsystemDrive extends Subsystem {
 
         autoDrive = new AutoDrive();
 
-        gyro = new AnalogGyro(1);
+        gyro = new ADXRS450_Gyro();
 
         // masters
         leftMaster = new TalonSRX(Constants.LEFT_MASTER);
@@ -88,6 +91,10 @@ public class SubsystemDrive extends Subsystem {
         leftSlave.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.LEFT_SLAVE_INVERT : Constants.TEUFELSKIND.LEFT_SLAVE_INVERT);
     }
 
+    public static void publishDrivetrain() {
+    	SmartDashboard.putNumber("Left Motor", leftMaster.getMotorOutputPercent());
+    	SmartDashboard.putNumber("Right Motor", rightMaster.getMotorOutputPercent());
+    }
     /**
      * Set the drivetrain to the one that will be used
      * @param drivetrain The drivetrain to use
@@ -188,7 +195,7 @@ public class SubsystemDrive extends Subsystem {
      */
     public static class AutoDrive {
 
-        private static final String path = "/home/lvuser/trajectories/";
+        private static final String path = "/home/lvuser/";
         private static HashMap<String, Trajectory> trajectoryFiles;
 
         //The distance between left and right sides of the wheelbase
@@ -211,24 +218,31 @@ public class SubsystemDrive extends Subsystem {
          * Load all CSV trajectories at the start of runtime
          */
         static {
-            File folderPath = new File(path);
-            File[] folder = folderPath.listFiles();
-            //If listFiles returns null, then there would be large problems if it goes unchecked
-            if (folder != null) {
-                for (File file : folder) {
-                    trajectoryFiles.put(file.getName(), Pathfinder.readFromCSV(file));
-                    DriverStation.reportWarning("Added trajectory: " + file.getName(), false);
-                }
-            }
+//            File folderPath = new File(path);
+//            File[] folder = folderPath.listFiles();
+//            //If listFiles returns null, then there would be large problems if it goes unchecked
+//            if (folder != null) {
+//                for (File file : folder) {
+//                    trajectoryFiles.put(file.getName(), Pathfinder.readFromCSV(file));
+//                    DriverStation.reportWarning("Added trajectory: " + file.getName(), false);
+//                }
+//            }
         }
-
+        
         /**
          * Instantiate the config needed to generate trajectories
          */
         public AutoDrive() {
             config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, TIME_STEP, MAX_VELOCITY, MAX_ACC, MAX_JERK);
         }
-
+    
+        public Trajectory getTrajectory(String name){
+        	for(Entry<String, Trajectory> sets : trajectoryFiles.entrySet()){
+        		if (sets.getKey().equals(name)) return sets.getValue();
+        	}
+        	return null;
+        }
+        
         /**
          * Create a trajectory given an array of Waypoints
          * @param points An array of waypoints to turn into a trajectory
@@ -245,7 +259,7 @@ public class SubsystemDrive extends Subsystem {
          * @return Generated trajectory
          */
         public Trajectory generateAndSaveTrajectory(Waypoint[] points, String fileName){
-            File save = new File(path + fileName + ".csv");
+            File save = new File(path + fileName);
             Trajectory toSave;
             try {
                 if (!save.createNewFile()){
@@ -256,7 +270,12 @@ public class SubsystemDrive extends Subsystem {
             }
             toSave = Pathfinder.generate(points, config);
             Pathfinder.writeToCSV(save, toSave);
+            DriverStation.reportWarning("Trajectory Saved:" + fileName + ".csv", false);
             return toSave;
+        }
+        
+        public Trajectory getSavedTrajectory(Paths filePath){
+        	return Pathfinder.readFromCSV(new File(path + filePath.getTank()));
         }
 
         /**
@@ -296,7 +315,10 @@ public class SubsystemDrive extends Subsystem {
         /**
          * @return Position of the right encoder in inches
          */
-        public double rightEncoderInches() { return nativeToInches(rightEncoderPos()); }
+        public double rightEncoderInches() { 
+//        	return nativeToInches(leftEncoderPos()); 
+        	return rightEncoderPos();
+        }
 
         /**
          * @return Position of the left encoder in native units
@@ -308,14 +330,17 @@ public class SubsystemDrive extends Subsystem {
         /**
          * @return Position of the left encoder in inches
          */
-        public double leftEncoderInches() { return nativeToInches(leftEncoderPos()); }
+        public double leftEncoderInches() {
+//        	return nativeToInches(leftEncoderPos()); 
+        	return leftEncoderPos();
+        }
 
         /**
          * @param nativeUnits Native units of the encoders to convert
          * @return The native units converted to inches
          */
         public double nativeToInches(double nativeUnits){
-            return nativeUnits/212;
+            return nativeUnits/204;
         }
 
         /**
@@ -323,7 +348,8 @@ public class SubsystemDrive extends Subsystem {
          * @return The inches in native units
          */
         public double inchesToNative(double inches){
-            return inches*212;
+            return inches*204;
         }
+       
     }
 }

@@ -150,7 +150,7 @@ public class Robot extends IterativeRobot {
 	/** runs at 50hz when in autonomous */
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run(); 
-		
+		Robot.SUB_DRIVE.publishDrivetrain();
 		setAllInverts();
 	}
 
@@ -170,7 +170,7 @@ public class Robot extends IterativeRobot {
 		if (driveChooser.getSelected() != null) {
 			SUB_DRIVE.setDrivetrain(driveChooser.getSelected());
 		}
-		
+		SubsystemDrive.publishDrivetrain();
 		setAllInverts();
 	}
 

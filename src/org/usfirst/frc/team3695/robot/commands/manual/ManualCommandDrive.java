@@ -20,7 +20,7 @@ public class ManualCommandDrive extends Command {
     protected void execute() {
     	
     	Robot.SUB_DRIVE.setInverts();
-    	
+    	SmartDashboard.putNumber("Gyro Heading", Robot.SUB_DRIVE.gyro.getAngle());
         SmartDashboard.putBoolean("Forza Dampener (Docking mode)", SubsystemDrive.docking);
         SmartDashboard.putBoolean("Reversing mode", SubsystemDrive.reversing);
         SmartDashboard.putBoolean("Narrower (Turn inhibitor)", SubsystemDrive.narrowing);
