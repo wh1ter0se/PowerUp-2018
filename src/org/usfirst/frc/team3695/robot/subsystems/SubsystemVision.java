@@ -26,22 +26,39 @@ public class SubsystemVision extends Subsystem {
 
     protected void initDefaultCommand() {}
 
+    /**
+     * Creates the fail image to put up when exceptions occur
+     */
     public SubsystemVision(){
         Size camSize = new Size(VisionConstants.CAM_WIDTH, VisionConstants.CAM_HEIGHT);
         failImage = Mat.zeros(camSize, 0);
     }
-    //Places the vision in a separate thread from everything else as recommended by FIRST.
-    public void startConcatCameraThread(){ new Thread(this::concatCameraStream).start(); }
-    
+
+    //Camera streams are placed in separate threads as recommended by FIRST
+    /**
+     * Start the concat camera in a separate thread
+     */
+    public void startConcatCameraThread(){ //Never used, but should be kept for future teams to have as a reference
+        new Thread(this::concatCameraStream).start();
+    }
+
+    /**
+     * Start the screw camera stream in a separate thread
+     */
     public void startScrewCameraThread(){
     	new Thread(this::screwCameraStream).start();
     }
 
-    public void startFrameCameraThread(){
+    /**
+     * Start the frame camera stream in a seperate thread
+     */
+    public void startFrameCameraThread(){ //Never used, can likely be deleted if we're never going to use the frame camera
     	new Thread(this::frameCameraStream).start();
     }
 
-    //The startCamera methods are nearly line for line the code from WPILIB
+    /**
+     * Create the screw camera stream
+     */
     private void screwCameraStream(){
         UsbCamera cameraScrew = CameraServer.getInstance().startAutomaticCapture("Screw", VisionConstants.SCREW_ID);
 
@@ -68,7 +85,10 @@ public class SubsystemVision extends Subsystem {
              }
     	 }
     }
-    
+
+    /**
+     * Create the frame camera stream
+     */
     private void frameCameraStream(){
         UsbCamera cameraFrame = CameraServer.getInstance().startAutomaticCapture("Frame", VisionConstants.HOOK_ID);
     	

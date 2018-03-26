@@ -3,9 +3,11 @@ package org.usfirst.frc.team3695.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import edu.wpi.first.wpilibj.AnalogGyro;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Waypoint;
@@ -15,12 +17,18 @@ import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.commands.manual.ManualCommandDrive;
 import org.usfirst.frc.team3695.robot.enumeration.Bot;
 import org.usfirst.frc.team3695.robot.enumeration.Drivetrain;
+import org.usfirst.frc.team3695.robot.enumeration.Paths;
 import org.usfirst.frc.team3695.robot.util.Xbox;
 
-/** Control for the drivetrain. Both for teleop and autonomous
- *  Autonomous code goes in the AutoDrive inner class */
-public class SubsystemDrive extends Subsystem {
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map.Entry;
 
+/** Control for the drivetrain. Both for teleop and autonomous
+ *  Autonomous code goes in the AutoDrive inner class
+ */
+public class SubsystemDrive extends Subsystem {
 
     public static TalonSRX leftMaster;
     private static TalonSRX leftSlave;
@@ -37,8 +45,7 @@ public class SubsystemDrive extends Subsystem {
     public static boolean narrowing;
     private static double narrower;
 
-
-    public AnalogGyro gyro;
+    public ADXRS450_Gyro gyro;
 
     public AutoDrive autoDrive;
 
@@ -48,10 +55,9 @@ public class SubsystemDrive extends Subsystem {
     }
     
     /**
-     * gives birth to the talons and instantiates variables
+     * Instantiate everything needed for drive to work
      */
     public SubsystemDrive() {
-
         drivetrain = Drivetrain.ROCKET_LEAGUE;
 
         reversing = false;
@@ -60,7 +66,7 @@ public class SubsystemDrive extends Subsystem {
 
         autoDrive = new AutoDrive();
 
-        gyro = new AnalogGyro(1);
+        gyro = new ADXRS450_Gyro();
 
         // masters
         leftMaster = new TalonSRX(Constants.LEFT_MASTER);
@@ -74,7 +80,10 @@ public class SubsystemDrive extends Subsystem {
         rightSlave = new TalonSRX(Constants.RIGHT_SLAVE);
         	rightSlave.follow(rightMaster);
     }
-    
+
+    /**
+     * Set the inverts for each talon based on the bot being used
+     */
     public void setInverts() {
         rightMaster.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_MASTER_INVERT : Constants.TEUFELSKIND.RIGHT_MASTER_INVERT);
         rightSlave.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_SLAVE_INVERT : Constants.TEUFELSKIND.RIGHT_SLAVE_INVERT);
@@ -82,70 +91,48 @@ public class SubsystemDrive extends Subsystem {
         leftSlave.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.LEFT_SLAVE_INVERT : Constants.TEUFELSKIND.LEFT_SLAVE_INVERT);
     }
 
-    /* converts left magnetic encoder's magic units to inches
-    * Use method within AutoDrive*/
-    @Deprecated
-    public static double leftMag2In(double leftMag) {
-        return leftMag / 204; // 204
+    public static void publishDrivetrain() {
+    	SmartDashboard.putNumber("Left Motor", leftMaster.getMotorOutputPercent());
+    	SmartDashboard.putNumber("Right Motor", rightMaster.getMotorOutputPercent());
     }
-
-    /* converts right magnetic encoder's magic unit to inches
-    * Use method within AutoDrive*/
-    @Deprecated
-    public static double rightMag2In(double rightMag) {
-        return rightMag / 212;
-    }
-
-    /* converts left magnetic encoder's magic units to inches
-    * Use method within AutoDrive*/
-    @Deprecated
-    public static double leftIn2Mag(double leftMag) {
-        return leftMag * 204; // 204
-    }
-
-    /* converts right magnetic encoder's magic units to inches
-    * Use method within AutoDrive*/
-    @Deprecated
-    public static double rightIn2Mag(double rightMag) {
-//        return rightMag * Constants.RIGHT_MAGIC_PER_INCHES;
-        return rightMag * 212;
-    }
-
-    /* apply left motor invert */
-    @Deprecated
-    public static double leftify(double left) {
-        return left * (docking ? dockInhibitor : 1);
-    }
-
-    /* apply right motor invert */
-    @Deprecated
-    public static double rightify(double right) {
-        return right * (docking ? dockInhibitor : 1);
-    }
-
+    /**
+     * Set the drivetrain to the one that will be used
+     * @param drivetrain The drivetrain to use
+     */
     public void setDrivetrain(Drivetrain drivetrain) {
         this.drivetrain = drivetrain;
     }
 
+    /**
+     * Toggles the docking mode and sets the inhibitor
+     * @param dockInhibitor The percent maximum that the bot can drive at when in docking mode
+     */
     public void toggleDocking(double dockInhibitor){
         docking = !docking;
         SubsystemDrive.dockInhibitor = dockInhibitor;
     }
-    
+
+    /**
+     * Toggles narrowing mode and sets the new radius for Forza Drive
+     * @param narrower The radius to be set when in narrowing mode
+     */
     public void toggleNarrowing(double narrower){
         narrowing = !narrowing;
         SubsystemDrive.narrower = narrower;
-    }
-
-    public void toggleReversing(){
-        reversing = !reversing;
     }
     
     /**
      * simple rocket league drive code (not actually rocket league)
      * independent rotation and acceleration
+     * Controls:
+     *  Forward: Right Trigger
+     *  Backwards: Left Trigger
+     *  Turning: Right joystick on the x-axis
+     *  @param joy The Xbox controller to use for driving
+     *  @param ramp How long it will take for the robot to go from rest to max speed
+     *  @param inhibitor The percent of max speed the bot can go at
      */
-    public void driveRLTank(Joystick joy, double ramp, double inhibitor) {
+    public void driveRLTank(Joystick joy, double ramp, double inhibitor) { //Inhibitor is never used. Look into deleting
         double adder = Xbox.RT(joy) - Xbox.LT(joy);
         double left = adder + (Xbox.LEFT_X(joy) / 1.333333);
         double right = adder - (Xbox.LEFT_X(joy) / 1.333333);
@@ -188,7 +175,11 @@ public class SubsystemDrive extends Subsystem {
         rightMaster.set(ControlMode.PercentOutput, right * inhibitor * (reversing ? -1.0 : 1.0));
     }
 
-    public void setRamps(double ramp) {
+    /**
+     * Set the ramp for all talons
+     * @param ramp The time to go from rest to max speed
+     */
+    private void setRamps(double ramp) {
         if (leftMaster != null)
         	leftMaster.configOpenloopRamp(ramp, 10);
         if (leftSlave != null)
@@ -198,31 +189,19 @@ public class SubsystemDrive extends Subsystem {
         if (rightSlave != null)
         	rightSlave.configOpenloopRamp(ramp, 10);
     }
-  
-    @Deprecated //Use AutoDrive and Pathfinder instead of this
-    public void driveDistance(double leftIn, double rightIn) {
-        double leftGoal = (leftIn2Mag(leftIn));
-        double rightGoal = (rightIn2Mag(rightIn));
-        leftMaster.set(ControlMode.MotionMagic, leftGoal);
-    		leftSlave.follow(leftMaster);
-        rightMaster.set(ControlMode.MotionMagic, rightGoal);
-    		rightSlave.follow(rightMaster);
-    }
 
-    @Deprecated //If you really want to drive direct, AutoDrive has a method perfect for it
-    public void driveDirect(double left, double right) {
-        left = (left > 1.0 ? 1.0 : (left < -1.0 ? -1.0 : left));
-        right = (right > 1.0 ? 1.0 : (right < -1.0 ? -1.0 : right));
-        leftMaster.set(ControlMode.PercentOutput, left);
-        rightMaster.set(ControlMode.PercentOutput, right);
-    }
-    
-    
+    /**
+     * Methods for all autonomous code
+     */
     public static class AutoDrive {
+
+        private static final String path = "/home/lvuser/";
+        private static HashMap<String, Trajectory> trajectoryFiles;
+
         //The distance between left and right sides of the wheelbase
-        public static final double WHEELBASE_WIDTH = 0.5;
+        public static final double WHEELBASE_WIDTH = 2.1666;
         //The diameter of the wheels, but in meters
-        public static final double WHEEL_DIAMETER = 0.1524; //Check this number.
+        public static final double WHEEL_DIAMETER = 6; //Check this number.
 
         //Various constants needed to generate a motion profile
         private final double TIME_STEP = .05;
@@ -235,57 +214,142 @@ public class SubsystemDrive extends Subsystem {
         //Configuration that stores all the values needed to configure the motion profile
         Trajectory.Config config;
 
-        public AutoDrive() {
-            Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, TIME_STEP, MAX_VELOCITY, MAX_ACC, MAX_JERK);
+        /*
+         * Load all CSV trajectories at the start of runtime
+         */
+        static {
+//            File folderPath = new File(path);
+//            File[] folder = folderPath.listFiles();
+//            //If listFiles returns null, then there would be large problems if it goes unchecked
+//            if (folder != null) {
+//                for (File file : folder) {
+//                    trajectoryFiles.put(file.getName(), Pathfinder.readFromCSV(file));
+//                    DriverStation.reportWarning("Added trajectory: " + file.getName(), false);
+//                }
+//            }
         }
-
-        //Returns a trajectory path given a set of points
+        
+        /**
+         * Instantiate the config needed to generate trajectories
+         */
+        public AutoDrive() {
+            config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, TIME_STEP, MAX_VELOCITY, MAX_ACC, MAX_JERK);
+        }
+    
+        public Trajectory getTrajectory(String name){
+        	for(Entry<String, Trajectory> sets : trajectoryFiles.entrySet()){
+        		if (sets.getKey().equals(name)) return sets.getValue();
+        	}
+        	return null;
+        }
+        
+        /**
+         * Create a trajectory given an array of Waypoints
+         * @param points An array of waypoints to turn into a trajectory
+         * @return The trajectory of the given waypoints
+         */
         public Trajectory generateTrajectory(Waypoint[] points){
           return Pathfinder.generate(points, config);
         }
 
-        //Returns a tank modifier of a given trajectory to work with the bot
+        /**
+         * Generates a trajectory and saves it under the given filename
+         * @param points Waypoints to turn into a trajectory
+         * @param fileName Name of the trajectory
+         * @return Generated trajectory
+         */
+        public Trajectory generateAndSaveTrajectory(Waypoint[] points, String fileName){
+            File save = new File(path + fileName);
+            Trajectory toSave;
+            try {
+                if (!save.createNewFile()){
+                    return Pathfinder.readFromCSV(save);
+                }
+            } catch (IOException e){
+                DriverStation.reportError("Error generating trajectory", false);
+            }
+            toSave = Pathfinder.generate(points, config);
+            Pathfinder.writeToCSV(save, toSave);
+            DriverStation.reportWarning("Trajectory Saved:" + fileName + ".csv", false);
+            return toSave;
+        }
+        
+        public Trajectory getSavedTrajectory(Paths filePath){
+        	return Pathfinder.readFromCSV(new File(path + filePath.getTank()));
+        }
+
+        /**
+         * Generates a tank modifer to make a trajectory work with tank drive
+         * @param trajectory The trajectory to modify
+         * @return The tankmodifer to make the trajectory work with tank drive
+         */
         public TankModifier generateTankMod(Trajectory trajectory){
             return new TankModifier(trajectory).modify(WHEELBASE_WIDTH);
         }
 
-        //Directly send the talons a percent output
+        /**
+         * Sets the talons to drive with a percent output
+         * @param left Percent left side should drive at
+         * @param right Percent right side should drive at
+         */
         public void setTalons(double left, double right){
             leftMaster.set(ControlMode.PercentOutput, left);
             rightMaster.set(ControlMode.PercentOutput, right);
         }
 
-        //Clear any information currently stored on the encoders
+        /**
+         * Clears the position of the encoders
+         */
         public void resetEncoders(){
             leftMaster.setSelectedSensorPosition(0,0,10);
             rightMaster.setSelectedSensorPosition(0,0,10);
         }
 
-        //Return the current position of the right encoder in native units
+        /**
+         * @return Position of the right encoder in native units
+         */
         public double rightEncoderPos(){
             return rightMaster.getSelectedSensorPosition(0);
         }
 
-        //Return the current position of the right encoder in inches
-        public double rightEncoderInches() { return nativeToInches(rightEncoderPos()); }
+        /**
+         * @return Position of the right encoder in inches
+         */
+        public double rightEncoderInches() { 
+//        	return nativeToInches(leftEncoderPos()); 
+        	return rightEncoderPos();
+        }
 
-        //Return the current position of the left encoder in native units
+        /**
+         * @return Position of the left encoder in native units
+         */
         public double leftEncoderPos(){
            return leftMaster.getSelectedSensorPosition(0);
         }
 
-        //Return the current position of the left encoder in inches
-        public double leftEncoderInches() { return nativeToInches(leftEncoderPos()); }
+        /**
+         * @return Position of the left encoder in inches
+         */
+        public double leftEncoderInches() {
+//        	return nativeToInches(leftEncoderPos()); 
+        	return leftEncoderPos();
+        }
 
-        //Convert from an encoder's native units to inches
-        //May have to be separated into two different methods if the right and left sides are drastically different
+        /**
+         * @param nativeUnits Native units of the encoders to convert
+         * @return The native units converted to inches
+         */
         public double nativeToInches(double nativeUnits){
-            return nativeUnits/212;
+            return nativeUnits/204;
         }
 
-        //Converts inches back to an encoder's native units
+        /**
+         * @param inches Inches to convert to native units of the encoders
+         * @return The inches in native units
+         */
         public double inchesToNative(double inches){
-            return inches*212;
+            return inches*204;
         }
+       
     }
 }

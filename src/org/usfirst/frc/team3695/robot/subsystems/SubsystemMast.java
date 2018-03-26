@@ -13,7 +13,8 @@ import org.usfirst.frc.team3695.robot.enumeration.Bot;
 import org.usfirst.frc.team3695.robot.util.Xbox;
 
 /** Control both the screw and pinion
- * 	Raises each of them up and down independently of each other */
+ * 	Raises each of them up and down independently of each other
+ */
 public class SubsystemMast extends Subsystem {
 	
 	
@@ -24,15 +25,17 @@ public class SubsystemMast extends Subsystem {
 	public DigitalInput lowerPinionLimit;
 	public DigitalInput upperPinionLimit;
 	public DigitalInput lowerScrewLimit;
-	public DigitalInput midScrewLimit;
 	public DigitalInput upperScrewLimit;
 
 	
 	/** runs at robot boot */
     public void initDefaultCommand() {
     	setDefaultCommand(new ManualCommandGrow()); }
-	
-	/** gives birth to the talonSRX and limit switches */
+
+	/**
+	 * Initialize the talons and limit switches
+	 * Also limits the voltage of all talons
+	 */
     public SubsystemMast(){
     	lowerPinionLimit = new DigitalInput(3);
         upperPinionLimit = new DigitalInput(7);
@@ -42,12 +45,16 @@ public class SubsystemMast extends Subsystem {
     	leftPinion = new TalonSRX(Constants.LEFT_PINION_MOTOR);
     	rightPinion = new TalonSRX(Constants.RIGHT_PINION_MOTOR);
     	screw = new TalonSRX(Constants.SCREW_MOTOR);
-    		voltage(leftPinion);
-    		voltage(rightPinion);
-    		voltage(screw);
+
+    	voltage(leftPinion);
+   		voltage(rightPinion);
+   		voltage(screw);
     }
-    
-    public void setInverts() {
+
+	/**
+	 * Set all inverts for the talons based on the bot being used
+	 */
+	public void setInverts() {
         leftPinion.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.LEFT_PINION_MOTOR_INVERT : Constants.TEUFELSKIND.LEFT_PINION_MOTOR_INVERT);
         rightPinion.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_PINION_MOTOR_INVERT : Constants.TEUFELSKIND.RIGHT_PINION_MOTOR_INVERT);
         screw.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.SCREW_MOTOR_INVERT : Constants.TEUFELSKIND.SCREW_MOTOR_INVERT);
@@ -72,9 +79,16 @@ public class SubsystemMast extends Subsystem {
    		Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.SCREW_MOTOR_INVERT : Constants.TEUFELSKIND.SCREW_MOTOR_INVERT;
    		return screw * (invert ? -1.0 : 1.0);
    	}
-    
-   	/** raise the mast at RT-LR trigger speed */
-    public void moveBySpeed(Joystick joy, double inhibitor) {
+
+	/**
+	 * Manually controls the screw and pinion
+	 * Screw controls: Left joystick up to raise and down to lower
+	 * Pinion controls: Right joystick up to raise and down to lower
+	 * Simultaneous: Right trigger can raise both simultaneously and left trigger can lower both simultaneously
+	 * @param joy The Xbox controller that will be used to manually move the screw and pinion
+	 * @param inhibitor	A limiter on how fast the screw can be moved
+	 */
+	public void moveBySpeed(Joystick joy, double inhibitor) {
     	double dualAction = Xbox.RT(joy) - Xbox.LT(joy);
     	double screwSpeed = Xbox.LEFT_Y(joy) + dualAction;
     	double pinionSpeed = Xbox.RIGHT_Y(joy) + dualAction;
@@ -90,8 +104,13 @@ public class SubsystemMast extends Subsystem {
     	rightPinion.set(ControlMode.PercentOutput, pinionSpeed);
     	screw.set(ControlMode.PercentOutput, inhibitor * screwSpeed);
     }
-    
-    public void dropIt(double speed) {
+
+	/**
+	 * Lowers all parts of the mast until the lower limit switches are hit.
+	 * Use with caution, especially if anything has gone wrong with a limit switch
+	 * @param speed The percent of max speed to lower the mast by
+	 */
+	public void dropIt(double speed) {
     	if (lowerPinionLimit.get()) {
 	    	leftPinion.set(ControlMode.PercentOutput, speed);
 	    	rightPinion.set(ControlMode.PercentOutput, speed);
@@ -108,16 +127,23 @@ public class SubsystemMast extends Subsystem {
     	
 //    	return (!lowerPinionLimit.get()) && (!lowerScrewLimit.get());
     }
-    	
-    public void publishSwitches() {
+
+	/**
+	 * Put the state of all limit switches on the SmartDash
+	 * Should be used in an iterative command to ensure constant updates
+	 */
+	public void publishSwitches() {
     	SmartDashboard.putBoolean("Lower Screw", !lowerScrewLimit.get());
     	SmartDashboard.putBoolean("Upper Screw", !upperScrewLimit.get());
     	SmartDashboard.putBoolean("Lower Pinion", !lowerPinionLimit.get());
     	SmartDashboard.putBoolean("Upper Pinion", !upperPinionLimit.get());
     }
-    
-    /** configures the voltage of each CANTalon */
-    private void voltage(TalonSRX talon) {
+
+	/**
+	 * Limits the voltage of individual talons passed to the method
+	 * @param talon Talon to limit the voltage of
+	 */
+	private void voltage(TalonSRX talon) {
     	// talon.configNominalOutputVoltage(0f, 0f);
     	// talon.configPeakOutputVoltage(12.0f, -12.0f);
     	talon.enableCurrentLimit(true);

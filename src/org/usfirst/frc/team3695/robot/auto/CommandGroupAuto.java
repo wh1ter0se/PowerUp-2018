@@ -2,12 +2,11 @@ package org.usfirst.frc.team3695.robot.auto;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Waypoint;
-
 import org.usfirst.frc.team3695.robot.Robot;
-import org.usfirst.frc.team3695.robot.commands.cyborg.CyborgCommandPathfinder;
+import org.usfirst.frc.team3695.robot.commands.cyborg.CyborgCommandDriveByPath;
 import org.usfirst.frc.team3695.robot.enumeration.Goal;
+import org.usfirst.frc.team3695.robot.enumeration.Paths;
 import org.usfirst.frc.team3695.robot.enumeration.Position;
 
 /**
@@ -30,8 +29,17 @@ public class CommandGroupAuto extends CommandGroup {
         gameData = DriverStation.getInstance().getGameSpecificMessage();
 
         Robot.SUB_CLAMP.closeArms();
-        Robot.SUB_DRIVE.setInverts();
-
+        DriverStation.reportWarning("Generating Left Tank", false);
+//        Robot.SUB_DRIVE.autoDrive.generateAndSaveTrajectory(new Waypoint[] {
+//        		new Waypoint( 1.5, 22.5, 0),
+//				new Waypoint(11.5, 24.0, Pathfinder.d2r(-15)),
+//				new Waypoint(14.0, 21.5, Pathfinder.d2r(90))
+//        }, Paths.LEFT_NATIVE_SWITCH.getTank());
+        Robot.SUB_DRIVE.autoDrive.generateAndSaveTrajectory(new Waypoint[] {
+        		new Waypoint( 1.5, 0, 0),
+				new Waypoint(11.5, 0, 0)
+        }, Paths.LEFT_NATIVE_SWITCH.getTank());
+        DriverStation.reportWarning("Left Tank Generated", false);
         // EX: making sure flap is closed before auto starts
         switch (position) {
             case LEFT:
@@ -70,6 +78,7 @@ public class CommandGroupAuto extends CommandGroup {
                     case RUN_FOR_IT:
                         break;
                     case SWITCH:
+                        rightSwitch();
                         break;
                     case ENEMY_SWITCH:
                         break;
@@ -81,21 +90,20 @@ public class CommandGroupAuto extends CommandGroup {
             }
         }
     
-    public void leftSwitch() {
+    private void leftSwitch() {
     	if (gameData.charAt(0) == 'L') {
-    		addSequential(new CyborgCommandPathfinder(new Waypoint[] {
-    				new Waypoint( 1.5, 22.5, 0),
-    				new Waypoint(11.5, 24.0, Pathfinder.d2r(-15)),
-    				new Waypoint(14.0, 21.5, Pathfinder.d2r(90))}));
+        	Robot.SUB_DRIVE.gyro.reset();
+        	Robot.SUB_DRIVE.gyro.calibrate();
+    		addSequential(new CyborgCommandDriveByPath(Robot.SUB_DRIVE.autoDrive.getSavedTrajectory(Paths.LEFT_NATIVE_SWITCH)));
     	} 
     }
     
-    public void rightSwitch() {
-    	if (gameData.charAt(0) == 'L') {
-    		addSequential(new CyborgCommandPathfinder(new Waypoint[] {
-    				new Waypoint( 1.5, 4.5, 0),
-    				new Waypoint(11.5, 3.0, Pathfinder.d2r(15)),
-    				new Waypoint(14.0, 5.5, Pathfinder.d2r(-90))}));
+    private void rightSwitch() {
+    	if (gameData.charAt(0) == 'R') {
+//    		addSequential(new CyborgCommandDriveByPath(new Waypoint[] {
+//    				new Waypoint( 1.5, 4.5, 0),
+//    				new Waypoint(11.5, 3.0, Pathfinder.d2r(15)),
+//    				new Waypoint(14.0, 5.5, Pathfinder.d2r(-90))}));
     	} 
     }
     

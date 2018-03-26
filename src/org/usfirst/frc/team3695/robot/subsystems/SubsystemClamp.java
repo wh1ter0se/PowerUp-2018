@@ -11,31 +11,42 @@ public class SubsystemClamp extends Subsystem {
 	private Solenoid openArms;
 	private Solenoid closeArms;
 	private boolean open; // current State of arms; true = open, false = closed
-	
+
+	/**
+	 * Instantiates the solenoids and sets the default state to closed
+	 */
 	public SubsystemClamp(){
 		openArms = new Solenoid(Constants.OPEN_ARMS);
 		closeArms = new Solenoid(Constants.CLOSE_ARMS);
-		open = false;
-	} 
+		closeArms();
+	}
 
     public void initDefaultCommand() {}
 
-    //Open the manipulator
-    public void openArms(){
+	/**
+	 * Opens the manipulator arms
+	 */
+	public void openArms(){
     	openArms.set(true);
     	closeArms.set(false);
     	open = true;
     }
 
-    //Close the manipulator
-    public void closeArms(){
+	/**
+	 * Closes the manipulator arms
+	 */
+	public void closeArms(){
     	openArms.set(false);
     	closeArms.set(true);
     	open = false;
     }
 
-    //Toggle the state of the manipulator
-    public void toggleArms(){
+	/**
+	 * Toggle the state of the manipulator
+	 * If opened, then it will close
+	 * If closed, then it will open
+	 */
+	public void toggleArms(){ //Method is never used. Look into deleting
     	if (open) closeArms();	else openArms();
     }
 }

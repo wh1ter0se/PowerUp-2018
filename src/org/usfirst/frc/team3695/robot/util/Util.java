@@ -3,7 +3,7 @@ package org.usfirst.frc.team3695.robot.util;
 import edu.wpi.first.wpilibj.Preferences;
 
 
-/** if our code is colonial America, this class is Rhode Island */
+/** Contains helper methods that are useful, but don't belong anywhere else */
 public class Util {
 	
 	/**

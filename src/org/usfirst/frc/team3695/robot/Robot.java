@@ -20,7 +20,7 @@ import org.usfirst.frc.team3695.robot.subsystems.*;
 
 /** the magic place where everything happens (where the sequence of events is controlled, top of the hierarchy) */
 public class Robot extends IterativeRobot {
-	// it... it's a bot
+	// it... it's a bot... or is it
 		public static Bot bot;
 
 	// choosers
@@ -150,7 +150,7 @@ public class Robot extends IterativeRobot {
 	/** runs at 50hz when in autonomous */
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run(); 
-		
+		Robot.SUB_DRIVE.publishDrivetrain();
 		setAllInverts();
 	}
 
@@ -170,14 +170,16 @@ public class Robot extends IterativeRobot {
 		if (driveChooser.getSelected() != null) {
 			SUB_DRIVE.setDrivetrain(driveChooser.getSelected());
 		}
-		
+		SubsystemDrive.publishDrivetrain();
 		setAllInverts();
 	}
 
 	/** runs at ~50hz when in test mode */
 	public void testPeriodic() {}
-	
-	/** do you really need javadoc for this one */
+
+	/**
+	 * Set the inverts of all talons in each subsystem after ensuring the right bot is selected
+	 */
 	private void setAllInverts() {
 		bot = (botChooser.getSelected() != null) ? botChooser.getSelected() : bot; // update motor inverts
 			SUB_DRIVE.setInverts();

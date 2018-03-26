@@ -17,14 +17,14 @@ public class SubsystemManipulator extends Subsystem {
 	private TalonSRX rightFlywheel;
 	
 	@Deprecated
-	//applies left arm motor invert
+	/* applies left arm motor invert */
 	public static double leftArmify(double left) {
 		Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.LEFT_FLYWHEEL_MOTOR_INVERT : Constants.TEUFELSKIND.LEFT_FLYWHEEL_MOTOR_INVERT;
 		return left * (invert ? -1.0 : 1.0);
 	}
 	
 	@Deprecated
-	/** applies right arm motor invert */
+	/* applies right arm motor invert */
     public static double rightArmify(double right) {
 		Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_FLYWHEEL_MOTOR_INVERT : Constants.TEUFELSKIND.RIGHT_FLYWHEEL_MOTOR_INVERT;
 		return right * (invert ? -1.0 : 1.0);
@@ -32,40 +32,55 @@ public class SubsystemManipulator extends Subsystem {
 	
 	/** runs at robot boot */
     public void initDefaultCommand() {}
-	
-	/** gives birth to the talonSRX */
+
+    /**
+     * Instantiate the talons and ensure the flywheels aren't spinning at initialization
+     */
     public SubsystemManipulator(){
 		leftFlywheel = new TalonSRX(Constants.LEFT_FLYWHEEL);
     	rightFlywheel = new TalonSRX(Constants.RIGHT_FLYWHEEL);
     	stopSpinning();
     }
-    
+
+    /**
+     * Set all inverts of the flywheel talons based on the bot being used
+     */
     public void setInverts() {
         leftFlywheel.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.LEFT_FLYWHEEL_MOTOR_INVERT : Constants.TEUFELSKIND.LEFT_FLYWHEEL_MOTOR_INVERT);
         rightFlywheel.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_FLYWHEEL_MOTOR_INVERT : Constants.TEUFELSKIND.RIGHT_FLYWHEEL_MOTOR_INVERT);
     }
-    
-    /** eat the power cube */
+
+    /**
+     * Spin the flywheels inward to "eat" power cubes
+     */
     public void eat() {
     	leftFlywheel.set(ControlMode.PercentOutput, 1);
     	rightFlywheel.set(ControlMode.PercentOutput, 1);
     }
     
-    /** spit out the power cube */
+    /**
+     * Spin the flywheels outward to "spit" power cubes
+     */
     public void spit() {
     	leftFlywheel.set(ControlMode.PercentOutput, -1);
     	rightFlywheel.set(ControlMode.PercentOutput, -1);
     }
-    
-    public void spinByJoystick(Joystick joy) {
+
+    /**
+     * Takes a joystick and uses it for manual control of the flywheels
+     * @param joy The joystick to be used for controlling the wheels
+     */
+    public void spinByJoystick(Joystick joy) { //Method is never used. Look into deleting
     	int speed = 0;
     	speed += joy.getRawButton(Xbox.RB) ? 1d : 0d;
     	speed -= joy.getRawButton(Xbox.LB) ? 1d : 0d;
     	leftFlywheel.set(ControlMode.PercentOutput, speed);
     	rightFlywheel.set(ControlMode.PercentOutput, speed);
     }
-    
-    /** STOP SPINNING ME RIGHT ROUND, BABY RIGHT ROUND */
+
+    /**
+     * Stop any spinning of the flywheels
+     */
     public void stopSpinning() {
     	leftFlywheel.set(ControlMode.PercentOutput, 0);
     	rightFlywheel.set(ControlMode.PercentOutput, 0);

@@ -38,16 +38,16 @@ public class CyborgCommandGrow extends Command {
     	switch (position) {
 	        case PINION_UP:
 				if (Robot.SUB_MAST.upperPinionLimit.get()) {
-					Robot.SUB_MAST.rightPinion.set(ControlMode.PercentOutput, SubsystemMast.rightPinionate(1));
-					Robot.SUB_MAST.leftPinion.set(ControlMode.PercentOutput, SubsystemMast.leftPinionate(1));
+					Robot.SUB_MAST.rightPinion.set(ControlMode.PercentOutput, 1);
+					Robot.SUB_MAST.leftPinion.set(ControlMode.PercentOutput, 1);
 				} else {
 					isFinished = true;
 				}
 	            break;
 	        case PINION_DOWN:
 				if (Robot.SUB_MAST.lowerPinionLimit.get()) {
-					Robot.SUB_MAST.rightPinion.set(ControlMode.PercentOutput, SubsystemMast.rightPinionate(-1));
-					Robot.SUB_MAST.leftPinion.set(ControlMode.PercentOutput, SubsystemMast.leftPinionate(-1));
+					Robot.SUB_MAST.rightPinion.set(ControlMode.PercentOutput, -1);
+					Robot.SUB_MAST.leftPinion.set(ControlMode.PercentOutput, -1);
 				} else {
 					isFinished = true;
 				}

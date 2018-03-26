@@ -16,8 +16,11 @@ public class OI {
 	
 	public static final Joystick DRIVER = new Joystick(0);
 	public static final Joystick OPERATOR = new Joystick(1);
-	
-	/** assigns what every SmartDash and controller button does */
+
+	/**
+	 * Assigns some buttons on the Xbox conctrollers and places values on the SmartDashboard
+	 * Check the manual commands for controlss that are not assigned here
+	 */
 	public OI() {
 		/// manipulator wheels
 			Button spinIn = new JoystickButton(OPERATOR, Xbox.RB);
@@ -48,11 +51,6 @@ public class OI {
 			//From Brogan: I don't know when you added this, but I love it.
 			SmartDashboard.putBoolean("Caleb is Illiterate", true);
 
-		/// PID
-//			SmartDashboard.putData("Kill PID", new ToggleCommandKillPID());
-//			SmartDashboard.putNumber("Right Encoder Position", 0);
-//			SmartDashboard.putNumber("Left Encoder Position", 0);
-			
 		/// limit switch displays
 			SmartDashboard.putBoolean("Lower Screw", true);
 	    	SmartDashboard.putBoolean("Upper Screw", false);
@@ -60,12 +58,5 @@ public class OI {
 	    	SmartDashboard.putBoolean("Upper Pinion", false);
 	    	
 	    	DriverStation.reportWarning("OI IS INSTANTIATED", false);
-
-	    /// Cyborg command testers
-//			SmartDashboard.putData("Drive Direct", new CyborgCommandDriveDirect(Util.getAndSetDouble("Drive Direct Power", 0)));
-//			SmartDashboard.putData("Drive Distance", new CyborgCommandDriveDistance(Util.getAndSetDouble("Drive Distance Inches", 0), (int) Util.getAndSetDouble("Drive Distance Timeout", 5000)));
-//			SmartDashboard.putData("Drive Until Error", new CyborgCommandDriveUntilError(500,2,.25, 3));
-//			SmartDashboard.putData("Rotate Degree", new CyborgCommandRotateDegrees(Util.getAndSetDouble("Rotate Degrees", 0), (int) Util.getAndSetDouble("Rotate Timeout", 5000)));
 	}
-	
 }

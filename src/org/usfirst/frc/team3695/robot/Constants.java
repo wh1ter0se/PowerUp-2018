@@ -6,11 +6,7 @@ public class Constants {
 	public static final double
 		/// BOT SPECS
 			DISTANCE_BETWEEN_WHEELS = 26, // inches between wheels; used for turn calculations
-			WHEEL_DIAMETER          = 6, // wheel diameter in inches
-		/// REDLINE CURVE POINTS
-			REDLINE_START = 0,
-			REDLINE_MID   = .125,
-			REDLINE_END   = 1;
+			WHEEL_DIAMETER          = 6; // wheel diameter in inches
 	
 	public static final double
 			MAST_TIMEOUT = 3000; // timeout for HitTheDick in ms
@@ -31,15 +27,8 @@ public class Constants {
 			SCREW_MOTOR        = 5,
 		/// PID
 			PIDF_LOOP_ID = 0,
-			LEFT_PID = 0,
 			PIDF_TIMEOUT = 10000;
 
-	public static final int
-		/// RPM'S
-			REDLINE = 6000,
-			IDLE    = 500;
-
-	
 	public static final int
 		/// MANIPULATOR
 			OPEN_ARMS  = 4,
@@ -63,8 +52,8 @@ public class Constants {
 
             LEFT_MASTER_INVERT = false,
     		LEFT_SLAVE_INVERT = false,
-            RIGHT_MASTER_INVERT = true,
-            RIGHT_SLAVE_INVERT = true;
+            RIGHT_MASTER_INVERT = false,
+            RIGHT_SLAVE_INVERT = false;
 	}
 	
 	public static class TEUFELSKIND {
