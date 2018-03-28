@@ -31,15 +31,25 @@ public class CommandGroupAuto extends CommandGroup {
 
         Robot.SUB_CLAMP.closeArms();
         DriverStation.reportWarning("Generating Left Tank", false);
-        Robot.SUB_DRIVE.autoDrive.generateAndSaveTrajectory(new Waypoint[] {
-        		new Waypoint( 1.5, 22.5, 0),
-				new Waypoint(11.5, 24.0, Pathfinder.d2r(-15)),
-				new Waypoint(14.0, 21.5, Pathfinder.d2r(90))
-        }, Paths.LEFT_NATIVE_SWITCH.getTank());
+//         Robot.SUB_DRIVE.autoDrive.generateAndSaveTrajectory(new Waypoint[] {
+//         		new Waypoint( 1.5, 22.5, 0),
+// 				new Waypoint(11.5, 24.0, Pathfinder.d2r(-15)),
+// 				new Waypoint(14.0, 21.5, Pathfinder.d2r(90))
+//         }, Paths.LEFT_NATIVE_SWITCH.getTank());
+	    
+	    
 //        Robot.SUB_DRIVE.autoDrive.generateAndSaveTrajectory(new Waypoint[] {
 //        		new Waypoint( 1.5, 0, 0),
 //				new Waypoint(16.5, 0, 0)
 //        }, Paths.LEFT_NATIVE_SWITCH.getTank());
+	    
+    	Robot.SUB_DRIVE.autoDrive.generateAndSaveTrajectory(new Waypoint[] {
+		new Waypoint( 1.5, 22.5, 0),
+		new Waypoint(11.5, 23.5, Pathfinder.d2r(5)),
+		new Waypoint(19.5, 19.0, Pathfinder.d2r(-90)),
+		new Waypoint(19.5,  9.5, Pathfinder.d2r(-90)),
+		new Waypoint(19.0,  8.0, Pathfinder.d2r(180))
+        }, Paths.LEFT_NATIVE_SWITCH.getTank());
         DriverStation.reportWarning("Left Tank Generated", false);
         // EX: making sure flap is closed before auto starts
         switch (position) {
