@@ -97,8 +97,8 @@ public class CyborgCommandDriveByPath extends Command {
 //        Robot.SUB_DRIVE.autoDrive.setTalons(leftOutput, rightOutput);
 	        SmartDashboard.putNumber("leftOutput", leftOutput);
 	        SmartDashboard.putNumber("rightOutput", rightOutput);
-	    	SmartDashboard.putNumber("Left Inches", ((int)Robot.SUB_DRIVE.autoDrive.leftEncoderPos() * -1) * 4071));
-	    	SmartDashboard.putNumber("Right Inches", (int) Robot.SUB_DRIVE.autoDrive.leftEncoderPos() * 3996));
+	    	SmartDashboard.putNumber("Left Inches", ((int)Robot.SUB_DRIVE.autoDrive.leftEncoderPos() * -1) * 4071);
+	    	SmartDashboard.putNumber("Right Inches", (int) Robot.SUB_DRIVE.autoDrive.leftEncoderPos() * 3996);
     }
     
     protected boolean isFinished() {
