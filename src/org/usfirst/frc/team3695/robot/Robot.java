@@ -128,6 +128,9 @@ public class Robot extends IterativeRobot {
 	/** runs when robot gets disabled */
 	public void disabledInit() { 
 		DriverStation.reportWarning("TELEOP IS DISABLED", false);
+		
+		Robot.SUB_DRIVE.autoDrive.setTalons(0,0);
+		
 		Scheduler.getInstance().removeAll();
 	}
 
@@ -150,6 +153,9 @@ public class Robot extends IterativeRobot {
 	/** runs at 50hz when in autonomous */
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run(); 
+		
+		SmartDashboard.putNumber("Gyro Heading", Robot.SUB_DRIVE.gyro.getAngle() % 360);
+		
 		Robot.SUB_DRIVE.publishDrivetrain();
 		setAllInverts();
 	}
@@ -167,10 +173,14 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		
+    	SmartDashboard.putNumber("Gyro Heading", Robot.SUB_DRIVE.gyro.getAngle() % 360);
+		
 		if (driveChooser.getSelected() != null) {
 			SUB_DRIVE.setDrivetrain(driveChooser.getSelected());
 		}
-		SubsystemDrive.publishDrivetrain();
+		
+		Robot.SUB_DRIVE.publishDrivetrain();
+		
 		setAllInverts();
 	}
 
