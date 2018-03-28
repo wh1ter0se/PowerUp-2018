@@ -21,7 +21,6 @@ import org.usfirst.frc.team3695.robot.enumeration.Paths;
 import org.usfirst.frc.team3695.robot.util.Xbox;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -91,7 +90,7 @@ public class SubsystemDrive extends Subsystem {
         leftSlave.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.LEFT_SLAVE_INVERT : Constants.TEUFELSKIND.LEFT_SLAVE_INVERT);
     }
 
-    public static void publishDrivetrain() {
+    public void publishDrivetrain() {
     	SmartDashboard.putNumber("Left Motor", leftMaster.getMotorOutputPercent());
     	SmartDashboard.putNumber("Right Motor", rightMaster.getMotorOutputPercent());
     }
@@ -179,7 +178,7 @@ public class SubsystemDrive extends Subsystem {
      * Set the ramp for all talons
      * @param ramp The time to go from rest to max speed
      */
-    private void setRamps(double ramp) {
+    public void setRamps(double ramp) {
         if (leftMaster != null)
         	leftMaster.configOpenloopRamp(ramp, 10);
         if (leftSlave != null)
@@ -205,29 +204,14 @@ public class SubsystemDrive extends Subsystem {
 
         //Various constants needed to generate a motion profile
         private final double TIME_STEP = .05;
-        public final double MAX_VELOCITY = .07;
-        private final double MAX_ACC = .25;
+        public final double MAX_VELOCITY = 2d;
+        private final double MAX_ACC = 1d;
         private final double MAX_JERK = 60.0;
         //Allows the bot to achieve higher or lower speed quicker
         public final double ACC_GAIN = 0;
 
         //Configuration that stores all the values needed to configure the motion profile
         Trajectory.Config config;
-
-        /*
-         * Load all CSV trajectories at the start of runtime
-         */
-        static {
-//            File folderPath = new File(path);
-//            File[] folder = folderPath.listFiles();
-//            //If listFiles returns null, then there would be large problems if it goes unchecked
-//            if (folder != null) {
-//                for (File file : folder) {
-//                    trajectoryFiles.put(file.getName(), Pathfinder.readFromCSV(file));
-//                    DriverStation.reportWarning("Added trajectory: " + file.getName(), false);
-//                }
-//            }
-        }
         
         /**
          * Instantiate the config needed to generate trajectories
@@ -242,15 +226,6 @@ public class SubsystemDrive extends Subsystem {
         	}
         	return null;
         }
-        
-        /**
-         * Create a trajectory given an array of Waypoints
-         * @param points An array of waypoints to turn into a trajectory
-         * @return The trajectory of the given waypoints
-         */
-        public Trajectory generateTrajectory(Waypoint[] points){
-          return Pathfinder.generate(points, config);
-        }
 
         /**
          * Generates a trajectory and saves it under the given filename
@@ -261,13 +236,13 @@ public class SubsystemDrive extends Subsystem {
         public Trajectory generateAndSaveTrajectory(Waypoint[] points, String fileName){
             File save = new File(path + fileName);
             Trajectory toSave;
-            try {
-                if (!save.createNewFile()){
-                    return Pathfinder.readFromCSV(save);
-                }
-            } catch (IOException e){
-                DriverStation.reportError("Error generating trajectory", false);
-            }
+//            try {
+//                if (!save.createNewFile()){
+//                    return Pathfinder.readFromCSV(save);
+//                }
+//            } catch (IOException e){
+//                DriverStation.reportError("Error generating trajectory", false);
+//            }
             toSave = Pathfinder.generate(points, config);
             Pathfinder.writeToCSV(save, toSave);
             DriverStation.reportWarning("Trajectory Saved:" + fileName + ".csv", false);

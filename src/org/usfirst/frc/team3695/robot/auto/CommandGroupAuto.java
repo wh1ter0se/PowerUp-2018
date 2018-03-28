@@ -2,6 +2,7 @@ package org.usfirst.frc.team3695.robot.auto;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Waypoint;
 import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.commands.cyborg.CyborgCommandDriveByPath;
@@ -30,15 +31,15 @@ public class CommandGroupAuto extends CommandGroup {
 
         Robot.SUB_CLAMP.closeArms();
         DriverStation.reportWarning("Generating Left Tank", false);
-//        Robot.SUB_DRIVE.autoDrive.generateAndSaveTrajectory(new Waypoint[] {
-//        		new Waypoint( 1.5, 22.5, 0),
-//				new Waypoint(11.5, 24.0, Pathfinder.d2r(-15)),
-//				new Waypoint(14.0, 21.5, Pathfinder.d2r(90))
-//        }, Paths.LEFT_NATIVE_SWITCH.getTank());
         Robot.SUB_DRIVE.autoDrive.generateAndSaveTrajectory(new Waypoint[] {
-        		new Waypoint( 1.5, 0, 0),
-				new Waypoint(11.5, 0, 0)
+        		new Waypoint( 1.5, 22.5, 0),
+				new Waypoint(11.5, 24.0, Pathfinder.d2r(-15)),
+				new Waypoint(14.0, 21.5, Pathfinder.d2r(90))
         }, Paths.LEFT_NATIVE_SWITCH.getTank());
+//        Robot.SUB_DRIVE.autoDrive.generateAndSaveTrajectory(new Waypoint[] {
+//        		new Waypoint( 1.5, 0, 0),
+//				new Waypoint(16.5, 0, 0)
+//        }, Paths.LEFT_NATIVE_SWITCH.getTank());
         DriverStation.reportWarning("Left Tank Generated", false);
         // EX: making sure flap is closed before auto starts
         switch (position) {
@@ -93,7 +94,7 @@ public class CommandGroupAuto extends CommandGroup {
     private void leftSwitch() {
     	if (gameData.charAt(0) == 'L') {
         	Robot.SUB_DRIVE.gyro.reset();
-        	Robot.SUB_DRIVE.gyro.calibrate();
+//        	Robot.SUB_DRIVE.gyro.calibrate();
     		addSequential(new CyborgCommandDriveByPath(Robot.SUB_DRIVE.autoDrive.getSavedTrajectory(Paths.LEFT_NATIVE_SWITCH)));
     	} 
     }
