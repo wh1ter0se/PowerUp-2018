@@ -46,8 +46,8 @@ public class CommandGroupAuto extends CommandGroup {
     	Robot.SUB_DRIVE.autoDrive.generateAndSaveTrajectory(new Waypoint[] {
 		new Waypoint( 1.5, 22.5, 0),
 		new Waypoint(11.5, 23.5, Pathfinder.d2r(5)),
-		new Waypoint(19.5, 19.0, Pathfinder.d2r(-90))
-		new Waypoint(19.5,  9.5, Pathfinder.d2r(-90))
+		new Waypoint(19.5, 19.0, Pathfinder.d2r(-90)),
+		new Waypoint(19.5,  9.5, Pathfinder.d2r(-90)),
 		new Waypoint(19.0,  8.0, Pathfinder.d2r(180))
         }, Paths.LEFT_NATIVE_SWITCH.getTank());
         DriverStation.reportWarning("Left Tank Generated", false);
