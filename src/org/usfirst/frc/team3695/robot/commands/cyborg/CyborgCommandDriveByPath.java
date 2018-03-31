@@ -35,7 +35,6 @@ public class CyborgCommandDriveByPath extends Command {
     public CyborgCommandDriveByPath(Trajectory traj) {
         requires(Robot.SUB_DRIVE);
         this.tankmod = Robot.SUB_DRIVE.autoDrive.generateTankMod(traj);
-;
     }
     
     

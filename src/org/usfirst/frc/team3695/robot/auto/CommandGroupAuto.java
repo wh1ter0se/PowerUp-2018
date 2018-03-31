@@ -103,7 +103,12 @@ public class CommandGroupAuto extends CommandGroup {
     
     private void leftSwitch() {
     	if (gameData.charAt(0) == 'L') {
-        	Robot.SUB_DRIVE.gyro.reset();
+            Robot.SUB_DRIVE.gyro.reset();
+            try {
+                Thread.sleep((1000/50));
+            } catch (InterruptedException e) {
+                DriverStation.reportError("Thread couldn't sleep; " + e.toString(), false);
+            }
 //        	Robot.SUB_DRIVE.gyro.calibrate();
     		addSequential(new CyborgCommandDriveByPath(Robot.SUB_DRIVE.autoDrive.getSavedTrajectory(Paths.LEFT_NATIVE_SWITCH)));
     	} 
@@ -117,6 +122,4 @@ public class CommandGroupAuto extends CommandGroup {
 //    				new Waypoint(14.0, 5.5, Pathfinder.d2r(-90))}));
     	} 
     }
-    
-    
 }
