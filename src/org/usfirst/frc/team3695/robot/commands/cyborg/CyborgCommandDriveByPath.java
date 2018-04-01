@@ -57,6 +57,7 @@ public class CyborgCommandDriveByPath extends Command {
 //                Util.getAndSetDouble("Max Velocity", 1/Robot.SUB_DRIVE.autoDrive.MAX_VELOCITY),
                 1d / Robot.SUB_DRIVE.autoDrive.MAX_VELOCITY,
                 Util.getAndSetDouble("Accel Gain", Robot.SUB_DRIVE.autoDrive.ACC_GAIN));
+        
         rightEncoder.configurePIDVA(
                 Util.getAndSetDouble("Path-Right-P", P_RIGHT),
                 Util.getAndSetDouble("Path-Right-I", I_RIGHT),
@@ -72,17 +73,14 @@ public class CyborgCommandDriveByPath extends Command {
         Robot.SUB_DRIVE.setRamps(0);
     	
         //Now that we have setup for this drive, it's time to roll out!
-        double leftOutput = leftEncoder.calculate((int)Robot.SUB_DRIVE.autoDrive.leftEncoderPos() * -1);
+        double leftOutput = leftEncoder.calculate((int)Robot.SUB_DRIVE.autoDrive.leftEncoderPos() * -1); // assuming that left encoder reports negative
         double rightOutput = rightEncoder.calculate((int)Robot.SUB_DRIVE.autoDrive.rightEncoderPos());
 
         //All of this will account for any turning the robot makes when it drives
         //Way better than what we had with
         //Make sure gyro is in degrees!!!
-        
-        
         double gyroHeading = Robot.SUB_DRIVE.gyro.getAngle();
         	gyroHeading %= 360;
-//        	gyroHeading *= -1;
         
         
         //The sides of the robot are in parallel and therefore are always the same

@@ -173,6 +173,18 @@ public class SubsystemDrive extends Subsystem {
         leftMaster.set(ControlMode.PercentOutput, left * inhibitor * (reversing ? -1.0 : 1.0));
         rightMaster.set(ControlMode.PercentOutput, right * inhibitor * (reversing ? -1.0 : 1.0));
     }
+    
+    /**
+     * Directly sets drive motors to PercentOutputs
+     * @param left Left motor output
+     * @param right Right motor output
+     */
+    public void driveDirect(double left, double right) {
+        left = (left > 1.0 ? 1.0 : (left < -1.0 ? -1.0 : left));
+        right = (right > 1.0 ? 1.0 : (right < -1.0 ? -1.0 : right));
+        leftMaster.set(ControlMode.PercentOutput, left);
+        rightMaster.set(ControlMode.PercentOutput, right);
+    }
 
     /**
      * Set the ramp for all talons
@@ -187,6 +199,14 @@ public class SubsystemDrive extends Subsystem {
         	rightMaster.configOpenloopRamp(ramp, 10);
         if (rightSlave != null)
         	rightSlave.configOpenloopRamp(ramp, 10);
+    }
+    
+    public double getRightInches() {
+        return Robot.SUB_DRIVE.rightMaster.getSelectedSensorPosition(0) * (6 * Math.PI) / 3996;
+    }
+
+    public double getLeftInches() {
+        return Robot.SUB_DRIVE.leftMaster.getSelectedSensorPosition(0) * (6 * Math.PI) / 4071;
     }
 
     /**
