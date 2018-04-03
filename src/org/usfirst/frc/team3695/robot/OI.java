@@ -41,7 +41,7 @@ public class OI {
 				toggleReverse.toggleWhenPressed(new ToggleCommandReverse());
 		/// Docking mode
 			Button toggleDock = new JoystickButton(DRIVER, Xbox.X);
-				toggleDock.toggleWhenPressed(new ToggleCommandDock());
+				toggleDock.toggleWhenPressed(new ToggleCommandLowRamp());
 		/// Narrow mode
 			Button toggleNarrow = new JoystickButton(DRIVER, Xbox.B);
 				toggleNarrow.whileHeld(new ToggleCommandNarrow());

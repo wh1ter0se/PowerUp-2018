@@ -2,6 +2,7 @@ package org.usfirst.frc.team3695.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -40,7 +41,7 @@ public class SubsystemDrive extends Subsystem {
     
     public static boolean docking;
     private static double dockInhibitor;
-    
+
     public static boolean narrowing;
     private static double narrower;
 
@@ -88,6 +89,13 @@ public class SubsystemDrive extends Subsystem {
         rightSlave.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_SLAVE_INVERT : Constants.TEUFELSKIND.RIGHT_SLAVE_INVERT);
         leftMaster.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.LEFT_MASTER_INVERT : Constants.TEUFELSKIND.LEFT_MASTER_INVERT);
         leftSlave.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.LEFT_SLAVE_INVERT : Constants.TEUFELSKIND.LEFT_SLAVE_INVERT);
+    }
+    
+    public void setBraking(Boolean braking) {
+    	rightMaster.setNeutralMode(braking ? NeutralMode.Brake : NeutralMode.Coast);
+    	rightSlave.setNeutralMode(braking ? NeutralMode.Brake : NeutralMode.Coast);
+    	leftMaster.setNeutralMode(braking ? NeutralMode.Brake : NeutralMode.Coast);
+    	leftSlave.setNeutralMode(braking ? NeutralMode.Brake : NeutralMode.Coast);
     }
 
     public void publishDrivetrain() {
@@ -204,8 +212,8 @@ public class SubsystemDrive extends Subsystem {
 
         //Various constants needed to generate a motion profile
         private final double TIME_STEP = .05;
-        public final double MAX_VELOCITY = 2d;
-        private final double MAX_ACC = 1d;
+        public final double MAX_VELOCITY = 5.0;
+        private final double MAX_ACC = 2.25d;
         private final double MAX_JERK = 60.0;
         //Allows the bot to achieve higher or lower speed quicker
         public final double ACC_GAIN = 0;
@@ -250,7 +258,7 @@ public class SubsystemDrive extends Subsystem {
         }
         
         public Trajectory getSavedTrajectory(Paths filePath){
-        	return Pathfinder.readFromCSV(new File(path + filePath.getTank()));
+        	return Pathfinder.readFromCSV(new File(path + filePath.getFileName()));
         }
 
         /**

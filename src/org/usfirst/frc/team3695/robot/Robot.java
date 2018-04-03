@@ -33,6 +33,7 @@ public class Robot extends IterativeRobot {
 	// subsystems
 		public static SubsystemClamp SUB_CLAMP;
 		public static SubsystemCompressor SUB_COMPRESSOR;
+		public static SubsystemCaleb SUB_CALEB;
 		public static SubsystemDrive SUB_DRIVE;
 		public static SubsystemHook SUB_HOOK;
 		public static SubsystemManipulator SUB_MANIPULATOR;
@@ -69,6 +70,7 @@ public class Robot extends IterativeRobot {
 			SUB_HOOK = new SubsystemHook();
 			SUB_MAST = new SubsystemMast();
 			SUB_VISION = new SubsystemVision();
+			SUB_CALEB = new SubsystemCaleb();
 
 		/// instantiate operator interface
 			oi = new OI();
@@ -123,6 +125,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Sub_Hook", SUB_HOOK);
 		SmartDashboard.putData("Sub_Manipulator", SUB_MANIPULATOR);
 		SmartDashboard.putData("Sub_Mast", SUB_MAST);
+		SmartDashboard.putData("Sub_Caleb", SUB_CALEB);
 		DriverStation.reportWarning("SUBSYSTEMS, CHOOSERS INSTANTIATED", false);
 	}
 	
@@ -131,6 +134,7 @@ public class Robot extends IterativeRobot {
 		DriverStation.reportWarning("TELEOP IS DISABLED", false);
 		
 		Robot.SUB_DRIVE.autoDrive.setTalons(0,0);
+		Robot.SUB_DRIVE.setBraking(false);
 		
 		Scheduler.getInstance().removeAll();
 	}
@@ -147,6 +151,8 @@ public class Robot extends IterativeRobot {
 			auto = new CommandGroupAuto(positionChooser.getSelected(), goalChooser.getSelected(), thirdPriorityChooser.getSelected());
 			auto.start(); 
 		}
+		
+		Robot.SUB_DRIVE.setBraking(true);
 		
 		setAllInverts();
 	}
@@ -166,6 +172,8 @@ public class Robot extends IterativeRobot {
 		DriverStation.reportWarning("TELEOP IS ENABLED", false);
 		if (auto != null)
 			auto.cancel(); 
+		
+		Robot.SUB_DRIVE.setBraking(true);
 		
 		setAllInverts();
 	}

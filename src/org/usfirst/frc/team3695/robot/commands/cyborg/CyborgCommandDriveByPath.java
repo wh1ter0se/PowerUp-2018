@@ -3,7 +3,6 @@ package org.usfirst.frc.team3695.robot.commands.cyborg;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.followers.EncoderFollower;
 import jaci.pathfinder.modifiers.TankModifier;
@@ -30,7 +29,6 @@ public class CyborgCommandDriveByPath extends Command {
     private final static double P_RIGHT = 3.000;
     private final static double I_RIGHT = 0.000;
     private final static double D_RIGHT = 0.000;
-
 
     public CyborgCommandDriveByPath(Trajectory traj) {
         requires(Robot.SUB_DRIVE);
@@ -74,26 +72,8 @@ public class CyborgCommandDriveByPath extends Command {
         double leftOutput = leftEncoder.calculate((int)Robot.SUB_DRIVE.autoDrive.leftEncoderPos() * -1);
         double rightOutput = rightEncoder.calculate((int)Robot.SUB_DRIVE.autoDrive.rightEncoderPos());
 
-        //All of this will account for any turning the robot makes when it drives
-        //Way better than what we had with
-        //Make sure gyro is in degrees!!!
+    	Robot.SUB_DRIVE.autoDrive.setTalons(leftOutput, rightOutput);
         
-        
-        double gyroHeading = Robot.SUB_DRIVE.gyro.getAngle();
-        	gyroHeading %= 360;
-//        	gyroHeading *= -1;
-        
-        
-        //The sides of the robot are in parallel and therefore are always the same
-        //So lets just use left
-        double desiredHeading = Pathfinder.r2d(leftEncoder.getHeading());
-        	SmartDashboard.putNumber("Desired Heading", desiredHeading);
-        //The difference in angle we want to reach
-        double angleDifference = Pathfinder.boundHalfDegrees(desiredHeading - gyroHeading);
-        double turn = .8 * (-1.0/80.0) * angleDifference; //Blame Jaci. Not quite sure why this is what it is.
-
-        Robot.SUB_DRIVE.autoDrive.setTalons(leftOutput + turn, rightOutput - turn);
-//        Robot.SUB_DRIVE.autoDrive.setTalons(leftOutput, rightOutput);
 	        SmartDashboard.putNumber("leftOutput", leftOutput);
 	        SmartDashboard.putNumber("rightOutput", rightOutput);
 	    	SmartDashboard.putNumber("Left Inches", ((int)Robot.SUB_DRIVE.autoDrive.leftEncoderPos() * -1) * 4071);

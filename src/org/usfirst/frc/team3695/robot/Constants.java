@@ -47,7 +47,7 @@ public class Constants {
 			LEFT_FLYWHEEL_MOTOR_INVERT     = true,
 			RIGHT_FLYWHEEL_MOTOR_INVERT    = false,
 
-			SCREW_CAM_FLIP = false,
+			SCREW_CAM_FLIP = true,
 			FRAME_CAM_FLIP = false,
 
             LEFT_MASTER_INVERT = false,

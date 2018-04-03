@@ -1,44 +1,32 @@
 package org.usfirst.frc.team3695.robot.enumeration;
 
 public enum Paths {
-    LEFT_NATIVE_SWITCH("leftSwitch_left.csv","leftSwitch_right.csv", "leftSwitch_tank.csv"),
-    LEFT_FOREIGN_SWITCH("","", ""),
-    RIGHT_NATIVE_SWITCH("","", ""),
-    RIGHT_FOREIGN_SWITCH("","",""),
-    LEFT_NATIVE_SCALE("","",""),
-    LEFT_FOREIGN_SCALE("","",""),
-    RIGHT_NATIVE_SCALE("","",""),
-    RIGHT_FOREIGN_SCALE("","","");
+    LEFT_NATIVE_SWITCH("leftswitch_native.csv"),
+    LEFT_FOREIGN_SWITCH("leftswitch_foreign.csv"),
+    RIGHT_NATIVE_SWITCH("rightswitch_native.csv"),
+    RIGHT_FOREIGN_SWITCH("rightswitch_foreign.csv"),
+    CENTER_SWITCH_LEFT("centerswitch_left.csv"),
+    CENTER_SWITCH_RIGHT("centerswitch_right.csv"),
+    LEFT_NATIVE_SCALE("leftscale_native.csv"),
+	LEFT_NATIVE_SCALE_ROT("leftscale_native_rot.csv"),
+    LEFT_FOREIGN_SCALE("leftscale_foreign.csv"),
+    RIGHT_NATIVE_SCALE("rightscale_native.csv"),
+    RIGHT_NATIVE_SCALE_ROT("rightscale_native_rot.csv"),
+    RIGHT_FOREIGN_SCALE("rightscale_foreign.csv"),
+	LEFT_SETUP("leftsetup.csv"),
+	RIGHT_SETUP("rightsetup.csv");
 
-    private String left;
-    private String right;
-    private String tankMod;
+    private String trajFileName;
     /**
      * All possible trajectories in autonomous
      * @param left Left trajectory file path
      * @param right Right trajectory file path
      */
-    Paths(String left, String right, String tankMod){
-        this.left = left;
-        this.right = right;
-        this.tankMod = tankMod;
-    }
-
-    /**
-     * @return Left trajectory file path
-     */
-    public String getLeft() {
-        return left;
-    }
-
-    /**
-     * @return Right trajectory file path
-     */
-    public String getRight() {
-        return right;
+    Paths(String fileName){
+        this.trajFileName = fileName;
     }
     
-    public String getTank() {
-    	return tankMod;
+    public String getFileName() {
+    	return trajFileName;
     }
 }

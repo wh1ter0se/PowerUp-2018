@@ -74,10 +74,7 @@ public class SubsystemVision extends Subsystem {
     	 while (!Thread.interrupted()){
     	     try {
                  cvsinkScrew.grabFrame(streamImages);
-                 if ((Robot.bot == Bot.TEUFELSKIND && Constants.TEUFELSKIND.SCREW_CAM_FLIP)
-                         || (Robot.bot == Bot.OOF && Constants.OOF.SCREW_CAM_FLIP)) {
-                     Core.rotate(streamImages, streamImages, Core.ROTATE_180);
-                 }
+                 Core.rotate(streamImages, streamImages, Core.ROTATE_180);
                  outputScrew.putFrame(streamImages);
              } catch (CvException cameraFail){
     	         DriverStation.reportWarning("Screw Camera: " + cameraFail.toString(), false);
