@@ -11,7 +11,6 @@ import org.usfirst.frc.team3695.robot.Robot;
 public class ToggleCommandLowRamp extends Command {
 
     private static final String smartDashKey = "Low Ramp";
-    private static boolean enabled = false;
     private boolean isFinished;
 
     public ToggleCommandLowRamp() {
