@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.commands.CommandWait;
-import org.usfirst.frc.team3695.robot.commands.cyborg.CyborgCommandDriveByPathWithGyro;
+import org.usfirst.frc.team3695.robot.commands.cyborg.CyborgCommandDriveByPath;
 import org.usfirst.frc.team3695.robot.commands.cyborg.CyborgCommandGrow;
 import org.usfirst.frc.team3695.robot.commands.cyborg.CyborgCommandSpit;
 import org.usfirst.frc.team3695.robot.enumeration.Goal;
@@ -165,34 +165,34 @@ public class CommandGroupAuto extends CommandGroup {
     private void leftSwitch() {
     	if (gameData.charAt(0) == 'L') {
     		addParallel(new CyborgCommandGrow(Mast.SCREW_UP, 3000));
-			addSequential(new CyborgCommandDriveByPathWithGyro(Robot.SUB_DRIVE.autoDrive.getSavedTrajectory(Paths.LEFT_NATIVE_SWITCH)));
+			addSequential(new CyborgCommandDriveByPath(Robot.SUB_DRIVE.autoDrive.getSavedTrajectory(Paths.LEFT_NATIVE_SWITCH)));
 //            addSequential(new CyborgCommandDriveUntilError(500, 2, 0.5, 3));
 			addSequential(new CyborgCommandSpit(500));
     	} else {
-    		addSequential(new CyborgCommandDriveByPathWithGyro(Robot.SUB_DRIVE.autoDrive.getSavedTrajectory(Paths.LEFT_SETUP)));
+    		addSequential(new CyborgCommandDriveByPath(Robot.SUB_DRIVE.autoDrive.getSavedTrajectory(Paths.LEFT_SETUP)));
     	}
     }
     
     private void rightSwitch() {
     	if (gameData.charAt(0) == 'R') {
     		addParallel(new CyborgCommandGrow(Mast.SCREW_UP, 3000));
-			addSequential(new CyborgCommandDriveByPathWithGyro(Robot.SUB_DRIVE.autoDrive.getSavedTrajectory(Paths.RIGHT_NATIVE_SWITCH)));
+			addSequential(new CyborgCommandDriveByPath(Robot.SUB_DRIVE.autoDrive.getSavedTrajectory(Paths.RIGHT_NATIVE_SWITCH)));
 //            addSequential(new CyborgCommandDriveUntilError(500, 2, 0.5, 3));
 			addSequential(new CyborgCommandSpit(500));
     	} else {
-    		addSequential(new CyborgCommandDriveByPathWithGyro(Robot.SUB_DRIVE.autoDrive.getSavedTrajectory(Paths.RIGHT_SETUP)));
+    		addSequential(new CyborgCommandDriveByPath(Robot.SUB_DRIVE.autoDrive.getSavedTrajectory(Paths.RIGHT_SETUP)));
     	}
     }
     
     private void centerSwitch() {
     	if (gameData.charAt(0) == 'L') {
     		addParallel(new CyborgCommandGrow(Mast.SCREW_UP, 3000));
-			addSequential(new CyborgCommandDriveByPathWithGyro(Robot.SUB_DRIVE.autoDrive.getSavedTrajectory(Paths.CENTER_SWITCH_LEFT)));
+			addSequential(new CyborgCommandDriveByPath(Robot.SUB_DRIVE.autoDrive.getSavedTrajectory(Paths.CENTER_SWITCH_LEFT)));
 //            addSequential(new CyborgCommandDriveUntilError(500, 2, 0.5, 3));
 			addSequential(new CyborgCommandSpit(500));
     	} else {
     		addParallel(new CyborgCommandGrow(Mast.SCREW_UP, 3000));
-			addSequential(new CyborgCommandDriveByPathWithGyro(Robot.SUB_DRIVE.autoDrive.getSavedTrajectory(Paths.CENTER_SWITCH_RIGHT)));
+			addSequential(new CyborgCommandDriveByPath(Robot.SUB_DRIVE.autoDrive.getSavedTrajectory(Paths.CENTER_SWITCH_RIGHT)));
 //            addSequential(new CyborgCommandDriveUntilError(500, 2, 0.5, 3));
 			addSequential(new CyborgCommandSpit(500));
     	}
@@ -201,7 +201,7 @@ public class CommandGroupAuto extends CommandGroup {
     private void leftScale() {
     	if (gameData.charAt(1) == 'L') {
 	    	addParallel(new CyborgCommandGrow(Mast.SCREW_UP, 3000));
-			addSequential(new CyborgCommandDriveByPathWithGyro(Robot.SUB_DRIVE.autoDrive.getSavedTrajectory(Paths.LEFT_NATIVE_SCALE)));
+			addSequential(new CyborgCommandDriveByPath(Robot.SUB_DRIVE.autoDrive.getSavedTrajectory(Paths.LEFT_NATIVE_SCALE)));
 			addSequential(new CyborgCommandGrow(Mast.PINION_UP, 5000));
 			addSequential(new CommandWait(300));
 			addSequential(new CyborgCommandSpit(500));
@@ -210,14 +210,14 @@ public class CommandGroupAuto extends CommandGroup {
 			addSequential(new CyborgCommandGrow(Mast.SCREW_DOWN, 5000));
 //			addSequential(new CyborgCommandDriveByPath(Robot.SUB_DRIVE.autoDrive.getSavedTrajectory(Paths.LEFT_NATIVE_SCALE_ROT)));
     	} else {
-    		addSequential(new CyborgCommandDriveByPathWithGyro(Robot.SUB_DRIVE.autoDrive.getSavedTrajectory(Paths.LEFT_SETUP)));
+    		addSequential(new CyborgCommandDriveByPath(Robot.SUB_DRIVE.autoDrive.getSavedTrajectory(Paths.LEFT_SETUP)));
     	}
     }
     
     private void rightScale() {
     	if (gameData.charAt(1) == 'R') {
 	    	addParallel(new CyborgCommandGrow(Mast.SCREW_UP, 3000));
-			addSequential(new CyborgCommandDriveByPathWithGyro(Robot.SUB_DRIVE.autoDrive.getSavedTrajectory(Paths.RIGHT_NATIVE_SCALE)));
+			addSequential(new CyborgCommandDriveByPath(Robot.SUB_DRIVE.autoDrive.getSavedTrajectory(Paths.RIGHT_NATIVE_SCALE)));
 			addSequential(new CyborgCommandGrow(Mast.PINION_UP, 5000));
 			addSequential(new CommandWait(300));
 			addSequential(new CyborgCommandSpit(500));
@@ -226,7 +226,7 @@ public class CommandGroupAuto extends CommandGroup {
 			addSequential(new CyborgCommandGrow(Mast.SCREW_DOWN, 5000));
 //			addSequential(new CyborgCommandDriveByPath(Robot.SUB_DRIVE.autoDrive.getSavedTrajectory(Paths.RIGHT_NATIVE_SCALE_ROT)));
     	} else {
-    		addSequential(new CyborgCommandDriveByPathWithGyro(Robot.SUB_DRIVE.autoDrive.getSavedTrajectory(Paths.RIGHT_SETUP)));
+    		addSequential(new CyborgCommandDriveByPath(Robot.SUB_DRIVE.autoDrive.getSavedTrajectory(Paths.RIGHT_SETUP)));
     	}
     }
     

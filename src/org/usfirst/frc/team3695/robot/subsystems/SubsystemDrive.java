@@ -134,8 +134,9 @@ public class SubsystemDrive extends Subsystem {
         SubsystemDrive.narrower = narrower;
     }
 
-    public void toggleLowRamp(){
+    public boolean toggleLowRamp(){
         lowRamp = !lowRamp;
+        return lowRamp;
     }
     
     /**

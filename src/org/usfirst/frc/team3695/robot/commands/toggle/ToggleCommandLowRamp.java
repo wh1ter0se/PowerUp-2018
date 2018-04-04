@@ -22,8 +22,7 @@ public class ToggleCommandLowRamp extends Command {
     protected void initialize() { }
 
     protected void execute() {
-        Robot.SUB_DRIVE.toggleLowRamp();
-        SmartDashboard.putBoolean(smartDashKey, (enabled = !enabled));
+        SmartDashboard.putBoolean(smartDashKey, Robot.SUB_DRIVE.toggleLowRamp());
         isFinished = true;
     }
 
