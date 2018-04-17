@@ -42,11 +42,6 @@ public class SubsystemDrive extends Subsystem {
     public static boolean docking;
     private static double dockInhibitor;
 
-    private static boolean lowRamp;
-    //Caleb wanted to change his ramp when going for the vault.
-    //This is any value he wants
-    private static final double calebsRamp = 0.1;
-
     public static boolean narrowing;
     private static double narrower;
 
@@ -65,7 +60,6 @@ public class SubsystemDrive extends Subsystem {
     public SubsystemDrive() {
         drivetrain = Drivetrain.ROCKET_LEAGUE;
 
-        lowRamp = false;
         reversing = false;
         docking = false;
         dockInhibitor = 0.5d;
@@ -133,11 +127,6 @@ public class SubsystemDrive extends Subsystem {
         narrowing = !narrowing;
         SubsystemDrive.narrower = narrower;
     }
-
-    public boolean toggleLowRamp(){
-        lowRamp = !lowRamp;
-        return lowRamp;
-    }
     
     /**
      * simple rocket league drive code (not actually rocket league)
@@ -156,7 +145,7 @@ public class SubsystemDrive extends Subsystem {
         double right = adder - (Xbox.LEFT_X(joy) / 1.333333);
         left = (left > 1.0 ? 1.0 : (left < -1.0 ? -1.0 : left));
         right = (right > 1.0 ? 1.0 : (right < -1.0 ? -1.0 : right));
-        setRamps(lowRamp ? calebsRamp : ramp);
+        setRamps(ramp);
         
         leftMaster.set(ControlMode.PercentOutput, left);
         rightMaster.set(ControlMode.PercentOutput, right);
@@ -223,8 +212,8 @@ public class SubsystemDrive extends Subsystem {
 
         //Various constants needed to generate a motion profile
         private final double TIME_STEP = .05;
-        public final double MAX_VELOCITY = 5.0;
-        private final double MAX_ACC = 2.25d;
+        public final double MAX_VELOCITY = 2.5; // was 5.0
+        private final double MAX_ACC = 1.5; // was 2.25
         private final double MAX_JERK = 60.0;
         //Allows the bot to achieve higher or lower speed quicker
         public final double ACC_GAIN = 0;

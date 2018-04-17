@@ -3,6 +3,7 @@ package org.usfirst.frc.team3695.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -10,6 +11,7 @@ import org.usfirst.frc.team3695.robot.Constants;
 import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.commands.manual.ManualCommandGrow;
 import org.usfirst.frc.team3695.robot.enumeration.Bot;
+import org.usfirst.frc.team3695.robot.enumeration.Mast;
 import org.usfirst.frc.team3695.robot.util.Xbox;
 
 /** Control both the screw and pinion
@@ -27,6 +29,10 @@ public class SubsystemMast extends Subsystem {
 	public DigitalInput lowerScrewLimit;
 	public DigitalInput upperScrewLimit;
 
+	private boolean lowerPinionEnabled;
+	private boolean upperPinionEnabled;
+	private boolean lowerScrewEnabled;
+	private boolean upperScrewEnabled;
 	
 	/** runs at robot boot */
     public void initDefaultCommand() {
@@ -37,10 +43,15 @@ public class SubsystemMast extends Subsystem {
 	 * Also limits the voltage of all talons
 	 */
     public SubsystemMast(){
-    	lowerPinionLimit = new DigitalInput(3);
+    	lowerPinionLimit = new DigitalInput(8);	// 3 on test bot
         upperPinionLimit = new DigitalInput(7);
         lowerScrewLimit  = new DigitalInput(5);
         upperScrewLimit  = new DigitalInput(4);
+        
+        lowerPinionEnabled = true;
+        upperPinionEnabled = true;
+        lowerScrewEnabled = true;
+        upperScrewEnabled = true;
     	
     	leftPinion = new TalonSRX(Constants.LEFT_PINION_MOTOR);
     	rightPinion = new TalonSRX(Constants.RIGHT_PINION_MOTOR);
@@ -55,8 +66,11 @@ public class SubsystemMast extends Subsystem {
 	 * Set all inverts for the talons based on the bot being used
 	 */
 	public void setInverts() {
+		DriverStation.reportWarning("Inverting Mast Motoros", false);
         leftPinion.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.LEFT_PINION_MOTOR_INVERT : Constants.TEUFELSKIND.LEFT_PINION_MOTOR_INVERT);
+//        	leftPinion.setInverted(false);
         rightPinion.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_PINION_MOTOR_INVERT : Constants.TEUFELSKIND.RIGHT_PINION_MOTOR_INVERT);
+//        	rightPinion.setInverted(true);
         screw.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.SCREW_MOTOR_INVERT : Constants.TEUFELSKIND.SCREW_MOTOR_INVERT);
     }
 
@@ -80,6 +94,24 @@ public class SubsystemMast extends Subsystem {
    		return screw * (invert ? -1.0 : 1.0);
    	}
 
+   	public boolean toggleLimitSwitchEnabled(Mast limit) {
+   		switch (limit) {
+   			case SCREW_DOWN:
+   				lowerScrewEnabled = !lowerScrewEnabled;
+   				return lowerScrewEnabled;
+   			case SCREW_UP:
+   				upperScrewEnabled = !upperScrewEnabled;
+   				return upperScrewEnabled;
+   			case PINION_DOWN:
+   				lowerPinionEnabled = !lowerPinionEnabled;
+   				return lowerPinionEnabled; 
+   			case PINION_UP:
+   				upperPinionEnabled = !upperPinionEnabled;
+   				return upperPinionEnabled;
+   		}
+   		
+   		return true;
+   	}
 	/**
 	 * Manually controls the screw and pinion
 	 * Screw controls: Left joystick up to raise and down to lower
@@ -93,10 +125,10 @@ public class SubsystemMast extends Subsystem {
     	double screwSpeed = Xbox.LEFT_Y(joy) + dualAction;
     	double pinionSpeed = Xbox.RIGHT_Y(joy) + dualAction;
     	
-		if (!lowerPinionLimit.get() && pinionSpeed > 0)   { pinionSpeed = 0; }
-		if (!upperPinionLimit.get() && pinionSpeed < 0)   { pinionSpeed = 0; }
-		if (!lowerScrewLimit.get()  && screwSpeed  > 0)   { screwSpeed = 0;  }
-		if (!upperScrewLimit.get()  && screwSpeed  < 0)   { screwSpeed = 0;  }
+		if (!lowerPinionLimit.get() && pinionSpeed > 0 && lowerPinionEnabled)   { pinionSpeed = 0; }
+		if (!upperPinionLimit.get() && pinionSpeed < 0 && upperPinionEnabled)   { pinionSpeed = 0; }
+		if (!lowerScrewLimit.get()  && screwSpeed  > 0 && lowerScrewEnabled)    { screwSpeed = 0;  }
+		if (!upperScrewLimit.get()  && screwSpeed  < 0 && upperScrewEnabled)    { screwSpeed = 0;  }
 			
     	publishSwitches();
     	

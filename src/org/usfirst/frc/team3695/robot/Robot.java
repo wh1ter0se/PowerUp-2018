@@ -142,6 +142,8 @@ public class Robot extends IterativeRobot {
 	/** runs at 50hz when bot is disabled */
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run(); 
+		
+		setAllInverts();
 	}
 	
 	/** runs when autonomous start */
@@ -161,7 +163,7 @@ public class Robot extends IterativeRobot {
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run(); 
 		
-		SmartDashboard.putNumber("Gyro Heading", Robot.SUB_DRIVE.gyro.getAngle() % 360);
+//		SmartDashboard.putNumber("Gyro Heading", Robot.SUB_DRIVE.gyro.getAngle() * -1);
 		
 		Robot.SUB_DRIVE.publishDrivetrain();
 		setAllInverts();
@@ -182,7 +184,7 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		
-    	SmartDashboard.putNumber("Gyro Heading", Robot.SUB_DRIVE.gyro.getAngle() % 360);
+    	SmartDashboard.putNumber("Gyro Heading", Robot.SUB_DRIVE.gyro.getAngle() * -1);
 		
 		if (driveChooser.getSelected() != null) {
 			SUB_DRIVE.setDrivetrain(driveChooser.getSelected());

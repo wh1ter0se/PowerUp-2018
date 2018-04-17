@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.opencv.core.Core;
-import org.opencv.core.CvException;
 import org.opencv.core.Mat;
 import org.opencv.core.Size;
 import org.usfirst.frc.team3695.robot.Constants;
@@ -76,7 +75,7 @@ public class SubsystemVision extends Subsystem {
                  cvsinkScrew.grabFrame(streamImages);
                  Core.rotate(streamImages, streamImages, Core.ROTATE_180);
                  outputScrew.putFrame(streamImages);
-             } catch (CvException cameraFail){
+             } catch (Exception cameraFail){
     	         DriverStation.reportWarning("Screw Camera: " + cameraFail.toString(), false);
     	         outputScrew.putFrame(failImage);
              }
@@ -104,7 +103,7 @@ public class SubsystemVision extends Subsystem {
                      Core.rotate(streamImages, streamImages, Core.ROTATE_180);
                  }
                  outputFrame.putFrame(streamImages);
-             } catch (CvException cameraFail){
+             } catch (Exception cameraFail){	
                  DriverStation.reportWarning("Frame Camera: " + cameraFail.toString(), false);
                  outputFrame.putFrame(failImage);
              }
@@ -152,7 +151,7 @@ public class SubsystemVision extends Subsystem {
                 /// Combine the frames into a single mat in the Output and stream the image.
                 Core.hconcat(sources, concat);
                 outputStream.putFrame(concat);
-            } catch (CvException cameraFail){
+            } catch (Exception cameraFail){
                 DriverStation.reportWarning("Concat Cameras: " + cameraFail.toString(), false);
                 outputStream.putFrame(failImage);
             }

@@ -51,12 +51,14 @@ public class CyborgCommandDriveByPath extends Command {
                 Util.getAndSetDouble("Path-Left-P", P_LEFT),
                 Util.getAndSetDouble("Path-Left-I", I_LEFT),
                 Util.getAndSetDouble("Path-Left-D", D_LEFT),
+//                Util.getAndSetDouble("Max Velocity", 1/Robot.SUB_DRIVE.autoDrive.MAX_VELOCITY),
                 1d / Robot.SUB_DRIVE.autoDrive.MAX_VELOCITY,
                 Util.getAndSetDouble("Accel Gain", Robot.SUB_DRIVE.autoDrive.ACC_GAIN));
         rightEncoder.configurePIDVA(
                 Util.getAndSetDouble("Path-Right-P", P_RIGHT),
                 Util.getAndSetDouble("Path-Right-I", I_RIGHT),
                 Util.getAndSetDouble("Path-Right-D", D_RIGHT),
+//                Util.getAndSetDouble("Max Velocity", 1/Robot.SUB_DRIVE.autoDrive.MAX_VELOCITY),
                 1d / Robot.SUB_DRIVE.autoDrive.MAX_VELOCITY,
                 Util.getAndSetDouble("Accel Gain", Robot.SUB_DRIVE.autoDrive.ACC_GAIN));
         

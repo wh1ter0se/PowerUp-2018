@@ -2,6 +2,7 @@ package org.usfirst.frc.team3695.robot.commands.toggle;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc.team3695.robot.OI;
 import org.usfirst.frc.team3695.robot.Robot;
 
 /**
@@ -11,24 +12,21 @@ import org.usfirst.frc.team3695.robot.Robot;
 public class ToggleCommandLowRamp extends Command {
 
     private static final String smartDashKey = "Low Ramp";
-    private boolean isFinished;
-
     public ToggleCommandLowRamp() {
         requires(Robot.SUB_DRIVE);
-        isFinished = false;
     }
 
     protected void initialize() { }
 
     protected void execute() {
-        SmartDashboard.putBoolean(smartDashKey, Robot.SUB_DRIVE.toggleLowRamp());
-        isFinished = true;
+        Robot.SUB_DRIVE.driveRLTank(OI.DRIVER, 0.1, 1);
+        SmartDashboard.putBoolean(smartDashKey, true);
     }
 
-    protected boolean isFinished() { return isFinished; }
+    protected boolean isFinished() { return false; }
 
     protected void end() {
-        isFinished = false;
+        SmartDashboard.putBoolean(smartDashKey, false);
     }
 
     protected void interrupted() {

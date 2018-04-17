@@ -9,6 +9,7 @@ import org.usfirst.frc.team3695.robot.commands.button.ButtonCommandEat;
 import org.usfirst.frc.team3695.robot.commands.button.ButtonCommandHitTheDeck;
 import org.usfirst.frc.team3695.robot.commands.button.ButtonCommandSpit;
 import org.usfirst.frc.team3695.robot.commands.toggle.*;
+import org.usfirst.frc.team3695.robot.enumeration.Mast;
 import org.usfirst.frc.team3695.robot.util.Xbox;
 
 /** the Operator Interface setup */
@@ -22,9 +23,42 @@ public class OI {
 	 * Check the manual commands for controlss that are not assigned here
 	 */
 	public OI() {
-		instantiateDriver();
-		instantiateOperator();
-
+		/// manipulator wheels
+			Button spinIn = new JoystickButton(OPERATOR, Xbox.RB);
+					spinIn.whileHeld(new ButtonCommandEat());
+			Button spinOut = new JoystickButton(OPERATOR, Xbox.LB);
+					spinOut.whileHeld(new ButtonCommandSpit());
+		/// manipulator clamp
+			Button toggleClamp = new JoystickButton(OPERATOR, Xbox.A);
+				toggleClamp.toggleWhenActive(new ToggleCommandClamp());
+		/// candy cane
+			Button toggleHook = new JoystickButton(OPERATOR, Xbox.B);
+				toggleHook.toggleWhenActive(new ToggleCommandHook());
+		/// drop the mast
+			Button dropIt = new JoystickButton(OPERATOR, Xbox.X);
+				dropIt.toggleWhenPressed(new ButtonCommandHitTheDeck());
+		/// Reversing mode
+			Button toggleReverse = new JoystickButton(DRIVER, Xbox.Y);
+				toggleReverse.toggleWhenPressed(new ToggleCommandReverse());
+		/// Low ramp mode
+			Button toggleLowRamp = new JoystickButton(DRIVER, Xbox.X);
+				toggleLowRamp.toggleWhenPressed(new ToggleCommandLowRamp());
+		/// Docking mode
+			Button toggleDock = new JoystickButton(DRIVER, Xbox.A);
+				toggleDock.whenPressed(new ToggleCommandDock());
+		/// Narrow mode
+			Button toggleNarrow = new JoystickButton(DRIVER, Xbox.B);
+				toggleNarrow.whileHeld(new ToggleCommandNarrow());
+				
+			SmartDashboard.putData("Disable Lower Screw", new ToggleCommandDisableLimitSwitch(Mast.SCREW_DOWN));
+			SmartDashboard.putData("Disable Upper Screw", new ToggleCommandDisableLimitSwitch(Mast.SCREW_UP));
+			SmartDashboard.putData("Disable Lower Pinion", new ToggleCommandDisableLimitSwitch(Mast.PINION_DOWN));
+			SmartDashboard.putData("Disable Upper Pinion", new ToggleCommandDisableLimitSwitch(Mast.PINION_UP));
+			
+			for (Mast limit:Mast.values()) {
+				SmartDashboard.putBoolean(limit.toBetterString() + " enabled", true);
+			}
+			
 		/// To Compress, or Not To Compress. It is now an option.
 			SmartDashboard.putData("Disable Compressor", new ToggleCommandKillCompressor());
 			
@@ -38,64 +72,5 @@ public class OI {
 	    	SmartDashboard.putBoolean("Upper Pinion", false);
 	    	
 	    	DriverStation.reportWarning("OI IS INSTANTIATED", false);
-	}
-
-	/**
-	 * Control Scheme:
-	 * A: None
-	 * B: Toggle Narrowing mode (Forza drive)
-	 * X: Toggle Low Ramp (Rocket league)
-	 * Y: Toggle Reversing mode (Forzza drive)
-	 * RT: Accelerate forwards
-	 * LT: Accelerate backwards
-	 * RB: None
-	 * LB: None
-	 * Left-Y: None
-	 * Left-X: Turning
-	 * Right-Y: None
-	 * Right-X: None
-	 */
-	private static void instantiateDriver(){
-		/// Reversing mode
-		Button toggleReverse = new JoystickButton(DRIVER, Xbox.Y);
-			toggleReverse.toggleWhenPressed(new ToggleCommandReverse());
-		/// Docking mode
-		Button toggleDock = new JoystickButton(DRIVER, Xbox.X);
-			toggleDock.whenPressed(new ToggleCommandLowRamp());
-		/// Narrow mode
-		Button toggleNarrow = new JoystickButton(DRIVER, Xbox.B);
-			toggleNarrow.whileHeld(new ToggleCommandNarrow());
-	}
-
-	/**
-	 * Control Scheme:
-	 * A: Toggle manipulator arms
-	 * B: Raise/lower hook
-	 * X: Lower the mast to lowest point (Needs fixing)
-	 * Y: None
-	 * RT: Raise screw and mast simultaneously
-	 * LT: Lower screw and mast simultaneously
-	 * RB: None
-	 * LB: None
-	 * Left-Y: Raise/lower screw
-	 * Left-X: None
-	 * Right-Y: Raise/lower pinion
-	 * Right-X: None
-	 */
-	private static void instantiateOperator(){
-		/// manipulator wheels
-		Button spinIn = new JoystickButton(OPERATOR, Xbox.RB);
-			spinIn.whileHeld(new ButtonCommandEat());
-		Button spinOut = new JoystickButton(OPERATOR, Xbox.LB);
-			spinOut.whileHeld(new ButtonCommandSpit());
-		/// manipulator clamp
-		Button toggleClamp = new JoystickButton(OPERATOR, Xbox.A);
-			toggleClamp.toggleWhenActive(new ToggleCommandClamp());
-		/// candy cane
-		Button toggleHook = new JoystickButton(OPERATOR, Xbox.B);
-			toggleHook.toggleWhenActive(new ToggleCommandHook());
-		/// drop the mast
-		Button dropIt = new JoystickButton(OPERATOR, Xbox.X);
-			dropIt.toggleWhenPressed(new ButtonCommandHitTheDeck());
 	}
 }
