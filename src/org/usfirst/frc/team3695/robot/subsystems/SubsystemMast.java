@@ -36,7 +36,9 @@ public class SubsystemMast extends Subsystem {
 	
 	/** runs at robot boot */
     public void initDefaultCommand() {
-    	setDefaultCommand(new ManualCommandGrow()); }
+		setDefaultCommand(new ManualCommandGrow());
+
+	}
 
 	/**
 	 * Initialize the talons and limit switches
@@ -88,7 +90,6 @@ public class SubsystemMast extends Subsystem {
    		return right * (invert ? -1.0 : 1.0);
    	}
    	
-   	@Deprecated
    	public static double screwify(double screw) {
    		Boolean invert = Robot.bot == Bot.OOF ? Constants.OOF.SCREW_MOTOR_INVERT : Constants.TEUFELSKIND.SCREW_MOTOR_INVERT;
    		return screw * (invert ? -1.0 : 1.0);
@@ -164,7 +165,7 @@ public class SubsystemMast extends Subsystem {
 	 * Put the state of all limit switches on the SmartDash
 	 * Should be used in an iterative command to ensure constant updates
 	 */
-	public void publishSwitches() {
+	private void publishSwitches() {
     	SmartDashboard.putBoolean("Lower Screw", !lowerScrewLimit.get());
     	SmartDashboard.putBoolean("Upper Screw", !upperScrewLimit.get());
     	SmartDashboard.putBoolean("Lower Pinion", !lowerPinionLimit.get());
