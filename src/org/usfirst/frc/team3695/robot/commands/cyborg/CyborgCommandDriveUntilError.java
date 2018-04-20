@@ -12,19 +12,20 @@ public class CyborgCommandDriveUntilError extends Command {
     private double speed = 0.1;
     private long start;
 
-    public CyborgCommandDriveUntilError() {
+    {
         start = System.currentTimeMillis();
         posLeft = Robot.SUB_DRIVE.autoDrive.leftEncoderPos();
         posRight = Robot.SUB_DRIVE.autoDrive.rightEncoderPos();
     }
 
+    public CyborgCommandDriveUntilError() {
+    }
+
     public CyborgCommandDriveUntilError(int speed) {
-        this();
         this.speed = speed;
     }
 
     public CyborgCommandDriveUntilError(int speed, int range){
-        this();
         this.speed = speed;
         this.range = range;
     }
