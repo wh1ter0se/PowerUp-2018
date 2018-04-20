@@ -3,6 +3,9 @@ package org.usfirst.frc.team3695.robot.commands.cyborg;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3695.robot.Robot;
 
+/**
+ * Drive the bot for a specific speed for a specific amount of time
+ */
 public class CyborgCommandDriveByTimer extends Command {
 
     private double speed;

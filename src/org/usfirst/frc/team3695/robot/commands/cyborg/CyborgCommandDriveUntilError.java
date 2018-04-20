@@ -3,6 +3,7 @@ package org.usfirst.frc.team3695.robot.commands.cyborg;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3695.robot.Robot;
 
+@Deprecated //Use DriveByTimer
 public class CyborgCommandDriveUntilError extends Command {
 
     private int range = 3000;

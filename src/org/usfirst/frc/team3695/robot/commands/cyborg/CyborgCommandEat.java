@@ -3,6 +3,10 @@ package org.usfirst.frc.team3695.robot.commands.cyborg;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3695.robot.Robot;
 
+/**
+ * Spin the manipulator wheels inwards. Used for picking a cube up in 2 cube auto
+ * (if we ever do 2 cube auto...)
+ */
 public class CyborgCommandEat extends Command {
 
     private boolean start;
