@@ -12,8 +12,6 @@ import org.usfirst.frc.team3695.robot.enumeration.Mast;
 import org.usfirst.frc.team3695.robot.enumeration.Paths;
 import org.usfirst.frc.team3695.robot.enumeration.Position;
 
-//import org.usfirst.frc.team3695.robot.commands.cyborg.CyborgCommandDriveUntilError;
-
 /**
  * the sequence of commands for autonomous
  */
@@ -179,7 +177,6 @@ public class CommandGroupAuto extends CommandGroup {
         if (gameData.charAt(0) == 'L') {
             addParallel(new CyborgCommandGrow(Mast.SCREW_UP, 3000));
             addSequential(new CyborgCommandDriveByPathWithGyro(Robot.SUB_DRIVE.autoDrive.getSavedTrajectory(Paths.LEFT_NATIVE_SWITCH), 0));
-//            addSequential(new CyborgCommandDriveUntilError(500, 2, 0.5, 3));
             addSequential(new CyborgCommandSpit(500));
 
             // dual auto
@@ -199,7 +196,6 @@ public class CommandGroupAuto extends CommandGroup {
         if (gameData.charAt(0) == 'R') {
             addParallel(new CyborgCommandGrow(Mast.SCREW_UP, 3000));
             addSequential(new CyborgCommandDriveByPathWithGyro(Robot.SUB_DRIVE.autoDrive.getSavedTrajectory(Paths.RIGHT_NATIVE_SWITCH), 0));
-//            addSequential(new CyborgCommandDriveUntilError(500, 2, 0.5, 3));
             addSequential(new CyborgCommandSpit(500));
         } else {
             addSequential(new CyborgCommandDriveByPathWithGyro(Robot.SUB_DRIVE.autoDrive.getSavedTrajectory(Paths.RIGHT_SETUP), 0));
@@ -210,12 +206,10 @@ public class CommandGroupAuto extends CommandGroup {
         if (gameData.charAt(0) == 'L') {
             addParallel(new CyborgCommandGrow(Mast.SCREW_UP, 3000));
             addSequential(new CyborgCommandDriveByPathWithGyro(Robot.SUB_DRIVE.autoDrive.getSavedTrajectory(Paths.CENTER_SWITCH_LEFT), 0));
-//            addSequential(new CyborgCommandDriveUntilError(500, 2, 0.5, 3));
             addSequential(new CyborgCommandSpit(500));
         } else {
             addParallel(new CyborgCommandGrow(Mast.SCREW_UP, 3000));
             addSequential(new CyborgCommandDriveByPathWithGyro(Robot.SUB_DRIVE.autoDrive.getSavedTrajectory(Paths.CENTER_SWITCH_RIGHT), 0));
-//            addSequential(new CyborgCommandDriveUntilError(500, 2, 0.5, 3));
             addSequential(new CyborgCommandSpit(500));
         }
     }
