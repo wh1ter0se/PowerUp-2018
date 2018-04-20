@@ -21,13 +21,8 @@ public class CommandGroupAuto extends CommandGroup {
     //Stores the states of the switches and scale
     private String gameData;
     private Position position;
-    private Goal goal;
-    private Goal thirdPriority;
-
     public CommandGroupAuto(Position position, Goal goal, Goal thirdPriority) {
         this.position = position;
-        this.goal = goal;
-        this.thirdPriority = thirdPriority;
         //Get the state of the switches and scale for each round
         gameData = DriverStation.getInstance().getGameSpecificMessage();
 
