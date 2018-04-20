@@ -82,8 +82,8 @@ public class Constants {
 
 		public static final int SCREW_ID = 0;
 		public static final int HOOK_ID = 1;
-		public static final int	LEFT_ID = 2;
-		public static final int RIGHT_ID = 3;
+		public static final int LEFT_ID = 0;
+		public static final int RIGHT_ID = 1;
 
 	}
 }

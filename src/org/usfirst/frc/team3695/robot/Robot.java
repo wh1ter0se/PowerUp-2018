@@ -18,9 +18,12 @@ import org.usfirst.frc.team3695.robot.subsystems.*;
 //  ___/ / / /_/ /  \__, /  ____/ /          / __/    / /_/ / _>  <   / /   / / / / / // /_/ /  (__  )         / ____/  / /     / /   / / / / / //  __/
 // /____/  \____/  /____/  /_____/          /_/       \____/ /_/|_|  /_/   /_/ /_/ /_/ \__,_/  /____/         /_/      /_/     /_/   /_/ /_/ /_/ \___/ 
 
-/** the magic place where everything happens (where the sequence of events is controlled, top of the hierarchy) */
+/**
+ * the magic place where everything happens (where the sequence of events is controlled, top of the hierarchy)
+ */
+@SuppressWarnings("All")
 public class Robot extends IterativeRobot {
-	// it... it's a bot... or is it
+	// it... it's a bot... or is it //it is
 		public static Bot bot;
 
 	// choosers
@@ -43,10 +46,12 @@ public class Robot extends IterativeRobot {
 		public static OI oi;
 
 	/// autonomous
-		private CommandGroupAuto auto;
+	public CommandGroupAuto auto;
 
-		
-	/** runs when robot is turned on */
+
+	/**
+	 * runs when robot is turned on
+	 */
 	public void robotInit() {
 		/// instantiate bot chooser
 		botChooser = new SendableChooser<>();
@@ -115,9 +120,10 @@ public class Robot extends IterativeRobot {
 				
 				
 		/// instantiate cameras
-			SUB_VISION.startScrewCameraThread();
+//			SUB_VISION.startScrewCameraThread();
 			//Likely won't be used as it's unlikely to always work
 //			SUB_VISION.startFrameCameraThread();
+		SUB_VISION.startConcatCameraThread();
 
 		SmartDashboard.putData("Sub_Clamp", SUB_CLAMP);
 		SmartDashboard.putData("Sub_Compressor", SUB_COMPRESSOR);
@@ -128,8 +134,10 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Sub_Caleb", SUB_CALEB);
 		DriverStation.reportWarning("SUBSYSTEMS, CHOOSERS INSTANTIATED", false);
 	}
-	
-	/** runs when robot gets disabled */
+
+	/**
+	 * runs when robot gets disabled
+	 */
 	public void disabledInit() { 
 		DriverStation.reportWarning("TELEOP IS DISABLED", false);
 		
@@ -139,14 +147,18 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().removeAll();
 	}
 
-	/** runs at 50hz when bot is disabled */
+	/**
+	 * runs at 50hz when bot is disabled
+	 */
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run(); 
 		
 		setAllInverts();
 	}
-	
-	/** runs when autonomous start */
+
+	/**
+	 * runs when autonomous start
+	 */
 	public void autonomousInit() {
 		DriverStation.reportWarning("AUTONOMOUS IS STARTING...", false);
 		if(goalChooser.getSelected() != null) {
@@ -159,7 +171,9 @@ public class Robot extends IterativeRobot {
 		setAllInverts();
 	}
 
-	/** runs at 50hz when in autonomous */
+	/**
+	 * runs at 50hz when in autonomous
+	 */
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run(); 
 		
@@ -169,7 +183,9 @@ public class Robot extends IterativeRobot {
 		setAllInverts();
 	}
 
-	/** runs when teleop starts*/
+	/**
+	 * runs when teleop starts
+	 */
 	public void teleopInit() {
 		DriverStation.reportWarning("TELEOP IS ENABLED", false);
 		if (auto != null)
@@ -179,8 +195,10 @@ public class Robot extends IterativeRobot {
 		
 		setAllInverts();
 	}
-	
-	/** runs at ~50hz when in teleop mode */
+
+	/**
+	 * runs at ~50hz when in teleop mode
+	 */
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		
@@ -195,7 +213,9 @@ public class Robot extends IterativeRobot {
 		setAllInverts();
 	}
 
-	/** runs at ~50hz when in test mode */
+	/**
+	 * runs at ~50hz when in test mode
+	 */
 	public void testPeriodic() {}
 
 	/**
