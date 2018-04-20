@@ -9,7 +9,6 @@ public class CyborgCommandDriveUntilError extends Command {
     private int range = 3000;
     private double posLeft;
     private double posRight;
-    private int timeout = 500;
     private double speed = 0.1;
     private long start;
 
@@ -38,6 +37,7 @@ public class CyborgCommandDriveUntilError extends Command {
     }
 
     protected boolean isFinished() {
+        int timeout = 500;
         if (timeout + start < System.currentTimeMillis()){
             start = System.currentTimeMillis();
             return posLeft + range > Robot.SUB_DRIVE.autoDrive.leftEncoderPos() && posLeft - range < Robot.SUB_DRIVE.autoDrive.leftEncoderPos()

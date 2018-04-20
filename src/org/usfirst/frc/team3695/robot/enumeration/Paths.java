@@ -19,8 +19,7 @@ public enum Paths {
     private String trajFileName;
     /**
      * All possible trajectories in autonomous
-     * @param left Left trajectory file path
-     * @param right Right trajectory file path
+     * @param fileName Name of the path's file
      */
     Paths(String fileName){
         this.trajFileName = fileName;

@@ -30,9 +30,9 @@ import java.util.Map.Entry;
  */
 public class SubsystemDrive extends Subsystem {
 
-    public static TalonSRX leftMaster;
+    private static TalonSRX leftMaster;
     private static TalonSRX leftSlave;
-    public static TalonSRX rightMaster;
+    private static TalonSRX rightMaster;
     private static TalonSRX rightSlave;
 
     public Drivetrain drivetrain;
@@ -206,7 +206,7 @@ public class SubsystemDrive extends Subsystem {
         private static HashMap<String, Trajectory> trajectoryFiles;
 
         //The distance between left and right sides of the wheelbase
-        public static final double WHEELBASE_WIDTH = 2.1666;
+        static final double WHEELBASE_WIDTH = 2.1666;
         //The diameter of the wheels, but in meters
         public static final double WHEEL_DIAMETER = 6; //Check this number.
 
@@ -224,7 +224,7 @@ public class SubsystemDrive extends Subsystem {
         /**
          * Instantiate the config needed to generate trajectories
          */
-        public AutoDrive() {
+        AutoDrive() {
             config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, TIME_STEP, MAX_VELOCITY, MAX_ACC, MAX_JERK);
         }
     
@@ -239,9 +239,8 @@ public class SubsystemDrive extends Subsystem {
          * Generates a trajectory and saves it under the given filename
          * @param points Waypoints to turn into a trajectory
          * @param fileName Name of the trajectory
-         * @return Generated trajectory
          */
-        public Trajectory generateAndSaveTrajectory(Waypoint[] points, String fileName){
+        public void generateAndSaveTrajectory(Waypoint[] points, String fileName) {
             File save = new File(path + fileName);
             Trajectory toSave;
 //            try {
@@ -254,7 +253,6 @@ public class SubsystemDrive extends Subsystem {
             toSave = Pathfinder.generate(points, config);
             Pathfinder.writeToCSV(save, toSave);
             DriverStation.reportWarning("Trajectory Saved:" + fileName + ".csv", false);
-            return toSave;
         }
         
         public Trajectory getSavedTrajectory(Paths filePath){

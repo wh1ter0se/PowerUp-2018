@@ -6,7 +6,7 @@ import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.enumeration.Mast;
 
 /**
- * Code that kills compressor until interruption
+ *  Code that kills compressor until interruption
  */
 public class ToggleCommandDisableLimitSwitch extends Command {
 
