@@ -10,10 +10,10 @@ import org.usfirst.frc.team3695.robot.enumeration.Mast;
  */
 public class ToggleCommandDisableLimitSwitch extends Command {
 
-    Mast limit;
+    private Mast limit;
 
     public ToggleCommandDisableLimitSwitch(Mast limit) {
-        limit = this.limit;
+        this.limit = limit;
         requires(Robot.SUB_MAST);
     }
 
