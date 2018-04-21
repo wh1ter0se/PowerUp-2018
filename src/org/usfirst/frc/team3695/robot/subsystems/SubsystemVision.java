@@ -7,14 +7,14 @@ import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.opencv.core.Core;
+import org.opencv.core.CvType;
 import org.opencv.core.Mat;
-import org.opencv.core.Size;
+import org.opencv.core.Scalar;
 import org.usfirst.frc.team3695.robot.Constants;
 import org.usfirst.frc.team3695.robot.Constants.VisionConstants;
 import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.enumeration.Bot;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -23,7 +23,7 @@ import java.util.Optional;
  */
 public class SubsystemVision extends Subsystem {
 
-    private Mat failImage;
+    private static Mat failImage;
 
     protected void initDefaultCommand() {
     }
@@ -32,8 +32,7 @@ public class SubsystemVision extends Subsystem {
      * Creates the fail image to put up when exceptions occur
      */
     public SubsystemVision() {
-        Size camSize = new Size(VisionConstants.CAM_WIDTH, VisionConstants.CAM_HEIGHT);
-        failImage = Mat.zeros(camSize, 0);
+        failImage = new Mat(VisionConstants.CAM_WIDTH, VisionConstants.CAM_HEIGHT, CvType.CV_8UC3, new Scalar(0, 0, 0));
     }
 
     //Camera streams are placed in separate threads as recommended by FIRST
@@ -144,8 +143,9 @@ public class SubsystemVision extends Subsystem {
             //Provide each mat with the current frame
             cvsinkLeft.grabFrame(leftSource.get());
             cvsinkRight.grabFrame(rightSource.get());
+
             //Combine the frames into one image. If either failed to grab, replace it with the fail image and concat with that.
-            Core.hconcat(new ArrayList<>(Arrays.asList(leftSource.orElse(failImage), rightSource.orElse(failImage))), concat);
+            Core.hconcat(Arrays.asList(leftSource.orElse(failImage), rightSource.orElse(failImage)), concat);
             outputStream.putFrame(concat);
         }
     }
