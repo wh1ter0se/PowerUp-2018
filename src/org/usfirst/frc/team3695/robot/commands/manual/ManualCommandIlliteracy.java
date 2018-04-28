@@ -17,6 +17,7 @@ public class ManualCommandIlliteracy extends Command {
     }
 
     protected void execute() {
+        Robot.SUB_CALEB.lizardBrain();
     }
 
     /**
