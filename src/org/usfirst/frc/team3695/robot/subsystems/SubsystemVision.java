@@ -15,6 +15,7 @@ import org.usfirst.frc.team3695.robot.Constants.VisionConstants;
 import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.enumeration.Bot;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -138,14 +139,17 @@ public class SubsystemVision extends Subsystem {
         //The width is multiplied by 2 as the dimensions of the stream will have a width two times that of a single webcam
         CvSource outputStream = CameraServer.getInstance().putVideo("Concat", 2 * VisionConstants.CAM_WIDTH, VisionConstants.CAM_HEIGHT);
         //Storage for concatenation of both matrices
+        ArrayList<Mat> mats = new ArrayList<>();
         Mat concat = new Mat();
         while (!Thread.interrupted()) {
             //Provide each mat with the current frame
             cvsinkLeft.grabFrame(leftSource.get());
             cvsinkRight.grabFrame(rightSource.get());
-
+            mats.add(leftSource.get());
+            mats.add(rightSource.get());
             //Combine the frames into one image. If either failed to grab, replace it with the fail image and concat with that.
             Core.hconcat(Arrays.asList(leftSource.orElse(failImage), rightSource.orElse(failImage)), concat);
+            mats.clear();
             outputStream.putFrame(concat);
         }
     }
