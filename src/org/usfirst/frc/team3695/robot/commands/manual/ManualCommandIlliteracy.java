@@ -11,6 +11,7 @@ public class ManualCommandIlliteracy extends Command {
 
     public ManualCommandIlliteracy() {
         requires(Robot.SUB_CALEB);
+        requires(Robot.SUB_DRIVE);
     }
 
     protected void initialize() {

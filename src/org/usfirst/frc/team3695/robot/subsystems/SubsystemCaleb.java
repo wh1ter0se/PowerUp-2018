@@ -14,8 +14,8 @@ import java.lang.reflect.Field;
  */
 public class SubsystemCaleb extends Subsystem {
 
-    static TalonSRX right = new TalonSRX(0);
-    static TalonSRX left = new TalonSRX(0);
+    private static TalonSRX right = new TalonSRX(0);
+    private static TalonSRX left = new TalonSRX(0);
 
     /*
       Steal the talons from the driving subsystem to keep program away
@@ -25,7 +25,6 @@ public class SubsystemCaleb extends Subsystem {
             Field rightMaster = SubsystemDrive.class.getDeclaredField("rightMaster");
             rightMaster.setAccessible(true);
             right = (TalonSRX) rightMaster.get(Robot.SUB_DRIVE);
-
 
             Field leftMaster = SubsystemDrive.class.getDeclaredField("leftMaster");
             leftMaster.setAccessible(true);
@@ -45,7 +44,8 @@ public class SubsystemCaleb extends Subsystem {
     /**
      * This does very little. Trust me on this.
      */
-    public SubsystemCaleb(){}
+    public SubsystemCaleb() {
+    }
 
     /**
      * Fully implement his lizard brain.
@@ -73,5 +73,5 @@ public class SubsystemCaleb extends Subsystem {
         right.set(ControlMode.PercentOutput, speed + turn);
         left.set(ControlMode.PercentOutput, speed - turn);
     }
-    
+
 }
