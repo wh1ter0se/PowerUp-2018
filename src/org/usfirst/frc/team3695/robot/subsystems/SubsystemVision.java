@@ -7,111 +7,111 @@ import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.opencv.core.Core;
-import org.opencv.core.CvException;
+import org.opencv.core.CvType;
 import org.opencv.core.Mat;
-import org.opencv.core.Size;
+import org.opencv.core.Scalar;
 import org.usfirst.frc.team3695.robot.Constants;
 import org.usfirst.frc.team3695.robot.Constants.VisionConstants;
 import org.usfirst.frc.team3695.robot.Robot;
 import org.usfirst.frc.team3695.robot.enumeration.Bot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Optional;
 
 /**
  * Controls the vision of the bot (cameras)
  */
 public class SubsystemVision extends Subsystem {
 
-    private Mat failImage;
+    private static Mat failImage;
 
-    protected void initDefaultCommand() {}
+    protected void initDefaultCommand() {
+    }
 
     /**
      * Creates the fail image to put up when exceptions occur
      */
-    public SubsystemVision(){
-        Size camSize = new Size(VisionConstants.CAM_WIDTH, VisionConstants.CAM_HEIGHT);
-        failImage = Mat.zeros(camSize, 0);
+    public SubsystemVision() {
+        failImage = new Mat(VisionConstants.CAM_WIDTH, VisionConstants.CAM_HEIGHT, CvType.CV_8UC3, new Scalar(0, 0, 0));
     }
 
     //Camera streams are placed in separate threads as recommended by FIRST
+
     /**
      * Start the concat camera in a separate thread
      */
-    public void startConcatCameraThread(){ //Never used, but should be kept for future teams to have as a reference
+    public void startConcatCameraThread() { //Never used, but should be kept for future teams to have as a reference
         new Thread(this::concatCameraStream).start();
     }
 
     /**
      * Start the screw camera stream in a separate thread
      */
-    public void startScrewCameraThread(){
-    	new Thread(this::screwCameraStream).start();
+    public void startScrewCameraThread() {
+        new Thread(this::screwCameraStream).start();
     }
 
     /**
      * Start the frame camera stream in a seperate thread
      */
-    public void startFrameCameraThread(){ //Never used, can likely be deleted if we're never going to use the frame camera
-    	new Thread(this::frameCameraStream).start();
+    public void startFrameCameraThread() { //Never used, can likely be deleted if we're never going to use the frame camera
+        new Thread(this::frameCameraStream).start();
     }
 
     /**
      * Create the screw camera stream
      */
-    private void screwCameraStream(){
+    private void screwCameraStream() {
         UsbCamera cameraScrew = CameraServer.getInstance().startAutomaticCapture("Screw", VisionConstants.SCREW_ID);
 
         //The sinks do nothing except ensure the camera is never deconstructed with the garbage collector
-    	CvSink cvsinkScrew = new CvSink("screwSink");
-    	cvsinkScrew.setSource(cameraScrew);
-    	cvsinkScrew.setEnabled(true);
+        CvSink cvsinkScrew = new CvSink("screwSink");
+        cvsinkScrew.setSource(cameraScrew);
+        cvsinkScrew.setEnabled(true);
 
-    	//Matrix to store
-    	Mat streamImages = new Mat();
-    	
-    	CvSource outputScrew = CameraServer.getInstance().putVideo("Screw", VisionConstants.CAM_WIDTH, VisionConstants.CAM_HEIGHT);
-    	 while (!Thread.interrupted()){
-    	     try {
-                 cvsinkScrew.grabFrame(streamImages);
-                 if ((Robot.bot == Bot.TEUFELSKIND && Constants.TEUFELSKIND.SCREW_CAM_FLIP)
-                         || (Robot.bot == Bot.OOF && Constants.OOF.SCREW_CAM_FLIP)) {
-                     Core.rotate(streamImages, streamImages, Core.ROTATE_180);
-                 }
-                 outputScrew.putFrame(streamImages);
-             } catch (CvException cameraFail){
-    	         DriverStation.reportWarning("Screw Camera: " + cameraFail.toString(), false);
-    	         outputScrew.putFrame(failImage);
-             }
-    	 }
+        //Matrix to store
+        Mat streamImages = new Mat();
+
+        CvSource outputScrew = CameraServer.getInstance().putVideo("Screw", VisionConstants.CAM_WIDTH, VisionConstants.CAM_HEIGHT);
+        while (!Thread.interrupted()) {
+            try {
+                cvsinkScrew.grabFrame(streamImages);
+                Core.rotate(streamImages, streamImages, Core.ROTATE_180);
+                outputScrew.putFrame(streamImages);
+            } catch (Exception cameraFail) {
+                DriverStation.reportWarning("Screw Camera: " + cameraFail.toString(), false);
+                outputScrew.putFrame(failImage);
+            }
+        }
     }
 
     /**
      * Create the frame camera stream
      */
-    private void frameCameraStream(){
+    private void frameCameraStream() {
         UsbCamera cameraFrame = CameraServer.getInstance().startAutomaticCapture("Frame", VisionConstants.HOOK_ID);
-    	
-    	CvSink cvsinkFrame = new CvSink("frameSink");
-    	cvsinkFrame.setSource(cameraFrame);
-    	cvsinkFrame.setEnabled(true);
-    	
-    	Mat streamImages = new Mat();
 
-    	CvSource outputFrame = CameraServer.getInstance().putVideo("Frame", VisionConstants.CAM_WIDTH, VisionConstants.CAM_HEIGHT);
-    	 while (!Thread.interrupted()){
-             try {
-                 cvsinkFrame.grabFrame(streamImages);
-                 if ((Robot.bot == Bot.TEUFELSKIND && Constants.TEUFELSKIND.FRAME_CAM_FLIP)
-                         || (Robot.bot == Bot.OOF && Constants.OOF.FRAME_CAM_FLIP)) {
-                     Core.rotate(streamImages, streamImages, Core.ROTATE_180);
-                 }
-                 outputFrame.putFrame(streamImages);
-             } catch (CvException cameraFail){
-                 DriverStation.reportWarning("Frame Camera: " + cameraFail.toString(), false);
-                 outputFrame.putFrame(failImage);
-             }
-    	 }
+        CvSink cvsinkFrame = new CvSink("frameSink");
+        cvsinkFrame.setSource(cameraFrame);
+        cvsinkFrame.setEnabled(true);
+
+        Mat streamImages = new Mat();
+
+        CvSource outputFrame = CameraServer.getInstance().putVideo("Frame", VisionConstants.CAM_WIDTH, VisionConstants.CAM_HEIGHT);
+        while (!Thread.interrupted()) {
+            try {
+                cvsinkFrame.grabFrame(streamImages);
+                if ((Robot.bot == Bot.TEUFELSKIND && Constants.TEUFELSKIND.FRAME_CAM_FLIP)
+                        || (Robot.bot == Bot.OOF && Constants.OOF.FRAME_CAM_FLIP)) {
+                    Core.rotate(streamImages, streamImages, Core.ROTATE_180);
+                }
+                outputFrame.putFrame(streamImages);
+            } catch (Exception cameraFail) {
+                DriverStation.reportWarning("Frame Camera: " + cameraFail.toString(), false);
+                outputFrame.putFrame(failImage);
+            }
+        }
     }
 
     /**
@@ -123,7 +123,7 @@ public class SubsystemVision extends Subsystem {
         UsbCamera cameraLeft = CameraServer.getInstance().startAutomaticCapture("Left", VisionConstants.LEFT_ID);
         UsbCamera cameraRight = CameraServer.getInstance().startAutomaticCapture("Right", VisionConstants.RIGHT_ID);
 
-        /// Dummy sinks to keep camera connections open.
+        //Dummy sinks to keep camera connections open.
         CvSink cvsinkLeft = new CvSink("leftSink");
         cvsinkLeft.setSource(cameraLeft);
         cvsinkLeft.setEnabled(true);
@@ -131,34 +131,26 @@ public class SubsystemVision extends Subsystem {
         cvsinkRight.setSource(cameraRight);
         cvsinkRight.setEnabled(true);
 
-        /// Matrices to store each image from the cameras.
-        Mat leftSource = new Mat();
-        Mat rightSource = new Mat();
+        //Matrices to store each image from the cameras.
+        Optional<Mat> leftSource = Optional.of(new Mat());
+        Optional<Mat> rightSource = Optional.of(new Mat());
 
-        /// The ArrayList of left and right sources is needed for the hconcat method used to combine the streams
-        ArrayList<Mat> sources = new ArrayList<>();
-        sources.add(leftSource);
-        sources.add(rightSource);
-
-        /// Concatenation of both matrices
+        //Puts the combined video on the SmartDashboard
+        //The width is multiplied by 2 as the dimensions of the stream will have a width two times that of a single webcam
+        CvSource outputStream = CameraServer.getInstance().putVideo("Concat", 2 * VisionConstants.CAM_WIDTH, VisionConstants.CAM_HEIGHT);
+        //Storage for concatenation of both matrices
+        ArrayList<Mat> mats = new ArrayList<>();
         Mat concat = new Mat();
-
-        /// Puts the combined video on the SmartDashboard (I think)
-        /// The width is multiplied by 2 as the dimensions of the stream will have a width two times that of a single webcam
-        CvSource outputStream = CameraServer.getInstance().putVideo("Concat", 2*VisionConstants.CAM_WIDTH, VisionConstants.CAM_HEIGHT);
-
         while (!Thread.interrupted()) {
-            try {
-                /// Provide each mat with the current frame
-                cvsinkLeft.grabFrame(leftSource);
-                cvsinkRight.grabFrame(rightSource);
-                /// Combine the frames into a single mat in the Output and stream the image.
-                Core.hconcat(sources, concat);
-                outputStream.putFrame(concat);
-            } catch (CvException cameraFail){
-                DriverStation.reportWarning("Concat Cameras: " + cameraFail.toString(), false);
-                outputStream.putFrame(failImage);
-            }
+            //Provide each mat with the current frame
+            cvsinkLeft.grabFrame(leftSource.get());
+            cvsinkRight.grabFrame(rightSource.get());
+            mats.add(leftSource.get());
+            mats.add(rightSource.get());
+            //Combine the frames into one image. If either failed to grab, replace it with the fail image and concat with that.
+            Core.hconcat(Arrays.asList(leftSource.orElse(failImage), rightSource.orElse(failImage)), concat);
+            mats.clear();
+            outputStream.putFrame(concat);
         }
     }
 }

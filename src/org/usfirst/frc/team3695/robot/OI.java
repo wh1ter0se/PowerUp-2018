@@ -9,6 +9,7 @@ import org.usfirst.frc.team3695.robot.commands.button.ButtonCommandEat;
 import org.usfirst.frc.team3695.robot.commands.button.ButtonCommandHitTheDeck;
 import org.usfirst.frc.team3695.robot.commands.button.ButtonCommandSpit;
 import org.usfirst.frc.team3695.robot.commands.toggle.*;
+import org.usfirst.frc.team3695.robot.enumeration.Mast;
 import org.usfirst.frc.team3695.robot.util.Xbox;
 
 /** the Operator Interface setup */
@@ -39,12 +40,25 @@ public class OI {
 		/// Reversing mode
 			Button toggleReverse = new JoystickButton(DRIVER, Xbox.Y);
 				toggleReverse.toggleWhenPressed(new ToggleCommandReverse());
+		/// Low ramp mode
+			Button toggleLowRamp = new JoystickButton(DRIVER, Xbox.X);
+				toggleLowRamp.toggleWhenPressed(new ToggleCommandLowRamp());
 		/// Docking mode
-			Button toggleDock = new JoystickButton(DRIVER, Xbox.X);
-				toggleDock.toggleWhenPressed(new ToggleCommandDock());
+			Button toggleDock = new JoystickButton(DRIVER, Xbox.A);
+				toggleDock.whenPressed(new ToggleCommandDock());
 		/// Narrow mode
 			Button toggleNarrow = new JoystickButton(DRIVER, Xbox.B);
 				toggleNarrow.whileHeld(new ToggleCommandNarrow());
+				
+			SmartDashboard.putData("Disable Lower Screw", new ToggleCommandDisableLimitSwitch(Mast.SCREW_DOWN));
+			SmartDashboard.putData("Disable Upper Screw", new ToggleCommandDisableLimitSwitch(Mast.SCREW_UP));
+			SmartDashboard.putData("Disable Lower Pinion", new ToggleCommandDisableLimitSwitch(Mast.PINION_DOWN));
+			SmartDashboard.putData("Disable Upper Pinion", new ToggleCommandDisableLimitSwitch(Mast.PINION_UP));
+			
+			for (Mast limit:Mast.values()) {
+				SmartDashboard.putBoolean(limit.toBetterString() + " enabled", true);
+			}
+			
 		/// To Compress, or Not To Compress. It is now an option.
 			SmartDashboard.putData("Disable Compressor", new ToggleCommandKillCompressor());
 			

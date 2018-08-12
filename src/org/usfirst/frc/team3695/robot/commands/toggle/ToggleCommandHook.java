@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3695.robot.Robot;
 
 /**
- * Put the hook up and down
+ *  Put the hook up and down
  */
 public class ToggleCommandHook extends Command {
     

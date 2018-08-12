@@ -2,6 +2,7 @@ package org.usfirst.frc.team3695.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -29,9 +30,9 @@ import java.util.Map.Entry;
  */
 public class SubsystemDrive extends Subsystem {
 
-    public static TalonSRX leftMaster;
+    private static TalonSRX leftMaster;
     private static TalonSRX leftSlave;
-    public static TalonSRX rightMaster;
+    private static TalonSRX rightMaster;
     private static TalonSRX rightSlave;
 
     public Drivetrain drivetrain;
@@ -40,7 +41,7 @@ public class SubsystemDrive extends Subsystem {
     
     public static boolean docking;
     private static double dockInhibitor;
-    
+
     public static boolean narrowing;
     private static double narrower;
 
@@ -88,6 +89,13 @@ public class SubsystemDrive extends Subsystem {
         rightSlave.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.RIGHT_SLAVE_INVERT : Constants.TEUFELSKIND.RIGHT_SLAVE_INVERT);
         leftMaster.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.LEFT_MASTER_INVERT : Constants.TEUFELSKIND.LEFT_MASTER_INVERT);
         leftSlave.setInverted(Robot.bot == Bot.OOF ? Constants.OOF.LEFT_SLAVE_INVERT : Constants.TEUFELSKIND.LEFT_SLAVE_INVERT);
+    }
+    
+    public void setBraking(Boolean braking) {
+    	rightMaster.setNeutralMode(braking ? NeutralMode.Brake : NeutralMode.Coast);
+    	rightSlave.setNeutralMode(braking ? NeutralMode.Brake : NeutralMode.Coast);
+    	leftMaster.setNeutralMode(braking ? NeutralMode.Brake : NeutralMode.Coast);
+    	leftSlave.setNeutralMode(braking ? NeutralMode.Brake : NeutralMode.Coast);
     }
 
     public void publishDrivetrain() {
@@ -218,14 +226,14 @@ public class SubsystemDrive extends Subsystem {
         private static HashMap<String, Trajectory> trajectoryFiles;
 
         //The distance between left and right sides of the wheelbase
-        public static final double WHEELBASE_WIDTH = 2.1666;
+        static final double WHEELBASE_WIDTH = 2.1666;
         //The diameter of the wheels, but in meters
         public static final double WHEEL_DIAMETER = 6; //Check this number.
 
         //Various constants needed to generate a motion profile
         private final double TIME_STEP = .05;
-        public final double MAX_VELOCITY = 2d;
-        private final double MAX_ACC = 1d;
+        public final double MAX_VELOCITY = 2.5; // was 5.0
+        private final double MAX_ACC = 1.5; // was 2.25
         private final double MAX_JERK = 60.0;
         //Allows the bot to achieve higher or lower speed quicker
         public final double ACC_GAIN = 0;
@@ -236,7 +244,7 @@ public class SubsystemDrive extends Subsystem {
         /**
          * Instantiate the config needed to generate trajectories
          */
-        public AutoDrive() {
+        AutoDrive() {
             config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, TIME_STEP, MAX_VELOCITY, MAX_ACC, MAX_JERK);
         }
     
@@ -251,9 +259,8 @@ public class SubsystemDrive extends Subsystem {
          * Generates a trajectory and saves it under the given filename
          * @param points Waypoints to turn into a trajectory
          * @param fileName Name of the trajectory
-         * @return Generated trajectory
          */
-        public Trajectory generateAndSaveTrajectory(Waypoint[] points, String fileName){
+        public void generateAndSaveTrajectory(Waypoint[] points, String fileName) {
             File save = new File(path + fileName);
             Trajectory toSave;
 //            try {
@@ -266,11 +273,10 @@ public class SubsystemDrive extends Subsystem {
             toSave = Pathfinder.generate(points, config);
             Pathfinder.writeToCSV(save, toSave);
             DriverStation.reportWarning("Trajectory Saved:" + fileName + ".csv", false);
-            return toSave;
         }
         
         public Trajectory getSavedTrajectory(Paths filePath){
-        	return Pathfinder.readFromCSV(new File(path + filePath.getTank()));
+        	return Pathfinder.readFromCSV(new File(path + filePath.getFileName()));
         }
 
         /**
