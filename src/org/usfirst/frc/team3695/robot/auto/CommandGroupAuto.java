@@ -30,6 +30,7 @@ public class CommandGroupAuto extends CommandGroup {
         Robot.SUB_DRIVE.gyro.reset();
         Robot.SUB_DRIVE.gyro.getAngle();
         DriverStation.reportWarning("Generating Paths", false);
+
 //         Robot.SUB_DRIVE.autoDrive.generateAndSaveTrajectory(new Waypoint[] {
 //         		new Waypoint( 1.5, 23.25, 0),
 // 				new Waypoint(11.5, 23.25, Pathfinder.d2r(-15)),
